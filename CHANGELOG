@@ -1,0 +1,24 @@
+Roundcube Webmail Context Menu
+==============================
+
+2009 04 30
+==========
+ * Fixed menu in IE
+
+2009 04 29
+==========
+ * Fixed delete in Trash folder
+
+2009 04 28
+==========
+ * Added ability to mark or delete multiple messages
+ * Fixed delete function
+ * Fixed working with "Select" functions
+
+Version 1.0-BETA
+=================
+ * Added event hooks when message list is updated
+
+Version 1.0-ALPHA
+=================
+ * Created plugin
