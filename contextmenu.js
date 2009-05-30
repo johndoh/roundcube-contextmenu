@@ -1,3 +1,6 @@
+rcmail.contextmenu_command_handlers = new Object();
+rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#forward','#print','#viewsource','#download','#open');
+
 function rcm_contextmenu_load(update) {
   if (update) {
     if (rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
@@ -11,29 +14,33 @@ function rcm_contextmenu_load(update) {
     var menuRead = $('<li>').addClass('read').appendTo(menu);
     var menuUnread = $('<li>').addClass('unread').appendTo(menu);
     var menuFlagged = $('<li>').addClass('flagged').appendTo(menu);
-    var menuUnflagged = $('<li>').addClass('unflagged').appendTo(menu);
+    var menuUnflagged = $('<li>').addClass('unflagged separator_below').appendTo(menu);
     var menuReply = $('<li>').addClass('reply').appendTo(menu);
     var menuReplyall = $('<li>').addClass('replyall').appendTo(menu);
     var menuForward = $('<li>').addClass('forward').appendTo(menu);
-    var menuDelete = $('<li>').addClass('delete').appendTo(menu);
+    var menuDelete = $('<li>').addClass('delete separator_below').appendTo(menu);
     var menuPrint = $('<li>').addClass('print').appendTo(menu);
+    var menuSave = $('<li>').addClass('save').appendTo(menu);
+    var menuSource = $('<li>').addClass('source separator_below').appendTo(menu);
+    var menuOpen = $('<li>').addClass('open').appendTo(menu);
 
-    $('<a>').attr('href', '#read').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markread')).css('background-image', 'url(' + rcmail.env.messageicon + ')').appendTo(menuRead);
-    $('<a>').attr('href', '#unread').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markunread')).css('background-image', 'url(' + rcmail.env.unreadicon + ')').appendTo(menuUnread);
-    $('<a>').attr('href', '#flagged').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markflagged')).css('background-image', 'url(' + rcmail.env.flaggedicon + ')').appendTo(menuFlagged);
-    $('<a>').attr('href', '#unflagged').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markunflagged')).css('background-image', 'url(' + rcmail.env.unflaggedicon + ')').appendTo(menuUnflagged);
-    $('<div>').addClass('conmensep').appendTo(menuUnflagged);
-    $('<a>').attr('href', '#reply').addClass('active').html(rcmail.gettext('replytomessage')).css('background-image', 'url(' + rcmail.env.repliedicon + ')').appendTo(menuReply);
-    $('<a>').attr('href', '#reply-all').addClass('active').html(rcmail.gettext('replytoallmessage')).css('background-image', 'url(' + rcmail.env.repliedallicon + ')').appendTo(menuReplyall);
-    $('<a>').attr('href', '#forward').addClass('active').html(rcmail.gettext('forwardmessage')).css('background-image', 'url(' + rcmail.env.forwardedicon + ')').appendTo(menuForward);
-    $('<div>').addClass('conmensep').appendTo(menuForward);
+    $('<a>').attr('href', '#read').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markread')).appendTo(menuRead);
+    $('<a>').attr('href', '#unread').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markunread')).appendTo(menuUnread);
+    $('<a>').attr('href', '#flagged').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markflagged')).appendTo(menuFlagged);
+    $('<a>').attr('href', '#unflagged').addClass('active').html('&nbsp;&nbsp;' + rcmail.gettext('markunflagged')).appendTo(menuUnflagged);
+    $('<a>').attr('href', '#reply').addClass('active').html(rcmail.gettext('replytomessage')).appendTo(menuReply);
+    $('<a>').attr('href', '#reply-all').addClass('active').html(rcmail.gettext('replytoallmessage')).appendTo(menuReplyall);
+    $('<a>').attr('href', '#forward').addClass('active').html(rcmail.gettext('forwardmessage')).appendTo(menuForward);
 
     if (rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
-      $('<a>').attr({href: '#delete', id: 'rcm_delete'}).addClass('active').html(rcmail.gettext('movemessagetotrash')).css('background-image', 'url(' + rcmail.env.deletedicon + ')').appendTo(menuDelete);
+      $('<a>').attr({href: '#delete', id: 'rcm_delete'}).addClass('active').html(rcmail.gettext('movemessagetotrash')).appendTo(menuDelete);
     else
-      $('<a>').attr({href: '#delete', id: 'rcm_delete'}).addClass('active').html(rcmail.gettext('deletemessage')).css('background-image', 'url(' + rcmail.env.deletedicon + ')').appendTo(menuDelete);
+      $('<a>').attr({href: '#delete', id: 'rcm_delete'}).addClass('active').html(rcmail.gettext('deletemessage')).appendTo(menuDelete);
 
-    $('<a>').attr('href', '#print').addClass('active').html(rcmail.gettext('printmessage')).css('background-image', 'url(' + rcmail.env.printicon + ')').appendTo(menuPrint);
+    $('<a>').attr('href', '#print').addClass('active').html(rcmail.gettext('printmessage')).appendTo(menuPrint);
+    $('<a>').attr('href', '#download').addClass('active').html(rcmail.gettext('emlsave')).appendTo(menuSave);
+    $('<a>').attr('href', '#viewsource').addClass('active').html(rcmail.gettext('viewsource')).appendTo(menuSource);
+    $('<a>').attr('id', 'contextmenu_open').attr('href', '#open').attr('target', '_blank').addClass('active').html(rcmail.gettext('openinextwin')).appendTo(menuOpen);
 
     $("body").append(menu);
   }
@@ -59,42 +66,62 @@ function rcm_contextmenu_init(row) {
         var prev_command = rcmail.commands[cmd];
         rcmail.enable_command(cmd, true);
 
-        switch (command)
+        // process external commands
+        if (typeof rcmail.contextmenu_command_handlers[command] == 'function')
         {
-        case 'read':
-        case 'unread':
-        case 'flagged':
-        case 'unflagged':
-          rcmail.command('mark', command, $(el));
-          break;
-        case 'reply':
-        case 'reply-all':
-        case 'forward':
-        case 'print':
-          rcmail.command(command, '', $(el));
-          break;
-        case 'delete':
-          if (rcmail.message_list.selection.length > 1 || rcmail.env.uid == rcmail.message_list.get_selection()) {
-	        rcmail.env.uid = null;
+          rcmail.contextmenu_command_handlers[command](command, el, pos);
+        }
+        else if (typeof rcmail.contextmenu_command_handlers[command] == 'string')
+        {
+          window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
+        }
+        else
+        {
+          switch (command)
+          {
+          case 'read':
+          case 'unread':
+          case 'flagged':
+          case 'unflagged':
+            rcmail.command('mark', command, $(el));
+            break;
+          case 'reply':
+          case 'reply-all':
+          case 'forward':
+          case 'print':
+          case 'download':
+          case 'viewsource':
             rcmail.command(command, '', $(el));
+            break;
+          case 'open':
+            rcmail.command(command, '', rcube_find_object('contextmenu_open'));
+            rcmail.sourcewin = window.open(rcube_find_object('contextmenu_open').href);
+            if (rcmail.sourcewin)
+              window.setTimeout(function(){ rcmail.sourcewin.focus(); }, 20);
+            rcube_find_object('contextmenu_open').href = '#open';
+            break;
+          case 'delete':
+            if (rcmail.message_list.selection.length > 1 || rcmail.env.uid == rcmail.message_list.get_selection()) {
+	          rcmail.env.uid = null;
+              rcmail.command(command, '', $(el));
+            }
+            else {
+              var prev_contentframe = rcmail.env.contentframe;
+              var prev_selection = rcmail.message_list.get_selection();
+              rcmail.env.contentframe = false;
+              rcmail.message_list.select(rcmail.env.uid);
+	          rcmail.env.uid = null;
+              rcmail.command(command, '', $(el));
+
+              if (prev_selection != '')
+                rcmail.message_list.select(prev_selection);
+              else
+                rcmail.message_list.clear_selection();
+
+              rcmail.env.contentframe = prev_contentframe;
+            }
+            break;
           }
-          else {
-            var prev_contentframe = rcmail.env.contentframe;
-            var prev_selection = rcmail.message_list.get_selection();
-            rcmail.env.contentframe = false;
-            rcmail.message_list.select(rcmail.env.uid);
-	        rcmail.env.uid = null;
-            rcmail.command(command, '', $(el));
-
-            if (prev_selection != '')
-              rcmail.message_list.select(prev_selection);
-            else
-              rcmail.message_list.clear_selection();
-
-            rcmail.env.contentframe = prev_contentframe;
-          }
-
-          break;
         }
 
         rcmail.enable_command(cmd, prev_command);
@@ -106,9 +133,29 @@ function rcm_contextmenu_init(row) {
 
 function rcm_selection_changed(list) {
   if (list.selection.length > 1)
-    $('#rcmContextMenu').disableContextMenuItems('#reply,#reply-all,#forward,#print');
+    $('#rcmContextMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
   else
-	$('#rcmContextMenu').enableContextMenuItems('#reply,#reply-all,#forward,#print');
+	$('#rcmContextMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+}
+
+function rcm_contextmenu_register_command(command, callback, label, pos, sep, multi) {
+  var menu = $('#rcmContextMenu');
+  var menuItem = $('<li>').addClass(command);
+  $('<a>').attr('href', '#' + command).addClass('active').html(rcmail.gettext(label)).appendTo(menuItem);
+  rcmail.contextmenu_command_handlers[command] = callback;
+
+  if (pos)
+    $('#rcmContextMenu li:eq(' + pos + ')').before(menuItem);
+  else
+    menuItem.appendTo(menu);
+
+  if (sep == 'before')
+    menuItem.addClass('separator_above');
+  else if (sep == 'after')
+   menuItem.addClass('separator_below');
+
+  if (!multi)
+    rcmail.contextmenu_disable_multi[rcmail.contextmenu_disable_multi.length] = '#' + command;
 }
 
 rcmail.add_onload('rcm_contextmenu_load()');

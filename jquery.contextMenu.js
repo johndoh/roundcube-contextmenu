@@ -14,9 +14,12 @@
 //
 // For details, visit http://creativecommons.org/licenses/by/3.0/us/
 //
+// Modified by Phil Weir:
+//   Added highlighting of selected row (lines 46, 48, 121, 131)
+
 if(jQuery)( function() {
 	$.extend($.fn, {
-		
+
 		contextMenu: function(o, callback) {
 			// Defaults
 			if( o.menu == undefined ) return false;
@@ -39,12 +42,15 @@ if(jQuery)( function() {
 						$(this).unbind('mouseup');
 						if( evt.button == 2 ) {
 							// Hide context menus that may be showing
+							$(".contextRow").removeClass('contextRow');
 							$(".contextMenu").hide();
+							srcElement.addClass('contextRow');
+
 							// Get this context menu
 							var menu = $('#' + o.menu);
-							
+
 							if( $(el).hasClass('disabled') ) return false;
-							
+
 							// Detect mouse position
 							var d = {}, x, y;
 							if( self.innerHeight ) {
@@ -66,7 +72,7 @@ if(jQuery)( function() {
 							}
 							(e.pageX) ? x = e.pageX : x = e.clientX + d.scrollLeft;
 							(e.pageY) ? y = e.pageY : x = e.clientY + d.scrollTop;
-							
+
 							// Show the menu
 							$(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
@@ -77,7 +83,7 @@ if(jQuery)( function() {
 							}).mouseout( function() {
 								$(menu).find('LI.hover').removeClass('hover');
 							});
-							
+
 							// Keyboard
 							$(document).keypress( function(e) {
 								switch( e.keyCode ) {
@@ -105,21 +111,23 @@ if(jQuery)( function() {
 									break
 								}
 							});
-							
+
 							// When items are selected
 							$('#' + o.menu).find('A').unbind('click');
 							$('#' + o.menu).find('LI:not(.disabled) A').click( function() {
 								$(document).unbind('click').unbind('keypress');
 								$(".contextMenu").hide();
+								srcElement.removeClass('contextRow');
 								// Callback
 								if( callback ) callback( $(this).attr('href').substr(1), $(srcElement), {x: x - offset.left, y: y - offset.top, docX: x, docY: y} );
 								return false;
 							});
-							
+
 							// Hide bindings
 							setTimeout( function() { // Delay for Mozilla
 								$(document).click( function() {
 									$(document).unbind('click').unbind('keypress');
+									$(".contextRow").removeClass('contextRow');
 									$(menu).fadeOut(o.outSpeed);
 									return false;
 								});
@@ -127,7 +135,7 @@ if(jQuery)( function() {
 						}
 					});
 				});
-				
+
 				// Disable text selection
 				if( $.browser.mozilla ) {
 					$('#' + o.menu).each( function() { $(this).css({ 'MozUserSelect' : 'none' }); });
@@ -138,11 +146,11 @@ if(jQuery)( function() {
 				}
 				// Disable browser context menu (requires both selectors to work in IE/Safari + FF/Chrome)
 				$(el).add('UL.contextMenu').bind('contextmenu', function() { return false; });
-				
+
 			});
 			return $(this);
 		},
-		
+
 		// Disable context menu items on the fly
 		disableContextMenuItems: function(o) {
 			if( o == undefined ) {
@@ -155,13 +163,13 @@ if(jQuery)( function() {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
 						$(this).find('A[href="' + d[i] + '"]').parent().addClass('disabled');
-						
+
 					}
 				}
 			});
 			return( $(this) );
 		},
-		
+
 		// Enable context menu items on the fly
 		enableContextMenuItems: function(o) {
 			if( o == undefined ) {
@@ -174,13 +182,13 @@ if(jQuery)( function() {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
 						$(this).find('A[href="' + d[i] + '"]').parent().removeClass('disabled');
-						
+
 					}
 				}
 			});
 			return( $(this) );
 		},
-		
+
 		// Disable context menu(s)
 		disableContextMenu: function() {
 			$(this).each( function() {
@@ -188,7 +196,7 @@ if(jQuery)( function() {
 			});
 			return( $(this) );
 		},
-		
+
 		// Enable context menu(s)
 		enableContextMenu: function() {
 			$(this).each( function() {
@@ -196,7 +204,7 @@ if(jQuery)( function() {
 			});
 			return( $(this) );
 		},
-		
+
 		// Destroy context menu(s)
 		destroyContextMenu: function() {
 			// Destroy specified context menus
@@ -206,6 +214,6 @@ if(jQuery)( function() {
 			});
 			return( $(this) );
 		}
-		
+
 	});
 })(jQuery);

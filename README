@@ -8,10 +8,26 @@ mark as unflagged
 reply
 reply to all
 forward
-print
 delete
+print
+save
+show source
+open in new window
 
 Install
 =======
 * Place this plugin folder into plugins directory of RoundCube
 * Add contextmenu to $rcmail_config['plugins'] in your RoundCube config
+
+Adding other items to the menu
+==============================
+The command rcm_contextmenu_register_command allows other plugins to add items to the context menu.
+IMPORTANT: The context menu plugin must be initialised before any other plugin which adds an item to the menu.
+
+rcm_contextmenu_register_command(command, callback, label [, pos [, sep [, multi ]]])
+ command: the name of the command eg: spam
+ callback: the name of the function which should be called when the menu item is clicked
+ label: the name of the label to use in the menu
+ (optional) pos: the position of the item in the menu. Default is at the end, value should be an integer where 0 is the top of the menu
+ (optional) sep: [before|after] put a separating line before or after this item
+ (optional) multi: [true|false] should the item be enabled when multiple messages are selected

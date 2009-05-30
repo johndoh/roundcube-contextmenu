@@ -1,6 +1,21 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2009 05 30
+==========
+ * Correct style after r2541
+ * Only init when on mailbox screen (while _uid is empty and user is logged in)
+
+2009 05 25
+==========
+ * Added hook for other plugins to add items to the menu (see README)
+
+2009 05 24
+==========
+ * Added support for new actions: show source, save .eml, open in new window
+ * Added support for plugin template system
+ * Added highlighting of selected row
+
 2009 04 30
 ==========
  * Fixed menu in IE
