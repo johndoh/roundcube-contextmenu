@@ -18,6 +18,7 @@ Install
 =======
 * Place this plugin folder into plugins directory of RoundCube
 * Add contextmenu to $rcmail_config['plugins'] in your RoundCube config
+NB: When downloading the plugin from GitHub you will need to create a directory called contextmenu and place the files in there, ignoring the root directory in the downloaded archive
 
 Adding other items to the menu
 ==============================
