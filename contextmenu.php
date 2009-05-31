@@ -15,8 +15,8 @@ class contextmenu extends rcube_plugin
 
 	function init()
 	{
-		if (!$this->api->output->ajax_call && get_input_value('_uid', RCUBE_INPUT_GET) == ''
-		    && !empty(rcmail::get_instance()->user->ID) && get_input_value('_action', RCUBE_INPUT_GET) != 'logout') {
+		$rcmail = rcmail::get_instance();
+		if ($rcmail->action == '' && !empty($rcmail->user->ID)) {
 			$this->api->output->add_label('markmessages','markread','markunread','markflagged','markunflagged','replytomessage','replytoallmessage','forwardmessage','printmessage','viewsource','emlsave','openinextwin');
 			$this->include_script('jquery.contextMenu.js');
 			$this->include_stylesheet('skins/'. $this->api->output->config['skin'] .'/contextmenu.css');
