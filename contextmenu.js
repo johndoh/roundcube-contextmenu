@@ -161,5 +161,5 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 rcmail.add_onload('rcm_contextmenu_load()');
 rcmail.add_onload('rcm_contextmenu_init(\'messagelist tbody tr\')');
 rcmail.add_onload('if (rcmail.message_list) rcmail.message_list.addEventListener(\'select\', function(list) { rcm_selection_changed(list); } );');
-rcmail.addEventListener('listupdate', function(evt, props) { rcm_contextmenu_load(true); rcm_contextmenu_init('messagelist tbody tr'); } );
-rcmail.addEventListener('insertrow', function(evt, props) { rcm_contextmenu_init(props.row.id); } );
+rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_load(true); rcm_contextmenu_init('messagelist tbody tr'); } );
+rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );

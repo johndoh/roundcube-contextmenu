@@ -1,6 +1,8 @@
 Roundcube Webmail Context Menu
 ==============================
 
+ * Update insertrow event listener following changes in core
+
 2009 05 31
 ==========
  * Better init restrictions
