@@ -14,7 +14,8 @@
   border: 1px solid #CCC;
   padding: 1px;
   opacity: 0.9;
-  filter:alpha(opacity=90);
+  filter: alpha(opacity=90);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)"; 
   z-index: 900;
 }
 
