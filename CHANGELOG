@@ -2,6 +2,7 @@ Roundcube Webmail Context Menu
 ==============================
 
  * Update insertrow event listener following changes in core
+ * Add fallback to default skin
 
 2009 05 31
 ==========
