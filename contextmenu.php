@@ -20,7 +20,7 @@ class contextmenu extends rcube_plugin
 			$this->api->output->add_label('markmessages','markread','markunread','markflagged','markunflagged','replytomessage','replytoallmessage','forwardmessage','printmessage','viewsource','emlsave','openinextwin');
 			$this->include_script('jquery.contextMenu.js');
 			$skin_path = 'skins/'. $this->api->output->config['skin'] .'/contextmenu.css';
-			$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default1/contextmenu.css';
+			$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/contextmenu.css';
 			$this->include_stylesheet($skin_path);
 			$this->include_script('contextmenu.js');
 		}
