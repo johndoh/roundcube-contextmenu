@@ -1,0 +1,147 @@
+.contextRow td
+{
+  background: #EEEEEE;
+}
+
+#rcmContextMenu
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: auto;
+  display: none;
+  background-color: #F9F9F9;
+  border: 1px solid #CCC;
+  padding: 1px;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+  z-index: 900;
+}
+
+#rcmContextMenu li ul
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: auto;
+  display: none;
+  background-color: #F9F9F9;
+  border: 1px solid #CCC;
+  padding: 1px;
+  z-index: 901;
+}
+
+#rcmContextMenu li.conmentitle,
+#rcmContextMenu li.submenu
+{
+  padding: 2px 8px 3px 22px;
+  cursor: default;
+}
+
+#rcmContextMenu li.submenu
+{
+  position: relative;
+  cursor: pointer;
+  background: url('submenu.gif') no-repeat right center;
+  padding-right: 15px;
+}
+
+#rcmContextMenu li.submenu:hover
+{
+  color: #fff;
+  background-color: #2D5986;
+}
+
+#rcmContextMenu li:hover ul
+{
+  display: block;
+}
+
+#rcmContextMenu li a
+{
+  background: url('../../../../skins/default/images/messageactions.png') no-repeat 1px 0;
+  background-position: 0px 20px;
+}
+
+#rcmContextMenu li a.active:hover
+{
+  color: #fff;
+  background-color: #2D5986;
+}
+
+#rcmContextMenu li.disabled a
+{
+  color: #AAA;
+  cursor: default;
+}
+
+#rcmContextMenu li.disabled a:hover
+{
+  color: #AAA;
+  background-color: transparent
+}
+
+#rcmContextMenu .read a
+{
+  background: url('../../../../skins/default/images/icons/dot.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .unread a
+{
+  background: url('../../../../skins/default/images/icons/unread.png') no-repeat 2px center;
+}
+#rcmContextMenu .flagged a
+{
+  background: url('../../../../skins/default/images/icons/flagged.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .unflagged a
+{
+  background: url('../../../../skins/default/images/icons/unflagged.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .reply a
+{
+  background: url('../../../../skins/default/images/icons/replied.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .replyall a
+{
+  background: url('../../../../skins/default/images/icons/replied.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .forward a
+{
+  background: url('../../../../skins/default/images/icons/forwarded.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .delete a
+{
+  background: url('../../../../skins/default/images/icons/deleted.png') no-repeat 2px center;
+}
+
+#rcmContextMenu .print a
+{
+  background-position: 1px 1px;
+}
+
+#rcmContextMenu .source a
+{
+  background-position: 1px -35px;
+}
+
+#rcmContextMenu .save a
+{
+  background-position: 1px -17px;
+}
+
+#rcmContextMenu .open a
+{
+  background-position: 1px -53px;
+}
+
+#rcmContextMenu .edit a
+{
+  background-position: 1px -71px;
+}
