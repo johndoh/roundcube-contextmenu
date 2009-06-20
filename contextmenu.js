@@ -130,7 +130,6 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 		rcmail.contextmenu_disable_multi[rcmail.contextmenu_disable_multi.length] = '#' + command;
 }
 
-rcmail.add_onload('rcm_contextmenu_init(\'messagelist tbody tr\')');
 rcmail.add_onload('if (rcmail.message_list) rcmail.message_list.addEventListener(\'select\', function(list) { rcm_selection_changed(list); } );');
 rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); rcm_contextmenu_init('messagelist tbody tr'); } );
 rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
