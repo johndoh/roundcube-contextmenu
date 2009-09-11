@@ -1,6 +1,12 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2009 09 11
+==========
+ * Added folder list context menu
+
+2009 06 27
+==========
  * Moved menu generation from JS to PHP
  * Added support for sub menus
  * Added new "edit" action

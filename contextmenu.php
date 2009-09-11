@@ -5,7 +5,7 @@
  *
  * Plugin to add a context menu to the message list
  *
- * @version 1.0-BETA
+ * @version 1.1
  * @author Philip Weir
  * @url http://roundcube.net/plugins/contextmenu
  */
@@ -16,18 +16,55 @@ class contextmenu extends rcube_plugin
 	function init()
 	{
 		$rcmail = rcmail::get_instance();
-		if ($rcmail->action == '' && !empty($rcmail->user->ID)) {
+		if (($rcmail->action == '' || $rcmail->action == 'show') && !empty($rcmail->user->ID)) {
+			$this->add_texts('localization/');
+			$rcmail->output->add_label('nomessagesfound');
 			$this->include_script('jquery.contextMenu.js');
 			$skin_path = 'skins/'. $this->api->output->config['skin'] .'/contextmenu.css';
 			$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/contextmenu.css';
 			$this->include_stylesheet($skin_path);
 			$this->include_script('contextmenu.js');
 			$this->api->output->add_footer($this->_show_menu());
+
+			if ($rcmail->action == 'show')
+				$this->add_hook('message_load', array($this, 'set_delimiter'));
 		}
+
+		$this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
+		$this->register_action('plugin.contextmenu.readfolder', array($this, 'readfolder'));
+	}
+
+	public function messagecount() {
+		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
+		$this->api->output->set_env('messagecount', rcmail::get_instance()->imap->messagecount($mbox));
+		$this->api->output->send();
+	}
+
+	public function readfolder() {
+		$imap = rcmail::get_instance()->imap;
+		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
+
+		$uids = iil_C_Search($imap->conn, $imap->mod_mailbox($mbox), 'ALL UNSEEN');
+
+		if (!is_array($uids))
+			return false;
+
+		// ID to UID
+		foreach($uids as $key => $val)
+			$uids[$key] = iil_C_ID2UID($imap->conn, $imap->mod_mailbox($mbox), $val);
+
+		$imap->set_flag($uids, 'SEEN', $mbox);
+		$this->api->output->command('set_unread_count', $mbox, 0, TRUE);
+		$this->api->output->send();
+	}
+
+	public function set_delimiter() {
+		$this->api->output->set_env('delimiter', rcmail::get_instance()->imap->delimiter);
 	}
 
 	private function _show_menu()
 	{
+		// message list menu
 		$li = '';
 
 		$li .= html::tag('li', array('class' => 'conmentitle'), Q($this->gettext('markmessages')));
@@ -49,9 +86,25 @@ class contextmenu extends rcube_plugin
 		$li .= html::tag('li', array('class' => 'save'), html::a(array('href' => "#download", 'class' => 'active'), Q($this->gettext('emlsave'))));
 		$li .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editasnew'))));
 		$li .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), Q($this->gettext('viewsource'))));
-		$li .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'contextmenu_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
+		$li .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
 
 		$out = html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'toolbarmenu'), $li);
+
+		// folder list menu
+		$li = '';
+
+		$li .= html::tag('li', array('class' => 'readfolder separator_below'), html::a(array('href' => "#readfolder", 'class' => 'active'), Q($this->gettext('markreadfolder'))));
+
+		$li .= html::tag('li', array('class' => 'expunge'), html::a(array('href' => "#expunge", 'class' => 'active'), Q($this->gettext('compact'))));
+		$li .= html::tag('li', array('class' => 'purge separator_below'), html::a(array('href' => "#purge", 'class' => 'active'), Q($this->gettext('empty'))));
+
+		$li .= html::tag('li', array('class' => 'collapseall'), html::a(array('href' => "#collapseall", 'class' => 'active'), Q($this->gettext('collapseall'))));
+		$li .= html::tag('li', array('class' => 'expandall separator_below'), html::a(array('href' => "#expandall", 'class' => 'active'), Q($this->gettext('expandall'))));
+
+		$li .= html::tag('li', array('class' => 'openfolder'), html::a(array('href' => "#openfolder", 'id' => 'rcm_openfolder', 'class' => 'active'), Q($this->gettext('openinextwin'))));
+
+		$out .= html::tag('ul', array('id' => 'rcmFolderMenu', 'class' => 'toolbarmenu'), $li);
+
 		return html::div(null , $out);
 	}
 }

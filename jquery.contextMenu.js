@@ -15,7 +15,7 @@
 // For details, visit http://creativecommons.org/licenses/by/3.0/us/
 //
 // Modified by Phil Weir:
-//   Added highlighting of selected row and submenu support (lines 45, 47, 79, 121, 131)
+//   Added highlighting of selected row and submenu support (lines 45, 48, 49, 51, 52, 84, 126, 136, 143, 144, 145)
 
 if(jQuery)( function() {
 	$.extend($.fn, {
@@ -44,7 +44,12 @@ if(jQuery)( function() {
 							// Hide context menus that may be showing
 							$(".contextRow").removeClass('contextRow');
 							$(".contextMenu").hide();
-							srcElement.addClass('contextRow');
+
+							if ((srcElement.hasClass('mailbox') && !srcElement.hasClass('selected')) || !srcElement.hasClass('mailbox'))
+								srcElement.addClass('contextRow');
+
+							if (srcElement.hasClass('mailbox'))
+								rcm_folder_options(srcElement);
 
 							// Get this context menu
 							var menu = $('#' + o.menu);
@@ -134,6 +139,10 @@ if(jQuery)( function() {
 								});
 							}, 0);
 						}
+
+				        // pop event bubble
+				        e.cancelBubble = true;
+				        if (e.stopPropagation) e.stopPropagation();
 					});
 				});
 

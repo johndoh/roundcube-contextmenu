@@ -3,7 +3,13 @@
   background: #EEEEEE;
 }
 
-#rcmContextMenu
+#mailboxlist li.contextRow
+{
+  background-color: #E0E0E0;
+}
+
+#rcmContextMenu,
+#rcmFolderMenu
 {
   position: absolute;
   top: 0px;
@@ -19,7 +25,8 @@
   z-index: 900;
 }
 
-#rcmContextMenu li ul
+#rcmContextMenu li ul,
+#rcmFolderMenu li ul
 {
   position: absolute;
   top: 0px;
@@ -33,13 +40,16 @@
 }
 
 #rcmContextMenu li.conmentitle,
-#rcmContextMenu li.submenu
+#rcmContextMenu li.submenu,
+#rcmFolderMenu li.conmentitle,
+#rcmFolderMenu li.submenu
 {
   padding: 2px 8px 3px 22px;
   cursor: default;
 }
 
-#rcmContextMenu li.submenu
+#rcmContextMenu li.submenu,
+#rcmFolderMenu li.submenu
 {
   position: relative;
   cursor: pointer;
@@ -47,42 +57,49 @@
   padding-right: 15px;
 }
 
-#rcmContextMenu li.submenu:hover
+#rcmContextMenu li.submenu:hover,
+#rcmFolderMenu li.submenu:hover
 {
   color: #fff;
   background-color: #2D5986;
 }
 
-#rcmContextMenu li:hover ul
+#rcmContextMenu li:hover ul,
+#rcmFolderMenu li:hover ul
 {
   display: block;
 }
 
-#rcmContextMenu li a
+#rcmContextMenu li a,
+#rcmFolderMenu li a
 {
   background: url('../../../../skins/default/images/messageactions.png') no-repeat 1px 0;
   background-position: 0px 20px;
 }
 
-#rcmContextMenu li a.active:hover
+#rcmContextMenu li a.active:hover,
+#rcmFolderMenu li a.active:hover
 {
   color: #fff;
   background-color: #2D5986;
 }
 
-#rcmContextMenu li.disabled a
+#rcmContextMenu li.disabled a,
+#rcmFolderMenu li.disabled a
 {
   color: #AAA;
   cursor: default;
 }
 
-#rcmContextMenu li.disabled a:hover
+#rcmContextMenu li.disabled a:hover,
+#rcmFolderMenu li.disabled a:hover
 {
   color: #AAA;
   background-color: transparent
 }
 
-#rcmContextMenu .read a
+#rcmContextMenu .read a,
+#rcmFolderMenu .readfolder a
 {
   background: url('../../../../skins/default/images/icons/dot.png') no-repeat 2px center;
 }
@@ -121,6 +138,26 @@
   background: url('../../../../skins/default/images/icons/deleted.png') no-repeat 2px center;
 }
 
+#rcmFolderMenu .expunge a
+{
+  background: url('../../../../skins/default/images/icons/down_small.gif') no-repeat 5px center;
+}
+
+#rcmFolderMenu .purge a
+{
+  background: url('../../../../skins/default/images/icons/deleted.png') no-repeat 3px center;
+}
+
+#rcmFolderMenu .collapseall a
+{
+  background: url('../../../../skins/default/images/icons/collapsed.png') no-repeat 5px center;
+}
+
+#rcmFolderMenu .expandall a
+{
+  background: url('../../../../skins/default/images/icons/expanded.png') no-repeat 5px center;
+}
+
 #rcmContextMenu .print a
 {
   background-position: 1px 1px;
@@ -136,7 +173,8 @@
   background-position: 1px -17px;
 }
 
-#rcmContextMenu .open a
+#rcmContextMenu .open a,
+#rcmFolderMenu .openfolder a
 {
   background-position: 1px -53px;
 }
