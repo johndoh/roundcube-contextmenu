@@ -26,6 +26,7 @@
 }
 
 #rcmContextMenu li ul,
+#rcmContextMenu li div,
 #rcmFolderMenu li ul
 {
   position: absolute;
@@ -65,6 +66,7 @@
 }
 
 #rcmContextMenu li:hover ul,
+#rcmContextMenu li:hover div,
 #rcmFolderMenu li:hover ul
 {
   display: block;
@@ -140,7 +142,7 @@
 
 #rcmFolderMenu .expunge a
 {
-  background: url('../../../../skins/default/images/icons/down_small.gif') no-repeat 5px center;
+  background: url('compact.gif') no-repeat 5px center;
 }
 
 #rcmFolderMenu .purge a
@@ -182,4 +184,72 @@
 #rcmContextMenu .edit a
 {
   background-position: 1px -71px;
+}
+
+#rcmContextMenu ul.folders li a
+{
+  background: url('../../../../skins/default/images/icons/folders.png') 2px 1px no-repeat;
+}
+
+#rcmContextMenu ul.folders li.inbox a
+{
+  background-position: 2px -19px;
+}
+
+#rcmContextMenu ul.folders li.drafts a
+{
+  background-position: 2px -40px;
+}
+
+#rcmContextMenu ul.folders li.sent a
+{
+  background-position: 2px -60px;
+}
+
+#rcmContextMenu ul.folders li.junk a
+{
+  background-position: 2px -80px;
+}
+
+#rcmContextMenu ul.folders li.trash a
+{
+  background-position: 2px -100px;
+}
+
+#rcmContextMenu ul.scrollable
+{
+  top: 12px;
+  height: 100px;
+  overflow: hidden;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+#rcmContextMenu li div {
+  height: 12px;
+  overflow: hidden;
+}
+
+#rcmContextMenu li div.scroll_up_act {
+  background: url('up_act.gif') #F9F9F9 center center no-repeat;
+  border-bottom: 0;
+}
+
+#rcmContextMenu li div.scroll_up_pas {
+  background: url('up_pas.gif') #F9F9F9 center center no-repeat;
+  border-bottom: 0;
+  cursor: default;
+}
+
+#rcmContextMenu li div.scroll_down_act {
+  top: 112px;
+  background: url('down_act.gif') #F9F9F9 center center no-repeat;
+  border-top: 0;
+}
+
+#rcmContextMenu li div.scroll_down_pas {
+  top: 112px;
+  background: url('down_pas.gif') #F9F9F9 center center no-repeat;
+  border-top: 0;
+  cursor: default;
 }

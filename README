@@ -13,6 +13,7 @@ print
 save
 show source
 open in new window
+move to
 
 This plugin also adds a context menu to the folder list. Menu links are:
 mark all as read

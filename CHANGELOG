@@ -1,6 +1,12 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2009 09 18
+==========
+ * Fix folder menu for UTF8 folders
+ * Use rcmail_send_unread_count (r2960)
+ * Add 'move to' to message list menu
+
 2009 09 11
 ==========
  * Added folder list context menu

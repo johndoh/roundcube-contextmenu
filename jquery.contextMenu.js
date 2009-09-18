@@ -15,7 +15,8 @@
 // For details, visit http://creativecommons.org/licenses/by/3.0/us/
 //
 // Modified by Phil Weir:
-//   Added highlighting of selected row and submenu support (lines 45, 48, 49, 51, 52, 84, 126, 136, 143, 144, 145)
+//   Added highlighting of selected row and submenu support (lines 46, 49, 50, 52, 53, 85, 127, 137, 144, 145, 146)
+//   Added showsubmenu function
 
 if(jQuery)( function() {
 	$.extend($.fn, {
@@ -81,7 +82,7 @@ if(jQuery)( function() {
 							// Show the menu
 							$(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
-							$('#' + o.menu + ' li ul').css({left: ($(menu).width() - 2)+ 'px'});
+							showsubmenu(o, menu);
 							// Hover events
 							$(menu).find('A').mouseover( function() {
 								$(menu).find('LI.hover').removeClass('hover');
@@ -224,6 +225,58 @@ if(jQuery)( function() {
 			});
 			return( $(this) );
 		}
-
 	});
 })(jQuery);
+
+// Show sub menus
+function showsubmenu(o, menu) {
+	if ($('#' + o.menu + ' li div').length) {
+		$('#' + o.menu + ' li div').css({width: $('#' + o.menu + ' li ul').width()+ 'px', left: ($(menu).width() - 2)+ 'px'});
+
+		// unbind existing events
+		$('#' + o.menu + ' li div').unbind('click');
+		$('#' + o.menu + ' li ul').unmousewheel( showsubmenu_mousewheel );
+
+		$('#' + o.menu + ' li div').click( function(e) {
+			var list = $(this).parent().children('ul');
+
+			if ($(this).hasClass('scroll_up_act')) {
+				$(list).scrollTop($(list).scrollTop() - 18);
+
+				$('#' + o.menu + ' li div.scroll_down_pas').addClass('scroll_down_act');
+				$('#' + o.menu + ' li div.scroll_down_pas').removeClass('scroll_down_pas');
+
+				if ($(list).scrollTop() == 0) {
+					$(this).removeClass('scroll_up_act');
+					$(this).addClass('scroll_up_pas');
+				}
+			}
+			else if ($(this).hasClass('scroll_down_act')) {
+				$(list).scrollTop($(list).scrollTop() + 18);
+
+				$('#' + o.menu + ' li div.scroll_up_pas').addClass('scroll_up_act');
+				$('#' + o.menu + ' li div.scroll_up_pas').removeClass('scroll_up_pas');
+
+				if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
+					$(this).removeClass('scroll_down_act');
+					$(this).addClass('scroll_down_pas');
+				}
+			}
+
+			// pop event bubble
+			e.cancelBubble = true;
+			if (e.stopPropagation) e.stopPropagation();
+		});
+
+		$('#' + o.menu + ' li ul').mousewheel( showsubmenu_mousewheel );
+	}
+
+	$('#' + o.menu + ' li ul').css({left: ($(menu).width() - 2)+ 'px'});
+}
+
+var showsubmenu_mousewheel = function(e, delta) {
+	if (delta > 0)
+		$(this).parent().children('div.scroll_up_act').click();
+	else if (delta < 0)
+		$(this).parent().children('div.scroll_down_act').click();
+}
