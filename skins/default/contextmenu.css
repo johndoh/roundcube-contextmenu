@@ -65,13 +65,6 @@
   background-color: #2D5986;
 }
 
-#rcmContextMenu li:hover ul,
-#rcmContextMenu li:hover div,
-#rcmFolderMenu li:hover ul
-{
-  display: block;
-}
-
 #rcmContextMenu li a,
 #rcmFolderMenu li a
 {

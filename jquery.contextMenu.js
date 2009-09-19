@@ -16,7 +16,7 @@
 //
 // Modified by Phil Weir:
 //   Added highlighting of selected row and submenu support (lines 46, 49, 50, 52, 53, 85, 127, 137, 144, 145, 146)
-//   Added showsubmenu function
+//   Added sub menu functions
 
 if(jQuery)( function() {
 	$.extend($.fn, {
@@ -82,7 +82,7 @@ if(jQuery)( function() {
 							// Show the menu
 							$(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
-							showsubmenu(o, menu);
+							$(this).submenu_render(o, menu);
 							// Hover events
 							$(menu).find('A').mouseover( function() {
 								$(menu).find('LI.hover').removeClass('hover');
@@ -145,6 +145,46 @@ if(jQuery)( function() {
 				        e.cancelBubble = true;
 				        if (e.stopPropagation) e.stopPropagation();
 					});
+				});
+
+				// Setup events to show/hide the sub menus
+				var submenu_showtimer;
+				var submenu_hidetimer;
+				$('#' + o.menu).children('li').mouseenter( function() {
+					// if the element doesnt have a sub menu always hide any existing menus
+					if (!$(this).hasClass('submenu')) {
+						submenu_hidetimer = window.setTimeout(function() {
+							$('#' + o.menu).children('li.submenu').children().hide();
+							submenu_hidetimer = null;
+						}, o.submenu_delay);
+					}
+					else if ($(this).hasClass('submenu') && !submenu_showtimer) {
+						window.clearTimeout(submenu_hidetimer);
+						submenu_hidetimer = null;
+
+						var obj = this;
+						submenu_showtimer = window.setTimeout(function() {
+							// reset and hide any existing sub menus
+							$(obj).children('ul').scrollTop(0);
+							$(obj).children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
+							$(obj).children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
+							$('#' + o.menu).children('li.submenu').children().hide();
+
+							// show selected sub menu
+							$(obj).children().show();
+							submenu_showtimer = null;
+						}, o.submenu_delay);
+					}
+				});
+
+				$('#' + o.menu).children('li.submenu').mouseleave( function() {
+					window.clearTimeout(submenu_showtimer);
+					submenu_showtimer = null;
+				});
+
+				$(this).mouseleave( function() {
+					window.clearTimeout(submenu_showtimer);
+					submenu_showtimer = null;
 				});
 
 				// Disable text selection
@@ -224,59 +264,62 @@ if(jQuery)( function() {
 				$(this).unbind('mousedown').unbind('mouseup');
 			});
 			return( $(this) );
+		},
+
+		// Show sub menus
+		submenu_render: function(o, menu) {
+			$('#' + o.menu + ' li ul').hide();
+			$('#' + o.menu + ' li div').hide();
+
+			if ($('#' + o.menu + ' li div').length) {
+				$('#' + o.menu + ' li div').css({width: $('#' + o.menu + ' li ul').width()+ 'px', left: ($(menu).width() - 2)+ 'px'});
+
+				// unbind existing events
+				$('#' + o.menu + ' li div').unbind('click');
+				$('#' + o.menu + ' li ul').unmousewheel( $(this).submenu_mousewheel );
+
+				$('#' + o.menu + ' li div').click( function(e) {
+					var list = $(this).parent().children('ul');
+
+					if ($(this).hasClass('scroll_up_act')) {
+						$(list).scrollTop($(list).scrollTop() - 18);
+
+						$('#' + o.menu + ' li div.scroll_down_pas').addClass('scroll_down_act');
+						$('#' + o.menu + ' li div.scroll_down_pas').removeClass('scroll_down_pas');
+
+						if ($(list).scrollTop() == 0) {
+							$(this).removeClass('scroll_up_act');
+							$(this).addClass('scroll_up_pas');
+						}
+					}
+					else if ($(this).hasClass('scroll_down_act')) {
+						$(list).scrollTop($(list).scrollTop() + 18);
+
+						$('#' + o.menu + ' li div.scroll_up_pas').addClass('scroll_up_act');
+						$('#' + o.menu + ' li div.scroll_up_pas').removeClass('scroll_up_pas');
+
+						if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
+							$(this).removeClass('scroll_down_act');
+							$(this).addClass('scroll_down_pas');
+						}
+					}
+
+					// pop event bubble
+					e.cancelBubble = true;
+					if (e.stopPropagation) e.stopPropagation();
+				});
+
+				$('#' + o.menu + ' li ul').mousewheel( $(this).submenu_mousewheel );
+			}
+
+			$('#' + o.menu + ' li ul').css({left: ($(menu).width() - 2)+ 'px'});
+		},
+
+		submenu_mousewheel: function(e, delta) {
+			if (delta > 0)
+				$(this).parent().children('div.scroll_up_act').click();
+			else if (delta < 0)
+				$(this).parent().children('div.scroll_down_act').click();
 		}
 	});
 })(jQuery);
-
-// Show sub menus
-function showsubmenu(o, menu) {
-	if ($('#' + o.menu + ' li div').length) {
-		$('#' + o.menu + ' li div').css({width: $('#' + o.menu + ' li ul').width()+ 'px', left: ($(menu).width() - 2)+ 'px'});
-
-		// unbind existing events
-		$('#' + o.menu + ' li div').unbind('click');
-		$('#' + o.menu + ' li ul').unmousewheel( showsubmenu_mousewheel );
-
-		$('#' + o.menu + ' li div').click( function(e) {
-			var list = $(this).parent().children('ul');
-
-			if ($(this).hasClass('scroll_up_act')) {
-				$(list).scrollTop($(list).scrollTop() - 18);
-
-				$('#' + o.menu + ' li div.scroll_down_pas').addClass('scroll_down_act');
-				$('#' + o.menu + ' li div.scroll_down_pas').removeClass('scroll_down_pas');
-
-				if ($(list).scrollTop() == 0) {
-					$(this).removeClass('scroll_up_act');
-					$(this).addClass('scroll_up_pas');
-				}
-			}
-			else if ($(this).hasClass('scroll_down_act')) {
-				$(list).scrollTop($(list).scrollTop() + 18);
-
-				$('#' + o.menu + ' li div.scroll_up_pas').addClass('scroll_up_act');
-				$('#' + o.menu + ' li div.scroll_up_pas').removeClass('scroll_up_pas');
-
-				if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
-					$(this).removeClass('scroll_down_act');
-					$(this).addClass('scroll_down_pas');
-				}
-			}
-
-			// pop event bubble
-			e.cancelBubble = true;
-			if (e.stopPropagation) e.stopPropagation();
-		});
-
-		$('#' + o.menu + ' li ul').mousewheel( showsubmenu_mousewheel );
-	}
-
-	$('#' + o.menu + ' li ul').css({left: ($(menu).width() - 2)+ 'px'});
-}
-
-var showsubmenu_mousewheel = function(e, delta) {
-	if (delta > 0)
-		$(this).parent().children('div.scroll_up_act').click();
-	else if (delta < 0)
-		$(this).parent().children('div.scroll_down_act').click();
-}

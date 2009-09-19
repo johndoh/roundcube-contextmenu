@@ -10,7 +10,8 @@ function rcm_contextmenu_update() {
 
 function rcm_contextmenu_init(row) {
 	$("#" + row).contextMenu({
-		menu: 'rcmContextMenu'
+		menu: 'rcmContextMenu',
+		submenu_delay: 400
 	},
 	function(command, el, pos) {
 		if ($(el) && String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i))
@@ -98,12 +99,6 @@ function rcm_contextmenu_init(row) {
 			rcmail.enable_command(cmd, prev_command);
 			rcmail.env.uid = prev_uid;
 		}
-	});
-
-	$('#rcmContextMenu li.submenu').mouseenter( function(e) {
-		$('#rcmContextMenu li ul').scrollTop(0);
-		$('#rcmContextMenu li div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
-		$('#rcmContextMenu li div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
 	});
 }
 
