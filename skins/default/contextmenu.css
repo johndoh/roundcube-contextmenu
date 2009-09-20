@@ -62,7 +62,7 @@
 #rcmFolderMenu li.submenu:hover
 {
   color: #fff;
-  background-color: #2D5986;
+  background-color: #CC0000;
 }
 
 #rcmContextMenu li a,
@@ -76,7 +76,7 @@
 #rcmFolderMenu li a.active:hover
 {
   color: #fff;
-  background-color: #2D5986;
+  background-color: #CC0000;
 }
 
 #rcmContextMenu li.disabled a,
