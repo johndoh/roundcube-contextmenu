@@ -135,12 +135,12 @@
 
 #rcmFolderMenu .expunge a
 {
-  background: url('compact.gif') no-repeat 5px center;
+  background: url('icons.png') no-repeat 3px 3px;
 }
 
 #rcmFolderMenu .purge a
 {
-  background: url('../../../../skins/default/images/icons/deleted.png') no-repeat 3px center;
+  background: url('icons.png') no-repeat 3px -14px;
 }
 
 #rcmFolderMenu .collapseall a
