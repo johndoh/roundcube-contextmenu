@@ -23,6 +23,12 @@ collapse all folders
 expand all folders
 open in new window
 
+This plugin also adds a context menu to the address book. Menu links are:
+compose message to
+edit contect
+delete contact
+copy contact to another address book
+
 Install
 =======
 * Place this plugin folder into plugins directory of RoundCube

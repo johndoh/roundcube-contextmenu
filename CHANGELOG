@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2009 10 04
+==========
+ * Added address book context menu (requires r3023)
+
 2009 09 18
 ==========
  * Fix folder menu for UTF8 folders

@@ -11,13 +11,15 @@
  */
 class contextmenu extends rcube_plugin
 {
-	public $task = 'mail';
+	public $task = 'mail|addressbook';
 
 	function init()
 	{
 		$rcmail = rcmail::get_instance();
-		if (($rcmail->action == '' || $rcmail->action == 'show') && !empty($rcmail->user->ID))
-			$this->add_hook('render_mailboxlist', array($this, 'show_menu'));
+		if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show') && !empty($rcmail->user->ID))
+			$this->add_hook('render_mailboxlist', array($this, 'show_mailbox_menu'));
+		elseif ($rcmail->task == 'addressbook' && $rcmail->action == '' && !empty($rcmail->user->ID))
+			$this->add_hook('address_sources', array($this, 'show_addressbook_menu'));
 
 		$this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
 		$this->register_action('plugin.contextmenu.readfolder', array($this, 'readfolder'));
@@ -47,7 +49,7 @@ class contextmenu extends rcube_plugin
 		$this->api->output->send();
 	}
 
-	public function show_menu($args)
+	public function show_mailbox_menu($args)
 	{
 		$rcmail = rcmail::get_instance();
 		$this->add_texts('localization/');
@@ -111,8 +113,33 @@ class contextmenu extends rcube_plugin
 
 		if ($rcmail->action == 'show')
 			$this->api->output->set_env('delimiter', $rcmail->imap->get_hierarchy_delimiter());
+	}
 
-		return $args['list'];
+	public function show_addressbook_menu($args)
+	{
+		$rcmail = rcmail::get_instance();
+		$this->add_texts('localization/');
+		$this->include_script('jquery.contextMenu.js');
+		$skin_path = 'skins/'. $this->api->output->config['skin'] .'/contextmenu.css';
+		$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/contextmenu.css';
+		$this->include_stylesheet($skin_path);
+		$this->include_script('contextmenu.js');
+		$out = '';
+
+		// folder list menu
+		$li = '';
+
+		$li .= html::tag('li', array('class' => 'composeto separator_below'), html::a(array('href' => "#compose", 'class' => 'active'), Q($this->gettext('composeto'))));
+
+		$li .= html::tag('li', array('class' => 'editcontact'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editcontact'))));
+		$li .= html::tag('li', array('class' => 'deletecontact'), html::a(array('href' => "#delete", 'class' => 'active'), Q($this->gettext('deletecontact'))));
+
+ 		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
+ 			$li .= html::tag('li', array('class' => 'submenu separator_above'), Q($this->gettext('copyto')) . $lis);
+
+		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'toolbarmenu'), $li);
+
+		$this->api->output->add_footer(html::div(null , $out));
 	}
 
 	// based on rcmail_render_folder_tree_html()
@@ -165,7 +192,7 @@ class contextmenu extends rcube_plugin
 			if ($folder['virtual'])
 				$classes[] = 'virtual';
 
-			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('" . JQ($folder['id']) ."')", 'class' => 'active'), str_repeat('&nbsp;&nbsp;', $nestLevel) . Q($foldername)));
+			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('" . JQ($folder['id']) ."')", 'class' => 'active', 'title' => $title), str_repeat('&nbsp;&nbsp;', $nestLevel) . Q($foldername)));
 
 			if (!empty($folder['folders']))
 				$out .= $this->_gen_folder_list($folder['folders'], $command, $nestLevel+1);
@@ -185,6 +212,43 @@ class contextmenu extends rcube_plugin
 
 		return $out;
 	}
+
+	// based on rcmail_directory_list()
+	private function _gen_addressbooks_list($arrBooks, $command) {
+		$rcmail = rcmail::get_instance();
+
+		$maxlength = 35;
+		$out = '';
+		$books = 0;
+		foreach ($arrBooks as $j => $source) {
+			$title = null;
+			$id = $source['id'] ? $source['id'] : $j;
+			$bookname = !empty($source['name']) ? Q($source['name']) : Q($id);
+
+			// shorten the address book name to a given length
+			if ($maxlength && $maxlength > 1) {
+				$bname = abbreviate_string($bookname, $maxlength);
+
+				if ($bname != $bookname)
+					$title = $bookname;
+
+				$bookname = $bname;
+			}
+
+			if ($source['readonly'])
+				$out .= html::tag('li', array('class' => 'disabled'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
+			else
+				$out .= html::tag('li', null, html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
+		}
+
+		$out = html::tag('ul', array('class' => 'toolbarmenu'), $out);
+
+		if (sizeof($arrBooks) > 1)
+			return $out;
+		else
+			return false;
+	}
+
 }
 
 ?>

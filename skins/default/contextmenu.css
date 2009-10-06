@@ -9,7 +9,8 @@
 }
 
 #rcmContextMenu,
-#rcmFolderMenu
+#rcmFolderMenu,
+#rcmAddressMenu
 {
   position: absolute;
   top: 0px;
@@ -27,7 +28,10 @@
 
 #rcmContextMenu li ul,
 #rcmContextMenu li div,
-#rcmFolderMenu li ul
+#rcmFolderMenu li ul,
+#rcmFolderMenu li div,
+#rcmAddressMenu li ul,
+#rcmAddressMenu li div
 {
   position: absolute;
   top: 0px;
@@ -43,14 +47,17 @@
 #rcmContextMenu li.conmentitle,
 #rcmContextMenu li.submenu,
 #rcmFolderMenu li.conmentitle,
-#rcmFolderMenu li.submenu
+#rcmFolderMenu li.submenu,
+#rcmAddressMenu li.conmentitle,
+#rcmAddressMenu li.submenu
 {
   padding: 2px 8px 3px 22px;
   cursor: default;
 }
 
 #rcmContextMenu li.submenu,
-#rcmFolderMenu li.submenu
+#rcmFolderMenu li.submenu,
+#rcmAddressMenu li.submenu
 {
   position: relative;
   cursor: pointer;
@@ -59,35 +66,40 @@
 }
 
 #rcmContextMenu li.submenu:hover,
-#rcmFolderMenu li.submenu:hover
+#rcmFolderMenu li.submenu:hover,
+#rcmAddressMenu li.submenu:hover
 {
   color: #fff;
   background-color: #CC0000;
 }
 
 #rcmContextMenu li a,
-#rcmFolderMenu li a
+#rcmFolderMenu li a,
+#rcmAddressMenu li a
 {
   background: url('../../../../skins/default/images/messageactions.png') no-repeat 1px 0;
   background-position: 0px 20px;
 }
 
 #rcmContextMenu li a.active:hover,
-#rcmFolderMenu li a.active:hover
+#rcmFolderMenu li a.active:hover,
+#rcmAddressMenu li a.active:hover
 {
   color: #fff;
   background-color: #CC0000;
 }
 
 #rcmContextMenu li.disabled a,
-#rcmFolderMenu li.disabled a
+#rcmFolderMenu li.disabled a,
+#rcmAddressMenu li.disabled a
 {
   color: #AAA;
   cursor: default;
 }
 
 #rcmContextMenu li.disabled a:hover,
-#rcmFolderMenu li.disabled a:hover
+#rcmFolderMenu li.disabled a:hover,
+#rcmAddressMenu li.disabled a:hover
 {
   color: #AAA;
   background-color: transparent
@@ -128,7 +140,8 @@
   background: url('../../../../skins/default/images/icons/forwarded.png') no-repeat 2px center;
 }
 
-#rcmContextMenu .delete a
+#rcmContextMenu .delete a,
+#rcmAddressMenu .deletecontact a
 {
   background: url('../../../../skins/default/images/icons/deleted.png') no-repeat 2px center;
 }
@@ -163,7 +176,8 @@
   background-position: 1px -35px;
 }
 
-#rcmContextMenu .save a
+#rcmContextMenu .save a,
+#rcmAddressMenu .exportcontact a
 {
   background-position: 1px -17px;
 }
@@ -174,9 +188,15 @@
   background-position: 1px -53px;
 }
 
-#rcmContextMenu .edit a
+#rcmContextMenu .edit a,
+#rcmAddressMenu .editcontact a
 {
   background-position: 1px -71px;
+}
+
+#rcmAddressMenu .composeto a
+{
+  background: url('../../../../skins/default/images/icons/folders.png') 2px -38px no-repeat;
 }
 
 #rcmContextMenu ul.folders li a
