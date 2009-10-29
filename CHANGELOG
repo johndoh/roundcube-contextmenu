@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2009 10 29
+==========
+ * Use local_skin_path() (rev 3076)
+
 2009 10 04
 ==========
  * Added address book context menu (requires r3023)

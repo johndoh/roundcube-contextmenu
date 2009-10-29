@@ -56,9 +56,7 @@ class contextmenu extends rcube_plugin
 		$rcmail->output->add_label('nomessagesfound');
 		$this->include_script('jquery.contextMenu.js');
 		$this->include_script('jquery.mousewheel.js');
-		$skin_path = 'skins/'. $this->api->output->config['skin'] .'/contextmenu.css';
-		$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/contextmenu.css';
-		$this->include_stylesheet($skin_path);
+		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script('contextmenu.js');
 		$out = '';
 
@@ -120,9 +118,7 @@ class contextmenu extends rcube_plugin
 		$rcmail = rcmail::get_instance();
 		$this->add_texts('localization/');
 		$this->include_script('jquery.contextMenu.js');
-		$skin_path = 'skins/'. $this->api->output->config['skin'] .'/contextmenu.css';
-		$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/contextmenu.css';
-		$this->include_stylesheet($skin_path);
+		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script('contextmenu.js');
 		$out = '';
 
