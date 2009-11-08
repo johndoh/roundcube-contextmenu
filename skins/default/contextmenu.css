@@ -196,7 +196,7 @@
 
 #rcmAddressMenu .composeto a
 {
-  background: url('../../../../skins/default/images/icons/folders.png') 2px -58px no-repeat;
+  background: url('compose.png') no-repeat 3px center;
 }
 
 #rcmContextMenu ul.folders li a
