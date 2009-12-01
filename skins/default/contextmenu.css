@@ -191,7 +191,7 @@
 #rcmContextMenu .edit a,
 #rcmAddressMenu .editcontact a
 {
-  background: url('editcontact.png') no-repeat 3px center;
+  background: url('editcontact.png') no-repeat 2px center;
 }
 
 #rcmAddressMenu .composeto a
