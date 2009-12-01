@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2009 12 01
+==========
+ * CSS update after r3141
+
 2009 10 29
 ==========
  * Use local_skin_path() (rev 3076)

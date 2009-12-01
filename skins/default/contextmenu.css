@@ -191,12 +191,12 @@
 #rcmContextMenu .edit a,
 #rcmAddressMenu .editcontact a
 {
-  background-position: 1px -71px;
+  background: url('editcontact.png') no-repeat 3px center;
 }
 
 #rcmAddressMenu .composeto a
 {
-  background: url('compose.png') no-repeat 3px center;
+  background: url('../../../../skins/default/images/icons/folders.png') 3px -36px no-repeat;
 }
 
 #rcmContextMenu ul.folders li a
@@ -206,27 +206,27 @@
 
 #rcmContextMenu ul.folders li.inbox a
 {
-  background-position: 2px -19px;
+  background-position: 2px -17px;
 }
 
 #rcmContextMenu ul.folders li.drafts a
 {
-  background-position: 2px -40px;
+  background-position: 2px -36px;
 }
 
 #rcmContextMenu ul.folders li.sent a
 {
-  background-position: 2px -60px;
+  background-position: 2px -54px;
 }
 
 #rcmContextMenu ul.folders li.junk a
 {
-  background-position: 2px -80px;
+  background-position: 2px -73px;
 }
 
 #rcmContextMenu ul.folders li.trash a
 {
-  background-position: 2px -100px;
+  background-position: 2px -90px;
 }
 
 #rcmContextMenu ul.scrollable
