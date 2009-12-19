@@ -79,7 +79,7 @@ class contextmenu extends rcube_plugin
 			else
 				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), Q($this->gettext('deletemessage'))));
 
-			$li .= html::tag('li', array('class' => 'submenu'), Q($this->gettext('moveto')) . $this->_gen_folder_list($args['list'], '#moveto'));
+			$li .= html::tag('li', array('class' => 'submenu moveto'), Q($this->gettext('moveto')) . $this->_gen_folder_list($args['list'], '#moveto'));
 
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'print'), html::a(array('href' => "#print", 'class' => 'active'), Q($this->gettext('printmessage'))));
@@ -87,7 +87,7 @@ class contextmenu extends rcube_plugin
 			$lis .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editasnew'))));
 			$lis .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), Q($this->gettext('viewsource'))));
 			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
-			$li .= html::tag('li', array('class' => 'submenu'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'toolbarmenu'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'toolbarmenu'), $lis));
 
 			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'toolbarmenu'), $li);
 		}

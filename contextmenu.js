@@ -117,8 +117,14 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 	if (!menu)
 		menu = $('#rcmContextMenu');
 
-	var menuItem = $('<li>').addClass(command);
-	$('<a>').attr('href', '#' + command).addClass('active').html(rcmail.gettext(label)).appendTo(menuItem);
+	if (typeof label != 'string') {
+		var menuItem = label.children('li');
+	}
+	else {
+		var menuItem = $('<li>').addClass(command);
+		$('<a>').attr('href', '#' + command).addClass('active').html(rcmail.gettext(label)).appendTo(menuItem);
+	}
+
 	rcmail.contextmenu_command_handlers[command] = callback;
 
 	if (pos && $('#rcmContextMenu .' + pos) && newSub) {
@@ -137,7 +143,7 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 	else if (pos && $('#rcmContextMenu .' + pos))
 		$('#rcmContextMenu .' + pos).before(menuItem);
 	else
-		menu.append(menu);
+		menu.append(menuItem);
 
 	if (sep == 'before')
 		menuItem.addClass('separator_above');
