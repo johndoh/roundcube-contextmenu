@@ -15,12 +15,12 @@
 // For details, visit http://creativecommons.org/licenses/by/3.0/us/
 //
 // Modified by Phil Weir:
-//   Added highlighting of selected row and submenu support (lines 46, 49, 50, 52, 53, 85, 127, 137, 144, 145, 146)
+//   Added highlighting of selected row and submenu support
 //   Added sub menu functions
+//   Added bind to contextmenu event
 
 if(jQuery)( function() {
 	$.extend($.fn, {
-
 		contextMenu: function(o, callback) {
 			// Defaults
 			if( o.menu == undefined ) return false;
@@ -35,6 +35,12 @@ if(jQuery)( function() {
 				var offset = $(el).offset();
 				// Add contextMenu class
 				$('#' + o.menu).addClass('contextMenu');
+
+				// Cancel context menu event
+				$(this).bind("contextmenu",function(e){
+					return false;
+				});
+
 				// Simulate a true right click
 				$(this).mousedown( function(e) {
 					var evt = e;
@@ -76,9 +82,9 @@ if(jQuery)( function() {
 								d.innerHeight = document.body.clientHeight;
 								d.innerWidth = document.body.clientWidth;
 							}
-							(e.pageX) ? x = e.pageX : x = e.clientX + d.scrollLeft;
-							(e.pageY) ? y = e.pageY : x = e.clientY + d.scrollTop;
-							y++; // fix for jQuery 1.4 (TODO: find a real solution!)
+							(e.pageX) ? x = e.pageX + 1 : x = e.clientX + d.scrollLeft + 1;
+							(e.pageY) ? y = e.pageY + 1 : x = e.clientY + d.scrollTop + 1;
+
 							// Show the menu
 							$(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
