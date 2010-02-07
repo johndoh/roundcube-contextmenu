@@ -5,7 +5,7 @@
  *
  * Plugin to add a context menu to the message list
  *
- * @version 1.2
+ * @version 1.3
  * @author Philip Weir
  * @url http://roundcube.net/plugins/contextmenu
  */
@@ -16,9 +16,9 @@ class contextmenu extends rcube_plugin
 	function init()
 	{
 		$rcmail = rcmail::get_instance();
-		if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show') && !empty($rcmail->user->ID))
+		if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show'))
 			$this->add_hook('render_mailboxlist', array($this, 'show_mailbox_menu'));
-		elseif ($rcmail->task == 'addressbook' && $rcmail->action == '' && !empty($rcmail->user->ID))
+		elseif ($rcmail->task == 'addressbook' && $rcmail->action == '')
 			$this->add_hook('address_sources', array($this, 'show_addressbook_menu'));
 
 		$this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
