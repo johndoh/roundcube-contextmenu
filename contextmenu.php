@@ -139,7 +139,7 @@ class contextmenu extends rcube_plugin
 	}
 
 	// based on rcmail_render_folder_tree_html()
-	private function _gen_folder_list($arrFolders, $command, $nestLevel = 0) {
+	private function _gen_folder_list($arrFolders, $command, $nestLevel = 0, &$folderTotal = 0) {
 		$rcmail = rcmail::get_instance();
 
 		$maxlength = 35;
@@ -191,13 +191,14 @@ class contextmenu extends rcube_plugin
 			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('" . JQ($folder['id']) ."')", 'class' => 'active', 'title' => $title), str_repeat('&nbsp;&nbsp;', $nestLevel) . Q($foldername)));
 
 			if (!empty($folder['folders']))
-				$out .= $this->_gen_folder_list($folder['folders'], $command, $nestLevel+1);
+				$out .= $this->_gen_folder_list($folder['folders'], $command, $nestLevel+1, $folderTotal);
 
 			$idx++;
+			$folderTotal++;
 		}
 
 		if ($nestLevel == 0) {
-			if ($idx > 5) {
+			if ($folderTotal > 5) {
 				$out = html::tag('ul', array('class' => 'toolbarmenu folders scrollable'), $out);
 				$out = html::tag('div', array('class' => 'scroll_up_pas'), '') . $out . html::tag('div', array('class' => 'scroll_down_act'), '');
 			}

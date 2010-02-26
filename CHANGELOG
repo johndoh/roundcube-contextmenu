@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2010 02 26
+==========
+ * Fix folder count with nested folders
+
 2010 02 07
 ==========
  * Update after r3258
