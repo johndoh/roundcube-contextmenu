@@ -145,7 +145,6 @@ class contextmenu extends rcube_plugin
 		$maxlength = 35;
 		$realnames = false;
 
-		$idx = 0;
 		$out = '';
 		foreach ($arrFolders as $key => $folder) {
 			$title = null;
@@ -193,7 +192,6 @@ class contextmenu extends rcube_plugin
 			if (!empty($folder['folders']))
 				$out .= $this->_gen_folder_list($folder['folders'], $command, $nestLevel+1, $folderTotal);
 
-			$idx++;
 			$folderTotal++;
 		}
 
