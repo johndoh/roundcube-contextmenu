@@ -87,6 +87,8 @@ if(jQuery)( function() {
 
 							// Show the menu
 							$(document).unbind('click');
+							$('#' + o.menu + ' li ul').hide();
+							$('#' + o.menu + ' li div').hide();
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
 
 							// Hover events
@@ -173,6 +175,9 @@ if(jQuery)( function() {
 						var obj = this;
 						submenu_showtimer = window.setTimeout(function() {
 							// hide any existing sub menus
+							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('ul.scrollable').scrollTop(0);
+							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
+							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
 							$('#' + o.menu).children('li.submenu').children().hide();
 
 							// show selected sub menu
@@ -277,9 +282,6 @@ if(jQuery)( function() {
 			$(obj).children().show();
 
 			if ($(obj).children('div.popupmenu').length) {
-				$(obj).children('div.popupmenu').children('ul').scrollTop(0);
-				$(obj).children('div.popupmenu').children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
-				$(obj).children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
 				$(obj).children('div.popupmenu').children().show();
 
 				if ($(obj).children('div.popupmenu').width() == 0) {
