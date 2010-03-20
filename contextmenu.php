@@ -5,7 +5,7 @@
  *
  * Plugin to add a context menu to the message list
  *
- * @version 1.3
+ * @version 1.4
  * @author Philip Weir
  * @url http://roundcube.net/plugins/contextmenu
  */
@@ -87,9 +87,9 @@ class contextmenu extends rcube_plugin
 			$lis .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editasnew'))));
 			$lis .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), Q($this->gettext('viewsource'))));
 			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
-			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'toolbarmenu'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu'), $lis));
 
-			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'toolbarmenu'), $li);
+			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 		}
 
 		// folder list menu
@@ -105,7 +105,7 @@ class contextmenu extends rcube_plugin
 
 		$li .= html::tag('li', array('class' => 'openfolder'), html::a(array('href' => "#openfolder", 'id' => 'rcm_openfolder', 'class' => 'active'), Q($this->gettext('openinextwin'))));
 
-		$out .= html::tag('ul', array('id' => 'rcmFolderMenu', 'class' => 'toolbarmenu'), $li);
+		$out .= html::tag('ul', array('id' => 'rcmFolderMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
 		$this->api->output->add_footer(html::div(null , $out));
 
@@ -133,7 +133,7 @@ class contextmenu extends rcube_plugin
  		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
  			$li .= html::tag('li', array('class' => 'submenu separator_above'), Q($this->gettext('copyto')) . $lis);
 
-		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'toolbarmenu'), $li);
+		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
 		$this->api->output->add_footer(html::div(null , $out));
 	}
@@ -199,9 +199,10 @@ class contextmenu extends rcube_plugin
 			if ($folderTotal > 5) {
 				$out = html::tag('ul', array('class' => 'toolbarmenu folders scrollable'), $out);
 				$out = html::tag('div', array('class' => 'scroll_up_pas'), '') . $out . html::tag('div', array('class' => 'scroll_down_act'), '');
+				$out = html::tag('div', array('class' => 'popupmenu'), $out);
 			}
 			else {
-				$out = html::tag('ul', array('class' => 'toolbarmenu folders'), $out);
+				$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu folders'), $out);
 			}
 		}
 
@@ -236,7 +237,7 @@ class contextmenu extends rcube_plugin
 				$out .= html::tag('li', null, html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
 		}
 
-		$out = html::tag('ul', array('class' => 'toolbarmenu'), $out);
+		$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu'), $out);
 
 		if (sizeof($arrBooks) > 1)
 			return $out;

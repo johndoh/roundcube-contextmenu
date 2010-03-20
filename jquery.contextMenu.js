@@ -88,7 +88,7 @@ if(jQuery)( function() {
 							// Show the menu
 							$(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
-							$(this).submenu_render(o, menu);
+
 							// Hover events
 							$(menu).find('A').mouseover( function() {
 								$(menu).find('LI.hover').removeClass('hover');
@@ -172,14 +172,11 @@ if(jQuery)( function() {
 
 						var obj = this;
 						submenu_showtimer = window.setTimeout(function() {
-							// reset and hide any existing sub menus
-							$(obj).children('ul').scrollTop(0);
-							$(obj).children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
-							$(obj).children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
+							// hide any existing sub menus
 							$('#' + o.menu).children('li.submenu').children().hide();
 
 							// show selected sub menu
-							$(obj).children().show();
+							$(this).submenu_render(obj, $('#' + o.menu));
 							submenu_showtimer = null;
 						}, o.submenu_delay);
 					}
@@ -275,52 +272,54 @@ if(jQuery)( function() {
 		},
 
 		// Show sub menus
-		submenu_render: function(o, menu) {
-			$('#' + o.menu + ' li ul').hide();
-			$('#' + o.menu + ' li div').hide();
+		submenu_render: function(obj, menu) {
+			$(obj).children().css({left: ($(menu).width() - 2)+ 'px'});
+			$(obj).children().show();
 
-			if ($('#' + o.menu + ' li div').length) {
-				$('#' + o.menu + ' li div').css({width: $('#' + o.menu + ' li ul').width()+ 'px', left: ($(menu).width() - 2)+ 'px'});
+			if ($(obj).children('div.popupmenu').length) {
+				$(obj).children('div.popupmenu').children('ul').scrollTop(0);
+				$(obj).children('div.popupmenu').children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
+				$(obj).children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
+				$(obj).children('div.popupmenu').children().show();
 
-				// unbind existing events
-				$('#' + o.menu + ' li div').unbind('click');
-				$('#' + o.menu + ' li ul').unmousewheel( $(this).submenu_mousewheel );
+				if ($(obj).children('div.popupmenu').width() == 0) {
+					$(obj).children('div.popupmenu').children('div').css({width: $(obj).children('div.popupmenu').children('ul').width()+ 'px'})
+					$(obj).children('div.popupmenu').css({width: $(obj).children('div.popupmenu').children('ul').width()+ 'px'})
 
-				$('#' + o.menu + ' li div').click( function(e) {
-					var list = $(this).parent().children('ul');
+					$(obj).children('div.popupmenu').children('div').click( function(e) {
+						var list = $(this).parent().children('ul');
 
-					if ($(this).hasClass('scroll_up_act')) {
-						$(list).scrollTop($(list).scrollTop() - 18);
+						if ($(this).hasClass('scroll_up_act')) {
+							$(list).scrollTop($(list).scrollTop() - 18);
 
-						$('#' + o.menu + ' li div.scroll_down_pas').addClass('scroll_down_act');
-						$('#' + o.menu + ' li div.scroll_down_pas').removeClass('scroll_down_pas');
+							$(obj).children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act');
+							$(obj).children('div.popupmenu').children('div.scroll_down_pas').removeClass('scroll_down_pas');
 
-						if ($(list).scrollTop() == 0) {
-							$(this).removeClass('scroll_up_act');
-							$(this).addClass('scroll_up_pas');
+							if ($(list).scrollTop() == 0) {
+								$(this).removeClass('scroll_up_act');
+								$(this).addClass('scroll_up_pas');
+							}
 						}
-					}
-					else if ($(this).hasClass('scroll_down_act')) {
-						$(list).scrollTop($(list).scrollTop() + 18);
+						else if ($(this).hasClass('scroll_down_act')) {
+							$(list).scrollTop($(list).scrollTop() + 18);
 
-						$('#' + o.menu + ' li div.scroll_up_pas').addClass('scroll_up_act');
-						$('#' + o.menu + ' li div.scroll_up_pas').removeClass('scroll_up_pas');
+							$(obj).children('div.popupmenu').children('div.scroll_up_pas').addClass('scroll_up_act');
+							$(obj).children('div.popupmenu').children('div.scroll_up_pas').removeClass('scroll_up_pas');
 
-						if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
-							$(this).removeClass('scroll_down_act');
-							$(this).addClass('scroll_down_pas');
+							if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
+								$(this).removeClass('scroll_down_act');
+								$(this).addClass('scroll_down_pas');
+							}
 						}
-					}
 
-					// pop event bubble
-					e.cancelBubble = true;
-					if (e.stopPropagation) e.stopPropagation();
-				});
+						// pop event bubble
+						e.cancelBubble = true;
+						if (e.stopPropagation) e.stopPropagation();
+					});
 
-				$('#' + o.menu + ' li ul').mousewheel( $(this).submenu_mousewheel );
+					$(obj).children('div.popupmenu').children('ul').mousewheel( $(this).submenu_mousewheel );
+				}
 			}
-
-			$('#' + o.menu + ' li ul').css({left: ($(menu).width() - 2)+ 'px'});
 		},
 
 		submenu_mousewheel: function(e, delta) {
