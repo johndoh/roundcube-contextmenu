@@ -158,12 +158,12 @@
 
 #rcmFolderMenu .collapseall a
 {
-  background: url('../../../../skins/default/images/icons/collapsed.png') no-repeat 10px center;
+  background: url('../../../../skins/default/images/icons/collapsed.png') no-repeat 9px center;
 }
 
 #rcmFolderMenu .expandall a
 {
-  background: url('../../../../skins/default/images/icons/expanded.png') no-repeat 10px center;
+  background: url('../../../../skins/default/images/icons/expanded.png') no-repeat 9px center;
 }
 
 #rcmContextMenu .print a
