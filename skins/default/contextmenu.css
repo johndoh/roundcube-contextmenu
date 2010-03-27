@@ -236,15 +236,17 @@
 #rcmContextMenu div.popupmenu
 {
   height: 129px;
+  padding: 0;
 }
 
 #rcmContextMenu ul.scrollable
 {
-  top: 19px;
+  top: 15px;
   height: 100px;
   overflow: hidden;
   border-top: 0;
   border-bottom: 0;
+  margin: 0;
 }
 
 #rcmContextMenu li div {

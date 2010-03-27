@@ -285,8 +285,11 @@ if(jQuery)( function() {
 				$(obj).children('div.popupmenu').children().show();
 
 				if ($(obj).children('div.popupmenu').width() == 0) {
+					ul_overflow = $(obj).children('div.popupmenu').children('ul').css('overflow');
+					$(obj).children('div.popupmenu').children('ul').css({overflow: 'visible'});
 					$(obj).children('div.popupmenu').children('div').css({width: $(obj).children('div.popupmenu').children('ul').width()+ 'px'})
 					$(obj).children('div.popupmenu').css({width: $(obj).children('div.popupmenu').children('ul').width()+ 'px'})
+					$(obj).children('div.popupmenu').children('ul').css({overflow: ul_overflow});
 
 					$(obj).children('div.popupmenu').children('div').click( function(e) {
 						var list = $(this).parent().children('ul');
