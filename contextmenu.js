@@ -349,13 +349,13 @@ function rcm_addressmenu_init(row) {
 					}
 					break;
 				case 'moveto':
-					if (rcmail.env.rcm_destbook == rcmail.env.source)
+					if (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders[rcmail.env.rcm_destbook].id == rcmail.env.group)
 						return;
 
 					if (rcmail.contact_list.selection.length > 1 || rcmail.env.cid == rcmail.contact_list.get_selection()) {
 						rcmail.env.cid = null;
 						rcmail.drag_active = true;
-						rcmail.command(command, rcmail.env.rcm_destbook, $(el));
+						rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destbook], $(el));
 						rcmail.drag_active = false;
 					}
 					else {
@@ -365,7 +365,7 @@ function rcm_addressmenu_init(row) {
 						rcmail.contact_list.select(rcmail.env.cid);
 						rcmail.env.cid = null;
 						rcmail.drag_active = true;
-						rcmail.command(command, rcmail.env.rcm_destbook, $(el));
+						rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destbook], $(el));
 						rcmail.drag_active = false;
 
 						if (prev_selection != '')
@@ -390,6 +390,57 @@ function rcm_set_dest_book(book) {
 	rcmail.env.rcm_destbook = book;
 }
 
+function rcm_groupmenu_init() {
+	$("#directorylistbox li").contextMenu({
+		menu: 'rcmGroupMenu'
+	},
+	function(command, el, pos) {
+		if ($(el) && String($(el).attr('id')).match(/rcmli([a-z0-9\-_=]+)/i))
+		{
+			var group = RegExp.$1;
+
+			// double check its a group, not an address book
+			if (rcmail.env.contactfolders[group].type != 'group')
+				return
+
+			// fix command string in IE
+			if (command.indexOf("#") > 0)
+				command = command.substr(command.indexOf("#") + 1);
+
+			// enable the required command
+			var prev_command = rcmail.commands[command];
+			rcmail.enable_command(command, true);
+
+			// process external commands
+			if (typeof rcmail.contextmenu_command_handlers[command] == 'function')
+				rcmail.contextmenu_command_handlers[command](command, el, pos);
+			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string')
+				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
+			else
+			{
+				switch (command)
+				{
+					case 'renamegroup':
+						//
+						break;
+					case 'deletegroup':
+						//
+						break;
+				}
+			}
+
+			rcmail.enable_command(command, prev_command);
+		}
+	});
+}
+
+function rcm_group_options(el) {
+	$('#rcmGroupMenu').disableContextMenuItems('#renamegroup,#deletegroup');
+
+	//if ($(el).hasClass('contactgroup'))
+	//	$('#rcmGroupMenu').enableContextMenuItems('#renamegroup,#deletegroup');
+}
+
 $(document).ready(function(){
 	// init message list menu
 	if ($('#rcmContextMenu').length > 0) {
@@ -403,10 +454,15 @@ $(document).ready(function(){
 		rcmail.add_onload('rcm_foldermenu_init();');
 	}
 
-	// init address book menu
+	// init contact list menu
 	if ($('#rcmAddressMenu').length > 0) {
 		rcmail.add_onload('if (rcmail.contact_list) rcmail.contact_list.addEventListener(\'select\', function(list) { rcm_selection_changed(\'rcmAddressMenu\', list); } );');
 		rcmail.addEventListener('listupdate', function(props) { rcm_addressmenu_init('contacts-table tbody tr'); } );
 		rcmail.addEventListener('insertrow', function(props) { rcm_addressmenu_init(props.row.id); } );
+	}
+
+	// init group list menu
+	if ($('#rcmGroupMenu').length > 0) {
+		rcmail.add_onload('rcm_groupmenu_init();');
 	}
 });

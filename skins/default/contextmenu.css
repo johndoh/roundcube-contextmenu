@@ -3,21 +3,24 @@
   background: #EEEEEE;
 }
 
-#mailboxlist li.contextRow
+#mailboxlist li.contextRow,
+#directorylistbox li.contextRow
 {
   background-color: #E0E0E0;
 }
 
 #rcmContextMenu,
 #rcmFolderMenu,
-#rcmAddressMenu
+#rcmAddressMenu,
+#rcmGroupMenu
 {
   padding-top: 3px;
 }
 
 #rcmContextMenu li,
 #rcmFolderMenu li,
-#rcmAddressMenu li
+#rcmAddressMenu li,
+#rcmGroupMenu li
 {
   margin: 0;
 }
@@ -27,7 +30,9 @@
 #rcmFolderMenu li ul,
 #rcmFolderMenu li div,
 #rcmAddressMenu li ul,
-#rcmAddressMenu li div
+#rcmAddressMenu li div,
+#rcmGroupMenu li ul,
+#rcmGroupMenu li div
 {
   position: absolute;
   top: 0px;
@@ -45,7 +50,9 @@
 #rcmFolderMenu li.conmentitle,
 #rcmFolderMenu li.submenu,
 #rcmAddressMenu li.conmentitle,
-#rcmAddressMenu li.submenu
+#rcmAddressMenu li.submenu,
+#rcmGroupMenu li.conmentitle,
+#rcmGroupMenu li.submenu
 {
   padding: 2px 8px 3px 27px;
   cursor: default;
@@ -53,7 +60,8 @@
 
 #rcmContextMenu li.submenu,
 #rcmFolderMenu li.submenu,
-#rcmAddressMenu li.submenu
+#rcmAddressMenu li.submenu,
+#rcmGroupMenu li.submenu
 {
   position: relative;
   cursor: pointer;
@@ -63,7 +71,8 @@
 
 #rcmContextMenu li.submenu:hover,
 #rcmFolderMenu li.submenu:hover,
-#rcmAddressMenu li.submenu:hover
+#rcmAddressMenu li.submenu:hover,
+#rcmGroupMenu li.submenu:hover
 {
   color: #fff;
   background-color: #2D5986;
@@ -71,7 +80,8 @@
 
 #rcmContextMenu li a,
 #rcmFolderMenu li a,
-#rcmAddressMenu li a
+#rcmAddressMenu li a,
+#rcmGroupMenu li a
 {
   background: url('../../../../skins/default/images/messageactions.png') no-repeat 7px 0;
   background-position: 7px 20px;
@@ -79,7 +89,8 @@
 
 #rcmContextMenu li a.active:hover,
 #rcmFolderMenu li a.active:hover,
-#rcmAddressMenu li a.active:hover
+#rcmAddressMenu li a.active:hover,
+#rcmGroupMenu li a.active:hover
 {
   color: #fff;
   background-color: #2D5986;
@@ -87,7 +98,8 @@
 
 #rcmContextMenu li.disabled a,
 #rcmFolderMenu li.disabled a,
-#rcmAddressMenu li.disabled a
+#rcmAddressMenu li.disabled a,
+#rcmGroupMenu li.disabled a
 {
   color: #AAA;
   cursor: default;
@@ -95,7 +107,8 @@
 
 #rcmContextMenu li.disabled a:hover,
 #rcmFolderMenu li.disabled a:hover,
-#rcmAddressMenu li.disabled a:hover
+#rcmAddressMenu li.disabled a:hover,
+#rcmGroupMenu li.disabled a:hover
 {
   color: #AAA;
   background-color: transparent
@@ -233,13 +246,15 @@
   background-position: 7px -90px;
 }
 
-#rcmContextMenu div.popupmenu
+#rcmContextMenu div.popupmenu,
+#rcmAddressMenu div.popupmenu
 {
   height: 129px;
   padding: 0;
 }
 
-#rcmContextMenu ul.scrollable
+#rcmContextMenu ul.scrollable,
+#rcmAddressMenu ul.scrollable
 {
   top: 15px;
   height: 100px;
@@ -249,29 +264,39 @@
   margin: 0;
 }
 
-#rcmContextMenu li div {
+#rcmContextMenu li div,
+#rcmAddressMenu li div
+{
   height: 12px;
   overflow: hidden;
 }
 
-#rcmContextMenu li div.scroll_up_act {
+#rcmContextMenu li div.scroll_up_act,
+#rcmAddressMenu li div.scroll_up_act
+{
   background: url('up_act.gif') #F9F9F9 center center no-repeat;
   border-bottom: 0;
 }
 
-#rcmContextMenu li div.scroll_up_pas {
+#rcmContextMenu li div.scroll_up_pas,
+#rcmAddressMenu li div.scroll_up_pas
+{
   background: url('up_pas.gif') #F9F9F9 center center no-repeat;
   border-bottom: 0;
   cursor: default;
 }
 
-#rcmContextMenu li div.scroll_down_act {
+#rcmContextMenu li div.scroll_down_act,
+#rcmAddressMenu li div.scroll_down_act
+{
   top: 117px;
   background: url('down_act.gif') #F9F9F9 center center no-repeat;
   border-top: 0;
 }
 
-#rcmContextMenu li div.scroll_down_pas {
+#rcmContextMenu li div.scroll_down_pas,
+#rcmAddressMenu li div.scroll_down_pas
+{
   top: 117px;
   background: url('down_pas.gif') #F9F9F9 center center no-repeat;
   border-top: 0;

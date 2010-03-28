@@ -118,11 +118,12 @@ class contextmenu extends rcube_plugin
 		$rcmail = rcmail::get_instance();
 		$this->add_texts('localization/');
 		$this->include_script('jquery.contextMenu.js');
+		$this->include_script('jquery.mousewheel.js');
 		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script('contextmenu.js');
 		$out = '';
 
-		// folder list menu
+		// contact list menu
 		$li = '';
 
 		$li .= html::tag('li', array('class' => 'composeto separator_below'), html::a(array('href' => "#compose", 'class' => 'active'), Q($this->gettext('composeto'))));
@@ -134,6 +135,14 @@ class contextmenu extends rcube_plugin
  			$li .= html::tag('li', array('class' => 'submenu separator_above'), Q($this->gettext('copyto')) . $lis);
 
 		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'popupmenu toolbarmenu'), $li);
+
+		// contact group menu
+		$li = '';
+
+		$li .= html::tag('li', array('class' => 'renamegroup'), html::a(array('href' => "#renamegroup", 'class' => 'active'), Q($this->gettext('rename'))));
+		$li .= html::tag('li', array('class' => 'deletegroup'), html::a(array('href' => "#deletegroup", 'class' => 'active'), Q($this->gettext('delete'))));
+
+		$out .= html::tag('ul', array('id' => 'rcmGroupMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
 		$this->api->output->add_footer(html::div(null , $out));
 	}
@@ -212,10 +221,11 @@ class contextmenu extends rcube_plugin
 	// based on rcmail_directory_list()
 	private function _gen_addressbooks_list($arrBooks, $command) {
 		$rcmail = rcmail::get_instance();
-
+		$groupTotal = 0;
 		$maxlength = 35;
 		$out = '';
-		$books = 0;
+
+		// address books
 		foreach ($arrBooks as $j => $source) {
 			$title = null;
 			$id = $source['id'] ? $source['id'] : $j;
@@ -235,14 +245,49 @@ class contextmenu extends rcube_plugin
 				$out .= html::tag('li', array('class' => 'disabled'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
 			else
 				$out .= html::tag('li', null, html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
+
+			$groupTotal++;
 		}
 
-		$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu'), $out);
+		// contact groups
+		foreach ($arrBooks as $j => $source) {
+			if ($source['groups']) {
+				$groups = $rcmail->get_address_book($source['id'])->list_groups();
+				foreach ($groups as $group) {
+					$title = null;
+					$id = 'G' . $group['ID'];
+					$groupname = !empty($group['name']) ? Q($group['name']) : Q($id);
 
-		if (sizeof($arrBooks) > 1)
-			return $out;
-		else
-			return false;
+					// shorten the address book name to a given length
+					if ($maxlength && $maxlength > 1) {
+						$gname = abbreviate_string($groupname, $maxlength);
+
+						if ($gname != $groupname)
+							$title = $groupname;
+
+						$groupname = $gname;
+					}
+
+					if ($source['readonly'])
+						$out .= html::tag('li', array('class' => 'disabled'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($groupname)));
+					else
+						$out .= html::tag('li', null, html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($groupname)));
+
+					$groupTotal++;
+				}
+			}
+		}
+
+		if ($groupTotal > 5) {
+			$out = html::tag('ul', array('class' => 'toolbarmenu scrollable'), $out);
+			$out = html::tag('div', array('class' => 'scroll_up_pas'), '') . $out . html::tag('div', array('class' => 'scroll_down_act'), '');
+			$out = html::tag('div', array('class' => 'popupmenu'), $out);
+		}
+		else {
+			$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu'), $out);
+		}
+
+		return $out;
 	}
 
 }
