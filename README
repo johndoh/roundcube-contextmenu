@@ -23,11 +23,15 @@ collapse all folders
 expand all folders
 open in new window
 
-This plugin also adds a context menu to the address book. Menu links are:
+This plugin also adds a context menu to the contacts list in the address book. Menu links are:
 compose message to
 edit contect
 delete contact
 copy contact to another address book
+
+This plugin also adds a context menu to the groups list in the address book. Menu links are:
+rename
+delete
 
 Install
 =======
