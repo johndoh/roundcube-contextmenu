@@ -67,8 +67,10 @@ function rcm_contextmenu_init(row) {
 					// also select childs of (collapsed) threads
 					if (rcmail.env.uid) {
 						if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
-							if (!rcmail.message_list.in_selection(rcmail.env.uid))
-								rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
+							if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
+								prev_sel = rcmail.message_list.get_selection();
+								rcmail.message_list.select_row(rcmail.env.uid);
+							}
 
 							rcmail.message_list.select_childs(rcmail.env.uid);
 							rcmail.env.uid = null;
@@ -86,7 +88,9 @@ function rcm_contextmenu_init(row) {
 
 					if (prev_sel) {
 						rcmail.message_list.clear_selection();
-						rcmail.message_list.select(prev_sel);
+
+						for (var i in prev_sel)
+							rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
 					}
 					break;
 				case 'moveto':
@@ -98,8 +102,10 @@ function rcm_contextmenu_init(row) {
 					// also select childs of (collapsed) threads
 					if (rcmail.env.uid) {
 						if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
-							if (!rcmail.message_list.in_selection(rcmail.env.uid))
-								rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
+							if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
+								prev_sel = rcmail.message_list.get_selection();
+								rcmail.message_list.select_row(rcmail.env.uid);
+							}
 
 							rcmail.message_list.select_childs(rcmail.env.uid);
 							rcmail.env.uid = null;
@@ -117,7 +123,9 @@ function rcm_contextmenu_init(row) {
 
 					if (prev_sel) {
 						rcmail.message_list.clear_selection();
-						rcmail.message_list.select(prev_sel);
+
+						for (var i in prev_sel)
+							rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
 					}
 
 					rcmail.env.rcm_destfolder = null;
@@ -129,10 +137,6 @@ function rcm_contextmenu_init(row) {
 			rcmail.env.uid = prev_uid;
 		}
 	});
-}
-
-function rcm_selection_changed(id, list) {
-
 }
 
 function rcm_set_dest_folder(folder) {
@@ -508,7 +512,6 @@ function rcm_groupmenu_init() {
 $(document).ready(function(){
 	// init message list menu
 	if ($('#rcmContextMenu').length > 0) {
-		rcmail.add_onload('if (rcmail.message_list) rcmail.message_list.addEventListener(\'select\', function(list) { rcm_selection_changed(\'rcmContextMenu\', list); } );');
 		rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); rcm_contextmenu_init('messagelist tbody tr'); } );
 		rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
 	}
@@ -520,7 +523,6 @@ $(document).ready(function(){
 
 	// init contact list menu
 	if ($('#rcmAddressMenu').length > 0) {
-		rcmail.add_onload('if (rcmail.contact_list) rcmail.contact_list.addEventListener(\'select\', function(list) { rcm_selection_changed(\'rcmAddressMenu\', list); } );');
 		rcmail.addEventListener('listupdate', function(props) { rcm_addressmenu_init('contacts-table tbody tr'); } );
 		rcmail.addEventListener('insertrow', function(props) { rcm_addressmenu_init(props.row.id); } );
 	}
