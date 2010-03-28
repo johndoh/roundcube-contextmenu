@@ -266,27 +266,66 @@ function rcm_foldermenu_init() {
 	});
 }
 
-function rcm_folder_options(el) {
-	$('#rcmFolderMenu').disableContextMenuItems('#readfolder,#purge,#collapseall,#expandall');
+function rcm_update_options(el) {
+	if (el.hasClass('mailbox')) {
+		$('#rcmFolderMenu').disableContextMenuItems('#readfolder,#purge,#collapseall,#expandall');
 
-	var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i);
-	if ($(el) && matches)
-	{
-		var mailbox = matches[1];
+		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i);
+		if ($(el) && matches)
+		{
+			var mailbox = matches[1];
 
-		if (rcmail.env.unread_counts[mailbox] > 0)
-			$('#rcmFolderMenu').enableContextMenuItems('#readfolder');
+			if (rcmail.env.unread_counts[mailbox] > 0)
+				$('#rcmFolderMenu').enableContextMenuItems('#readfolder');
 
-		if (mailbox == rcmail.env.trash_mailbox || mailbox == rcmail.env.junk_mailbox
-			|| mailbox.match('^' + RegExp.escape(rcmail.env.trash_mailbox) + RegExp.escape(rcmail.env.delimiter))
-			|| mailbox.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter)))
-				$('#rcmFolderMenu').enableContextMenuItems('#purge');
+			if (mailbox == rcmail.env.trash_mailbox || mailbox == rcmail.env.junk_mailbox
+				|| mailbox.match('^' + RegExp.escape(rcmail.env.trash_mailbox) + RegExp.escape(rcmail.env.delimiter))
+				|| mailbox.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter)))
+					$('#rcmFolderMenu').enableContextMenuItems('#purge');
 
-		if ($("#mailboxlist div.expanded").length > 0)
-			$('#rcmFolderMenu').enableContextMenuItems('#collapseall');
+			if ($("#mailboxlist div.expanded").length > 0)
+				$('#rcmFolderMenu').enableContextMenuItems('#collapseall');
 
-		if ($("#mailboxlist div.collapsed").length > 0)
-			$('#rcmFolderMenu').enableContextMenuItems('#expandall');
+			if ($("#mailboxlist div.collapsed").length > 0)
+				$('#rcmFolderMenu').enableContextMenuItems('#expandall');
+		}
+	}
+	else if (el.hasClass('addressbook') || el.hasClass('contactgroup')) {
+		$('#rcmGroupMenu').disableContextMenuItems('#renamegroup,#deletegroup');
+
+		//if ($(el).hasClass('contactgroup'))
+		//	$('#rcmGroupMenu').enableContextMenuItems('#renamegroup,#deletegroup');
+	}
+	else if (rcmail.env.task == 'addressbook') {
+		// check for new/renamed groups
+		for (var i in rcmail.env.contactfolders) {
+			if ($('#rcm_contextgrps_' + i). length) {
+				if ($('#rcm_contextgrps_' + i).attr('title') != rcmail.env.contactfolders[i].name &&
+					$('#rcm_contextgrps_' + i).text() != rcmail.env.contactfolders[i].name){
+						$('#rcm_contextgrps_' + i).attr('title', '');
+						$('#rcm_contextgrps_' + i).text(rcmail.env.contactfolders[i].name);
+				}
+			}
+			else {
+				var link = $('<a>')
+					.attr('id', '#rcm_contextgrps_' + i)
+					.attr('href', '#moveto')
+					.addClass('active')
+					.attr('onclick', "rcm_set_dest_book('" + i + "')")
+					.html(rcmail.env.contactfolders[i].name);
+				var li = $('<li>').attr('id', 'rcm_contextgrps_' + i ).addClass('contactgroup').append(link);
+				$('#rcm_contextgrps').append(li);
+			}
+		}
+
+		// check for deleted
+		$('#rcm_contextgrps').children().each(function() {
+			var id = $(this).children('a').attr('id');
+			id = id.substr(16);
+
+			if (!rcmail.env.contactfolders[id])
+				$(this).remove();
+		});
 	}
 }
 
@@ -432,13 +471,6 @@ function rcm_groupmenu_init() {
 			rcmail.enable_command(command, prev_command);
 		}
 	});
-}
-
-function rcm_group_options(el) {
-	$('#rcmGroupMenu').disableContextMenuItems('#renamegroup,#deletegroup');
-
-	//if ($(el).hasClass('contactgroup'))
-	//	$('#rcmGroupMenu').enableContextMenuItems('#renamegroup,#deletegroup');
 }
 
 $(document).ready(function(){

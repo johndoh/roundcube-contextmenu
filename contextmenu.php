@@ -242,9 +242,9 @@ class contextmenu extends rcube_plugin
 			}
 
 			if ($source['readonly'])
-				$out .= html::tag('li', array('class' => 'addressbook disabled'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
+				$out .= html::tag('li', array('class' => 'addressbook disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
 			else
-				$out .= html::tag('li', array('class' => 'addressbook'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
+				$out .= html::tag('li', array('class' => 'addressbook'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($bookname)));
 
 			$groupTotal++;
 		}
@@ -269,9 +269,9 @@ class contextmenu extends rcube_plugin
 					}
 
 					if ($source['readonly'])
-						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($groupname)));
+						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($groupname)));
 					else
-						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($groupname)));
+						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."')", 'class' => 'active', 'title' => $title), Q($groupname)));
 
 					$groupTotal++;
 				}
@@ -279,12 +279,12 @@ class contextmenu extends rcube_plugin
 		}
 
 		if ($groupTotal > 5) {
-			$out = html::tag('ul', array('class' => 'toolbarmenu folders scrollable'), $out);
+			$out = html::tag('ul', array('id' => 'rcm_contextgrps', 'class' => 'toolbarmenu folders scrollable'), $out);
 			$out = html::tag('div', array('class' => 'scroll_up_pas'), '') . $out . html::tag('div', array('class' => 'scroll_down_act'), '');
 			$out = html::tag('div', array('class' => 'popupmenu'), $out);
 		}
 		else {
-			$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu folders'), $out);
+			$out = html::tag('ul', array('id' => 'rcm_contextgrps', 'class' => 'popupmenu toolbarmenu folders'), $out);
 		}
 
 		return $out;

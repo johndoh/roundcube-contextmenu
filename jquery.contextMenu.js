@@ -55,11 +55,7 @@ if(jQuery)( function() {
 							if (!srcElement.hasClass('selected'))
 								srcElement.addClass('contextRow');
 
-							if (srcElement.hasClass('mailbox'))
-								rcm_folder_options(srcElement);
-
-							if (srcElement.hasClass('addressbook') || srcElement.hasClass('contactgroup'))
-								rcm_group_options(srcElement);
+							rcm_update_options(srcElement);
 
 							// Get this context menu
 							var menu = $('#' + o.menu);
