@@ -50,7 +50,7 @@ if(jQuery)( function() {
 						if( evt.button == 2 ) {
 							// Hide context menus that may be showing
 							$(".contextRow").removeClass('contextRow');
-							$(".contextMenu").hide();
+							//$(".contextMenu").hide();
 
 							if (!srcElement.hasClass('selected'))
 								srcElement.addClass('contextRow');
@@ -59,6 +59,7 @@ if(jQuery)( function() {
 
 							// Get this context menu
 							var menu = $('#' + o.menu);
+							$(this).submenu_render(menu);
 
 							if( $(el).hasClass('disabled') ) return false;
 
@@ -167,7 +168,7 @@ if(jQuery)( function() {
 							submenu_hidetimer = null;
 						}, o.submenu_delay);
 					}
-					else if ($(this).hasClass('submenu') && !submenu_showtimer) {
+					else if ($(this).hasClass('submenu') && !submenu_showtimer && !$(this).children().is(':visible')) {
 						window.clearTimeout(submenu_hidetimer);
 						submenu_hidetimer = null;
 
@@ -180,7 +181,12 @@ if(jQuery)( function() {
 							$('#' + o.menu).children('li.submenu').children().hide();
 
 							// show selected sub menu
-							$(this).submenu_render(obj, $('#' + o.menu));
+							$(obj).children().css({left: ($('#' + o.menu).width() - 2)+ 'px'});
+							$(obj).children().show();
+
+							if ($(obj).children('div.popupmenu').length)
+								$(obj).children('div.popupmenu').children().show();
+
 							submenu_showtimer = null;
 						}, o.submenu_delay);
 					}
@@ -275,55 +281,52 @@ if(jQuery)( function() {
 			return( $(this) );
 		},
 
-		// Show sub menus
-		submenu_render: function(obj, menu) {
-			$(obj).children().css({left: ($(menu).width() - 2)+ 'px'});
-			$(obj).children().show();
+		// Render sub menus
+		submenu_render: function(menu) {
+			$(menu).children('li.submenu').children().show();
 
-			if ($(obj).children('div.popupmenu').length) {
-				$(obj).children('div.popupmenu').children().show();
+			$(menu).children('li.submenu').children('div.popupmenu').each(function() {
+				ul_overflow = $(this).children('ul').css('overflow');
+				$(this).children('ul').css({overflow: 'visible'});
+				$(this).children('div').css({width: $(this).children('ul').width()+ 'px'})
+				$(this).css({width: $(this).children('ul').width()+ 'px'})
+				$(this).children('ul').css({overflow: ul_overflow});
 
-				if ($(obj).children('div.popupmenu').width() == 0) {
-					ul_overflow = $(obj).children('div.popupmenu').children('ul').css('overflow');
-					$(obj).children('div.popupmenu').children('ul').css({overflow: 'visible'});
-					$(obj).children('div.popupmenu').children('div').css({width: $(obj).children('div.popupmenu').children('ul').width()+ 'px'})
-					$(obj).children('div.popupmenu').css({width: $(obj).children('div.popupmenu').children('ul').width()+ 'px'})
-					$(obj).children('div.popupmenu').children('ul').css({overflow: ul_overflow});
+				$(this).children('div').click( function(e) {
+					var list = $(this).parent().children('ul');
 
-					$(obj).children('div.popupmenu').children('div').click( function(e) {
-						var list = $(this).parent().children('ul');
+					if ($(this).hasClass('scroll_up_act')) {
+						$(list).scrollTop($(list).scrollTop() - 18);
 
-						if ($(this).hasClass('scroll_up_act')) {
-							$(list).scrollTop($(list).scrollTop() - 18);
+						$(this).parent().children('div.scroll_down_pas').addClass('scroll_down_act');
+						$(this).parent().children('div.scroll_down_pas').removeClass('scroll_down_pas');
 
-							$(obj).children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act');
-							$(obj).children('div.popupmenu').children('div.scroll_down_pas').removeClass('scroll_down_pas');
-
-							if ($(list).scrollTop() == 0) {
-								$(this).removeClass('scroll_up_act');
-								$(this).addClass('scroll_up_pas');
-							}
+						if ($(list).scrollTop() == 0) {
+							$(this).removeClass('scroll_up_act');
+							$(this).addClass('scroll_up_pas');
 						}
-						else if ($(this).hasClass('scroll_down_act')) {
-							$(list).scrollTop($(list).scrollTop() + 18);
+					}
+					else if ($(this).hasClass('scroll_down_act')) {
+						$(list).scrollTop($(list).scrollTop() + 18);
 
-							$(obj).children('div.popupmenu').children('div.scroll_up_pas').addClass('scroll_up_act');
-							$(obj).children('div.popupmenu').children('div.scroll_up_pas').removeClass('scroll_up_pas');
+						$(this).parent().children('div.scroll_up_pas').addClass('scroll_up_act');
+						$(this).parent().children('div.scroll_up_pas').removeClass('scroll_up_pas');
 
-							if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
-								$(this).removeClass('scroll_down_act');
-								$(this).addClass('scroll_down_pas');
-							}
+						if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
+							$(this).removeClass('scroll_down_act');
+							$(this).addClass('scroll_down_pas');
 						}
+					}
 
-						// pop event bubble
-						e.cancelBubble = true;
-						if (e.stopPropagation) e.stopPropagation();
-					});
+					// pop event bubble
+					e.cancelBubble = true;
+					if (e.stopPropagation) e.stopPropagation();
+				});
 
-					$(obj).children('div.popupmenu').children('ul').mousewheel( $(this).submenu_mousewheel );
-				}
-			}
+				$(this).children('ul').mousewheel( $(this).submenu_mousewheel );
+			});
+
+			$(menu).children('li.submenu').children().hide();
 		},
 
 		submenu_mousewheel: function(e, delta) {
