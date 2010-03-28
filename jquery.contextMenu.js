@@ -52,7 +52,7 @@ if(jQuery)( function() {
 							$(".contextRow").removeClass('contextRow');
 							$(".contextMenu").hide();
 
-							if ((srcElement.hasClass('mailbox') && !srcElement.hasClass('selected')) || !srcElement.hasClass('mailbox'))
+							if (!srcElement.hasClass('selected'))
 								srcElement.addClass('contextRow');
 
 							if (srcElement.hasClass('mailbox'))
