@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2010 03 28
+==========
+ * Add initial support for contact groups in address book
+
 2010 03 27
 ==========
  * Fix mark all as read function
