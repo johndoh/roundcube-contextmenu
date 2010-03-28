@@ -216,7 +216,8 @@
   background: url('../../../../skins/default/images/icons/folders.png') 7px -36px no-repeat;
 }
 
-#rcmContextMenu ul.folders li a
+#rcmContextMenu ul.folders li a,
+#rcmAddressMenu ul.folders li a
 {
   background: url('../../../../skins/default/images/icons/folders.png') 7px 1px no-repeat;
 }
@@ -244,6 +245,16 @@
 #rcmContextMenu ul.folders li.trash a
 {
   background-position: 7px -90px;
+}
+
+#rcmAddressMenu ul.folders li.addressbook a
+{
+  background-position: 5px -108px;
+}
+
+#rcmAddressMenu ul.folders li.contactgroup a
+{
+  background-position: 5px -144px;
 }
 
 #rcmContextMenu div.popupmenu,
