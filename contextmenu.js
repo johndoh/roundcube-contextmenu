@@ -62,39 +62,8 @@ function rcm_contextmenu_init(row) {
 					rcube_find_object('rcm_open').href = '#open';
 					break;
 				case 'delete':
-					var prev_sel = null;
-
-					// also select childs of (collapsed) threads
-					if (rcmail.env.uid) {
-						if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
-							if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
-								prev_sel = rcmail.message_list.get_selection();
-								rcmail.message_list.select_row(rcmail.env.uid);
-							}
-
-							rcmail.message_list.select_childs(rcmail.env.uid);
-							rcmail.env.uid = null;
-						}
-						else if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
-							prev_sel = rcmail.message_list.get_single_selection();
-							rcmail.message_list.remove_row(rcmail.env.uid, false);
-						}
-						else if (rcmail.message_list.get_single_selection() == rcmail.env.uid) {
-							rcmail.env.uid = null;
-						}
-					}
-
-					rcmail.command(command, '', $(el));
-
-					if (prev_sel) {
-						rcmail.message_list.clear_selection();
-
-						for (var i in prev_sel)
-							rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
-					}
-					break;
 				case 'moveto':
-					if (rcmail.env.rcm_destfolder == rcmail.env.mailbox)
+					if (command == 'moveto' && rcmail.env.rcm_destfolder == rcmail.env.mailbox)
 						return;
 
 					var prev_sel = null;
@@ -260,14 +229,9 @@ function rcm_foldermenu_init() {
 						rcmail.purge_mailbox(mailbox);
 						break;
 					case 'collapseall':
-						$("#mailboxlist div.expanded").each( function() {
-							var el = $(this);
-							var matches = String($(el).attr('onclick')).match(/.*rcmail.command\(["']collapse-folder["'],\s*["']([^"']*)["']\).*/i);
-							rcmail.collapse_folder(matches[1]);
-						});
-						break;
 					case 'expandall':
-						$("#mailboxlist div.collapsed").each( function() {
+						targetdiv = (command == 'collapseall') ? 'expanded' : 'collapsed';
+						$("#mailboxlist div." + targetdiv).each( function() {
 							var el = $(this);
 							var matches = String($(el).attr('onclick')).match(/.*rcmail.command\(["']collapse-folder["'],\s*["']([^"']*)["']\).*/i);
 							rcmail.collapse_folder(matches[1]);
@@ -403,54 +367,41 @@ function rcm_addressmenu_init(row) {
 					break;
 				case 'compose':
 				case 'delete':
-					if (rcmail.contact_list.selection.length > 1 || rcmail.env.cid == rcmail.contact_list.get_selection()) {
-						rcmail.env.cid = null;
-						rcmail.command(command, '', $(el));
-					}
-					else {
-						var prev_contentframe = rcmail.env.contentframe;
-						var prev_selection = rcmail.contact_list.get_selection();
-						rcmail.env.contentframe = false;
-						rcmail.contact_list.select(rcmail.env.cid);
-						rcmail.env.cid = null;
-						rcmail.command(command, '', $(el));
-
-						if (prev_selection != '')
-							rcmail.contact_list.select(prev_selection);
-						else
-							rcmail.contact_list.clear_selection();
-
-						rcmail.env.contentframe = prev_contentframe;
-					}
-					break;
 				case 'moveto':
-					if (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders[rcmail.env.rcm_destbook].id == rcmail.env.group)
+					if (command == 'moveto' && (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders[rcmail.env.rcm_destbook].id == rcmail.env.group))
 						return;
 
-					if (rcmail.contact_list.selection.length > 1 || rcmail.env.cid == rcmail.contact_list.get_selection()) {
-						rcmail.env.cid = null;
-						rcmail.drag_active = true;
-						rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destbook], $(el));
-						rcmail.drag_active = false;
-					}
-					else {
-						var prev_contentframe = rcmail.env.contentframe;
-						var prev_selection = rcmail.contact_list.get_selection();
-						rcmail.env.contentframe = false;
-						rcmail.contact_list.select(rcmail.env.cid);
-						rcmail.env.cid = null;
-						rcmail.drag_active = true;
-						rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destbook], $(el));
-						rcmail.drag_active = false;
+					var prev_sel = null;
 
-						if (prev_selection != '')
-							rcmail.contact_list.select(prev_selection);
-						else
-							rcmail.contact_list.clear_selection();
+					if (rcmail.env.cid) {
+						if (!rcmail.contact_list.in_selection(rcmail.env.cid)) {
+							prev_sel = rcmail.contact_list.get_selection();
+							rcmail.contact_list.select(rcmail.env.cid);
 
-						rcmail.env.contentframe = prev_contentframe;
-						rcmail.env.rcm_destbook = null;
+							if (!(command == 'moveto' && rcmail.env.rcm_destbook.substring(0, 1) == 'G') && command != 'compose')
+								rcmail.contact_list.remove_row(rcmail.env.cid, false);
+						}
+						else if (rcmail.contact_list.get_single_selection() == rcmail.env.cid) {
+							rcmail.env.cid = null;
+						}
+						else {
+							prev_sel = rcmail.contact_list.get_selection();
+							rcmail.contact_list.select(rcmail.env.cid);
+						}
 					}
+
+					rcmail.drag_active = true;
+					rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destbook], $(el));
+					rcmail.drag_active = false;
+
+					if (prev_sel) {
+						rcmail.contact_list.clear_selection();
+
+						for (var i in prev_sel)
+							rcmail.contact_list.select_row(prev_sel[i], CONTROL_KEY);
+					}
+
+					rcmail.env.rcm_destbook = null;
 					break;
 				}
 			}
