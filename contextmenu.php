@@ -33,9 +33,13 @@ class contextmenu extends rcube_plugin
 
 	public function readfolder() {
 		$imap = rcmail::get_instance()->imap;
+		$cbox = get_input_value('_cur', RCUBE_INPUT_GET);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
 
+		$threading = $imap->threading;
+		$imap->threading = false;
 		$uids = $imap->search($mbox, 'ALL UNSEEN', RCMAIL_CHARSET);
+		$imap->threading = $threading;
 
 		if (!is_array($uids))
 			return false;
@@ -45,6 +49,10 @@ class contextmenu extends rcube_plugin
 			$uids[$key] = $imap->get_uid($val, $mbox);
 
 		$imap->set_flag($uids, 'SEEN', $mbox);
+
+		if ($cbox == $mbox)
+			$this->api->output->command('toggle_read_status', 'read', $uids);
+
 		rcmail_send_unread_count($mbox, true);
 		$this->api->output->send();
 	}

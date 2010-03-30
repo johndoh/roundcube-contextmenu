@@ -213,14 +213,7 @@ function rcm_foldermenu_init() {
 				{
 					case 'readfolder':
 						rcmail.set_busy(true, 'loading');
-						rcmail.http_request('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox), true);
-
-						if (mailbox == rcmail.env.mailbox) {
-							for (var i in rcmail.env.messages) {
-								if (rcmail.env.messages[i].unread)
-									rcmail.set_message(i, 'unread', false);
-							}
-						}
+						rcmail.http_request('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox) + '&_cur=' + rcmail.env.mailbox, true);
 						break;
 					case 'expunge':
 						rcmail.expunge_mailbox(mailbox);
@@ -463,7 +456,7 @@ function rcm_groupmenu_init() {
 $(document).ready(function(){
 	// init message list menu
 	if ($('#rcmContextMenu').length > 0) {
-		rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); rcm_contextmenu_init('messagelist tbody tr'); } );
+		rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); } );
 		rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
 	}
 
@@ -474,7 +467,6 @@ $(document).ready(function(){
 
 	// init contact list menu
 	if ($('#rcmAddressMenu').length > 0) {
-		rcmail.addEventListener('listupdate', function(props) { rcm_addressmenu_init('contacts-table tbody tr'); } );
 		rcmail.addEventListener('insertrow', function(props) { rcm_addressmenu_init(props.row.id); } );
 	}
 

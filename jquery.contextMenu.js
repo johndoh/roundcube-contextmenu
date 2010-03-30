@@ -44,6 +44,7 @@ if(jQuery)( function() {
 				// Simulate a true right click
 				$(this).mousedown( function(e) {
 					var evt = e;
+
 					$(this).mouseup( function(e) {
 						var srcElement = $(this);
 						$(this).unbind('mouseup');
@@ -283,9 +284,11 @@ if(jQuery)( function() {
 
 		// Render sub menus
 		submenu_render: function(menu) {
+			$(menu).show();
 			$(menu).children('li.submenu').children().show();
 
 			$(menu).children('li.submenu').children('div.popupmenu').each(function() {
+				// set overflow so IE can detect width
 				ul_overflow = $(this).children('ul').css('overflow');
 				$(this).children('ul').css({overflow: 'visible'});
 				$(this).children('div').css({width: $(this).children('ul').width()+ 'px'})
@@ -327,6 +330,7 @@ if(jQuery)( function() {
 			});
 
 			$(menu).children('li.submenu').children().hide();
+			$(menu).hide();
 		},
 
 		submenu_mousewheel: function(e, delta) {
