@@ -36,17 +36,10 @@ class contextmenu extends rcube_plugin
 		$cbox = get_input_value('_cur', RCUBE_INPUT_GET);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
 
-		$threading = $imap->threading;
-		$imap->threading = false;
-		$uids = $imap->search($mbox, 'ALL UNSEEN', RCMAIL_CHARSET);
-		$imap->threading = $threading;
+		$uids = $imap->search_once($mbox, 'ALL UNSEEN', true);
 
 		if (!is_array($uids))
 			return false;
-
-		// ID to UID
-		foreach($uids as $key => $val)
-			$uids[$key] = $imap->get_uid($val, $mbox);
 
 		$imap->set_flag($uids, 'SEEN', $mbox);
 

@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2010 03 31
+==========
+ * Use new imap->search_once function (r3446)
+
 2010 03 28
 ==========
  * Add initial support for contact groups in address book
