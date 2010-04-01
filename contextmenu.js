@@ -14,11 +14,12 @@ function rcm_contextmenu_init(row) {
 		submenu_delay: 400
 	},
 	function(command, el, pos) {
-		if ($(el) && String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i))
+		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
+		if ($(el) && matches)
 		{
 			var prev_uid = rcmail.env.uid;
-			if (rcmail.message_list.selection.length <= 1 || !rcmail.message_list.in_selection(RegExp.$1))
-				rcmail.env.uid = RegExp.$1;
+			if (rcmail.message_list.selection.length <= 1 || !rcmail.message_list.in_selection(matches[1]))
+				rcmail.env.uid = matches[1];
 
 			// fix command string in IE
 			if (command.indexOf("#") > 0)
@@ -249,7 +250,6 @@ function rcm_foldermenu_init() {
 function rcm_update_options(el) {
 	if (el.hasClass('mailbox')) {
 		$('#rcmFolderMenu').disableContextMenuItems('#readfolder,#purge,#collapseall,#expandall');
-
 		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i);
 		if ($(el) && matches)
 		{
@@ -271,51 +271,30 @@ function rcm_update_options(el) {
 		}
 	}
 	else if (el.hasClass('addressbook') || el.hasClass('contactgroup')) {
-		$('#rcmGroupMenu').disableContextMenuItems('#renamegroup,#deletegroup');
+		$('#rcmGroupMenu').disableContextMenuItems('#group-rename,#group-delete');
 
-		//if ($(el).hasClass('contactgroup'))
-		//	$('#rcmGroupMenu').enableContextMenuItems('#renamegroup,#deletegroup');
+		if ($(el).hasClass('contactgroup'))
+			$('#rcmGroupMenu').enableContextMenuItems('#group-rename,#group-delete');
 	}
 	else if (rcmail.env.task == 'addressbook') {
-		// check for new/renamed groups
+		// check for renamed groups
 		for (var i in rcmail.env.contactfolders) {
-			if ($('#rcm_contextgrps_' + i). length) {
-				if ($('#rcm_contextgrps_' + i).attr('title') != rcmail.env.contactfolders[i].name &&
-					$('#rcm_contextgrps_' + i).text() != rcmail.env.contactfolders[i].name){
-						$('#rcm_contextgrps_' + i).attr('title', '');
-						$('#rcm_contextgrps_' + i).text(rcmail.env.contactfolders[i].name);
-				}
-			}
-			else {
-				var link = $('<a>')
-					.attr('id', '#rcm_contextgrps_' + i)
-					.attr('href', '#moveto')
-					.addClass('active')
-					.attr('onclick', "rcm_set_dest_book('" + i + "')")
-					.html(rcmail.env.contactfolders[i].name);
-				var li = $('<li>').attr('id', 'rcm_contextgrps_' + i ).addClass('contactgroup').append(link);
-				$('#rcm_contextgrps').append(li);
+			if ($('#rcm_contextgrps_' + i). length && $('#rcm_contextgrps_' + i).attr('title') != rcmail.env.contactfolders[i].name &&
+				$('#rcm_contextgrps_' + i).text() != rcmail.env.contactfolders[i].name){
+					$('#rcm_contextgrps_' + i).attr('title', '');
+					$('#rcm_contextgrps_' + i).text(rcmail.env.contactfolders[i].name);
 			}
 		}
 
-		// check for deleted
-		$('#rcm_contextgrps').children().each(function() {
-			var id = $(this).children('a').attr('id');
-			id = id.substr(16);
-
-			if (!rcmail.env.contactfolders[id])
-				$(this).remove();
-		});
-
-		String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i)
-		if (rcmail.contact_list.selection.length > 1 && rcmail.contact_list.in_selection(RegExp.$1))
+		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
+		if (rcmail.contact_list.selection.length > 1 && rcmail.contact_list.in_selection(matches[1]))
 			$('#rcmAddressMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 		else
 			$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 	}
 	else {
-		String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i)
-		if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(RegExp.$1))
+		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
+		if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(matches[1]))
 			$('#rcmContextMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 		else
 			$('#rcmContextMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
@@ -327,11 +306,12 @@ function rcm_addressmenu_init(row) {
 		menu: 'rcmAddressMenu'
 	},
 	function(command, el, pos) {
-		if ($(el) && String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i))
+		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
+		if ($(el) && matches)
 		{
 			var prev_cid = rcmail.env.cid;
-			if (rcmail.contact_list.selection.length <= 1 || !rcmail.contact_list.in_selection(RegExp.$1))
-				rcmail.env.cid = RegExp.$1;
+			if (rcmail.contact_list.selection.length <= 1 || !rcmail.contact_list.in_selection(matches[1]))
+				rcmail.env.cid = matches[1];
 
 			// fix command string in IE
 			if (command.indexOf("#") > 0)
@@ -409,18 +389,16 @@ function rcm_set_dest_book(book) {
 	rcmail.env.rcm_destbook = book;
 }
 
-function rcm_groupmenu_init() {
-	$("#directorylistbox li").contextMenu({
+function rcm_groupmenu_init(li) {
+	$(li).contextMenu({
 		menu: 'rcmGroupMenu'
 	},
 	function(command, el, pos) {
-		if ($(el) && String($(el).attr('id')).match(/rcmli([a-z0-9\-_=]+)/i))
+		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']listgroup["'],\s*["']([^"']*)["'],\s*this\).*/i);
+		if ($(el) && matches)
 		{
-			var group = RegExp.$1;
-
-			// double check its a group, not an address book
-			if (rcmail.env.contactfolders[group].type != 'group')
-				return
+			prev_group = rcmail.env.group;
+			rcmail.env.group = matches[1];
 
 			// fix command string in IE
 			if (command.indexOf("#") > 0)
@@ -439,18 +417,45 @@ function rcm_groupmenu_init() {
 			{
 				switch (command)
 				{
-					case 'renamegroup':
-						//
+					case 'group-rename':
+						rcmail.command(command, '', $(el).children('a'));
+						rcmail.env.group = prev_group;
+						prev_group = matches[1];
+						rcmail.command('listgroup', prev_group, $(el).children('a'));
 						break;
-					case 'deletegroup':
-						//
+					case 'group-delete':
+						rcmail.command(command, '', $(el).children('a'));
 						break;
 				}
 			}
 
 			rcmail.enable_command(command, prev_command);
+			rcmail.env.group = prev_group;
 		}
 	});
+}
+
+function rcm_groupmenu_update(action, props) {
+	switch (action)
+	{
+		case 'insert':
+			var link = $('<a>')
+				.attr('id', '#rcm_contextgrps_G' + props.id)
+				.attr('href', '#moveto')
+				.addClass('active')
+				.attr('onclick', "rcm_set_dest_book('G" + props.id + "')")
+				.html(props.name);
+
+			var li = $('<li>').addClass('contactgroup').append(link);
+			$('#rcm_contextgrps').append(li);
+			rcm_groupmenu_init(props.li);
+			break;
+		case 'remove':
+			if ($('#rcm_contextgrps_G' + props.id).length)
+				$('#rcm_contextgrps_G' + props.id).remove();
+
+			break;
+	}
 }
 
 $(document).ready(function(){
@@ -472,6 +477,8 @@ $(document).ready(function(){
 
 	// init group list menu
 	if ($('#rcmGroupMenu').length > 0) {
-		rcmail.add_onload('rcm_groupmenu_init();');
+		rcmail.add_onload('rcm_groupmenu_init("#directorylistbox li");');
+		rcmail.addEventListener('insertgroup', function(props) { rcm_groupmenu_update('insert', props); } );
+		rcmail.addEventListener('removegroup', function(props) { rcm_groupmenu_update('remove', props); } );
 	}
 });

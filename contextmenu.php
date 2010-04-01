@@ -140,8 +140,8 @@ class contextmenu extends rcube_plugin
 		// contact group menu
 		$li = '';
 
-		$li .= html::tag('li', array('class' => 'renamegroup'), html::a(array('href' => "#renamegroup", 'class' => 'active'), Q($this->gettext('rename'))));
-		$li .= html::tag('li', array('class' => 'deletegroup'), html::a(array('href' => "#deletegroup", 'class' => 'active'), Q($this->gettext('delete'))));
+		$li .= html::tag('li', array('class' => 'grouprename'), html::a(array('href' => "#group-rename", 'class' => 'active'), Q($this->gettext('rename'))));
+		$li .= html::tag('li', array('class' => 'groupdelete'), html::a(array('href' => "#group-delete", 'class' => 'active'), Q($this->gettext('delete'))));
 
 		$out .= html::tag('ul', array('id' => 'rcmGroupMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
