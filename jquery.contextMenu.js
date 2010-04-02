@@ -51,7 +51,7 @@ if(jQuery)( function() {
 						if( evt.button == 2 ) {
 							// Hide context menus that may be showing
 							$(".contextRow").removeClass('contextRow');
-							//$(".contextMenu").hide();
+							$(".contextMenu").hide();
 
 							if (!srcElement.hasClass('selected'))
 								srcElement.addClass('contextRow');

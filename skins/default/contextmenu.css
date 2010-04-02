@@ -1,12 +1,8 @@
-.contextRow td
-{
-  background: #EEEEEE;
-}
-
+.contextRow td,
 #mailboxlist li.contextRow,
 #directorylistbox li.contextRow
 {
-  background-color: #E0E0E0;
+  background-color: #EEEEEE;
 }
 
 #rcmContextMenu,
