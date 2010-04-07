@@ -273,19 +273,14 @@ function rcm_update_options(el) {
 	else if (el.hasClass('addressbook') || el.hasClass('contactgroup')) {
 		$('#rcmGroupMenu').disableContextMenuItems('#group-rename,#group-delete');
 
-		if ($(el).hasClass('contactgroup'))
-			$('#rcmGroupMenu').enableContextMenuItems('#group-rename,#group-delete');
+		if ($(el).hasClass('contactgroup')) {
+			if (!rcmail.name_input)
+				$('#rcmGroupMenu').enableContextMenuItems('#group-rename');
+
+			$('#rcmGroupMenu').enableContextMenuItems('#group-delete');
+		}
 	}
 	else if (rcmail.env.task == 'addressbook') {
-		// check for renamed groups
-		for (var i in rcmail.env.contactfolders) {
-			if ($('#rcm_contextgrps_' + i). length && $('#rcm_contextgrps_' + i).attr('title') != rcmail.env.contactfolders[i].name &&
-				$('#rcm_contextgrps_' + i).text() != rcmail.env.contactfolders[i].name){
-					$('#rcm_contextgrps_' + i).attr('title', '');
-					$('#rcm_contextgrps_' + i).text(rcmail.env.contactfolders[i].name);
-			}
-		}
-
 		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
 		if (rcmail.contact_list.selection.length > 1 && rcmail.contact_list.in_selection(matches[1]))
 			$('#rcmAddressMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
@@ -419,9 +414,13 @@ function rcm_groupmenu_init(li) {
 				{
 					case 'group-rename':
 						rcmail.command(command, '', $(el).children('a'));
+
+						// callback requires target is selected
+						rcmail.enable_command('listgroup', true);
 						rcmail.env.group = prev_group;
 						prev_group = matches[1];
 						rcmail.command('listgroup', prev_group, $(el).children('a'));
+						rcmail.enable_command('listgroup', false);
 						break;
 					case 'group-delete':
 						rcmail.command(command, '', $(el).children('a'));
@@ -449,6 +448,11 @@ function rcm_groupmenu_update(action, props) {
 			var li = $('<li>').addClass('contactgroup').append(link);
 			$('#rcm_contextgrps').append(li);
 			rcm_groupmenu_init(props.li);
+			break;
+		case 'update':
+			if ($('#rcm_contextgrps_G' + props.id).length)
+				$('#rcm_contextgrps_G' + props.id).html(props.name);
+
 			break;
 		case 'remove':
 			if ($('#rcm_contextgrps_G' + props.id).length)
@@ -479,6 +483,7 @@ $(document).ready(function(){
 	if ($('#rcmGroupMenu').length > 0) {
 		rcmail.add_onload('rcm_groupmenu_init("#directorylistbox li");');
 		rcmail.addEventListener('insertgroup', function(props) { rcm_groupmenu_update('insert', props); } );
+		rcmail.addEventListener('updategroup', function(props) { rcm_groupmenu_update('update', props); } );
 		rcmail.addEventListener('removegroup', function(props) { rcm_groupmenu_update('remove', props); } );
 	}
 });
