@@ -61,7 +61,7 @@
 {
   position: relative;
   cursor: pointer;
-  background: url('submenu.gif') no-repeat right center;
+  background: url(submenu.gif) no-repeat right center;
   padding-right: 15px;
 }
 
@@ -79,7 +79,7 @@
 #rcmAddressMenu li a,
 #rcmGroupMenu li a
 {
-  background: url('../../../../skins/default/images/messageactions.png') no-repeat 7px 0;
+  background: url(messageactions.png) no-repeat 7px 0;
   background-position: 7px 20px;
 }
 
@@ -112,67 +112,67 @@
 
 #rcmContextMenu .read a
 {
-  background: url('../../../../skins/default/images/icons/dot.png') no-repeat 7px center;
+  background: url(dot.png) no-repeat 7px center;
 }
 
 #rcmFolderMenu .readfolder a
 {
-  background: url('../../../../skins/default/images/icons/dot.png') no-repeat 5px center;
+  background: url(dot.png) no-repeat 5px center;
 }
 
 #rcmContextMenu .unread a
 {
-  background: url('../../../../skins/default/images/icons/unread.png') no-repeat 7px center;
+  background: url(unread.png) no-repeat 7px center;
 }
 #rcmContextMenu .flagged a
 {
-  background: url('../../../../skins/default/images/icons/flagged.png') no-repeat 7px center;
+  background: url(flagged.png) no-repeat 7px center;
 }
 
 #rcmContextMenu .unflagged a
 {
-  background: url('../../../../skins/default/images/icons/unflagged.png') no-repeat 7px center;
+  background: url(unflagged.png) no-repeat 7px center;
 }
 
 #rcmContextMenu .reply a
 {
-  background: url('../../../../skins/default/images/icons/replied.png') no-repeat 7px center;
+  background: url(replied.png) no-repeat 7px center;
 }
 
 #rcmContextMenu .replyall a
 {
-  background: url('../../../../skins/default/images/icons/replied.png') no-repeat 7px center;
+  background: url(replied.png) no-repeat 7px center;
 }
 
 #rcmContextMenu .forward a
 {
-  background: url('../../../../skins/default/images/icons/forwarded.png') no-repeat 7px center;
+  background: url(forwarded.png) no-repeat 7px center;
 }
 
 #rcmContextMenu .delete a,
 #rcmAddressMenu .deletecontact a
 {
-  background: url('../../../../skins/default/images/icons/deleted.png') no-repeat 7px center;
+  background: url(deleted.png) no-repeat 7px center;
 }
 
 #rcmFolderMenu .expunge a
 {
-  background: url('icons.png') no-repeat 7px 3px;
+  background: url(icons.png) no-repeat 7px 3px;
 }
 
 #rcmFolderMenu .purge a
 {
-  background: url('icons.png') no-repeat 7px -14px;
+  background: url(icons.png) no-repeat 7px -14px;
 }
 
 #rcmFolderMenu .collapseall a
 {
-  background: url('../../../../skins/default/images/icons/collapsed.png') no-repeat 9px center;
+  background: url(collapsed.png) no-repeat 9px center;
 }
 
 #rcmFolderMenu .expandall a
 {
-  background: url('../../../../skins/default/images/icons/expanded.png') no-repeat 9px center;
+  background: url(expanded.png) no-repeat 9px center;
 }
 
 #rcmContextMenu .print a
@@ -204,18 +204,18 @@
 #rcmContextMenu .edit a,
 #rcmAddressMenu .editcontact a
 {
-  background: url('editcontact.png') no-repeat 7px center;
+  background: url(editcontact.png) no-repeat 7px center;
 }
 
 #rcmAddressMenu .composeto a
 {
-  background: url('../../../../skins/default/images/icons/folders.png') 7px -36px no-repeat;
+  background: url(composeto.png) no-repeat 7px center;
 }
 
 #rcmContextMenu ul.folders li a,
 #rcmAddressMenu ul.folders li a
 {
-  background: url('../../../../skins/default/images/icons/folders.png') 7px 1px no-repeat;
+  background: url(folders.png) 7px 1px no-repeat;
 }
 
 #rcmContextMenu ul.folders li.inbox a
@@ -281,14 +281,14 @@
 #rcmContextMenu li div.scroll_up_act,
 #rcmAddressMenu li div.scroll_up_act
 {
-  background: url('up_act.gif') #F9F9F9 center center no-repeat;
+  background: url(up_act.gif) #F9F9F9 center center no-repeat;
   border-bottom: 0;
 }
 
 #rcmContextMenu li div.scroll_up_pas,
 #rcmAddressMenu li div.scroll_up_pas
 {
-  background: url('up_pas.gif') #F9F9F9 center center no-repeat;
+  background: url(up_pas.gif) #F9F9F9 center center no-repeat;
   border-bottom: 0;
   cursor: default;
 }
@@ -297,7 +297,7 @@
 #rcmAddressMenu li div.scroll_down_act
 {
   top: 117px;
-  background: url('down_act.gif') #F9F9F9 center center no-repeat;
+  background: url(down_act.gif) #F9F9F9 center center no-repeat;
   border-top: 0;
 }
 
@@ -305,7 +305,7 @@
 #rcmAddressMenu li div.scroll_down_pas
 {
   top: 117px;
-  background: url('down_pas.gif') #F9F9F9 center center no-repeat;
+  background: url(down_pas.gif) #F9F9F9 center center no-repeat;
   border-top: 0;
   cursor: default;
 }
