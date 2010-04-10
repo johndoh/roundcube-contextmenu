@@ -7,7 +7,6 @@
  *
  * @version 1.4
  * @author Philip Weir
- * @url http://roundcube.net/plugins/contextmenu
  */
 class contextmenu extends rcube_plugin
 {
