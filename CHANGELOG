@@ -1,6 +1,10 @@
 Roundcube Webmail Context Menu
 ==============================
 
+2010 04 13
+==========
+ * Update jquery.ContextMenu to 1.01
+
 2010 03 31
 ==========
  * Use new imap->search_once function (r3446)
