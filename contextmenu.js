@@ -286,6 +286,11 @@ function rcm_update_options(el) {
 			$('#rcmAddressMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 		else
 			$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+
+		if (rcmail.env.address_sources[rcmail.env.source].readonly)
+			$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete');
+		else
+			$('#rcmAddressMenu').enableContextMenuItems('#edit,#delete');
 	}
 	else {
 		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
@@ -327,11 +332,9 @@ function rcm_addressmenu_init(row) {
 				switch (command)
 				{
 				case 'edit':
+					rcmail.contact_list.select(rcmail.env.cid);
+					clearTimeout(rcmail.preview_timer)
 					rcmail.command(command, '', $(el));
-					var prev_contentframe = rcmail.env.contentframe;
-					rcmail.env.contentframe = false;
-					rcmail.contact_list.highlight_row(rcmail.env.cid);
-					rcmail.env.contentframe = prev_contentframe;
 					break;
 				case 'compose':
 				case 'delete':
