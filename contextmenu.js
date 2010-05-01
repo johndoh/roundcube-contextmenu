@@ -1,3 +1,7 @@
+/**
+ * ContextMenu plugin script
+ */
+
 rcmail.contextmenu_command_handlers = new Object();
 rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#forward','#print','#edit','#viewsource','#download','#open','#edit');
 
