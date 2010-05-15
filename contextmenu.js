@@ -343,8 +343,13 @@ function rcm_addressmenu_init(row) {
 				case 'compose':
 				case 'delete':
 				case 'moveto':
-					if (command == 'moveto' && (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders[rcmail.env.rcm_destbook].id == rcmail.env.group))
-						return;
+					if (command == 'moveto') {
+						// check vor valid taget
+						if (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders[rcmail.env.rcm_destbook].id == rcmail.env.group)
+							return;
+						else if (rcmail.env.rcm_destgroup && rcmail.env.rcm_destsource != rcmail.env.source)
+							return;
+					}
 
 					var prev_sel = null;
 
@@ -377,6 +382,8 @@ function rcm_addressmenu_init(row) {
 					}
 
 					rcmail.env.rcm_destbook = null;
+					rcmail.env.rcm_destsource = null;
+					rcmail.env.rcm_destgroup = null;
 					break;
 				}
 			}
@@ -387,8 +394,10 @@ function rcm_addressmenu_init(row) {
 	});
 }
 
-function rcm_set_dest_book(book) {
-	rcmail.env.rcm_destbook = book;
+function rcm_set_dest_book(obj, source, group) {
+	rcmail.env.rcm_destbook = obj;
+	rcmail.env.rcm_destsource = source;
+	rcmail.env.rcm_destgroup = group;
 }
 
 function rcm_groupmenu_init(li) {
@@ -396,11 +405,15 @@ function rcm_groupmenu_init(li) {
 		menu: 'rcmGroupMenu'
 	},
 	function(command, el, pos) {
-		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']listgroup["'],\s*["']([^"']*)["'],\s*this\).*/i);
+		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']listgroup["'],\s*({[^}]*}),\s*this\).*/i);
 		if ($(el) && matches)
 		{
 			prev_group = rcmail.env.group;
-			rcmail.env.group = matches[1];
+			prev_source = rcmail.env.source;
+
+			obj = eval('(' + matches[1] + ')');
+			rcmail.env.group = obj.id;
+			rcmail.env.source = obj.source;
 
 			// fix command string in IE
 			if (command.indexOf("#") > 0)
@@ -425,8 +438,10 @@ function rcm_groupmenu_init(li) {
 						// callback requires target is selected
 						rcmail.enable_command('listgroup', true);
 						rcmail.env.group = prev_group;
-						prev_group = matches[1];
-						rcmail.command('listgroup', prev_group, $(el).children('a'));
+						rcmail.env.source = prev_source
+						prev_group = obj.id;
+						prev_source = obj.source;;
+						rcmail.command('listgroup', {'source': prev_source,'id': prev_group}, $(el).children('a'));
 						rcmail.enable_command('listgroup', false);
 						break;
 					case 'group-delete':
@@ -437,6 +452,7 @@ function rcm_groupmenu_init(li) {
 
 			rcmail.enable_command(command, prev_command);
 			rcmail.env.group = prev_group;
+			rcmail.env.source = prev_source;
 		}
 	});
 }
@@ -446,24 +462,24 @@ function rcm_groupmenu_update(action, props) {
 	{
 		case 'insert':
 			var link = $('<a>')
-				.attr('id', '#rcm_contextgrps_G' + props.id)
+				.attr('id', 'rcm_contextgrps_G' + props.source + props.id)
 				.attr('href', '#moveto')
 				.addClass('active')
-				.attr('onclick', "rcm_set_dest_book('G" + props.id + "')")
-				.html(props.name);
+				.attr('onclick', "rcm_set_dest_book('G" + props.source + props.id + "', '" + props.source + "','" + props.id + "')")
+				.html('&nbsp;&nbsp;' + props.name);
 
 			var li = $('<li>').addClass('contactgroup').append(link);
-			$('#rcm_contextgrps').append(li);
+			$(li).insertAfter($('#rcm_contextaddr_' + props.source));
 			rcm_groupmenu_init(props.li);
 			break;
 		case 'update':
-			if ($('#rcm_contextgrps_G' + props.id).length)
-				$('#rcm_contextgrps_G' + props.id).html(props.name);
+			if ($('#rcm_contextgrps_G' + props.source + props.id).length)
+				$('#rcm_contextgrps_G' + props.source + props.id).html('&nbsp;&nbsp;' + props.name);
 
 			break;
 		case 'remove':
-			if ($('#rcm_contextgrps_G' + props.id).length)
-				$('#rcm_contextgrps_G' + props.id).remove();
+			if ($('#rcm_contextgrps_G' + props.source + props.id).length)
+				$('#rcm_contextgrps_G' + props.source + props.id).remove();
 
 			break;
 	}
