@@ -5,7 +5,7 @@
  *
  * Plugin to add a context menu to the message list
  *
- * @version 1.4
+ * @version 1.5
  * @author Philip Weir
  */
 class contextmenu extends rcube_plugin

@@ -505,8 +505,8 @@ $(document).ready(function(){
 	// init group list menu
 	if ($('#rcmGroupMenu').length > 0) {
 		rcmail.add_onload('rcm_groupmenu_init("#directorylistbox li");');
-		rcmail.addEventListener('insertgroup', function(props) { rcm_groupmenu_update('insert', props); } );
-		rcmail.addEventListener('updategroup', function(props) { rcm_groupmenu_update('update', props); } );
-		rcmail.addEventListener('removegroup', function(props) { rcm_groupmenu_update('remove', props); } );
+		rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_update('insert', props); } );
+		rcmail.addEventListener('group_update', function(props) { rcm_groupmenu_update('update', props); } );
+		rcmail.addEventListener('group_delete', function(props) { rcm_groupmenu_update('remove', props); } );
 	}
 });
