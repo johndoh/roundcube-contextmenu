@@ -344,11 +344,12 @@ function rcm_addressmenu_init(row) {
 				case 'delete':
 				case 'moveto':
 					if (command == 'moveto') {
-						// check vor valid taget
+						// check for valid taget
 						if (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders[rcmail.env.rcm_destbook].id == rcmail.env.group)
 							return;
-						else if (rcmail.env.rcm_destgroup && rcmail.env.rcm_destsource != rcmail.env.source)
-							return;
+						// group restriction removed in r3694
+						//else if (rcmail.env.rcm_destgroup && rcmail.env.rcm_destsource != rcmail.env.source)
+						//	return;
 					}
 
 					var prev_sel = null;
