@@ -12,7 +12,7 @@
 // This plugin is dual-licensed under the GNU General Public License
 //   and the MIT License and is copyright A Beautiful Site, LLC.
 //
-// Modified by Phil Weir:
+// Modified by Philip Weir:
 //   Added highlighting of selected row and submenu support
 //   Added sub menu functions
 //   Added bind to contextmenu event
