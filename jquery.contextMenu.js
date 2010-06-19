@@ -140,6 +140,14 @@ if(jQuery)( function() {
 									$(menu).fadeOut(o.outSpeed);
 									return false;
 								});
+
+								// Hide menu after clicks in iframes (eg. preview pane)
+								$('iframe').load(function() {
+									// this == iframe
+									var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+									doc.onclick = function() { $(document).click(); };
+								});
+								$('iframe').contents().mouseup( function() { $(document).click(); } );
 							}, 0);
 						}
 

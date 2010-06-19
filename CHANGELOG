@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2010 06 19
+==========
+ * Hide menu after click in iframes
+
 2010 06 03
 ==========
  * Update contact copying after r3694
