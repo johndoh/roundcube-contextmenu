@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2010 08 01
+==========
+ * Update hooks (r3840)
+
 2010 06 19
 ==========
  * Hide menu after click in iframes
