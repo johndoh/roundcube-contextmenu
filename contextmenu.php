@@ -133,8 +133,8 @@ class contextmenu extends rcube_plugin
 		$li .= html::tag('li', array('class' => 'editcontact'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editcontact'))));
 		$li .= html::tag('li', array('class' => 'deletecontact'), html::a(array('href' => "#delete", 'class' => 'active'), Q($this->gettext('deletecontact'))));
 
- 		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
- 			$li .= html::tag('li', array('class' => 'submenu separator_above'), Q($this->gettext('copyto')) . $lis);
+		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
+			$li .= html::tag('li', array('class' => 'submenu separator_above'), Q($this->gettext('copyto')) . $lis);
 
 		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 

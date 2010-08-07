@@ -177,20 +177,20 @@ function rcm_foldermenu_init() {
 					rcmail.set_busy(true, 'loading');
 
 					querystring = '_mbox=' + urlencode(mailbox);
-				    querystring += (querystring ? '&' : '') + '_remote=1';
-				    var url = rcmail.env.comm_path + '&_action=' + 'plugin.contextmenu.messagecount' + '&' + querystring
+					querystring += (querystring ? '&' : '') + '_remote=1';
+					var url = rcmail.env.comm_path + '&_action=' + 'plugin.contextmenu.messagecount' + '&' + querystring
 
-				    // send request
-				    console.log('HTTP POST: ' + url);
+					// send request
+					console.log('HTTP POST: ' + url);
 
-				    jQuery.ajax({
-				         url:    url,
-				         dataType: "json",
-				         success: function(response) { messagecount = response.env.messagecount; },
-				         async:   false
-				    });
+					jQuery.ajax({
+						url:    url,
+						dataType: "json",
+						success: function(response) { messagecount = response.env.messagecount; },
+						async:   false
+					});
 
-				    rcmail.set_busy(false);
+					rcmail.set_busy(false);
 				}
 
 				if (rcmail.env.unread_counts[mailbox] == 0 && messagecount == 0) {

@@ -151,11 +151,11 @@ if(jQuery)( function() {
 							}, 0);
 						}
 
-				        // pop event bubble (when drag 'n drop not active)
-				        if (!rcmail.drag_active) {
-				        	e.cancelBubble = true;
-				        	if (e.stopPropagation) e.stopPropagation();
-			        	}
+						// pop event bubble (when drag 'n drop not active)
+						if (!rcmail.drag_active) {
+							e.cancelBubble = true;
+							if (e.stopPropagation) e.stopPropagation();
+						}
 					});
 				});
 
