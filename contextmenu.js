@@ -404,14 +404,15 @@ function rcm_groupmenu_init(li) {
 		menu: 'rcmGroupMenu'
 	},
 	function(command, el, pos) {
-		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']listgroup["'],\s*({[^}]*}),\s*this\).*/i);
+		var matches = $(el).attr('id').match(/rcmli(G[0-9]+)/i);
 		if ($(el) && matches) {
 			prev_group = rcmail.env.group;
 			prev_source = rcmail.env.source;
+			cur_id = rcmail.env.contactgroups[matches[1]].id;
+			cur_source = rcmail.env.contactgroups[matches[1]].source;
 
-			obj = eval('(' + matches[1] + ')');
-			rcmail.env.group = obj.id;
-			rcmail.env.source = obj.source;
+			rcmail.env.group = cur_id
+			rcmail.env.source = cur_source;
 
 			// fix command string in IE
 			if (command.indexOf("#") > 0)
@@ -437,8 +438,8 @@ function rcm_groupmenu_init(li) {
 						rcmail.enable_command('listgroup', true);
 						rcmail.env.group = prev_group;
 						rcmail.env.source = prev_source
-						prev_group = obj.id;
-						prev_source = obj.source;;
+						prev_group = cur_id;
+						prev_source = cur_source;
 						rcmail.command('listgroup', {'source': prev_source,'id': prev_group}, $(el).children('a'));
 						rcmail.enable_command('listgroup', false);
 						break;
