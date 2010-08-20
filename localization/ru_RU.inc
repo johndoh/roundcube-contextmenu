@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* Author: */
 
 $labels = array();
