@@ -101,7 +101,7 @@ function rcm_contextmenu_init(row) {
 								rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
 						}
 
-						rcmail.env.rcm_destfolder = null;
+						delete rcmail.env.rcm_destfolder;
 						break;
 				}
 			}

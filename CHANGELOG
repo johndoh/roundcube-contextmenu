@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2010 08 21
+==========
+ * Fix error in deleteing after moving using context menu
+
 2010 08 01
 ==========
  * Update hooks (r3840)
