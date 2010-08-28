@@ -23,33 +23,55 @@ collapse all folders
 expand all folders
 open in new window
 
-This plugin also adds a context menu to the contacts list in the address book. Menu links are:
+This plugin also adds a context menu to the contacts list in the address book.
+Menu links are:
 compose message to
 edit contect
 delete contact
 copy contact to another address book
 
-This plugin also adds a context menu to the groups list in the address book. Menu links are:
+This plugin also adds a context menu to the groups list in the address book.
+Menu links are:
 rename
 delete
+
+License
+=======
+This plugin is released under the GNU General Public License Version 2
+(http://www.gnu.org/licenses/gpl-2.0.html).
+
+Even if skins might contain some programming work, they are not considered
+as a linked part of the application and therefore skins DO NOT fall under
+the provisions of the GPL license. See the README file located in the core
+skins folder for details on the skin license.
 
 Install
 =======
 * Place this plugin folder into plugins directory of RoundCube
 * Add contextmenu to $rcmail_config['plugins'] in your RoundCube config
-NB: When downloading the plugin from GitHub you will need to create a directory called contextmenu and place the files in there, ignoring the root directory in the downloaded archive
+NB: When downloading the plugin from GitHub you will need to create a directory
+called contextmenu and place the files in there, ignoring the root directory in
+the downloaded archive.
 
 Adding other items to the menu
 ==============================
-The command rcm_contextmenu_register_command allows other plugins to add items to the context menu.
-IMPORTANT: The context menu plugin must be initialised before any other plugin which adds an item to the menu.
+The command rcm_contextmenu_register_command allows other plugins to add items
+to the context menu.
 
-rcm_contextmenu_register_command(command, callback, label [, pos [, sep [, multi ]]])
+IMPORTANT: The context menu plugin must be initialised before any other plugin
+which adds an item to the menu.
+
+rcm_contextmenu_register_command(command, callback, label [, pos [, sep
+                                 [, multi ]]])
  command: the name of the command eg: spam
- callback: the name of the function which should be called when the menu item is clicked
+ callback: the name of the function which should be called when the menu item is
+           clicked
  label: the name of the label to use in the menu
- (optional) pos: class name of a existing item in the menu which the new item should be inserted before, if no pos is specified the item is added to the end
+ (optional) pos: class name of a existing item in the menu which the new item
+            should be inserted before, if no pos is specified the item is added
+            to the end
  (optional) sep: [before|after] put a separating line before or after this item
- (optional) multi: [true|false] should the item be enabled when multiple messages are selected
+ (optional) multi: [true|false] should the item be enabled when multiple
+            messages are selected
  (optional) addsub: [true|false] add the new item to a sub menu
  (optional) obj: the menu object to which the item should be added
