@@ -41,9 +41,9 @@ This plugin is released under the GNU General Public License Version 2
 (http://www.gnu.org/licenses/gpl-2.0.html).
 
 Even if skins might contain some programming work, they are not considered
-as a linked part of the application and therefore skins DO NOT fall under
-the provisions of the GPL license. See the README file located in the core
-skins folder for details on the skin license.
+as a linked part of the plugin and therefore skins DO NOT fall under the
+provisions of the GPL license. See the README file located in the core skins
+folder for details on the skin license.
 
 Install
 =======
