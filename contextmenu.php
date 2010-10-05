@@ -5,7 +5,7 @@
  *
  * Plugin to add a context menu to the message list
  *
- * @version 1.6
+ * @version 1.7
  * @author Philip Weir
  */
 class contextmenu extends rcube_plugin
@@ -73,6 +73,7 @@ class contextmenu extends rcube_plugin
 			$li .= html::tag('li', array('class' => 'unflagged separator_below'), html::a(array('href' => "#unflagged", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markunflagged'))));
 			$li .= html::tag('li', array('class' => 'reply'), html::a(array('href' => "#reply", 'class' => 'active'), Q($this->gettext('replytomessage'))));
 			$li .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), Q($this->gettext('replytoallmessage'))));
+			$li .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), Q($this->gettext('replylist'))));
 			$li .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), Q($this->gettext('forwardmessage'))));
 
 			$rcmail = rcmail::get_instance();

@@ -138,12 +138,7 @@
   background: url(unflagged.png) no-repeat 6px center;
 }
 
-#rcmContextMenu .reply a
-{
-  background: url(replied.png) no-repeat 7px center;
-}
-
-#rcmContextMenu .replyall a
+#rcmContextMenu .reply a, #rcmContextMenu .replyall a, #rcmContextMenu .replylist a
 {
   background: url(replied.png) no-repeat 7px center;
 }

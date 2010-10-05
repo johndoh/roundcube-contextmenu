@@ -3,7 +3,7 @@
  */
 
 rcmail.contextmenu_command_handlers = new Object();
-rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#forward','#print','#edit','#viewsource','#download','#open','#edit');
+rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#print','#edit','#viewsource','#download','#open','#edit');
 
 function rcm_contextmenu_update() {
 	if (rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
@@ -50,6 +50,7 @@ function rcm_contextmenu_init(row) {
 						break;
 					case 'reply':
 					case 'reply-all':
+					case 'reply-list':
 					case 'forward':
 					case 'print':
 					case 'download':
@@ -245,7 +246,21 @@ function rcm_foldermenu_init() {
 }
 
 function rcm_update_options(el) {
-	if (el.hasClass('mailbox')) {
+	if (el.hasClass('message')) {
+		$('#rcmContextMenu').disableContextMenuItems('#reply-list');
+		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
+		if ($(el) && matches) {
+			var msg = rcmail.env.messages[matches[1]];
+			if (msg.ml)
+				$('#rcmContextMenu').enableContextMenuItems('#reply-list');
+
+			if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(matches[1]))
+				$('#rcmContextMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+			else
+				$('#rcmContextMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+		}
+	}
+	else if (el.hasClass('mailbox')) {
 		$('#rcmFolderMenu').disableContextMenuItems('#readfolder,#purge,#collapseall,#expandall');
 		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i);
 		if ($(el) && matches) {
@@ -278,22 +293,17 @@ function rcm_update_options(el) {
 	}
 	else if (rcmail.env.task == 'addressbook') {
 		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if (rcmail.contact_list.selection.length > 1 && rcmail.contact_list.in_selection(matches[1]))
-			$('#rcmAddressMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
-		else
-			$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+		if ($(el) && matches) {
+			if (rcmail.contact_list.selection.length > 1 && rcmail.contact_list.in_selection(matches[1]))
+				$('#rcmAddressMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+			else
+				$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 
-		if (rcmail.env.address_sources[rcmail.env.source].readonly)
-			$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete');
-		else
-			$('#rcmAddressMenu').enableContextMenuItems('#edit,#delete');
-	}
-	else {
-		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(matches[1]))
-			$('#rcmContextMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
-		else
-			$('#rcmContextMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+			if (rcmail.env.address_sources[rcmail.env.source].readonly)
+				$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete');
+			else
+				$('#rcmAddressMenu').enableContextMenuItems('#edit,#delete');
+		}
 	}
 }
 

@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2010 10 05
+==========
+ * Add reply-list function (r4032)
+
 2010 08 21
 ==========
  * Fix error in deleteing after moving using context menu
