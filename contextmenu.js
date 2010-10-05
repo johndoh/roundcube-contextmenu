@@ -250,14 +250,16 @@ function rcm_update_options(el) {
 		$('#rcmContextMenu').disableContextMenuItems('#reply-list');
 		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
 		if ($(el) && matches) {
-			var msg = rcmail.env.messages[matches[1]];
-			if (msg.ml)
-				$('#rcmContextMenu').enableContextMenuItems('#reply-list');
-
-			if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(matches[1]))
+			if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(matches[1])) {
 				$('#rcmContextMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
-			else
+			}
+			else {
 				$('#rcmContextMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+
+				var msg = rcmail.env.messages[matches[1]];
+				if (!msg.ml)
+					$('#rcmContextMenu').disableContextMenuItems('#reply-list');
+			}
 		}
 	}
 	else if (el.hasClass('mailbox')) {
