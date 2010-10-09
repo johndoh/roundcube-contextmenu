@@ -58,8 +58,12 @@ class contextmenu extends rcube_plugin
 		$rcmail->output->add_label('nomessagesfound');
 		$this->include_script('jquery.contextMenu.js');
 		$this->include_script('jquery.mousewheel.js');
-		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script('contextmenu.js');
+
+		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
+		if ($rcmail->output->browser->ie && $rcmail->output->browser->ver == 6)
+			$this->include_stylesheet($this->local_skin_path() . '/ie6hacks.css');
+
 		$out = '';
 
 		// message list menu
@@ -90,7 +94,7 @@ class contextmenu extends rcube_plugin
 			$lis .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editasnew'))));
 			$lis .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), Q($this->gettext('viewsource'))));
 			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
-			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu moreacts'), $lis));
 
 			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 		}

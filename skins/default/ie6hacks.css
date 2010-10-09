@@ -1,0 +1,46 @@
+/**
+ * ContextMenu plugin styles (IE hacks)
+ */
+
+#rcmContextMenu li.submenu,
+#rcmFolderMenu li.submenu,
+#rcmAddressMenu li.submenu,
+#rcmGroupMenu li.submenu
+{
+  background-image: url(contexticons.gif);
+}
+
+#rcmContextMenu li a,
+#rcmFolderMenu li a,
+#rcmAddressMenu li a,
+#rcmGroupMenu li a
+{
+  background-image: url(contexticons.gif);
+}
+
+#rcmContextMenu ul.moreacts li a
+{
+  background-image: url(messageactions.gif);
+}
+
+#rcmFolderMenu .openfolder a
+{
+  background-image: url(messageactions.gif);
+}
+
+#rcmAddressMenu .editcontact a
+{
+   background-image: url(messageactions.gif);
+}
+
+#rcmContextMenu ul.folders li a,
+#rcmAddressMenu ul.folders li a
+{
+  background-image: url(folders.gif);
+}
+
+#rcmContextMenu li div,
+#rcmAddressMenu li div
+{
+  background-image: url(contexticons.gif);
+}

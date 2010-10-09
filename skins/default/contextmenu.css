@@ -65,7 +65,7 @@
 {
   position: relative;
   cursor: pointer;
-  background: url(submenu.gif) no-repeat right center;
+  background: url(contexticons.png) no-repeat right 0;
   padding-right: 15px;
 }
 
@@ -83,8 +83,7 @@
 #rcmAddressMenu li a,
 #rcmGroupMenu li a
 {
-  background: url(messageactions.png) no-repeat 7px 0;
-  background-position: 7px 20px;
+  background: url(contexticons.png) no-repeat 7px 20px;
 }
 
 #rcmContextMenu li a.active:hover,
@@ -116,102 +115,107 @@
 
 #rcmContextMenu .read a
 {
-  background: url(dot.png) no-repeat 6px center;
+  background-position: 7px -85px;
 }
 
 #rcmFolderMenu .readfolder a
 {
-  background: url(dot.png) no-repeat 5px center;
+  background-position: 7px -85px;
 }
 
 #rcmContextMenu .unread a
 {
-  background: url(unread.png) no-repeat 6px center;
+  background-position: 7px -136px;
 }
 #rcmContextMenu .flagged a
 {
-  background: url(flagged.png) no-repeat 6px center;
+  background-position: 7px -170px;
 }
 
 #rcmContextMenu .unflagged a
 {
-  background: url(unflagged.png) no-repeat 6px center;
+  background-position: 7px -153px;
 }
 
 #rcmContextMenu .reply a, #rcmContextMenu .replyall a, #rcmContextMenu .replylist a
 {
-  background: url(replied.png) no-repeat 7px center;
+  background-position: 7px -119px;
 }
 
 #rcmContextMenu .forward a
 {
-  background: url(forwarded.png) no-repeat 7px center;
+  background-position: 7px -102px;
 }
 
 #rcmContextMenu .delete a,
 #rcmAddressMenu .deletecontact a
 {
-  background: url(deleted.png) no-repeat 7px center;
+  background-position: 7px -187px;
 }
 
 #rcmFolderMenu .expunge a
 {
-  background: url(icons.png) no-repeat 7px 3px;
+  background-position: 7px -255px;
 }
 
 #rcmFolderMenu .purge a
 {
-  background: url(icons.png) no-repeat 7px -14px;
+  background-position: 7px -272px;
 }
 
 #rcmFolderMenu .collapseall a
 {
-  background: url(collapsed.png) no-repeat 9px center;
+  background-position: 7px -204px;
 }
 
 #rcmFolderMenu .expandall a
 {
-  background: url(expanded.png) no-repeat 9px center;
+  background-position: 7px -220px;
 }
 
-#rcmContextMenu .print a
+#rcmContextMenu ul.moreacts li a
+{
+  background: url(messageactions.png) no-repeat 5px 20px;
+}
+
+#rcmContextMenu ul.moreacts li.print a
 {
   background-position: 5px 1px;
 }
 
-#rcmContextMenu .source a
+#rcmContextMenu ul.moreacts li.source a
 {
   background-position: 5px -35px;
 }
 
-#rcmContextMenu .save a
+#rcmContextMenu ul.moreacts li.save a
 {
   background-position: 5px -17px;
 }
 
-#rcmContextMenu .open a
+#rcmContextMenu ul.moreacts li.open a
 {
   background-position: 5px -53px;
 }
 
 #rcmFolderMenu .openfolder a
 {
-  background-position: 5px -53px;
+  background: url(messageactions.png) no-repeat 6px -53px;
 }
 
-#rcmContextMenu .edit a
+#rcmContextMenu ul.moreacts li.edit a
 {
   background-position: 5px -71px;
 }
 
 #rcmAddressMenu .editcontact a
 {
-  background-position: 6px -71px;
+   background: url(messageactions.png) no-repeat 6px -71px;
 }
 
 #rcmAddressMenu .composeto a
 {
-  background: url(composeto.png) no-repeat 7px center;
+  background-position: 8px -238px;
 }
 
 #rcmContextMenu ul.folders li a,
@@ -278,19 +282,20 @@
 {
   height: 12px;
   overflow: hidden;
+  background: url(contexticons.png) #F9F9F9 no-repeat center 20px;
 }
 
 #rcmContextMenu li div.scroll_up_act,
 #rcmAddressMenu li div.scroll_up_act
 {
-  background: url(up_act.gif) #F9F9F9 center center no-repeat;
+  background-position: center -17px;
   border-bottom: 0;
 }
 
 #rcmContextMenu li div.scroll_up_pas,
 #rcmAddressMenu li div.scroll_up_pas
 {
-  background: url(up_pas.gif) #F9F9F9 center center no-repeat;
+  background-position: center -34px;
   border-bottom: 0;
   cursor: default;
 }
@@ -299,7 +304,7 @@
 #rcmAddressMenu li div.scroll_down_act
 {
   top: 117px;
-  background: url(down_act.gif) #F9F9F9 center center no-repeat;
+  background-position: center -51px;
   border-top: 0;
 }
 
@@ -307,7 +312,7 @@
 #rcmAddressMenu li div.scroll_down_pas
 {
   top: 117px;
-  background: url(down_pas.gif) #F9F9F9 center center no-repeat;
+  background-position: center -68px;
   border-top: 0;
   cursor: default;
 }
