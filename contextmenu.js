@@ -168,7 +168,7 @@ function rcm_foldermenu_init() {
 					messagecount = rcmail.env.messagecount;
 				}
 				else if (rcmail.env.unread_counts[mailbox] == 0) {
-					rcmail.set_busy(true, 'loading');
+					var lock = rcmail.set_busy(true, 'loading');
 
 					querystring = '_mbox=' + urlencode(mailbox);
 					querystring += (querystring ? '&' : '') + '_remote=1';
@@ -184,7 +184,7 @@ function rcm_foldermenu_init() {
 						async:   false
 					});
 
-					rcmail.set_busy(false);
+					rcmail.set_busy(false, null, lock);
 				}
 
 				if (rcmail.env.unread_counts[mailbox] == 0 && messagecount == 0) {
@@ -211,8 +211,8 @@ function rcm_foldermenu_init() {
 			else {
 				switch (command) {
 					case 'readfolder':
-						rcmail.set_busy(true, 'loading');
-						rcmail.http_request('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox) + '&_cur=' + rcmail.env.mailbox, true);
+						var lock = rcmail.set_busy(true, 'loading');
+						rcmail.http_request('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox) + '&_cur=' + rcmail.env.mailbox, lock);
 						break;
 					case 'expunge':
 						rcmail.expunge_mailbox(mailbox);
