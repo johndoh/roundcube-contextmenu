@@ -166,11 +166,11 @@ if(jQuery)( function() {
 					// if the element doesnt have a sub menu always hide any existing menus
 					if (!$(this).hasClass('submenu')) {
 						submenu_hidetimer = window.setTimeout(function() {
-							$('#' + o.menu).children('li.submenu').children().hide();
+							$('#' + o.menu).children('li.submenu').children('*:not(a)').hide();
 							submenu_hidetimer = null;
 						}, o.submenu_delay);
 					}
-					else if ($(this).hasClass('submenu') && !submenu_showtimer && !$(this).children().is(':visible')) {
+					else if ($(this).hasClass('submenu') && !submenu_showtimer && !$(this).children('*:not(a)').is(':visible')) {
 						window.clearTimeout(submenu_hidetimer);
 						submenu_hidetimer = null;
 
@@ -180,11 +180,11 @@ if(jQuery)( function() {
 							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('ul.scrollable').scrollTop(0);
 							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
 							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
-							$('#' + o.menu).children('li.submenu').children().hide();
+							$('#' + o.menu).children('li.submenu').children('*:not(a)').hide();
 
 							// show selected sub menu
-							$(obj).children().css({left: ($('#' + o.menu).width() - 2)+ 'px'});
-							$(obj).children().show();
+							$(obj).children('*:not(a)').css({left: ($('#' + o.menu).width() - 2)+ 'px'});
+							$(obj).children('*:not(a)').show();
 
 							if ($(obj).children('div.popupmenu').length)
 								$(obj).children('div.popupmenu').children().show();
@@ -223,14 +223,14 @@ if(jQuery)( function() {
 		disableContextMenuItems: function(o) {
 			if( o == undefined ) {
 				// Disable all
-				$(this).find('LI').addClass('disabled');
+				$(this).find('a').addClass('disabled');
 				return( $(this) );
 			}
 			$(this).each( function() {
 				if( o != undefined ) {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
-						$(this).find('A[href="' + d[i] + '"]').parent().addClass('disabled');
+						$(this).find('A[href="' + d[i] + '"]').addClass('disabled');
 
 					}
 				}
@@ -242,14 +242,14 @@ if(jQuery)( function() {
 		enableContextMenuItems: function(o) {
 			if( o == undefined ) {
 				// Enable all
-				$(this).find('LI.disabled').removeClass('disabled');
+				$(this).find('a.disabled').removeClass('disabled');
 				return( $(this) );
 			}
 			$(this).each( function() {
 				if( o != undefined ) {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
-						$(this).find('A[href="' + d[i] + '"]').parent().removeClass('disabled');
+						$(this).find('A[href="' + d[i] + '"]').removeClass('disabled');
 
 					}
 				}
@@ -330,7 +330,7 @@ if(jQuery)( function() {
 				$(this).children('ul').mousewheel( $(this).submenu_mousewheel );
 			});
 
-			$(menu).children('li.submenu').children().hide();
+			$(menu).children('li.submenu').children('*:not(a)').hide();
 			$(menu).hide();
 		},
 

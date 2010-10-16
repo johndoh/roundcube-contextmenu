@@ -124,21 +124,28 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 
 	rcmail.contextmenu_command_handlers[command] = callback;
 
-	if (pos && $('#rcmContextMenu .' + pos) && newSub) {
-		subMenu = $('#rcmContextMenu .' + pos);
+	if (pos && $('#rcmContextMenu li.' + pos) && newSub) {
+		subMenu = $('#rcmContextMenu li.' + pos);
 		subMenu.addClass('submenu');
 
-		// remove any existing hyperlink
-		if (subMenu.children('a')) {
-			var text = subMenu.children('a').html();
-			subMenu.html(text);
+		var mainLink = null;
+		if (subMenu.children('a') && !subMenu.hasClass('sublink')) {
+			subMenu.addClass('sublink');
+
+			var mainLink = $('<li>').addClass(pos);
+			subMenu.children('a').clone().appendTo(mainLink)
+			subMenu.children('a').addClass('mainlink');
 		}
 
 		var newMenu = $('<ul>').addClass('toolbarmenu').appendTo(subMenu);
+
+		if (mainLink)
+			newMenu.append(mainLink);
+
 		newMenu.append(menuItem);
 	}
-	else if (pos && $('#rcmContextMenu .' + pos)) {
-		$('#rcmContextMenu .' + pos).before(menuItem);
+	else if (pos && $('#rcmContextMenu li.' + pos)) {
+		$('#rcmContextMenu li.' + pos).before(menuItem);
 	}
 	else {
 		menu.append(menuItem);

@@ -58,6 +58,14 @@
   cursor: default;
 }
 
+#rcmContextMenu li.sublink,
+#rcmFolderMenu li.sublink,
+#rcmAddressMenu li.sublink,
+#rcmGroupMenu li.sublink
+{
+  padding: 0;
+}
+
 #rcmContextMenu li.submenu,
 #rcmFolderMenu li.submenu,
 #rcmAddressMenu li.submenu,
@@ -70,9 +78,13 @@
 }
 
 #rcmContextMenu li.submenu:hover,
+#rcmContextMenu li.sublink:hover a.mainlink,
 #rcmFolderMenu li.submenu:hover,
+#rcmFolderMenu li.sublink:hover a.mainlink,
 #rcmAddressMenu li.submenu:hover,
-#rcmGroupMenu li.submenu:hover
+#rcmAddressMenu li.sublink:hover a.mainlink,
+#rcmGroupMenu li.submenu:hover,
+#rcmGroupMenu li.sublink:hover a.mainlink
 {
   color: #fff;
   background-color: #CC0000;
@@ -95,19 +107,19 @@
   background-color: #CC0000;
 }
 
-#rcmContextMenu li.disabled a,
-#rcmFolderMenu li.disabled a,
-#rcmAddressMenu li.disabled a,
-#rcmGroupMenu li.disabled a
+#rcmContextMenu a.disabled,
+#rcmFolderMenu a.disabled,
+#rcmAddressMenu a.disabled,
+#rcmGroupMenu a.disabled
 {
   color: #AAA;
   cursor: default;
 }
 
-#rcmContextMenu li.disabled a:hover,
-#rcmFolderMenu li.disabled a:hover,
-#rcmAddressMenu li.disabled a:hover,
-#rcmGroupMenu li.disabled a:hover
+#rcmContextMenu a.disabled:hover,
+#rcmFolderMenu a.disabled:hover,
+#rcmAddressMenu a.disabled:hover,
+#rcmGroupMenu a.disabled:hover
 {
   color: #AAA;
   background-color: transparent

@@ -76,8 +76,12 @@ class contextmenu extends rcube_plugin
 			$li .= html::tag('li', array('class' => 'flagged'), html::a(array('href' => "#flagged", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markflagged'))));
 			$li .= html::tag('li', array('class' => 'unflagged separator_below'), html::a(array('href' => "#unflagged", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markunflagged'))));
 			$li .= html::tag('li', array('class' => 'reply'), html::a(array('href' => "#reply", 'class' => 'active'), Q($this->gettext('replytomessage'))));
-			$li .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), Q($this->gettext('replytoallmessage'))));
-			$li .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), Q($this->gettext('replylist'))));
+
+			$lis = '';
+			$lis .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), Q($this->gettext('replytoallmessage'))));
+			$lis .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), Q($this->gettext('replylist'))));
+			$li .= html::tag('li', array('class' => 'replyall submenu sublink replyacts'), html::a(array('href' => "#reply-all", 'class' => 'active mainlink'), Q($this->gettext('replytoallmessage'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
+
 			$li .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), Q($this->gettext('forwardmessage'))));
 
 			$rcmail = rcmail::get_instance();
