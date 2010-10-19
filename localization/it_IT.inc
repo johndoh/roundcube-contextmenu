@@ -1,5 +1,5 @@
 <?php
-/* Author: Daniel López */
+/* Author: Massimiliano Adamo */
 
 $labels = array();
 $labels['markreadfolder'] = 'Marca tutto come letto';
