@@ -317,7 +317,7 @@ function rcm_update_options(el) {
 }
 
 function rcm_addressmenu_init(row) {
-	$("#" + row).contextMenu({
+	$("tr[id=" + row + "]").contextMenu({
 		menu: 'rcmAddressMenu'
 	},
 	function(command, el, pos) {

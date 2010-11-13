@@ -279,9 +279,9 @@ class contextmenu extends rcube_plugin
 					}
 
 					if ($source['readonly'])
-						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), Q('&nbsp;&nbsp;' . $groupname)));
+						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), '&nbsp;&nbsp;' . Q($groupname)));
 					else
-						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), Q('&nbsp;&nbsp;' . $groupname)));
+						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), '&nbsp;&nbsp;' . Q($groupname)));
 
 					$groupTotal++;
 				}
