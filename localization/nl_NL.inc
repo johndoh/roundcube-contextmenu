@@ -1,11 +1,11 @@
 <?php
-/* Author: Lennard Warnaar */
+/* Author: Wouter Kevenaar */
 
 $labels = array();
-$labels['markreadfolder'] = 'Markeer allen als gelezen';
-$labels['collapseall'] = 'Sluit alle mappen';
-$labels['expandall'] = 'Open alle mappen';
-$labels['copyto'] = 'Kopieer naar...';
+$labels['markreadfolder'] = 'Alles markeren als gelezen';
+$labels['collapseall'] = 'Alle mappen inklappen';
+$labels['expandall'] = 'Alle mappen uitklappen';
+$labels['copyto'] = 'Kopiëren naar...';
 
 $messages = array();
 
