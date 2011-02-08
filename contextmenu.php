@@ -150,6 +150,7 @@ class contextmenu extends rcube_plugin
 		// contact group menu
 		$li = '';
 
+		$li .= html::tag('li', array('class' => 'groupcreate'), html::a(array('href' => "#group-create", 'class' => 'active'), Q($this->gettext('newcontactgroup'))));
 		$li .= html::tag('li', array('class' => 'grouprename'), html::a(array('href' => "#group-rename", 'class' => 'active'), Q($this->gettext('rename'))));
 		$li .= html::tag('li', array('class' => 'groupdelete'), html::a(array('href' => "#group-delete", 'class' => 'active'), Q($this->gettext('delete'))));
 
@@ -265,7 +266,7 @@ class contextmenu extends rcube_plugin
 				$groups = $rcmail->get_address_book($source['id'])->list_groups();
 				foreach ($groups as $group) {
 					$title = null;
-					$gid = 'G' . $id . $group['ID'];
+					$gid = 'G' . asciiwords($id . $group['ID'], true, '_');
 					$groupname = !empty($group['name']) ? Q($group['name']) : Q($gid);
 
 					// shorten the address book name to a given length
