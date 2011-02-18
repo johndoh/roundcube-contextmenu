@@ -266,7 +266,7 @@ class contextmenu extends rcube_plugin
 				$groups = $rcmail->get_address_book($source['id'])->list_groups();
 				foreach ($groups as $group) {
 					$title = null;
-					$gid = 'G' . asciiwords($id . $group['ID'], true, '_');
+					$gid = 'G' . html_identifier($args['source'] . $group['ID']);
 					$groupname = !empty($group['name']) ? Q($group['name']) : Q($gid);
 
 					// shorten the address book name to a given length

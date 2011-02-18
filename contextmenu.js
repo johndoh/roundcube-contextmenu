@@ -423,45 +423,16 @@ function rcm_groupmenu_init(li) {
 		menu: 'rcmGroupMenu'
 	},
 	function(command, el, pos) {
-		var matches = $(el).attr('id').match(/rcmli(G?[A-Z0-9\-_]+)/i);
-		if ($(el) && matches && $(el).attr('id').indexOf('rcmliG') == -1) {
-			prev_source = rcmail.env.source;
-			rcmail.env.source = matches[1];
-
-			// fix command string in IE
-			if (command.indexOf("#") > 0)
-				command = command.substr(command.indexOf("#") + 1);
-
-			// enable the required command
-			var prev_command = rcmail.commands[command];
-			rcmail.enable_command(command, true);
-
-			// process external commands
-			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
-				rcmail.contextmenu_command_handlers[command](command, el, pos);
-			}
-			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
-				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
-			}
-			else {
-				switch (command) {
-					case 'group-create':
-						rcmail.command(command, '', $(el).children('a'));
-						break;
-				}
-			}
-
-			rcmail.enable_command(command, prev_command);
-			rcmail.env.source = prev_source;
-		}
-		else if ($(el) && matches) {
+		var matches = $(el).children('a').attr('rel').match(/([A-Z0-9\-_]+):?([A-Z0-9\-_]+)?/i);
+		if ($(el) && matches) {
 			prev_group = rcmail.env.group;
 			prev_source = rcmail.env.source;
 
-			var matches = $(el).children('a').attr('onclick').toString().match(/["']?source["']?:\ ?["']([^"']+)["'],\ ?["']?id["']?:\ ?["']?([^"']+)/i);
-
-			cur_id = matches[2];
 			cur_source = matches[1];
+			if (matches[2])
+				cur_id = matches[2];
+			else
+				cur_id = rcmail.env.group;
 
 			rcmail.env.group = cur_id
 			rcmail.env.source = cur_source;
@@ -483,6 +454,9 @@ function rcm_groupmenu_init(li) {
 			}
 			else {
 				switch (command) {
+					case 'group-create':
+						rcmail.command(command, '', $(el).children('a'));
+						break;
 					case 'group-rename':
 						rcmail.command(command, '', $(el).children('a'));
 
