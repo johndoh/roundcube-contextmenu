@@ -293,8 +293,8 @@ function rcm_update_options(el) {
 	else if (el.hasClass('addressbook') || el.hasClass('contactgroup')) {
 		$('#rcmGroupMenu').disableContextMenuItems('#group-create,#group-rename,#group-delete');
 
-		if ($(el).hasClass('contactgroup') && $(el).children('a').attr('onclick')) {
-			var matches = $(el).children('a').attr('onclick').toString().match(/["']?source["']?:\ ?["']([^"']+)["'],\ ?["']?id["']?:\ ?["']?([^"']+)/i);
+		if ($(el).hasClass('contactgroup') && $(el).children('a').attr('rel')) {
+			var matches = $(el).children('a').attr('rel').match(/([A-Z0-9\-_]+):?([A-Z0-9\-_]+)?/i);
 
 			if (!rcmail.env.address_sources[matches[1]].readonly) {
 				if (!rcmail.name_input)
@@ -500,8 +500,24 @@ function rcm_groupmenu_update(action, props) {
 			rcm_groupmenu_init(props.li);
 			break;
 		case 'update':
-			if ($('#rcm_contextgrps_G' + gid).length)
-				$('#rcm_contextgrps_G' + gid).html('&nbsp;&nbsp;' + props.name);
+			if ($('#rcm_contextgrps_G' + gid).length) {
+				if (props.newid) {
+					var new_gid = props.source + props.newid;
+					new_gid = new_gid.replace(rcmail.identifier_expr, '_');
+
+					var link = $('<a>')
+						.attr('id', 'rcm_contextgrps_G' + new_gid)
+						.attr('href', '#moveto')
+						.addClass('active')
+						.attr('onclick', "rcm_set_dest_book('G" + new_gid + "', '" + props.source + "','" + props.newid + "')")
+						.html('&nbsp;&nbsp;' + props.name);
+
+					$('#rcm_contextgrps_G' + gid).replaceWith(link);
+				}
+				else {
+					$('#rcm_contextgrps_G' + gid).html('&nbsp;&nbsp;' + props.name);
+				}
+			}
 
 			break;
 		case 'remove':
