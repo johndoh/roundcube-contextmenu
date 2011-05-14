@@ -154,7 +154,7 @@
   background-position: 7px -119px;
 }
 
-#rcmContextMenu .forward a
+#rcmContextMenu .forward a, #rcmContextMenu .forwardattachment a
 {
   background-position: 7px -102px;
 }

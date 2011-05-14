@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2010 05 14
+==========
+ * Add forward-attachment function (r4761)
+
 2010 10 05
 ==========
  * Add reply-list function (r4032)

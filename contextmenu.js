@@ -3,7 +3,7 @@
  */
 
 rcmail.contextmenu_command_handlers = new Object();
-rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#print','#edit','#viewsource','#download','#open','#edit');
+rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#forward-attachment','#print','#edit','#viewsource','#download','#open','#edit');
 
 function rcm_contextmenu_update() {
 	if (rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
@@ -52,6 +52,7 @@ function rcm_contextmenu_init(row) {
 					case 'reply-all':
 					case 'reply-list':
 					case 'forward':
+					case 'forward-attachment':
 					case 'print':
 					case 'download':
 					case 'edit':

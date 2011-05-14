@@ -5,7 +5,7 @@
  *
  * Plugin to add a context menu to the message list
  *
- * @version 1.7
+ * @version 1.8
  * @author Philip Weir
  */
 class contextmenu extends rcube_plugin
@@ -80,9 +80,12 @@ class contextmenu extends rcube_plugin
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), Q($this->gettext('replytoallmessage'))));
 			$lis .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), Q($this->gettext('replylist'))));
-			$li .= html::tag('li', array('class' => 'replyall submenu sublink replyacts'), html::a(array('href' => "#reply-all", 'class' => 'active mainlink'), Q($this->gettext('replytoallmessage'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu replyacts'), Q($this->gettext('replytoallmessage')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
 
-			$li .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), Q($this->gettext('forwardmessage'))));
+			$lis = '';
+			$lis .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), Q($this->gettext('forwardinline'))));
+			$lis .= html::tag('li', array('class' => 'forwardattachment'), html::a(array('href' => "#forward-attachment", 'class' => 'active'), Q($this->gettext('forwardattachment'))));
+			$li .= html::tag('li', array('class' => 'submenu forwardacts'), Q($this->gettext('forwardmessage')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
 
 			$rcmail = rcmail::get_instance();
 			if ($rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
