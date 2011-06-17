@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2011 06 17
+==========
+ * Use new labels for group delete/rename (r4864)
+
 2010 05 14
 ==========
  * Add forward-attachment function (r4761)
