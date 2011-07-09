@@ -6,7 +6,7 @@ rcmail.contextmenu_command_handlers = new Object();
 rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#forward-attachment','#print','#edit','#viewsource','#download','#open','#edit');
 
 function rcm_contextmenu_update() {
-	if (rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
+	if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
 		$("#rcm_delete").html(rcmail.gettext('movemessagetotrash'));
 	else
 		$("#rcm_delete").html(rcmail.gettext('deletemessage'));

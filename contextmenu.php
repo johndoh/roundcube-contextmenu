@@ -88,7 +88,7 @@ class contextmenu extends rcube_plugin
 			$li .= html::tag('li', array('class' => 'submenu forwardacts'), Q($this->gettext('forwardmessage')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
 
 			$rcmail = rcmail::get_instance();
-			if ($rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
+			if (!$rcmail->config->get('flag_for_deletion', false) && $rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
 				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), Q($this->gettext('movemessagetotrash'))));
 			else
 				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), Q($this->gettext('deletemessage'))));
