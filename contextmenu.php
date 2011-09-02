@@ -36,6 +36,7 @@ class contextmenu extends rcube_plugin
 		$imap = rcmail::get_instance()->imap;
 		$cbox = get_input_value('_cur', RCUBE_INPUT_GET);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
+		$oact = get_input_value('_oact', RCUBE_INPUT_GET);
 
 		$uids = $imap->search_once($mbox, 'ALL UNSEEN', true);
 
@@ -44,8 +45,10 @@ class contextmenu extends rcube_plugin
 
 		$imap->set_flag($uids, 'SEEN', $mbox);
 
-		if ($cbox == $mbox)
+		if ($cbox == $mbox && $oact == '')
 			$this->api->output->command('toggle_read_status', 'read', $uids);
+		else
+			$this->api->output->command('set_unread_count', $mbox);
 
 		rcmail_send_unread_count($mbox, true);
 		$this->api->output->send();
