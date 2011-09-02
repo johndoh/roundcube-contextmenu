@@ -47,8 +47,6 @@ class contextmenu extends rcube_plugin
 
 		if ($cbox == $mbox && $oact == '')
 			$this->api->output->command('toggle_read_status', 'read', $uids);
-		else
-			$this->api->output->command('set_unread_count', $mbox);
 
 		rcmail_send_unread_count($mbox, true);
 		$this->api->output->send();
