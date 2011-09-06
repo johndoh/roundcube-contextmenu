@@ -102,7 +102,7 @@ class contextmenu extends rcube_plugin
 			$lis .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editasnew'))));
 			$lis .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), Q($this->gettext('viewsource'))));
 			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
-			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('messageactions')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu moreacts'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('moreactions')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu moreacts'), $lis));
 
 			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 		}
