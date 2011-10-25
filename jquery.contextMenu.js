@@ -123,7 +123,7 @@ if(jQuery)( function() {
 
 							// When items are selected
 							$('#' + o.menu).find('A').unbind('click');
-							$('#' + o.menu).find('LI:not(.disabled) A').click( function() {
+							$('#' + o.menu).find('LI A:not(.disabled)').click( function() {
 								$(document).unbind('click').unbind('keypress');
 								$(".contextMenu").hide();
 								srcElement.removeClass('contextRow');
@@ -231,7 +231,6 @@ if(jQuery)( function() {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
 						$(this).find('A[href="' + d[i] + '"]').addClass('disabled');
-
 					}
 				}
 			});
@@ -250,7 +249,6 @@ if(jQuery)( function() {
 					var d = o.split(',');
 					for( var i = 0; i < d.length; i++ ) {
 						$(this).find('A[href="' + d[i] + '"]').removeClass('disabled');
-
 					}
 				}
 			});
