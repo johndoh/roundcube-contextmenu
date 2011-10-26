@@ -319,7 +319,17 @@ function rcm_update_options(el) {
 			else
 				$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 
-			if (rcmail.env.address_sources[rcmail.env.source].readonly)
+			var ab_src;
+			if (rcmail.env.source) {
+				ab_src = rcmail.env.source;
+				$('#rcmAddressMenu').enableContextMenuItems('#moveto');
+			}
+			else {
+				ab_src = matches[1].split('-', 2)[1];
+				$('#rcmAddressMenu').disableContextMenuItems('#moveto');
+			}
+
+			if (rcmail.env.address_sources[ab_src].readonly)
 				$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete');
 			else
 				$('#rcmAddressMenu').enableContextMenuItems('#edit,#delete');
