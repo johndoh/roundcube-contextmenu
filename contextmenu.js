@@ -319,15 +319,7 @@ function rcm_update_options(el) {
 			else
 				$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 
-			var ab_src;
-			if (rcmail.env.source) {
-				ab_src = rcmail.env.source;
-				$('#rcmAddressMenu').enableContextMenuItems('#moveto');
-			}
-			else {
-				ab_src = matches[1].split('-', 2)[1];
-				$('#rcmAddressMenu').disableContextMenuItems('#moveto');
-			}
+			var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
 
 			if (rcmail.env.address_sources[ab_src].readonly)
 				$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete');
@@ -374,9 +366,11 @@ function rcm_addressmenu_init(row) {
 					case 'compose':
 					case 'delete':
 					case 'moveto':
+						var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
+
 						if (command == 'moveto') {
 							// check for valid taget
-							if (rcmail.env.rcm_destbook == rcmail.env.source || rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup].id == rcmail.env.group)
+							if (rcmail.env.rcm_destbook == ab_src || (rcmail.env.rcm_destgroup && rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup].id == rcmail.env.group))
 								return;
 						}
 
@@ -386,9 +380,6 @@ function rcm_addressmenu_init(row) {
 							if (!rcmail.contact_list.in_selection(rcmail.env.cid)) {
 								prev_sel = rcmail.contact_list.get_selection();
 								rcmail.contact_list.select(rcmail.env.cid);
-
-								if (!(command == 'moveto' && rcmail.env.rcm_destbook.substring(0, 1) == 'G') && command != 'compose')
-									rcmail.contact_list.remove_row(rcmail.env.cid, false);
 							}
 							else if (rcmail.contact_list.get_single_selection() == rcmail.env.cid) {
 								rcmail.env.cid = null;
@@ -399,8 +390,14 @@ function rcm_addressmenu_init(row) {
 							}
 						}
 
+						if (command == 'delete')
+							rcmail.env.cid = null;
+
 						rcmail.drag_active = true;
-						rcmail.command(command, rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup], $(el));
+						if (rcmail.env.rcm_destgroup)
+							rcmail.command(command, rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup], $(el));
+						else
+							rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destsource], $(el));
 						rcmail.drag_active = false;
 
 						if (prev_sel) {
