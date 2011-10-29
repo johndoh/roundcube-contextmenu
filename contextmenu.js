@@ -504,7 +504,17 @@ function rcm_groupmenu_update(action, props) {
 				.html('&nbsp;&nbsp;' + props.name);
 
 			var li = $('<li>').addClass('contactgroup').append(link);
-			$(li).insertAfter($('#rcm_contextaddr_' + props.source));
+
+			var sibling = $('#rcm_contextaddr_' + props.source);
+			$('a[id^="rcm_contextgrps_G"]').each(function(i, elem) {
+				if (props.name.toUpperCase().trim() >= $(this).text().toUpperCase().trim())
+					sibling = $(elem).parent();
+				else
+					return false;
+			});
+
+			$(li).insertAfter($(sibling));
+
 			rcm_groupmenu_init(props.li);
 			break;
 		case 'update':
@@ -525,6 +535,19 @@ function rcm_groupmenu_update(action, props) {
 				else {
 					$('#rcm_contextgrps_G' + gid).html('&nbsp;&nbsp;' + props.name);
 				}
+
+				row = $('#rcm_contextgrps_G' + gid).parent().clone(true);
+				$('#rcm_contextgrps_G' + gid).parent().remove();
+
+				var sibling = $('#rcm_contextaddr_' + props.source);
+				$('a[id^="rcm_contextgrps_G"]').each(function(i, elem) {
+					if (props.name.toUpperCase().trim() >= $(this).text().toUpperCase().trim())
+						sibling = $(elem).parent();
+					else
+						return false;
+				});
+
+				$(row).insertAfter($(sibling));
 			}
 
 			break;
