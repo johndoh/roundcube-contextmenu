@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2011 12 10
+==========
+ * Fix readfolder method after r5557
+
 2011 06 17
 ==========
  * Use new labels for group delete/rename (r4864)

@@ -40,13 +40,13 @@ class contextmenu extends rcube_plugin
 
 		$uids = $imap->search_once($mbox, 'ALL UNSEEN', true);
 
-		if (!is_array($uids))
+		if ($uids->isEmpty())
 			return false;
 
-		$imap->set_flag($uids, 'SEEN', $mbox);
+		$imap->set_flag($uids->get(), 'SEEN', $mbox);
 
 		if ($cbox == $mbox && $oact == '')
-			$this->api->output->command('toggle_read_status', 'read', $uids);
+			$this->api->output->command('toggle_read_status', 'read', $uids->get());
 
 		rcmail_send_unread_count($mbox, true);
 		$this->api->output->send();
