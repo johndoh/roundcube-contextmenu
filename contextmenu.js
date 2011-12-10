@@ -2,8 +2,8 @@
  * ContextMenu plugin script
  */
 
-rcmail.contextmenu_command_handlers = new Object();
-rcmail.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#forward-attachment','#print','#edit','#viewsource','#download','#open','#edit');
+rcube_webmail.prototype.contextmenu_command_handlers = new Object();
+rcube_webmail.prototype.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#forward-attachment','#print','#edit','#viewsource','#download','#open','#edit');
 
 function rcm_contextmenu_update() {
 	if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
@@ -560,25 +560,27 @@ function rcm_groupmenu_update(action, props) {
 }
 
 $(document).ready(function() {
-	// init message list menu
-	if ($('#rcmContextMenu').length > 0) {
-		rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); } );
-		rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
-	}
+	if (window.rcmail) {
+		// init message list menu
+		if ($('#rcmContextMenu').length > 0) {
+			rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); } );
+			rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
+		}
 
-	// init folder list menu
-	if ($('#rcmFolderMenu').length > 0)
-		rcmail.add_onload('rcm_foldermenu_init();');
+		// init folder list menu
+		if ($('#rcmFolderMenu').length > 0)
+			rcmail.add_onload('rcm_foldermenu_init();');
 
-	// init contact list menu
-	if ($('#rcmAddressMenu').length > 0)
-		rcmail.addEventListener('insertrow', function(props) { rcm_addressmenu_init(props.row.id); } );
+		// init contact list menu
+		if ($('#rcmAddressMenu').length > 0)
+			rcmail.addEventListener('insertrow', function(props) { rcm_addressmenu_init(props.row.id); } );
 
-	// init group list menu
-	if ($('#rcmGroupMenu').length > 0) {
-		rcmail.add_onload('rcm_groupmenu_init("#directorylistbox li");');
-		rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_update('insert', props); } );
-		rcmail.addEventListener('group_update', function(props) { rcm_groupmenu_update('update', props); } );
-		rcmail.addEventListener('group_delete', function(props) { rcm_groupmenu_update('remove', props); } );
+		// init group list menu
+		if ($('#rcmGroupMenu').length > 0) {
+			rcmail.add_onload('rcm_groupmenu_init("#directorylistbox li");');
+			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_update('insert', props); } );
+			rcmail.addEventListener('group_update', function(props) { rcm_groupmenu_update('update', props); } );
+			rcmail.addEventListener('group_delete', function(props) { rcm_groupmenu_update('remove', props); } );
+		}
 	}
 });
