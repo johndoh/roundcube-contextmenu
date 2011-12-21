@@ -162,7 +162,7 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 }
 
 function rcm_foldermenu_init() {
-	$("#mailboxlist-container li").contextMenu({
+	$("#mailboxlist li").contextMenu({
 		menu: 'rcmFolderMenu'
 	},
 	function(command, el, pos) {
