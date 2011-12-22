@@ -577,7 +577,7 @@ $(document).ready(function() {
 
 		// init group list menu
 		if ($('#rcmGroupMenu').length > 0) {
-			rcmail.add_onload('rcm_groupmenu_init("#directorylistbox li");');
+			rcmail.add_onload('rcm_groupmenu_init("#directorylist li");');
 			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_update('insert', props); } );
 			rcmail.addEventListener('group_update', function(props) { rcm_groupmenu_update('update', props); } );
 			rcmail.addEventListener('group_delete', function(props) { rcm_groupmenu_update('remove', props); } );
