@@ -46,8 +46,7 @@ if(jQuery)( function() {
 							$(".contextRow").removeClass('contextRow');
 							$(".contextMenu").hide();
 
-							if (!srcElement.hasClass('selected'))
-								srcElement.addClass('contextRow');
+							srcElement.addClass('contextRow');
 
 							rcm_update_options(srcElement);
 
@@ -166,11 +165,11 @@ if(jQuery)( function() {
 					// if the element doesnt have a sub menu always hide any existing menus
 					if (!$(this).hasClass('submenu')) {
 						submenu_hidetimer = window.setTimeout(function() {
-							$('#' + o.menu).children('li.submenu').children('*:not(a)').hide();
+							$('#' + o.menu).children('li.submenu').children('*:not(a, span)').hide();
 							submenu_hidetimer = null;
 						}, o.submenu_delay);
 					}
-					else if ($(this).hasClass('submenu') && !submenu_showtimer && !$(this).children('*:not(a)').is(':visible')) {
+					else if ($(this).hasClass('submenu') && !submenu_showtimer && !$(this).children('*:not(a, span)').is(':visible')) {
 						window.clearTimeout(submenu_hidetimer);
 						submenu_hidetimer = null;
 
@@ -180,11 +179,11 @@ if(jQuery)( function() {
 							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('ul.scrollable').scrollTop(0);
 							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('div.scroll_up_act').addClass('scroll_up_pas').removeClass('scroll_up_act');
 							$('#' + o.menu).children('li.submenu').children('div.popupmenu').children('div.scroll_down_pas').addClass('scroll_down_act').removeClass('scroll_down_pas');
-							$('#' + o.menu).children('li.submenu').children('*:not(a)').hide();
+							$('#' + o.menu).children('li.submenu').children('*:not(a, span)').hide();
 
 							// show selected sub menu
-							$(obj).children('*:not(a)').css({left: ($('#' + o.menu).width() - 2)+ 'px'});
-							$(obj).children('*:not(a)').show();
+							$(obj).children('*:not(a, span)').css({left: ($('#' + o.menu).width() - 2)+ 'px'});
+							$(obj).children('*:not(a, span)').show();
 
 							if ($(obj).children('div.popupmenu').length)
 								$(obj).children('div.popupmenu').children().show();
@@ -314,7 +313,7 @@ if(jQuery)( function() {
 						$(this).parent().children('div.scroll_up_pas').addClass('scroll_up_act');
 						$(this).parent().children('div.scroll_up_pas').removeClass('scroll_up_pas');
 
-						if ($(list).attr('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
+						if ($(list).prop('scrollHeight') - $(list).scrollTop() == $(list).outerHeight()) {
 							$(this).removeClass('scroll_down_act');
 							$(this).addClass('scroll_down_pas');
 						}
@@ -328,7 +327,7 @@ if(jQuery)( function() {
 				$(this).children('ul').mousewheel( $(this).submenu_mousewheel );
 			});
 
-			$(menu).children('li.submenu').children('*:not(a)').hide();
+			$(menu).children('li.submenu').children('*:not(a, span)').hide();
 			$(menu).hide();
 		},
 

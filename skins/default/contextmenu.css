@@ -9,12 +9,19 @@
   background-color: #EEEEEE;
 }
 
+#mailboxlist li.selected,
+#directorylistbox li.selected
+{
+  background-color: #929292;
+}
+
 #rcmContextMenu,
 #rcmFolderMenu,
 #rcmAddressMenu,
 #rcmGroupMenu
 {
   padding-top: 3px;
+  min-width: 220px;
 }
 
 #rcmContextMenu li,
@@ -75,6 +82,12 @@
   cursor: pointer;
   background: url(contexticons.png) no-repeat right 0;
   padding-right: 15px;
+}
+
+#rcmContextMenu li.markmessage a,
+#rcmAddressMenu li.contactgroup a
+{
+  text-indent: 8px;
 }
 
 #rcmContextMenu li.submenu:hover,
