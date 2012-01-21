@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+2012 01 21
+==========
+ * Update after r5781
+
 2011 12 10
 ==========
  * Fix readfolder method after r5557
