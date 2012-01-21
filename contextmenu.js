@@ -6,10 +6,10 @@ rcube_webmail.prototype.contextmenu_command_handlers = new Object();
 rcube_webmail.prototype.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward','#forward-attachment','#print','#edit','#viewsource','#download','#open','#edit');
 
 function rcm_contextmenu_update() {
-	if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
-		$("#rcm_delete").html(rcmail.gettext('movemessagetotrash'));
-	else
-		$("#rcm_delete").html(rcmail.gettext('deletemessage'));
+	//if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
+	//	$("#rcm_delete").html('<span>' + rcmail.gettext('movemessagetotrash') + '</span>');
+	//else
+	//	$("#rcm_delete").html('<span>' + rcmail.gettext('deletemessage') + '</span>');
 }
 
 function rcm_contextmenu_init(row) {
@@ -111,16 +111,19 @@ function rcm_set_dest_folder(folder) {
 	rcmail.env.rcm_destfolder = folder;
 }
 
-function rcm_contextmenu_register_command(command, callback, label, pos, sep, multi, newSub, menu) {
+function rcm_contextmenu_register_command(command, callback, label, pos, sep, multi, newSub, menu, liclass) {
 	if (!menu)
 		menu = $('#rcmContextMenu');
+
+	if (!liclass)
+		liclass = command;
 
 	if (typeof label != 'string') {
 		var menuItem = label.children('li');
 	}
 	else {
-		var menuItem = $('<li>').addClass(command);
-		$('<a>').attr('href', '#' + command).addClass('active').html(rcmail.gettext(label)).appendTo(menuItem);
+		var menuItem = $('<li>').addClass(liclass);
+		$('<a>').attr('href', '#' + command).addClass('active').html('<span>' + rcmail.gettext(label) + '</span>').appendTo(menuItem);
 	}
 
 	rcmail.contextmenu_command_handlers[command] = callback;
@@ -501,7 +504,7 @@ function rcm_groupmenu_update(action, props) {
 				.attr('href', '#moveto')
 				.addClass('active')
 				.attr('onclick', "rcm_set_dest_book('G" + gid + "', '" + props.source + "','" + props.id + "')")
-				.html('&nbsp;&nbsp;' + props.name);
+				.html('<span>' + props.name + '</span>');
 
 			var li = $('<li>').addClass('contactgroup').append(link);
 
@@ -528,12 +531,12 @@ function rcm_groupmenu_update(action, props) {
 						.attr('href', '#moveto')
 						.addClass('active')
 						.attr('onclick', "rcm_set_dest_book('G" + new_gid + "', '" + props.source + "','" + props.newid + "')")
-						.html('&nbsp;&nbsp;' + props.name);
+						.html('<span>' + props.name + '</span>');
 
 					$('#rcm_contextgrps_G' + gid).replaceWith(link);
 				}
 				else {
-					$('#rcm_contextgrps_G' + gid).html('&nbsp;&nbsp;' + props.name);
+					$('#rcm_contextgrps_G' + gid).html('<span>' + props.name + '</span>');
 				}
 
 				row = $('#rcm_contextgrps_G' + gid).parent().clone(true);

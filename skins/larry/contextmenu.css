@@ -1,0 +1,409 @@
+/**
+ * ContextMenu plugin styles
+ */
+
+.records-table tbody tr.contextRow td
+{
+  background-color: #F2F2F2;
+}
+
+#mailboxlist li.contextRow,
+#directorylist li.contextRow,
+#addresslist .contextRow
+{
+  background-color: #C7E3EF;
+}
+
+#rcmContextMenu,
+#rcmFolderMenu,
+#rcmAddressMenu,
+#rcmGroupMenu
+{
+  padding-top: 3px;
+  min-width: 220px;
+}
+
+#rcmContextMenu li,
+#rcmFolderMenu li,
+#rcmAddressMenu li,
+#rcmGroupMenu li
+{
+  margin: 0;
+}
+
+#rcmContextMenu li ul,
+#rcmContextMenu li div,
+#rcmFolderMenu li ul,
+#rcmFolderMenu li div,
+#rcmAddressMenu li ul,
+#rcmAddressMenu li div,
+#rcmGroupMenu li ul,
+#rcmGroupMenu li div
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: auto;
+  display: none;
+  background-color: #444;
+  border: 1px solid #999;
+  padding: 1px;
+  z-index: 901;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px 0 #333;
+  -moz-box-shadow: 0 2px 6px 0 #333;
+  -webkit-box-shadow: 0 2px 6px 0 #333;
+  -o-box-shadow: 0 2px 6px 0 #333;
+}
+
+#rcmContextMenu li.conmentitle,
+#rcmContextMenu li.submenu,
+#rcmFolderMenu li.conmentitle,
+#rcmFolderMenu li.submenu,
+#rcmAddressMenu li.conmentitle,
+#rcmAddressMenu li.submenu,
+#rcmGroupMenu li.conmentitle,
+#rcmGroupMenu li.submenu
+{
+  padding: 6px 10px 6px 29px;
+  cursor: default;
+}
+
+#rcmContextMenu li.sublink,
+#rcmFolderMenu li.sublink,
+#rcmAddressMenu li.sublink,
+#rcmGroupMenu li.sublink
+{
+  padding: 0;
+}
+
+#rcmContextMenu li.submenu,
+#rcmFolderMenu li.submenu,
+#rcmAddressMenu li.submenu,
+#rcmGroupMenu li.submenu
+{
+  padding: 6px 0 6px 0;
+  position: relative;
+}
+
+#rcmContextMenu li.submenu span,
+#rcmFolderMenu li.submenu span,
+#rcmAddressMenu li.submenu span,
+#rcmGroupMenu li.submenu span
+{
+  display: block;
+  cursor: pointer;
+  background: url(contexticons.png) no-repeat right -194px;
+  padding-right: 18px;
+  padding-left: 29px;
+}
+
+#rcmContextMenu li.markmessage a span,
+#rcmAddressMenu li.contactgroup a span
+{
+  text-indent: 15px;
+}
+
+#rcmContextMenu li.submenu:hover,
+#rcmContextMenu li.sublink:hover a.mainlink,
+#rcmFolderMenu li.submenu:hover,
+#rcmFolderMenu li.sublink:hover a.mainlink,
+#rcmAddressMenu li.submenu:hover,
+#rcmAddressMenu li.sublink:hover a.mainlink,
+#rcmGroupMenu li.submenu:hover,
+#rcmGroupMenu li.sublink:hover a.mainlink
+{
+  background-color: #00aad6;
+  background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00aad6), color-stop(100%,#008fc9));
+  background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+  background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+  background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+}
+
+#rcmContextMenu li a,
+#rcmFolderMenu li a,
+#rcmAddressMenu li a,
+#rcmGroupMenu li a
+{
+  padding-left: 0;
+  margin-left: 0;
+}
+
+
+#rcmContextMenu li a span,
+#rcmFolderMenu li a span,
+#rcmAddressMenu li a span,
+#rcmGroupMenu li a span
+{
+  display: block;
+  background: url(contexticons.png) no-repeat 7px 20px;
+  padding-left: 29px;
+  cursor: pointer;
+}
+
+#rcmContextMenu li a.active:hover,
+#rcmFolderMenu li a.active:hover,
+#rcmAddressMenu li a.active:hover,
+#rcmGroupMenu li a.active:hover
+{
+  background-color: #00aad6;
+  background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00aad6), color-stop(100%,#008fc9));
+  background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+  background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
+  background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+}
+
+#rcmContextMenu a.disabled,
+#rcmFolderMenu a.disabled,
+#rcmAddressMenu a.disabled,
+#rcmGroupMenu a.disabled
+{
+  opacity: 0.5;
+}
+
+#rcmContextMenu li a.disabled span,
+#rcmFolderMenu li a.disabled span,
+#rcmAddressMenu li a.disabled span,
+#rcmGroupMenu li a.disabled span
+{
+  cursor: default;
+}
+
+#rcmContextMenu li a.disabled:hover,
+#rcmFolderMenu li a.disabled:hover,
+#rcmAddressMenu li a.disabled:hover,
+#rcmGroupMenu li a.disabled:hover
+{
+  background-color: #444444;
+  background: -moz-linear-gradient(top, #444444 0%, #444444 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#444444), color-stop(100%,#444444));
+  background: -o-linear-gradient(top, #444444 0%, #444444 100%);
+  background: -ms-linear-gradient(top, #444444 0%, #444444 100%);
+  background: linear-gradient(top, #444444 0%, #444444 100%);
+}
+
+#rcmContextMenu .read a span
+{
+  background-position: 5px -30px;
+}
+
+#rcmFolderMenu .readfolder a span
+{
+  background-position: 5px -30px;
+}
+
+#rcmContextMenu .unread a span
+{
+  background-position: 5px -6px;
+}
+#rcmContextMenu .flagged a span
+{
+  background-position: 5px -52px;
+}
+
+#rcmContextMenu .unflagged a span
+{
+  background-position: 5px -78px;
+}
+
+#rcmContextMenu .reply a span
+{
+  background-position: 5px -126px;
+}
+
+#rcmContextMenu .replyall a span, #rcmContextMenu .replylist a span
+{
+  background-position: 5px -150px;
+}
+
+#rcmContextMenu .forward a span, #rcmContextMenu .forwardattachment a span
+{
+  background-position: 5px -173px;
+}
+
+#rcmContextMenu .delete a span,
+#rcmAddressMenu .deletecontact a span
+{
+  background-position: 5px -100px;
+}
+
+#rcmFolderMenu .expunge a span
+{
+  background-position: 5px 60px;
+}
+
+#rcmFolderMenu .purge a span
+{
+  background-position: 5px 60px;
+}
+
+#rcmFolderMenu .collapseall a span
+{
+  background-position: 5px -324px;
+}
+
+#rcmFolderMenu .expandall a span
+{
+  background-position: 5px -308px;
+}
+
+#rcmContextMenu ul.moreacts li a span
+{
+  background: url(messageactions.png) no-repeat 5px 24px;
+}
+
+#rcmContextMenu ul.moreacts li.print a span
+{
+  background-position: 5px -54px;
+}
+
+#rcmContextMenu ul.moreacts li.source a span
+{
+  background-position: 5px -78px;
+}
+
+#rcmContextMenu ul.moreacts li.save a span
+{
+  background-position: 5px -30px;
+}
+
+#rcmContextMenu ul.moreacts li.open a span
+{
+  background-position: 5px -102px;
+}
+
+#rcmFolderMenu .openfolder a span
+{
+  background: url(messageactions.png) no-repeat 5px -102px;
+}
+
+#rcmContextMenu ul.moreacts li.edit a span
+{
+  background-position: 5px -6px;
+}
+
+#rcmAddressMenu .editcontact a span
+{
+   background: url(messageactions.png) no-repeat 5px -6px;
+}
+
+#rcmAddressMenu .composeto a span
+{
+  background-position: 5px -285px;
+}
+
+#rcmContextMenu ul.folders li a span,
+#rcmAddressMenu ul.folders li a span
+{
+  background: url(folders.png) 5px -3px no-repeat;
+}
+
+#rcmContextMenu ul.folders li.subfolder a span
+{
+  background-position: 5px -45px;
+}
+
+
+#rcmContextMenu ul.folders li.inbox a span
+{
+  background-position: 5px -67px;
+}
+
+#rcmContextMenu ul.folders li.drafts a span
+{
+  background-position: 5px -90px;
+}
+
+#rcmContextMenu ul.folders li.sent a span
+{
+  background-position: 5px -112px;
+}
+
+#rcmContextMenu ul.folders li.junk a span
+{
+  background-position: 5px -138px;
+}
+
+#rcmContextMenu ul.folders li.trash a span
+{
+  background-position: 5px -165px;
+}
+
+#rcmAddressMenu ul.folders li.addressbook a span
+{
+  background-position: 5px -189px;
+}
+
+#rcmAddressMenu ul.folders li.contactgroup a span
+{
+  background-position: 5px -215px;
+}
+
+#rcmContextMenu div.popupmenu,
+#rcmFolderMenu div.popupmenu,
+#rcmAddressMenu div.popupmenu
+{
+  height: 129px;
+  padding: 0;
+}
+
+#rcmContextMenu ul.scrollable,
+#rcmFolderMenu ul.scrollable,
+#rcmAddressMenu ul.scrollable
+{
+  top: 15px;
+  height: 100px;
+  overflow: hidden;
+  border-top: 0;
+  border-bottom: 0;
+  margin: 0;
+}
+
+#rcmContextMenu li div,
+#rcmFolderMenu li div,
+#rcmAddressMenu li div
+{
+  height: 12px;
+  overflow: hidden;
+  background: url(contexticons.png) #444 no-repeat center 20px;
+}
+
+#rcmContextMenu li div.scroll_up_act,
+#rcmFolderMenu li div.scroll_up_act,
+#rcmAddressMenu li div.scroll_up_act
+{
+  background-position: center -216px;
+  border-bottom: 0;
+  cursor: pointer;
+}
+
+#rcmContextMenu li div.scroll_up_pas,
+#rcmFolderMenu li div.scroll_up_pas,
+#rcmAddressMenu li div.scroll_up_pas
+{
+  background-position: center -233px;
+  border-bottom: 0;
+  cursor: default;
+}
+
+#rcmContextMenu li div.scroll_down_act,
+#rcmFolderMenu li div.scroll_down_act,
+#rcmAddressMenu li div.scroll_down_act
+{
+  top: 117px;
+  background-position: center -251px;
+  border-top: 0;
+  cursor: pointer;
+}
+
+#rcmContextMenu li div.scroll_down_pas,
+#rcmFolderMenu li div.scroll_down_pas,
+#rcmAddressMenu li div.scroll_down_pas
+{
+  top: 117px;
+  background-position: center -270px;
+  border-top: 0;
+  cursor: default;
+}

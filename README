@@ -62,11 +62,11 @@ IMPORTANT: The context menu plugin must be initialised before any other plugin
 which adds an item to the menu.
 
 rcm_contextmenu_register_command(command, callback, label [, pos [, sep
-                                 [, multi ]]])
- command: the name of the command eg: spam
- callback: the name of the function which should be called when the menu item is
-           clicked
- label: the name of the label to use in the menu
+                                 [, multi [, addsub [, obj [, class ]]]]]])
+ command:   the name of the command eg: spam
+ callback:  the name of the function which should be called when the menu item
+            is clicked
+ label:     the name of the label to use in the menu
  (optional) pos: class name of a existing item in the menu which the new item
             should be inserted before, if no pos is specified the item is added
             to the end
@@ -75,3 +75,5 @@ rcm_contextmenu_register_command(command, callback, label [, pos [, sep
             messages are selected
  (optional) addsub: [true|false] add the new item to a sub menu
  (optional) obj: the menu object to which the item should be added
+ (optional) class: the classes to add to the li in the contextmenu, if none are
+            specified then the command is used as the class name

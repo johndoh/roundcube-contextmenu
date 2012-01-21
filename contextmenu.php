@@ -71,38 +71,38 @@ class contextmenu extends rcube_plugin
 		if ($rcmail->action == '') {
 			$li = '';
 
-			$li .= html::tag('li', array('class' => 'conmentitle'), Q($this->gettext('markmessages')));
-			$li .= html::tag('li', array('class' => 'read'), html::a(array('href' => "#read", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markread'))));
-			$li .= html::tag('li', array('class' => 'unread'), html::a(array('href' => "#unread", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markunread'))));
-			$li .= html::tag('li', array('class' => 'flagged'), html::a(array('href' => "#flagged", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markflagged'))));
-			$li .= html::tag('li', array('class' => 'unflagged separator_below'), html::a(array('href' => "#unflagged", 'class' => 'active'), Q('&nbsp;&nbsp;' . $this->gettext('markunflagged'))));
-			$li .= html::tag('li', array('class' => 'reply'), html::a(array('href' => "#reply", 'class' => 'active'), Q($this->gettext('replytomessage'))));
+			$li .= html::tag('li', array('class' => 'conmentitle'), html::span(null, Q($this->gettext('markmessages'))));
+			$li .= html::tag('li', array('class' => 'markmessage read'), html::a(array('href' => "#read", 'class' => 'active'), html::span(null, Q($this->gettext('markread')))));
+			$li .= html::tag('li', array('class' => 'markmessage unread'), html::a(array('href' => "#unread", 'class' => 'active'), html::span(null, Q($this->gettext('markunread')))));
+			$li .= html::tag('li', array('class' => 'markmessage flagged'), html::a(array('href' => "#flagged", 'class' => 'active'), html::span(null, Q($this->gettext('markflagged')))));
+			$li .= html::tag('li', array('class' => 'markmessage unflagged separator_below'), html::a(array('href' => "#unflagged", 'class' => 'active'), html::span(null, Q($this->gettext('markunflagged')))));
+			$li .= html::tag('li', array('class' => 'reply'), html::a(array('href' => "#reply", 'class' => 'active'), html::span(null, Q($this->gettext('replytomessage')))));
 
 			$lis = '';
-			$lis .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), Q($this->gettext('replytoallmessage'))));
-			$lis .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), Q($this->gettext('replylist'))));
-			$li .= html::tag('li', array('class' => 'submenu replyacts'), Q($this->gettext('replytoallmessage')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
+			$lis .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), html::span(null, Q($this->gettext('replytoallmessage')))));
+			$lis .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), html::span(null, Q($this->gettext('replylist')))));
+			$li .= html::tag('li', array('class' => 'submenu replyacts'), html::span(null, Q($this->gettext('reply'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
 
 			$lis = '';
-			$lis .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), Q($this->gettext('forwardinline'))));
-			$lis .= html::tag('li', array('class' => 'forwardattachment'), html::a(array('href' => "#forward-attachment", 'class' => 'active'), Q($this->gettext('forwardattachment'))));
-			$li .= html::tag('li', array('class' => 'submenu forwardacts'), Q($this->gettext('forwardmessage')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
+			$lis .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), html::span(null, Q($this->gettext('forwardinline')))));
+			$lis .= html::tag('li', array('class' => 'forwardattachment'), html::a(array('href' => "#forward-attachment", 'class' => 'active'), html::span(null, Q($this->gettext('forwardattachment')))));
+			$li .= html::tag('li', array('class' => 'submenu forwardacts'), html::span(null, Q($this->gettext('forward'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
 
-			$rcmail = rcmail::get_instance();
-			if (!$rcmail->config->get('flag_for_deletion', false) && $rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
-				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), Q($this->gettext('movemessagetotrash'))));
-			else
-				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), Q($this->gettext('deletemessage'))));
+			//$rcmail = rcmail::get_instance();
+			//if (!$rcmail->config->get('flag_for_deletion', false) && $rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
+			//	$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), html::span(null, Q($this->gettext('movemessagetotrash')))));
+			//else
+				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), html::span(null, Q($this->gettext('deletemessage')))));
 
-			$li .= html::tag('li', array('class' => 'submenu moveto'), Q($this->gettext('moveto')) . $this->_gen_folder_list($args['list'], '#moveto'));
+			$li .= html::tag('li', array('class' => 'submenu moveto'), html::span(null, Q($this->gettext('moveto'))) . $this->_gen_folder_list($args['list'], '#moveto'));
 
 			$lis = '';
-			$lis .= html::tag('li', array('class' => 'print'), html::a(array('href' => "#print", 'class' => 'active'), Q($this->gettext('printmessage'))));
-			$lis .= html::tag('li', array('class' => 'save'), html::a(array('href' => "#download", 'class' => 'active'), Q($this->gettext('emlsave'))));
-			$lis .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editasnew'))));
-			$lis .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), Q($this->gettext('viewsource'))));
-			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), Q($this->gettext('openinextwin'))));
-			$li .= html::tag('li', array('class' => 'submenu moreacts'), Q($this->gettext('moreactions')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu moreacts'), $lis));
+			$lis .= html::tag('li', array('class' => 'print'), html::a(array('href' => "#print", 'class' => 'active'), html::span(null, Q($this->gettext('printmessage')))));
+			$lis .= html::tag('li', array('class' => 'save'), html::a(array('href' => "#download", 'class' => 'active'), html::span(null, Q($this->gettext('emlsave')))));
+			$lis .= html::tag('li', array('class' => 'edit'), html::a(array('href' => "#edit", 'class' => 'active'), html::span(null, Q($this->gettext('editasnew')))));
+			$lis .= html::tag('li', array('class' => 'source separator_below'), html::a(array('href' => "#viewsource", 'class' => 'active'), html::span(null, Q($this->gettext('viewsource')))));
+			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), html::span(null, Q($this->gettext('openinextwin')))));
+			$li .= html::tag('li', array('class' => 'submenu moreacts'), html::span(null, Q($this->gettext('moreactions'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu moreacts'), $lis));
 
 			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 		}
@@ -110,15 +110,15 @@ class contextmenu extends rcube_plugin
 		// folder list menu
 		$li = '';
 
-		$li .= html::tag('li', array('class' => 'readfolder separator_below'), html::a(array('href' => "#readfolder", 'class' => 'active'), Q($this->gettext('markreadfolder'))));
+		$li .= html::tag('li', array('class' => 'readfolder separator_below'), html::a(array('href' => "#readfolder", 'class' => 'active'), html::span(null, Q($this->gettext('markreadfolder')))));
 
-		$li .= html::tag('li', array('class' => 'expunge'), html::a(array('href' => "#expunge", 'class' => 'active'), Q($this->gettext('compact'))));
-		$li .= html::tag('li', array('class' => 'purge separator_below'), html::a(array('href' => "#purge", 'class' => 'active'), Q($this->gettext('empty'))));
+		$li .= html::tag('li', array('class' => 'expunge'), html::a(array('href' => "#expunge", 'class' => 'active'), html::span(null, Q($this->gettext('compact')))));
+		$li .= html::tag('li', array('class' => 'purge separator_below'), html::a(array('href' => "#purge", 'class' => 'active'), html::span(null, Q($this->gettext('empty')))));
 
-		$li .= html::tag('li', array('class' => 'collapseall'), html::a(array('href' => "#collapseall", 'class' => 'active'), Q($this->gettext('collapseall'))));
-		$li .= html::tag('li', array('class' => 'expandall separator_below'), html::a(array('href' => "#expandall", 'class' => 'active'), Q($this->gettext('expandall'))));
+		$li .= html::tag('li', array('class' => 'collapseall'), html::a(array('href' => "#collapseall", 'class' => 'active'), html::span(null, Q($this->gettext('collapseall')))));
+		$li .= html::tag('li', array('class' => 'expandall separator_below'), html::a(array('href' => "#expandall", 'class' => 'active'), html::span(null, Q($this->gettext('expandall')))));
 
-		$li .= html::tag('li', array('class' => 'openfolder'), html::a(array('href' => "#openfolder", 'id' => 'rcm_openfolder', 'class' => 'active'), Q($this->gettext('openinextwin'))));
+		$li .= html::tag('li', array('class' => 'openfolder'), html::a(array('href' => "#openfolder", 'id' => 'rcm_openfolder', 'class' => 'active'), html::span(null, Q($this->gettext('openinextwin')))));
 
 		$out .= html::tag('ul', array('id' => 'rcmFolderMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
@@ -141,22 +141,22 @@ class contextmenu extends rcube_plugin
 		// contact list menu
 		$li = '';
 
-		$li .= html::tag('li', array('class' => 'composeto separator_below'), html::a(array('href' => "#compose", 'class' => 'active'), Q($this->gettext('composeto'))));
+		$li .= html::tag('li', array('class' => 'composeto separator_below'), html::a(array('href' => "#compose", 'class' => 'active'), html::span(null, Q($this->gettext('composeto')))));
 
-		$li .= html::tag('li', array('class' => 'editcontact'), html::a(array('href' => "#edit", 'class' => 'active'), Q($this->gettext('editcontact'))));
-		$li .= html::tag('li', array('class' => 'deletecontact'), html::a(array('href' => "#delete", 'class' => 'active'), Q($this->gettext('deletecontact'))));
+		$li .= html::tag('li', array('class' => 'editcontact'), html::a(array('href' => "#edit", 'class' => 'active'), html::span(null, Q($this->gettext('editcontact')))));
+		$li .= html::tag('li', array('class' => 'deletecontact'), html::a(array('href' => "#delete", 'class' => 'active'), html::span(null, Q($this->gettext('deletecontact')))));
 
 		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
-			$li .= html::tag('li', array('class' => 'submenu separator_above'), Q($this->gettext('copyto')) . $lis);
+			$li .= html::tag('li', array('class' => 'submenu separator_above'), html::span(null, Q($this->gettext('copyto'))) . $lis);
 
 		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
 		// contact group menu
 		$li = '';
 
-		$li .= html::tag('li', array('class' => 'groupcreate'), html::a(array('href' => "#group-create", 'class' => 'active'), Q($this->gettext('newcontactgroup'))));
-		$li .= html::tag('li', array('class' => 'grouprename'), html::a(array('href' => "#group-rename", 'class' => 'active'), Q($this->gettext('grouprename'))));
-		$li .= html::tag('li', array('class' => 'groupdelete'), html::a(array('href' => "#group-delete", 'class' => 'active'), Q($this->gettext('groupdelete'))));
+		$li .= html::tag('li', array('class' => 'groupcreate'), html::a(array('href' => "#group-create", 'class' => 'active'), html::span(null, Q($this->gettext('newcontactgroup')))));
+		$li .= html::tag('li', array('class' => 'grouprename'), html::a(array('href' => "#group-rename", 'class' => 'active'), html::span(null, Q($this->gettext('grouprename')))));
+		$li .= html::tag('li', array('class' => 'groupdelete'), html::a(array('href' => "#group-delete", 'class' => 'active'), html::span(null, Q($this->gettext('groupdelete')))));
 
 		$out .= html::tag('ul', array('id' => 'rcmGroupMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
@@ -213,7 +213,10 @@ class contextmenu extends rcube_plugin
 			if ($folder['virtual'])
 				$classes[] = 'virtual';
 
-			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('" . JQ($folder['id']) ."')", 'class' => 'active', 'title' => $title), str_repeat('&nbsp;&nbsp;', $nestLevel) . Q($foldername)));
+			if ($nestLevel > 0)
+				$classes[] = 'subfolder';
+
+			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('" . JQ($folder['id']) ."')", 'class' => 'active', 'title' => $title), html::span(null, str_repeat('&nbsp;&nbsp;', $nestLevel) . Q($foldername))));
 
 			if (!empty($folder['folders']))
 				$out .= $this->_gen_folder_list($folder['folders'], $command, $nestLevel+1, $folderTotal);
@@ -261,9 +264,9 @@ class contextmenu extends rcube_plugin
 			}
 
 			if ($source['readonly'])
-				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."', '" . JQ($id) ."', null)", 'class' => 'active', 'title' => $title), Q($bookname)));
+				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."', '" . JQ($id) ."', null)", 'class' => 'active', 'title' => $title), html::span(null, Q($bookname))));
 			else
-				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."', '" . JQ($id) ."', null)", 'class' => 'active', 'title' => $title), Q($bookname)));
+				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($id), 'onclick' => "rcm_set_dest_book('" . JQ($id) ."', '" . JQ($id) ."', null)", 'class' => 'active', 'title' => $title), html::span(null, Q($bookname))));
 
 			// contact groups
 			if ($source['groups']) {
@@ -284,9 +287,9 @@ class contextmenu extends rcube_plugin
 					}
 
 					if ($source['readonly'])
-						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), '&nbsp;&nbsp;' . Q($groupname)));
+						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), html::span(null, Q($groupname))));
 					else
-						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), '&nbsp;&nbsp;' . Q($groupname)));
+						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. JQ($gid), 'onclick' => "rcm_set_dest_book('" . JQ($gid) . "', '" . JQ($id) . "', '" . JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), html::span(null, Q($groupname))));
 
 					$groupTotal++;
 				}
