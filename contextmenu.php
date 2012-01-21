@@ -27,23 +27,23 @@ class contextmenu extends rcube_plugin
 	public function messagecount()
 	{
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
-		$this->api->output->set_env('messagecount', rcmail::get_instance()->imap->messagecount($mbox));
+		$this->api->output->set_env('messagecount', rcmail::get_instance()->storage->count($mbox));
 		$this->api->output->send();
 	}
 
 	public function readfolder()
 	{
-		$imap = rcmail::get_instance()->imap;
+		$storage = rcmail::get_instance()->storage;
 		$cbox = get_input_value('_cur', RCUBE_INPUT_GET);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_GET);
 		$oact = get_input_value('_oact', RCUBE_INPUT_GET);
 
-		$uids = $imap->search_once($mbox, 'ALL UNSEEN', true);
+		$uids = $storage->search_once($mbox, 'ALL UNSEEN', true);
 
-		if ($uids->isEmpty())
+		if ($uids->is_empty())
 			return false;
 
-		$imap->set_flag($uids->get(), 'SEEN', $mbox);
+		$storage->set_flag($uids->get(), 'SEEN', $mbox);
 
 		if ($cbox == $mbox && $oact == '')
 			$this->api->output->command('toggle_read_status', 'read', $uids->get());
@@ -125,7 +125,7 @@ class contextmenu extends rcube_plugin
 		$this->api->output->add_footer(html::div(null , $out));
 
 		if ($rcmail->action == 'show')
-			$this->api->output->set_env('delimiter', $rcmail->imap->get_hierarchy_delimiter());
+			$this->api->output->set_env('delimiter', $rcmail->storage->get_hierarchy_delimiter());
 	}
 
 	public function show_addressbook_menu($args)
