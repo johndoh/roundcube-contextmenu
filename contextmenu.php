@@ -26,7 +26,7 @@ class contextmenu extends rcube_plugin
 
 	public function messagecount()
 	{
-		$mbox = rcube_ui::get_input_value('_mbox', RCUBE_INPUT_GET);
+		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_GET);
 		$this->api->output->set_env('messagecount', rcmail::get_instance()->storage->count($mbox));
 		$this->api->output->send();
 	}
@@ -34,9 +34,9 @@ class contextmenu extends rcube_plugin
 	public function readfolder()
 	{
 		$storage = rcmail::get_instance()->storage;
-		$cbox = rcube_ui::get_input_value('_cur', RCUBE_INPUT_GET);
-		$mbox = rcube_ui::get_input_value('_mbox', RCUBE_INPUT_GET);
-		$oact = rcube_ui::get_input_value('_oact', RCUBE_INPUT_GET);
+		$cbox = rcube_ui::get_input_value('_cur', rcube_ui::INPUT_GET);
+		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_GET);
+		$oact = rcube_ui::get_input_value('_oact', rcube_ui::INPUT_GET);
 
 		$uids = $storage->search_once($mbox, 'ALL UNSEEN', true);
 
