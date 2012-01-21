@@ -176,7 +176,7 @@ class contextmenu extends rcube_plugin
 			$title = null;
 
 			if (($folder_class = rcmail_folder_classname($folder['id'])) && !$realnames) {
-				$foldername = rcube_label($folder_class);
+				$foldername = $rcmail->gettext($folder_class);
 			}
 			else {
 				$foldername = $folder['name'];
