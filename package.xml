@@ -4,8 +4,8 @@
 	http://pear.php.net/dtd/package-2.0
 	http://pear.php.net/dtd/package-2.0.xsd">
 	<name>contextmenu</name>
-	<channel>pear.roundcube.net</channel>
-	<summary>Adds context menus with common tasks to various parts of the system</summary>
+	<uri>http://github.com/JohnDoh/Roundcube-Plugin-Context-Menu/</uri>
+	<summary>Adds context menus with common tasks to various parts of Roundcube</summary>
 	<description>Adds context menus to the message list, folder list and address book. Menu includes the abilities mark messages as read/unread, delete, reply and forward.</description>
 	<lead>
 		<name>Philip Weir</name>
@@ -13,8 +13,8 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-01-21</date>
-	<time>11:26:15</time>
+	<date>2012-01-22</date>
+	<time>10:42:53</time>
 	<version>
 		<release>1.9</release>
 		<api>1.9</api>
@@ -23,7 +23,7 @@
 		<release>stable</release>
 		<api>stable</api>
 	</stability>
-	<license uri="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3</license>
+	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
 	<notes>-</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
