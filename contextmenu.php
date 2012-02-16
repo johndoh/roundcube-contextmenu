@@ -14,7 +14,7 @@ class contextmenu extends rcube_plugin
 
 	function init()
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show'))
 			$this->add_hook('render_mailboxlist', array($this, 'show_mailbox_menu'));
 		elseif ($rcmail->task == 'addressbook' && $rcmail->action == '')
@@ -27,13 +27,13 @@ class contextmenu extends rcube_plugin
 	public function messagecount()
 	{
 		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_GET);
-		$this->api->output->set_env('messagecount', rcmail::get_instance()->storage->count($mbox));
+		$this->api->output->set_env('messagecount', rcube::get_instance()->storage->count($mbox));
 		$this->api->output->send();
 	}
 
 	public function readfolder()
 	{
-		$storage = rcmail::get_instance()->storage;
+		$storage = rcube::get_instance()->storage;
 		$cbox = rcube_ui::get_input_value('_cur', rcube_ui::INPUT_GET);
 		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_GET);
 		$oact = rcube_ui::get_input_value('_oact', rcube_ui::INPUT_GET);
@@ -54,7 +54,7 @@ class contextmenu extends rcube_plugin
 
 	public function show_mailbox_menu($args)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$this->add_texts('localization/');
 		$rcmail->output->add_label('nomessagesfound');
 		$this->include_script('jquery.contextMenu.js');
@@ -88,7 +88,7 @@ class contextmenu extends rcube_plugin
 			$lis .= html::tag('li', array('class' => 'forwardattachment'), html::a(array('href' => "#forward-attachment", 'class' => 'active'), rcube_ui::Q($this->gettext('forwardattachment'))));
 			$li .= html::tag('li', array('class' => 'submenu forwardacts'), rcube_ui::Q($this->gettext('forwardmessage')) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
 
-			$rcmail = rcmail::get_instance();
+			$rcmail = rcube::get_instance();
 			if (!$rcmail->config->get('flag_for_deletion', false) && $rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
 				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), rcube_ui::Q($this->gettext('movemessagetotrash'))));
 			else
@@ -130,7 +130,7 @@ class contextmenu extends rcube_plugin
 
 	public function show_addressbook_menu($args)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$this->add_texts('localization/');
 		$this->include_script('jquery.contextMenu.js');
 		$this->include_script('jquery.mousewheel.js');
@@ -166,7 +166,7 @@ class contextmenu extends rcube_plugin
 	// based on rcube_ui::render_folder_tree_html()
 	private function _gen_folder_list($arrFolders, $command, $nestLevel = 0, &$folderTotal = 0)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 
 		$maxlength = 35;
 		$realnames = false;
@@ -238,7 +238,7 @@ class contextmenu extends rcube_plugin
 	// based on rcmail_directory_list()
 	private function _gen_addressbooks_list($arrBooks, $command)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$groupTotal = 0;
 		$maxlength = 35;
 		$maxlength_grp = 33;
