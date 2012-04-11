@@ -65,8 +65,21 @@
 #rcmGroupMenu li.conmentitle,
 #rcmGroupMenu li.submenu
 {
-  padding: 6px 10px 6px 29px;
+  padding: 0;
   cursor: default;
+}
+
+#rcmContextMenu li.conmentitle span,
+#rcmContextMenu li.submenu span,
+#rcmFolderMenu li.conmentitle span,
+#rcmFolderMenu li.submenu span,
+#rcmAddressMenu li.conmentitle span,
+#rcmAddressMenu li.submenu span,
+#rcmGroupMenu li.conmentitle span,
+#rcmGroupMenu li.submenu span
+{
+  display: block;
+  padding: 6px 10px 6px 29px;
 }
 
 #rcmContextMenu li.sublink,
@@ -82,7 +95,6 @@
 #rcmAddressMenu li.submenu,
 #rcmGroupMenu li.submenu
 {
-  padding: 6px 0 6px 0;
   position: relative;
 }
 
@@ -91,11 +103,9 @@
 #rcmAddressMenu li.submenu span,
 #rcmGroupMenu li.submenu span
 {
-  display: block;
   cursor: pointer;
-  background: url(contexticons.png) no-repeat right -194px;
+  background: url(contexticons.png) no-repeat right -188px;
   padding-right: 18px;
-  padding-left: 29px;
 }
 
 #rcmContextMenu li.markmessage a span,
@@ -126,7 +136,7 @@
 #rcmAddressMenu li a,
 #rcmGroupMenu li a
 {
-  padding-left: 0;
+  padding: 0;
   margin-left: 0;
 }
 
@@ -138,7 +148,7 @@
 {
   display: block;
   background: url(contexticons.png) no-repeat 7px 20px;
-  padding-left: 29px;
+  padding: 6px 10px 6px 29px;
   cursor: pointer;
 }
 
@@ -187,159 +197,159 @@
 
 #rcmContextMenu .read a span
 {
-  background-position: 5px -30px;
+  background-position: 5px -24px;
 }
 
 #rcmFolderMenu .readfolder a span
 {
-  background-position: 5px -30px;
+  background-position: 5px -24px;
 }
 
 #rcmContextMenu .unread a span
 {
-  background-position: 5px -6px;
+  background-position: 5px 0px;
 }
 #rcmContextMenu .flagged a span
 {
-  background-position: 5px -52px;
+  background-position: 5px -46px;
 }
 
 #rcmContextMenu .unflagged a span
 {
-  background-position: 5px -78px;
+  background-position: 5px -72px;
 }
 
 #rcmContextMenu .reply a span
 {
-  background-position: 5px -126px;
+  background-position: 5px -120px;
 }
 
 #rcmContextMenu .replyall a span, #rcmContextMenu .replylist a span
 {
-  background-position: 5px -150px;
+  background-position: 5px -144px;
 }
 
 #rcmContextMenu .forward a span, #rcmContextMenu .forwardattachment a span
 {
-  background-position: 5px -173px;
+  background-position: 5px -167px;
 }
 
 #rcmContextMenu .delete a span,
 #rcmAddressMenu .deletecontact a span
 {
-  background-position: 5px -100px;
+  background-position: 5px -94px;
 }
 
 #rcmFolderMenu .expunge a span
 {
-  background-position: 5px 60px;
+  background-position: 5px 66px;
 }
 
 #rcmFolderMenu .purge a span
 {
-  background-position: 5px 60px;
+  background-position: 5px 66px;
 }
 
 #rcmFolderMenu .collapseall a span
 {
-  background-position: 5px -324px;
+  background-position: 5px -323px;
 }
 
 #rcmFolderMenu .expandall a span
 {
-  background-position: 5px -308px;
+  background-position: 5px -302px;
 }
 
 #rcmContextMenu ul.moreacts li a span
 {
-  background: url(messageactions.png) no-repeat 5px 24px;
+  background: url(messageactions.png) no-repeat 5px 30px;
 }
 
 #rcmContextMenu ul.moreacts li.print a span
 {
-  background-position: 5px -54px;
+  background-position: 5px -48px;
 }
 
 #rcmContextMenu ul.moreacts li.source a span
 {
-  background-position: 5px -78px;
+  background-position: 5px -72px;
 }
 
 #rcmContextMenu ul.moreacts li.save a span
 {
-  background-position: 5px -30px;
+  background-position: 5px -24px;
 }
 
 #rcmContextMenu ul.moreacts li.open a span
 {
-  background-position: 5px -102px;
+  background-position: 5px -96px;
 }
 
 #rcmFolderMenu .openfolder a span
 {
-  background: url(messageactions.png) no-repeat 5px -102px;
+  background: url(messageactions.png) no-repeat 5px -96px;
 }
 
 #rcmContextMenu ul.moreacts li.edit a span
 {
-  background-position: 5px -6px;
+  background-position: 5px 0px;
 }
 
 #rcmAddressMenu .editcontact a span
 {
-   background: url(messageactions.png) no-repeat 5px -6px;
+   background: url(messageactions.png) no-repeat 5px 0px;
 }
 
 #rcmAddressMenu .composeto a span
 {
-  background-position: 5px -285px;
+  background-position: 5px -279px;
 }
 
 #rcmContextMenu ul.folders li a span,
 #rcmAddressMenu ul.folders li a span
 {
-  background: url(folders.png) 5px -3px no-repeat;
+  background: url(folders.png) 5px 3px no-repeat;
 }
 
 #rcmContextMenu ul.folders li.subfolder a span
 {
-  background-position: 5px -45px;
+  background-position: 5px -39px;
 }
 
 
 #rcmContextMenu ul.folders li.inbox a span
 {
-  background-position: 5px -67px;
+  background-position: 5px -61px;
 }
 
 #rcmContextMenu ul.folders li.drafts a span
 {
-  background-position: 5px -90px;
+  background-position: 5px -84px;
 }
 
 #rcmContextMenu ul.folders li.sent a span
 {
-  background-position: 5px -112px;
+  background-position: 5px -106px;
 }
 
 #rcmContextMenu ul.folders li.junk a span
 {
-  background-position: 5px -138px;
+  background-position: 5px -132px;
 }
 
 #rcmContextMenu ul.folders li.trash a span
 {
-  background-position: 5px -165px;
+  background-position: 5px -159px;
 }
 
 #rcmAddressMenu ul.folders li.addressbook a span
 {
-  background-position: 5px -189px;
+  background-position: 5px -183px;
 }
 
 #rcmAddressMenu ul.folders li.contactgroup a span
 {
-  background-position: 5px -215px;
+  background-position: 5px -209px;
 }
 
 #rcmContextMenu div.popupmenu,
