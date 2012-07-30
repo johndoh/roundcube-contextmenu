@@ -1,157 +1,78 @@
 Roundcube Webmail ContextMenu
 =============================
 
-2012 04 16
-==========
+ * rename default skin to classic (c40419bdfe)
  * rcube_ui > rcube_utils (r6091)
-
-2012 04 14
-==========
  * Update for Roundcube framework
 
-2012 01 21
-==========
+Version 1.9 (2012-04-14, rc-0.8)
+=================================================
  * Update after r5781
  * Add inital support for Larry
 
-2011 12 10
-==========
+Version 1.8 (2011-05-14, rc-0.8)
+=================================================
  * Fix readfolder method after r5557
-
-2011 06 17
-==========
  * Use new labels for group delete/rename (r4864)
-
-2010 05 14
-==========
  * Add forward-attachment function (r4761)
 
-2010 10 05
-==========
+Version 1.7 (2011-10-01, rc-0.5)
+=================================================
  * Add reply-list function (r4032)
 
-2010 08 21
-==========
+Version 1.6 (2010-08-01, rc-0.4)
+=================================================
  * Fix error in deleteing after moving using context menu
-
-2010 08 01
-==========
  * Update hooks (r3840)
 
-2010 06 19
-==========
+Version 1.5 (2010-05-29, rc-0.4)
+=================================================
  * Hide menu after click in iframes
-
-2010 06 03
-==========
  * Update contact copying after r3694
-
-2010 05 15
-==========
  * Update hooks after r3685
 
-2010 05 15
-==========
+Version 1.4 (2010-03-30, rc-0.4)
+=================================================
  * Update after r3614
-
-2010 04 13
-==========
  * Update jquery.ContextMenu to 1.01
-
-2010 03 31
-==========
  * Use new imap->search_once function (r3446)
-
-2010 03 28
-==========
  * Add initial support for contact groups in address book
-
-2010 03 27
-==========
  * Fix mark all as read function
-
-2010 03 20
-==========
  * Update to r3393
-
-2010 02 26
-==========
  * Fix folder count with nested folders
 
-2010 02 07
-==========
+Version 1.3 (2010-02-07, rc-0.4)
+=================================================
  * Update after r3258
-
-2009 12 01
-==========
  * CSS update after r3141
-
-2009 10 29
-==========
  * Use local_skin_path() (rev 3076)
-
-2009 10 04
-==========
  * Added address book context menu (requires r3023)
 
-2009 09 18
-==========
+Version 1.2 (2009-09-18, rc-0.3)
+=================================================
  * Fix folder menu for UTF8 folders
  * Use rcmail_send_unread_count (r2960)
  * Add 'move to' to message list menu
 
-2009 09 11
-==========
+Version 1.1 (2009-09-11, rc-0.3)
+=================================================
  * Added folder list context menu
-
-2009 06 27
-==========
  * Moved menu generation from JS to PHP
  * Added support for sub menus
  * Added new "edit" action
-
-2009 06 07
-==========
  * Update insertrow event listener following changes in core
  * Add fallback to default skin
-
-2009 05 31
-==========
  * Better init restrictions
-
-2009 05 30
-==========
  * Correct style after r2541
  * Only init when on mailbox screen (while _uid is empty and user is logged in)
-
-2009 05 25
-==========
  * Added hook for other plugins to add items to the menu (see README)
-
-2009 05 24
-==========
  * Added support for new actions: show source, save .eml, open in new window
  * Added support for plugin template system
  * Added highlighting of selected row
-
-2009 04 30
-==========
  * Fixed menu in IE
-
-2009 04 29
-==========
  * Fixed delete in Trash folder
-
-2009 04 28
-==========
  * Added ability to mark or delete multiple messages
  * Fixed delete function
  * Fixed working with "Select" functions
-
-Version 1.0-BETA
-=================
  * Added event hooks when message list is updated
-
-Version 1.0-ALPHA
-=================
  * Created plugin
