@@ -13,8 +13,8 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-01-22</date>
-	<time>10:42:53</time>
+	<date>2012-07-30</date>
+	<time>18:03:53</time>
 	<version>
 		<release>1.9</release>
 		<api>1.9</api>
@@ -60,14 +60,14 @@
 			<file name="localization/tr_TR.inc" role="data"/>
 			<file name="localization/uk_UA.inc" role="data"/>
 			<file name="localization/zh_TW.inc" role="data"/>
-			<file name="skins/default/contexticons.gif" role="data"/>
-			<file name="skins/default/contexticons.png" role="data"/>
-			<file name="skins/default/contextmenu.css" role="data"/>
-			<file name="skins/default/folders.gif" role="data"/>
-			<file name="skins/default/folders.png" role="data"/>
-			<file name="skins/default/ie6hacks.css" role="data"/>
-			<file name="skins/default/messageactions.gif" role="data"/>
-			<file name="skins/default/messageactions.png" role="data"/>
+			<file name="skins/classic/contexticons.gif" role="data"/>
+			<file name="skins/classic/contexticons.png" role="data"/>
+			<file name="skins/classic/contextmenu.css" role="data"/>
+			<file name="skins/classic/folders.gif" role="data"/>
+			<file name="skins/classic/folders.png" role="data"/>
+			<file name="skins/classic/ie6hacks.css" role="data"/>
+			<file name="skins/classic/messageactions.gif" role="data"/>
+			<file name="skins/classic/messageactions.png" role="data"/>
 			<file name="skins/larry/contexticons.png" role="data"/>
 			<file name="skins/larry/contextmenu.css" role="data"/>
 			<file name="skins/larry/folders.png" role="data"/>
