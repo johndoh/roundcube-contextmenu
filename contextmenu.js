@@ -55,9 +55,11 @@ function rcm_contextmenu_init(row) {
 					case 'forward-attachment':
 					case 'print':
 					case 'download':
-					case 'edit':
 					case 'viewsource':
 						rcmail.command(command, '', $(el));
+						break;
+					case 'edit':
+						rcmail.command(command, 'new', $(el));
 						break;
 					case 'open':
 						rcmail.command(command, '', rcube_find_object('rcm_open'));
