@@ -81,12 +81,12 @@ class contextmenu extends rcube_plugin
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('replytoallmessage')))));
 			$lis .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('replylist')))));
-			$li .= html::tag('li', array('class' => 'submenu replyacts'), html::span(null, rcmail::Q($this->gettext('reply'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu replyacts'), html::a(array('href' => "#reply-all", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('replyall')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
 
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'forward'), html::a(array('href' => "#forward", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('forwardinline')))));
 			$lis .= html::tag('li', array('class' => 'forwardattachment'), html::a(array('href' => "#forward-attachment", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('forwardattachment')))));
-			$li .= html::tag('li', array('class' => 'submenu forwardacts'), html::span(null, rcmail::Q($this->gettext('forward'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu forwardacts'), html::a(array('href' => "#forward", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('forward')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
 
 			//$rcmail = rcmail::get_instance();
 			//if (!$rcmail->config->get('flag_for_deletion', false) && $rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
