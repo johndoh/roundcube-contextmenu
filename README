@@ -26,14 +26,16 @@ open in new window
 This plugin also adds a context menu to the contacts list in the address book.
 Menu links are:
 compose message to
-edit contect
+edit contact
 delete contact
+remove contact from group
 copy contact to another address book
 
 This plugin also adds a context menu to the groups list in the address book.
 Menu links are:
-rename
-delete
+create new group
+rename group
+delete group
 
 License
 =======

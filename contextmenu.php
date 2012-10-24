@@ -145,6 +145,7 @@ class contextmenu extends rcube_plugin
 
 		$li .= html::tag('li', array('class' => 'editcontact'), html::a(array('href' => "#edit", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('editcontact')))));
 		$li .= html::tag('li', array('class' => 'deletecontact'), html::a(array('href' => "#delete", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('deletecontact')))));
+		$li .= html::tag('li', array('class' => 'removefromgroup'), html::a(array('href' => "#group-remove-selected", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('groupremoveselected')))));
 
 		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
 			$li .= html::tag('li', array('class' => 'submenu separator_above'), html::span(null, rcmail::Q($this->gettext('copyto'))) . $lis);

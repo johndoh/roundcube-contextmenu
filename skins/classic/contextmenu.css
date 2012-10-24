@@ -84,6 +84,13 @@
   padding-right: 15px;
 }
 
+#rcmContextMenu li.replyacts,
+#rcmContextMenu li.forwardacts,
+#rcmAddressMenu li.exportacts
+{
+ padding: 0 8px 0 0;
+}
+
 #rcmContextMenu li.markmessage a,
 #rcmAddressMenu li.contactgroup a
 {

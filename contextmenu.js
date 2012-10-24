@@ -324,12 +324,15 @@ function rcm_update_options(el) {
 			else
 				$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
 
+			if (rcmail.env.group && rcmail.contact_list.in_selection(matches[1]))
+				$('#rcmAddressMenu').enableContextMenuItems('#group-remove-selected');
+			else
+				$('#rcmAddressMenu').disableContextMenuItems('#group-remove-selected');
+
 			var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
 
 			if (rcmail.env.address_sources[ab_src].readonly)
-				$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete');
-			else
-				$('#rcmAddressMenu').enableContextMenuItems('#edit,#delete');
+				$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete,#group-remove-selected');
 		}
 	}
 }
@@ -371,6 +374,7 @@ function rcm_addressmenu_init(row) {
 					case 'compose':
 					case 'delete':
 					case 'moveto':
+					case 'group-remove-selected':
 						var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
 
 						if (command == 'moveto') {

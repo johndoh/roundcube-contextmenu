@@ -305,6 +305,11 @@
   background-position: 5px -279px;
 }
 
+#rcmAddressMenu .removefromgroup a span
+{
+ background-position: 5px -344px;
+}
+
 #rcmContextMenu ul.folders li a span,
 #rcmAddressMenu ul.folders li a span
 {
