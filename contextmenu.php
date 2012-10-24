@@ -150,6 +150,11 @@ class contextmenu extends rcube_plugin
 		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
 			$li .= html::tag('li', array('class' => 'submenu separator_above'), html::span(null, rcmail::Q($this->gettext('copyto'))) . $lis);
 
+		$lis = '';
+		$lis .= html::tag('li', array('class' => 'exportall'), html::a(array('href' => "#export", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('exportall')))));
+		$lis .= html::tag('li', array('class' => 'exportsel'), html::a(array('href' => "#export-selected", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('exportsel')))));
+		$li .= html::tag('li', array('class' => 'submenu exportacts'), html::a(array('href' => "#export", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('export')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu exportacts'), $lis));
+
 		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
 		// contact group menu

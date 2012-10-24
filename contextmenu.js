@@ -420,6 +420,15 @@ function rcm_addressmenu_init(row) {
 						rcmail.env.rcm_destsource = null;
 						rcmail.env.rcm_destgroup = null;
 						break;
+					case 'export':
+					case 'export-selected':
+						if (rcmail.env.cid) {
+							rcmail.contact_list.select(rcmail.env.cid);
+							clearTimeout(rcmail.preview_timer)
+						}
+
+						rcmail.command(command, '', $(el));
+						break;
 				}
 			}
 
