@@ -229,7 +229,7 @@
   background-position: 5px -144px;
 }
 
-#rcmContextMenu .forward a span, #rcmContextMenu .forwardattachment a span
+#rcmContextMenu .forwardinline a span, #rcmContextMenu .forwardattachment a span
 {
   background-position: 5px -167px;
 }
