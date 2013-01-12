@@ -250,6 +250,12 @@
   background-position: 8px -238px;
 }
 
+#rcmAddressMenu .exportall a,
+#rcmAddressMenu .exportsel a
+{
+ background-position: 5px -288px;
+}
+
 #rcmContextMenu ul.folders li a,
 #rcmAddressMenu ul.folders li a
 {

@@ -30,6 +30,7 @@ edit contact
 delete contact
 remove contact from group
 copy contact to another address book
+export contacts
 
 This plugin also adds a context menu to the groups list in the address book.
 Menu links are:
