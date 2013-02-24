@@ -13,8 +13,8 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-07-30</date>
-	<time>11:41:12</time>
+	<date>2013-02-24</date>
+	<time>10:50:37</time>
 	<version>
 		<release>1.10</release>
 		<api>1.10</api>
@@ -36,7 +36,7 @@
 				<tasks:replace from="@package_version@" to="version" type="package-info"/>
 			</file>
 			<file name="CHANGELOG" role="data"/>
-			<file name="README" role="data"/>
+			<file name="README.md" role="data"/>
 			<file name="jquery.contextMenu.js" role="data"/>
 			<file name="jquery.mousewheel.js" role="data"/>
 			<file name="localization/ca_ES.inc" role="data"/>
