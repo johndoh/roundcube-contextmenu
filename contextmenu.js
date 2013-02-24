@@ -310,9 +310,9 @@ function rcm_update_options(el) {
 			}
 		}
 		else if ($(el).hasClass('addressbook')) {
-			var matches = $(el).attr('id').match(/rcmli([A-Z0-9\-_]+)/i);
+			var source = $(el).children('a').attr('rel');
 
-			if (!rcmail.env.address_sources[matches[1]].readonly)
+			if (!rcmail.env.address_sources[source].readonly)
 				$('#rcmGroupMenu').enableContextMenuItems('#group-create')
 		}
 	}
