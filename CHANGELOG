@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 1.10 (2013-03-03, rc-0.9)
+=================================================
  * Add remove selected contacts from group option
  * Rename default skin to classic (c40419bdfe)
  * rcube_ui > rcube_utils (r6091)
