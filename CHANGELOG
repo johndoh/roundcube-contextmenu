@@ -2,6 +2,7 @@ Roundcube Webmail ContextMenu
 =============================
 
  * Add export option to address book menu
+ * Add contextmenu_show JS event
 
 Version 1.10 (2013-03-03, rc-0.9)
 =================================================
