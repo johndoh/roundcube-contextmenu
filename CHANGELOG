@@ -1,8 +1,11 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 1.11 (2013-05-193, rc-1.0)
+=================================================
  * Add export option to address book menu
  * Add contextmenu_show JS event
+ **** code branching/tagging no longer sync'd to roundcube versions ****
 
 Version 1.10 (2013-03-03, rc-0.9)
 =================================================
