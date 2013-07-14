@@ -94,7 +94,7 @@ class contextmenu extends rcube_plugin
 			//else
 				$li .= html::tag('li', array('class' => 'delete separator_below'), html::a(array('href' => "#delete", 'id' => 'rcm_delete', 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('deletemessage')))));
 
-			$li .= html::tag('li', array('class' => 'submenu moveto'), html::span(null, rcmail::Q($this->gettext('moveto'))) . $this->_gen_folder_list($args['list'], '#moveto'));
+			$li .= html::tag('li', array('class' => 'submenu moveto'), html::span(null, rcmail::Q($this->gettext('moveto'))) . $this->_gen_folder_list($args['list'], '#move'));
 
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'print'), html::a(array('href' => "#print", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('printmessage')))));
@@ -147,7 +147,7 @@ class contextmenu extends rcube_plugin
 		$li .= html::tag('li', array('class' => 'deletecontact'), html::a(array('href' => "#delete", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('deletecontact')))));
 		$li .= html::tag('li', array('class' => 'removefromgroup'), html::a(array('href' => "#group-remove-selected", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('groupremoveselected')))));
 
-		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#moveto'))
+		if ($lis = $this->_gen_addressbooks_list($args['sources'], '#copy'))
 			$li .= html::tag('li', array('class' => 'submenu separator_above'), html::span(null, rcmail::Q($this->gettext('copyto'))) . $lis);
 
 		$lis = '';

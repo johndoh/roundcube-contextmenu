@@ -70,8 +70,8 @@ function rcm_contextmenu_init(row) {
 						rcube_find_object('rcm_open').href = '#open';
 						break;
 					case 'delete':
-					case 'moveto':
-						if (command == 'moveto' && rcmail.env.rcm_destfolder == rcmail.env.mailbox)
+					case 'move':
+						if (command == 'move' && rcmail.env.rcm_destfolder == rcmail.env.mailbox)
 							return;
 
 						var prev_sel = null;
@@ -373,11 +373,12 @@ function rcm_addressmenu_init(row) {
 						break;
 					case 'compose':
 					case 'delete':
-					case 'moveto':
+					case 'copy':
+					case 'move':
 					case 'group-remove-selected':
 						var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
 
-						if (command == 'moveto') {
+						if (command == 'move') {
 							// check for valid taget
 							if (rcmail.env.rcm_destbook == ab_src || (rcmail.env.rcm_destgroup && rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup].id == rcmail.env.group))
 								return;
@@ -516,7 +517,7 @@ function rcm_groupmenu_update(action, props) {
 		case 'insert':
 			var link = $('<a>')
 				.attr('id', 'rcm_contextgrps_G' + gid)
-				.attr('href', '#moveto')
+				.attr('href', '#copy')
 				.addClass('active')
 				.attr('onclick', "rcm_set_dest_book('G" + gid + "', '" + props.source + "','" + props.id + "')")
 				.html('<span>' + props.name + '</span>');
@@ -543,7 +544,7 @@ function rcm_groupmenu_update(action, props) {
 
 					var link = $('<a>')
 						.attr('id', 'rcm_contextgrps_G' + new_gid)
-						.attr('href', '#moveto')
+						.attr('href', '#copy')
 						.addClass('active')
 						.attr('onclick', "rcm_set_dest_book('G" + new_gid + "', '" + props.source + "','" + props.newid + "')")
 						.html('<span>' + props.name + '</span>');
