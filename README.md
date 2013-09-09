@@ -38,6 +38,15 @@ Menu links are:
 * rename group
 * delete group
 
+ATTENTION
+---------
+This is just a snapshot from the GIT repository and is **NOT A STABLE version
+of ContextMenu**. It is Intended for use with the **GIT-master** version of
+Roundcube and it may not be compatible with older versions. Stable versions of
+ContextMenu are available from the [Roundcube plugin repository][rcplugrepo]
+(for 1.0 and above) or the [releases section][releases] of the GitHub
+repository.
+
 License
 -------
 This plugin is released under the [GNU General Public License Version 3+][gpl].
@@ -84,4 +93,6 @@ messages are selected
 * (optional) class: the classes to add to the li in the contextmenu, if none
 are specified then the command is used as the class name
 
+[rcplugrepo]: http://plugins.roundcube.net/packages/johndoh/contextmenu
+[releases]: http://github.com/JohnDoh/Roundcube-Plugin-Context-Menu/releases
 [gpl]: http://www.gnu.org/licenses/gpl.html
