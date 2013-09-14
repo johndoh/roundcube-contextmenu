@@ -125,7 +125,7 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 	}
 	else {
 		var menuItem = $('<li>').addClass(liclass);
-		$('<a>').attr('href', '#' + command).addClass('active').html('<span>' + rcmail.gettext(label) + '</span>').appendTo(menuItem);
+		$('<a>').attr('href', '#' + command).addClass('active').html($('<span>').text(rcmail.gettext(label))).appendTo(menuItem);
 	}
 
 	rcmail.contextmenu_command_handlers[command] = callback;
@@ -520,7 +520,7 @@ function rcm_groupmenu_update(action, props) {
 				.attr('href', '#copy')
 				.addClass('active')
 				.attr('onclick', "rcm_set_dest_book('G" + gid + "', '" + props.source + "','" + props.id + "')")
-				.html('<span>' + props.name + '</span>');
+				.html($('<span>').text(props.name));
 
 			var li = $('<li>').addClass('contactgroup').append(link);
 
@@ -547,12 +547,12 @@ function rcm_groupmenu_update(action, props) {
 						.attr('href', '#copy')
 						.addClass('active')
 						.attr('onclick', "rcm_set_dest_book('G" + new_gid + "', '" + props.source + "','" + props.newid + "')")
-						.html('<span>' + props.name + '</span>');
+						.html($('<span>').text(props.name));
 
 					$('#rcm_contextgrps_G' + gid).replaceWith(link);
 				}
 				else {
-					$('#rcm_contextgrps_G' + gid).html('<span>' + props.name + '</span>');
+					$('#rcm_contextgrps_G' + gid).html($('<span>').text(props.name));
 				}
 
 				row = $('#rcm_contextgrps_G' + gid).parent().clone(true);
