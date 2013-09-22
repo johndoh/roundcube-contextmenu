@@ -126,6 +126,9 @@ class contextmenu extends rcube_plugin
 
 		if ($rcmail->action == 'show')
 			$this->api->output->set_env('delimiter', $rcmail->storage->get_hierarchy_delimiter());
+
+		// remove hook to prevent double execution
+		$this->remove_hook('render_mailboxlist', array($this, 'show_mailbox_menu'));
 	}
 
 	public function show_addressbook_menu($args)
@@ -167,6 +170,9 @@ class contextmenu extends rcube_plugin
 		$out .= html::tag('ul', array('id' => 'rcmGroupMenu', 'class' => 'popupmenu toolbarmenu'), $li);
 
 		$this->api->output->add_footer(html::div(null , $out));
+
+		// remove hook to prevent double execution
+		$this->remove_hook('addressbooks_list', array($this, 'show_addressbook_menu'));
 	}
 
 	// based on rcmail->render_folder_tree_html()
