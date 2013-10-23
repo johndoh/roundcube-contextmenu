@@ -297,6 +297,17 @@
   background-position: 5px -144px;
 }
 
+#rcmContextMenu.popupmenu,
+#rcmFolderMenu.popupmenu,
+#rcmAddressMenu.popupmenu,
+#rcmContextMenu .popupmenu,
+#rcmFolderMenu .popupmenu,
+#rcmAddressMenu .popupmenu
+{
+  max-height: none;
+  overflow: visible;
+}
+
 #rcmContextMenu div.popupmenu,
 #rcmFolderMenu div.popupmenu,
 #rcmAddressMenu div.popupmenu
