@@ -29,6 +29,7 @@
 #rcmGroupMenu li
 {
   margin: 0;
+  padding: 0;
 }
 
 #rcmContextMenu li ul,
