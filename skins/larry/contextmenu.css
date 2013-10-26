@@ -29,6 +29,7 @@
 #rcmGroupMenu li
 {
   margin: 0;
+  padding: 0;
 }
 
 #rcmContextMenu li ul,
@@ -361,6 +362,17 @@
 #rcmAddressMenu ul.folders li.contactgroup a span
 {
   background-position: 5px -209px;
+}
+
+#rcmContextMenu.popupmenu,
+#rcmFolderMenu.popupmenu,
+#rcmAddressMenu.popupmenu,
+#rcmContextMenu .popupmenu,
+#rcmFolderMenu .popupmenu,
+#rcmAddressMenu .popupmenu
+{
+  max-height: none;
+  overflow: visible;
 }
 
 #rcmContextMenu div.popupmenu,
