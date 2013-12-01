@@ -1,10 +1,12 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 1.12 (2013-12-01, rc-1.0)
+=================================================
  * Update depreciated moveto command to move
  * Update config file var names to match core
 
-Version 1.11 (2013-05-193, rc-1.0)
+Version 1.11 (2013-05-19, rc-1.0)
 =================================================
  * Add export option to address book menu
  * Add contextmenu_show JS event
