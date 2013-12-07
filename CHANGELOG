@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+ * Add menu to contact list on compose screen (requires ????)
+
 Version 1.12 (2013-12-01, rc-1.0)
 =================================================
  * Update depreciated moveto command to move

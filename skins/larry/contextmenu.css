@@ -9,7 +9,8 @@
 
 #mailboxlist li.contextRow,
 #directorylist li.contextRow,
-#addresslist .contextRow
+#addresslist .contextRow,
+#contacts-table .contextRow
 {
   background-color: #C7E3EF;
 }

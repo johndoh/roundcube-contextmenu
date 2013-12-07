@@ -95,7 +95,7 @@ function rcm_contextmenu_init(row) {
 							rcmail.message_list.clear_selection();
 
 							for (var i in prev_sel)
-								rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
+								rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY, true);
 						}
 
 						delete rcmail.env.rcm_destfolder;
@@ -414,7 +414,7 @@ function rcm_addressmenu_init(row) {
 							rcmail.contact_list.clear_selection();
 
 							for (var i in prev_sel)
-								rcmail.contact_list.select_row(prev_sel[i], CONTROL_KEY);
+								rcmail.contact_list.select_row(prev_sel[i], CONTROL_KEY, true);
 						}
 
 						rcmail.env.rcm_destbook = null;
@@ -578,6 +578,67 @@ function rcm_groupmenu_update(action, props) {
 	}
 }
 
+function rcm_composemenu_init(row) {
+	$("tr[id=" + row + "]").contextMenu({
+		menu: 'rcmComposeMenu'
+	},
+	function(command, el, pos) {
+		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
+		if ($(el) && matches) {
+			var prev_cid = rcmail.env.cid;
+			if (rcmail.contact_list.selection.length <= 1 || !rcmail.contact_list.in_selection(matches[1]))
+				rcmail.env.cid = matches[1];
+
+			// fix command string in IE
+			if (command.indexOf("#") > 0)
+				command = command.substr(command.indexOf("#") + 1);
+
+			// enable the required command
+			cmd = command;
+			var prev_command = rcmail.commands[cmd];
+			rcmail.enable_command(cmd, true);
+
+			// process external commands
+			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
+				rcmail.contextmenu_command_handlers[command](command, el, pos);
+			}
+			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
+				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
+			}
+			else {
+				var prev_sel = null;
+
+				prev_sel = rcmail.contact_list.get_selection();
+				rcmail.contact_list.select(rcmail.env.cid);
+				clearTimeout(rcmail.preview_timer)
+
+				switch (command) {
+					case 'add-recipient-to':
+						rcmail.command('add-recipient', 'to', $(el));
+						break;
+					case 'add-recipient-cc':
+						rcmail.command('add-recipient', 'cc', $(el));
+						break;
+					case 'add-recipient-bcc':
+						rcmail.command('add-recipient', 'bcc', $(el));
+						break;
+				}
+
+				if (prev_sel) {
+					rcmail.contact_list.clear_selection();
+
+					for (var i in prev_sel) {
+						rcmail.contact_list.select_row(prev_sel[i], CONTROL_KEY, true);
+					}
+				}
+			}
+
+			rcmail.enable_command(cmd, prev_command);
+			rcmail.env.cid = prev_cid;
+		}
+	});
+}
+
 $(document).ready(function() {
 	if (window.rcmail) {
 		// init message list menu
@@ -601,5 +662,9 @@ $(document).ready(function() {
 			rcmail.addEventListener('group_update', function(props) { rcm_groupmenu_update('update', props); } );
 			rcmail.addEventListener('group_delete', function(props) { rcm_groupmenu_update('remove', props); } );
 		}
+
+		// init compose screen menu
+		if ($('#rcmComposeMenu').length > 0)
+			rcmail.addEventListener('insertrow', function(props) { rcm_composemenu_init(props.row.id); } );
 	}
 });

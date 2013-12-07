@@ -17,6 +17,8 @@ class contextmenu extends rcube_plugin
 		$rcmail = rcube::get_instance();
 		if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show'))
 			$this->add_hook('render_mailboxlist', array($this, 'show_mailbox_menu'));
+		elseif ($rcmail->task == 'mail' && $rcmail->action == 'compose')
+			$this->add_hook('addressbooks_list', array($this, 'show_compose_menu'));
 		elseif ($rcmail->task == 'addressbook' && $rcmail->action == '')
 			$this->add_hook('addressbooks_list', array($this, 'show_addressbook_menu'));
 
@@ -173,6 +175,30 @@ class contextmenu extends rcube_plugin
 
 		// remove hook to prevent double execution
 		$this->remove_hook('addressbooks_list', array($this, 'show_addressbook_menu'));
+	}
+
+	public function show_compose_menu($args)
+	{
+		$rcmail = rcube::get_instance();
+		$this->add_texts('localization/');
+		$this->include_script('jquery.contextMenu.js');
+		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
+		$this->include_script('contextmenu.js');
+		$out = '';
+
+		// contact list menu
+		$li = '';
+
+		$li .= html::tag('li', array('class' => 'compseaddto'), html::a(array('href' => "#add-recipient-to", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('addcontactto')))));
+		$li .= html::tag('li', array('class' => 'compseaddcc'), html::a(array('href' => "#add-recipient-cc", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('addcontactcc')))));
+		$li .= html::tag('li', array('class' => 'compseaddbcc'), html::a(array('href' => "#add-recipient-bcc", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('addcontactbcc')))));
+
+		$out .= html::tag('ul', array('id' => 'rcmComposeMenu', 'class' => 'rcmcontextmenu popupmenu toolbarmenu'), $li);
+
+		$this->api->output->add_footer(html::div(null , $out));
+
+		// remove hook to prevent double execution
+		$this->remove_hook('addressbooks_list', array($this, 'show_compose_menu'));
 	}
 
 	// based on rcmail->render_folder_tree_html()

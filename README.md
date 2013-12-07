@@ -38,6 +38,12 @@ Menu links are:
 * rename group
 * delete group
 
+This plugin also adds a context menu to the address book widget on the compose
+screen. Menu links are:
+* add contact to To
+* add contact to Cc
+* add contact to Bcc
+
 ATTENTION
 ---------
 This is just a snapshot from the GIT repository and is **NOT A STABLE version
