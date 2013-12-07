@@ -2,26 +2,17 @@
  * ContextMenu plugin styles (IE6 hacks)
  */
 
-#rcmContextMenu,
-#rcmFolderMenu,
-#rcmAddressMenu,
-#rcmGroupMenu
+ul.rcmcontextmenu
 {
   width: 220px;
 }
 
-#rcmContextMenu li.submenu,
-#rcmFolderMenu li.submenu,
-#rcmAddressMenu li.submenu,
-#rcmGroupMenu li.submenu
+ul.rcmcontextmenu li.submenu
 {
   background-image: url(contexticons.gif);
 }
 
-#rcmContextMenu li a,
-#rcmFolderMenu li a,
-#rcmAddressMenu li a,
-#rcmGroupMenu li a
+ul.rcmcontextmenu li a
 {
   background-image: url(contexticons.gif);
 }

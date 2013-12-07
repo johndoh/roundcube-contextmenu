@@ -104,7 +104,7 @@ class contextmenu extends rcube_plugin
 			$lis .= html::tag('li', array('class' => 'open'), html::a(array('href' => "#open", 'id' => 'rcm_open', 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('openinextwin')))));
 			$li .= html::tag('li', array('class' => 'submenu moreacts'), html::span(null, rcmail::Q($this->gettext('moreactions'))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu moreacts'), $lis));
 
-			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'popupmenu toolbarmenu'), $li);
+			$out .= html::tag('ul', array('id' => 'rcmContextMenu', 'class' => 'rcmcontextmenu popupmenu toolbarmenu'), $li);
 		}
 
 		// folder list menu
@@ -120,7 +120,7 @@ class contextmenu extends rcube_plugin
 
 		$li .= html::tag('li', array('class' => 'openfolder'), html::a(array('href' => "#openfolder", 'id' => 'rcm_openfolder', 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('openinextwin')))));
 
-		$out .= html::tag('ul', array('id' => 'rcmFolderMenu', 'class' => 'popupmenu toolbarmenu'), $li);
+		$out .= html::tag('ul', array('id' => 'rcmFolderMenu', 'class' => 'rcmcontextmenu popupmenu toolbarmenu'), $li);
 
 		$this->api->output->add_footer(html::div(null , $out));
 
@@ -158,7 +158,7 @@ class contextmenu extends rcube_plugin
 		$lis .= html::tag('li', array('class' => 'exportsel'), html::a(array('href' => "#export-selected", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('exportsel')))));
 		$li .= html::tag('li', array('class' => 'submenu exportacts'), html::a(array('href' => "#export", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('export')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu exportacts'), $lis));
 
-		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'popupmenu toolbarmenu'), $li);
+		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'rcmcontextmenu popupmenu toolbarmenu'), $li);
 
 		// contact group menu
 		$li = '';
@@ -167,7 +167,7 @@ class contextmenu extends rcube_plugin
 		$li .= html::tag('li', array('class' => 'grouprename'), html::a(array('href' => "#group-rename", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('grouprename')))));
 		$li .= html::tag('li', array('class' => 'groupdelete'), html::a(array('href' => "#group-delete", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('groupdelete')))));
 
-		$out .= html::tag('ul', array('id' => 'rcmGroupMenu', 'class' => 'popupmenu toolbarmenu'), $li);
+		$out .= html::tag('ul', array('id' => 'rcmGroupMenu', 'class' => 'rcmcontextmenu popupmenu toolbarmenu'), $li);
 
 		$this->api->output->add_footer(html::div(null , $out));
 

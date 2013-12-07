@@ -14,32 +14,20 @@
   background-color: #C7E3EF;
 }
 
-#rcmContextMenu,
-#rcmFolderMenu,
-#rcmAddressMenu,
-#rcmGroupMenu
+ul.rcmcontextmenu
 {
   padding-top: 3px;
   min-width: 220px;
 }
 
-#rcmContextMenu li,
-#rcmFolderMenu li,
-#rcmAddressMenu li,
-#rcmGroupMenu li
+ul.rcmcontextmenu li
 {
   margin: 0;
   padding: 0;
 }
 
-#rcmContextMenu li ul,
-#rcmContextMenu li div,
-#rcmFolderMenu li ul,
-#rcmFolderMenu li div,
-#rcmAddressMenu li ul,
-#rcmAddressMenu li div,
-#rcmGroupMenu li ul,
-#rcmGroupMenu li div
+ul.rcmcontextmenu li ul,
+ul.rcmcontextmenu li div
 {
   position: absolute;
   top: 0px;
@@ -57,52 +45,31 @@
   -o-box-shadow: 0 2px 6px 0 #333;
 }
 
-#rcmContextMenu li.conmentitle,
-#rcmContextMenu li.submenu,
-#rcmFolderMenu li.conmentitle,
-#rcmFolderMenu li.submenu,
-#rcmAddressMenu li.conmentitle,
-#rcmAddressMenu li.submenu,
-#rcmGroupMenu li.conmentitle,
-#rcmGroupMenu li.submenu
+ul.rcmcontextmenu li.conmentitle,
+ul.rcmcontextmenu li.submenu
 {
   padding: 0;
   cursor: default;
 }
 
-#rcmContextMenu li.conmentitle span,
-#rcmContextMenu li.submenu span,
-#rcmFolderMenu li.conmentitle span,
-#rcmFolderMenu li.submenu span,
-#rcmAddressMenu li.conmentitle span,
-#rcmAddressMenu li.submenu span,
-#rcmGroupMenu li.conmentitle span,
-#rcmGroupMenu li.submenu span
+ul.rcmcontextmenu li.conmentitle span,
+ul.rcmcontextmenu li.submenu span
 {
   display: block;
   padding: 6px 10px 6px 29px;
 }
 
-#rcmContextMenu li.sublink,
-#rcmFolderMenu li.sublink,
-#rcmAddressMenu li.sublink,
-#rcmGroupMenu li.sublink
+ul.rcmcontextmenu li.sublink
 {
   padding: 0;
 }
 
-#rcmContextMenu li.submenu,
-#rcmFolderMenu li.submenu,
-#rcmAddressMenu li.submenu,
-#rcmGroupMenu li.submenu
+ul.rcmcontextmenu li.submenu
 {
   position: relative;
 }
 
-#rcmContextMenu li.submenu span,
-#rcmFolderMenu li.submenu span,
-#rcmAddressMenu li.submenu span,
-#rcmGroupMenu li.submenu span
+ul.rcmcontextmenu li.submenu span
 {
   cursor: pointer;
   background: url(contexticons.png) no-repeat right -188px;
@@ -115,14 +82,8 @@
   text-indent: 15px;
 }
 
-#rcmContextMenu li.submenu:hover,
-#rcmContextMenu li.sublink:hover a.mainlink,
-#rcmFolderMenu li.submenu:hover,
-#rcmFolderMenu li.sublink:hover a.mainlink,
-#rcmAddressMenu li.submenu:hover,
-#rcmAddressMenu li.sublink:hover a.mainlink,
-#rcmGroupMenu li.submenu:hover,
-#rcmGroupMenu li.sublink:hover a.mainlink
+ul.rcmcontextmenu li.submenu:hover,
+ul.rcmcontextmenu li.sublink:hover a.mainlink
 {
   background-color: #00aad6;
   background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
@@ -132,20 +93,14 @@
   background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
 }
 
-#rcmContextMenu li a,
-#rcmFolderMenu li a,
-#rcmAddressMenu li a,
-#rcmGroupMenu li a
+ul.rcmcontextmenu li a
 {
   padding: 0;
   margin-left: 0;
 }
 
 
-#rcmContextMenu li a span,
-#rcmFolderMenu li a span,
-#rcmAddressMenu li a span,
-#rcmGroupMenu li a span
+ul.rcmcontextmenu li a span
 {
   display: block;
   background: url(contexticons.png) no-repeat 7px 20px;
@@ -153,10 +108,7 @@
   cursor: pointer;
 }
 
-#rcmContextMenu li a.active:hover,
-#rcmFolderMenu li a.active:hover,
-#rcmAddressMenu li a.active:hover,
-#rcmGroupMenu li a.active:hover
+ul.rcmcontextmenu li a.active:hover
 {
   background-color: #00aad6;
   background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
@@ -166,27 +118,18 @@
   background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
 }
 
-#rcmContextMenu a.disabled,
-#rcmFolderMenu a.disabled,
-#rcmAddressMenu a.disabled,
-#rcmGroupMenu a.disabled
+ul.rcmcontextmenu a.disabled
 {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
 
-#rcmContextMenu li a.disabled span,
-#rcmFolderMenu li a.disabled span,
-#rcmAddressMenu li a.disabled span,
-#rcmGroupMenu li a.disabled span
+ul.rcmcontextmenu li a.disabled span
 {
   cursor: default;
 }
 
-#rcmContextMenu li a.disabled:hover,
-#rcmFolderMenu li a.disabled:hover,
-#rcmAddressMenu li a.disabled:hover,
-#rcmGroupMenu li a.disabled:hover
+ul.rcmcontextmenu li a.disabled:hover
 {
   background-color: #444444;
   background: -moz-linear-gradient(top, #444444 0%, #444444 100%);
@@ -364,28 +307,20 @@
   background-position: 5px -209px;
 }
 
-#rcmContextMenu.popupmenu,
-#rcmFolderMenu.popupmenu,
-#rcmAddressMenu.popupmenu,
-#rcmContextMenu .popupmenu,
-#rcmFolderMenu .popupmenu,
-#rcmAddressMenu .popupmenu
+ul.rcmcontextmenu.popupmenu,
+ul.rcmcontextmenu .popupmenu
 {
   max-height: none;
   overflow: visible;
 }
 
-#rcmContextMenu div.popupmenu,
-#rcmFolderMenu div.popupmenu,
-#rcmAddressMenu div.popupmenu
+ul.rcmcontextmenu div.popupmenu
 {
   height: 129px;
   padding: 0;
 }
 
-#rcmContextMenu ul.scrollable,
-#rcmFolderMenu ul.scrollable,
-#rcmAddressMenu ul.scrollable
+ul.rcmcontextmenu ul.scrollable
 {
   top: 15px;
   height: 100px;
@@ -395,36 +330,28 @@
   margin: 0;
 }
 
-#rcmContextMenu li div,
-#rcmFolderMenu li div,
-#rcmAddressMenu li div
+ul.rcmcontextmenu li div
 {
   height: 12px;
   overflow: hidden;
   background: url(contexticons.png) #444 no-repeat center 20px;
 }
 
-#rcmContextMenu li div.scroll_up_act,
-#rcmFolderMenu li div.scroll_up_act,
-#rcmAddressMenu li div.scroll_up_act
+ul.rcmcontextmenu li div.scroll_up_act
 {
   background-position: center -216px;
   border-bottom: 0;
   cursor: pointer;
 }
 
-#rcmContextMenu li div.scroll_up_pas,
-#rcmFolderMenu li div.scroll_up_pas,
-#rcmAddressMenu li div.scroll_up_pas
+ul.rcmcontextmenu li div.scroll_up_pas
 {
   background-position: center -233px;
   border-bottom: 0;
   cursor: default;
 }
 
-#rcmContextMenu li div.scroll_down_act,
-#rcmFolderMenu li div.scroll_down_act,
-#rcmAddressMenu li div.scroll_down_act
+ul.rcmcontextmenu li div.scroll_down_act
 {
   top: 117px;
   background-position: center -251px;
@@ -432,9 +359,7 @@
   cursor: pointer;
 }
 
-#rcmContextMenu li div.scroll_down_pas,
-#rcmFolderMenu li div.scroll_down_pas,
-#rcmAddressMenu li div.scroll_down_pas
+ul.rcmcontextmenu li div.scroll_down_pas
 {
   top: 117px;
   background-position: center -270px;
