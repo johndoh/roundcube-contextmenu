@@ -81,12 +81,12 @@ class contextmenu extends rcube_plugin
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'replyall'), html::a(array('href' => "#reply-all", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('replytoallmessage')))));
 			$lis .= html::tag('li', array('class' => 'replylist'), html::a(array('href' => "#reply-list", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('replylist')))));
-			$li .= html::tag('li', array('class' => 'submenu replyacts'), html::a(array('href' => "#reply-all", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('replyall')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu sublink replyacts'), html::a(array('href' => "#reply-all", 'class' => 'mainlink active'), html::span(null, rcmail::Q($this->gettext('replyall')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu replyacts'), $lis));
 
 			$lis = '';
 			$lis .= html::tag('li', array('class' => 'forwardinline'), html::a(array('href' => "#forward-inline", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('forwardinline')))));
 			$lis .= html::tag('li', array('class' => 'forwardattachment'), html::a(array('href' => "#forward-attachment", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('forwardattachment')))));
-			$li .= html::tag('li', array('class' => 'submenu forwardacts'), html::a(array('href' => "#forward-inline", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('forward')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
+			$li .= html::tag('li', array('class' => 'submenu sublink forwardacts'), html::a(array('href' => "#forward-inline", 'class' => 'mainlink active'), html::span(null, rcmail::Q($this->gettext('forward')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu forwardacts'), $lis));
 
 			//$rcmail = rcmail::get_instance();
 			//if (!$rcmail->config->get('flag_for_deletion', false) && $rcmail->config->get('trash_mbox') && $_SESSION['mbox'] != $rcmail->config->get('trash_mbox'))
@@ -156,7 +156,7 @@ class contextmenu extends rcube_plugin
 		$lis = '';
 		$lis .= html::tag('li', array('class' => 'exportall'), html::a(array('href' => "#export", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('exportall')))));
 		$lis .= html::tag('li', array('class' => 'exportsel'), html::a(array('href' => "#export-selected", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('exportsel')))));
-		$li .= html::tag('li', array('class' => 'submenu exportacts'), html::a(array('href' => "#export", 'class' => 'active'), html::span(null, rcmail::Q($this->gettext('export')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu exportacts'), $lis));
+		$li .= html::tag('li', array('class' => 'submenu sublink exportacts'), html::a(array('href' => "#export", 'class' => 'mainlink active'), html::span(null, rcmail::Q($this->gettext('export')))) . html::tag('ul', array('class' => 'popupmenu toolbarmenu exportacts'), $lis));
 
 		$out .= html::tag('ul', array('id' => 'rcmAddressMenu', 'class' => 'rcmcontextmenu popupmenu toolbarmenu'), $li);
 

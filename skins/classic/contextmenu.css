@@ -47,11 +47,6 @@ ul.rcmcontextmenu li.submenu
   cursor: default;
 }
 
-ul.rcmcontextmenu li.sublink
-{
-  padding: 0;
-}
-
 ul.rcmcontextmenu li.submenu
 {
   position: relative;
@@ -60,11 +55,9 @@ ul.rcmcontextmenu li.submenu
   padding-right: 15px;
 }
 
-#rcmContextMenu li.replyacts,
-#rcmContextMenu li.forwardacts,
-#rcmAddressMenu li.exportacts
+ul.rcmcontextmenu li.sublink
 {
- padding: 0 8px 0 0;
+  padding: 0 8px 0 0;
 }
 
 #rcmContextMenu li.markmessage a,
@@ -74,9 +67,9 @@ ul.rcmcontextmenu li.submenu
 }
 
 ul.rcmcontextmenu li.submenu:hover,
-ul.rcmcontextmenu li.sublink:hover a.mainlink
+ul.rcmcontextmenu li.submenu:hover a.mainlink
 {
-  color: #fff;
+  color: #fff !important;
   background-color: #CC0000;
 }
 

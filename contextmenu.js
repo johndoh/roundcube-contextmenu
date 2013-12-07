@@ -132,17 +132,18 @@ function rcm_contextmenu_register_command(command, callback, label, pos, sep, mu
 
 	if (pos && menu.children('li.' + pos) && newSub) {
 		subMenu = menu.children('li.' + pos);
+		subMenu.removeClass();
 		subMenu.addClass('submenu');
 
 		var mainLink = null;
-		if (subMenu.children('a') && !subMenu.hasClass('sublink')) {
+		if (subMenu.children('a') && !subMenu.children('a').hasClass('mainlink')) {
 			subMenu.addClass('sublink');
 
 			var mainLink = $('<li>').addClass(pos);
 			subMenu.children('a').clone().appendTo(mainLink)
-			subMenu.children('a').addClass('mainlink');
 		}
 
+		subMenu.children('a').addClass('mainlink');
 		var newMenu = $('<ul>').addClass('toolbarmenu').appendTo(subMenu);
 
 		if (mainLink)

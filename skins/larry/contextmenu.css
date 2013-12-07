@@ -59,11 +59,6 @@ ul.rcmcontextmenu li.submenu span
   padding: 6px 10px 6px 29px;
 }
 
-ul.rcmcontextmenu li.sublink
-{
-  padding: 0;
-}
-
 ul.rcmcontextmenu li.submenu
 {
   position: relative;
@@ -83,7 +78,7 @@ ul.rcmcontextmenu li.submenu span
 }
 
 ul.rcmcontextmenu li.submenu:hover,
-ul.rcmcontextmenu li.sublink:hover a.mainlink
+ul.rcmcontextmenu li.submenu:hover a.mainlink
 {
   background-color: #00aad6;
   background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
