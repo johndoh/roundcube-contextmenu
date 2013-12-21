@@ -9,37 +9,37 @@ ul.rcmcontextmenu
 
 ul.rcmcontextmenu li.submenu
 {
-  background-image: url(contexticons.gif);
+  background-image: url(images/contexticons.gif);
 }
 
 ul.rcmcontextmenu li a
 {
-  background-image: url(contexticons.gif);
+  background-image: url(images/contexticons.gif);
 }
 
 #rcmContextMenu ul.moreacts li a
 {
-  background-image: url(messageactions.gif);
+  background-image: url(images/messageactions.gif);
 }
 
 #rcmFolderMenu .openfolder a
 {
-  background-image: url(messageactions.gif);
+  background-image: url(images/messageactions.gif);
 }
 
 #rcmAddressMenu .editcontact a
 {
-   background-image: url(messageactions.gif);
+   background-image: url(images/messageactions.gif);
 }
 
 #rcmContextMenu ul.folders li a,
 #rcmAddressMenu ul.folders li a
 {
-  background-image: url(folders.gif);
+  background-image: url(images/folders.gif);
 }
 
 #rcmContextMenu li div,
 #rcmAddressMenu li div
 {
-  background-image: url(contexticons.gif);
+  background-image: url(images/contexticons.gif);
 }

@@ -67,7 +67,7 @@ ul.rcmcontextmenu li.submenu
 ul.rcmcontextmenu li.submenu span
 {
   cursor: pointer;
-  background: url(contexticons.png) no-repeat right -188px;
+  background: url(images/contexticons.png) no-repeat right -188px;
   padding-right: 18px;
 }
 
@@ -98,7 +98,7 @@ ul.rcmcontextmenu li a
 ul.rcmcontextmenu li a span
 {
   display: block;
-  background: url(contexticons.png) no-repeat 7px 20px;
+  background: url(images/contexticons.png) no-repeat 7px 20px;
   padding: 6px 10px 6px 29px;
   cursor: pointer;
 }
@@ -201,7 +201,7 @@ ul.rcmcontextmenu li a.disabled:hover
 
 #rcmContextMenu ul.moreacts li a span
 {
-  background: url(messageactions.png) no-repeat 5px 30px;
+  background: url(images/messageactions.png) no-repeat 5px 30px;
 }
 
 #rcmContextMenu ul.moreacts li.print a span
@@ -226,7 +226,7 @@ ul.rcmcontextmenu li a.disabled:hover
 
 #rcmFolderMenu .openfolder a span
 {
-  background: url(messageactions.png) no-repeat 5px -96px;
+  background: url(images/messageactions.png) no-repeat 5px -96px;
 }
 
 #rcmContextMenu ul.moreacts li.edit a span
@@ -236,7 +236,7 @@ ul.rcmcontextmenu li a.disabled:hover
 
 #rcmAddressMenu .editcontact a span
 {
-   background: url(messageactions.png) no-repeat 5px 0px;
+   background: url(images/messageactions.png) no-repeat 5px 0px;
 }
 
 #rcmAddressMenu .composeto a span
@@ -258,7 +258,7 @@ ul.rcmcontextmenu li a.disabled:hover
 #rcmContextMenu ul.folders li a span,
 #rcmAddressMenu ul.folders li a span
 {
-  background: url(folders.png) 5px 3px no-repeat;
+  background: url(images/folders.png) 5px 3px no-repeat;
 }
 
 #rcmContextMenu ul.folders li.subfolder a span
@@ -329,7 +329,7 @@ ul.rcmcontextmenu li div
 {
   height: 12px;
   overflow: hidden;
-  background: url(contexticons.png) #444 no-repeat center 20px;
+  background: url(images/contexticons.png) #444 no-repeat center 20px;
 }
 
 ul.rcmcontextmenu li div.scroll_up_act
