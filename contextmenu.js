@@ -405,10 +405,17 @@ function rcm_addressmenu_init(row) {
 							rcmail.env.cid = null;
 
 						rcmail.drag_active = true;
-						if (rcmail.env.rcm_destgroup)
-							rcmail.command(command, rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup], $(el));
-						else
+						if (rcmail.env.rcm_destgroup) {
+							if (command == 'copy' && rcmail.env.rcm_destsource == ab_src) {
+								rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), ab_src, rcmail.env.rcm_destgroup);
+							}
+							else {
+								rcmail.command(command, rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup], $(el));
+							}
+						}
+						else {
 							rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destsource], $(el));
+						}
 						rcmail.drag_active = false;
 
 						if (prev_sel) {
