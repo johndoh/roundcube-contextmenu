@@ -57,8 +57,8 @@ class contextmenu extends rcube_plugin
 		$rcmail = rcube::get_instance();
 		$this->add_texts('localization/');
 		$rcmail->output->add_label('nomessagesfound');
-		$this->include_script('jquery.contextMenu.js');
-		$this->include_script('jquery.mousewheel.js');
+		$this->include_script('jquery.contextmenu.min.js');
+		$this->include_script('jquery.mousewheel.min.js');
 		$this->include_script('contextmenu.js');
 
 		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
@@ -135,8 +135,8 @@ class contextmenu extends rcube_plugin
 	{
 		$rcmail = rcube::get_instance();
 		$this->add_texts('localization/');
-		$this->include_script('jquery.contextMenu.js');
-		$this->include_script('jquery.mousewheel.js');
+		$this->include_script('jquery.contextmenu.min.js');
+		$this->include_script('jquery.mousewheel.min.js');
 		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script('contextmenu.js');
 		$out = '';
