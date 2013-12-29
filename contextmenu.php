@@ -60,7 +60,6 @@ class contextmenu extends rcube_plugin
 		$this->add_texts('localization/');
 		$rcmail->output->add_label('nomessagesfound');
 		$this->include_script('jquery.contextmenu.min.js');
-		$this->include_script('jquery.mousewheel.min.js');
 		$this->include_script('contextmenu.js');
 
 		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
@@ -138,7 +137,6 @@ class contextmenu extends rcube_plugin
 		$rcmail = rcube::get_instance();
 		$this->add_texts('localization/');
 		$this->include_script('jquery.contextmenu.min.js');
-		$this->include_script('jquery.mousewheel.min.js');
 		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script('contextmenu.js');
 		$out = '';
@@ -254,7 +252,7 @@ class contextmenu extends rcube_plugin
 			if ($nestLevel > 0)
 				$classes[] = 'subfolder';
 
-			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('". rcmail::JQ($folder['id']) ."')", 'class' => 'active', 'title' => $title), html::span(null, str_repeat('&nbsp;&nbsp;', $nestLevel) . rcmail::Q($foldername))));
+			$out .= html::tag('li', array('class' => join(' ', $classes)), html::a(array('href' => $command, 'onclick' => "rcm_set_dest_folder('". rcmail::JQ($folder['id']) ."')", 'class' => 'active', 'title' => $title, 'style' => 'padding-left: '. $nestLevel*16 .'px'), html::span(null, rcmail::Q($foldername))));
 
 			if (!empty($folder['folders']))
 				$out .= $this->_gen_folder_list($folder['folders'], $command, $nestLevel+1, $folderTotal);
@@ -263,10 +261,8 @@ class contextmenu extends rcube_plugin
 		}
 
 		if ($nestLevel == 0) {
-			if ($folderTotal > 5) {
-				$out = html::tag('ul', array('class' => 'toolbarmenu folders scrollable'), $out);
-				$out = html::tag('div', array('class' => 'scroll_up_pas'), '') . $out . html::tag('div', array('class' => 'scroll_down_act'), '');
-				$out = html::tag('div', array('class' => 'popupmenu'), $out);
+			if ($folderTotal > 10) {
+				$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu folders scrollmenu'), $out);
 			}
 			else {
 				$out = html::tag('ul', array('class' => 'popupmenu toolbarmenu folders'), $out);
@@ -302,9 +298,9 @@ class contextmenu extends rcube_plugin
 			}
 
 			if ($source['readonly'])
-				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($id), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($id) ."', '" . rcmail::JQ($id) ."', null)", 'class' => 'active', 'title' => $title), html::span(null, rcmail::Q($bookname))));
+				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($id), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($id) ."', '" . rcmail::JQ($id) ."', null)", 'class' => 'active', 'title' => $title, 'style' => 'padding-left: 0'), html::span(null, rcmail::Q($bookname))));
 			else
-				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($id), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($id) ."', '" . rcmail::JQ($id) ."', null)", 'class' => 'active', 'title' => $title), html::span(null, rcmail::Q($bookname))));
+				$out .= html::tag('li', array('id' => 'rcm_contextaddr_' . $id, 'class' => 'addressbook'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($id), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($id) ."', '" . rcmail::JQ($id) ."', null)", 'class' => 'active', 'title' => $title, 'style' => 'padding-left: 0'), html::span(null, rcmail::Q($bookname))));
 
 			// contact groups
 			if ($source['groups']) {
@@ -325,9 +321,9 @@ class contextmenu extends rcube_plugin
 					}
 
 					if ($source['readonly'])
-						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($gid), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($gid) . "', '" . rcmail::JQ($id) . "', '" . rcmail::JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), html::span(null, rcmail::Q($groupname))));
+						$out .= html::tag('li', array('class' => 'contactgroup disabled'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($gid), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($gid) . "', '" . rcmail::JQ($id) . "', '" . rcmail::JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title, 'style' => 'padding-left: 16px'), html::span(null, rcmail::Q($groupname))));
 					else
-						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($gid), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($gid) . "', '" . rcmail::JQ($id) . "', '" . rcmail::JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title), html::span(null, rcmail::Q($groupname))));
+						$out .= html::tag('li', array('class' => 'contactgroup'), html::a(array('href' => $command, 'id' => 'rcm_contextgrps_'. rcmail::JQ($gid), 'onclick' => "rcm_set_dest_book('" . rcmail::JQ($gid) . "', '" . rcmail::JQ($id) . "', '" . rcmail::JQ($group['ID']) ."')", 'class' => 'active', 'title' => $title, 'style' => 'padding-left: 16px'), html::span(null, rcmail::Q($groupname))));
 
 					$groupTotal++;
 				}
@@ -336,10 +332,8 @@ class contextmenu extends rcube_plugin
 			$groupTotal++;
 		}
 
-		if ($groupTotal > 5) {
-			$out = html::tag('ul', array('id' => 'rcm_contextgrps', 'class' => 'toolbarmenu folders scrollable'), $out);
-			$out = html::tag('div', array('class' => 'scroll_up_pas'), '') . $out . html::tag('div', array('class' => 'scroll_down_act'), '');
-			$out = html::tag('div', array('class' => 'popupmenu'), $out);
+		if ($groupTotal > 10) {
+			$out = html::tag('ul', array('id' => 'rcm_contextgrps', 'class' => 'popupmenu toolbarmenu folders scrollmenu'), $out);
 		}
 		else {
 			$out = html::tag('ul', array('id' => 'rcm_contextgrps', 'class' => 'popupmenu toolbarmenu folders'), $out);

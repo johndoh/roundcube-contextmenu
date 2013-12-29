@@ -67,13 +67,11 @@ ul.rcmcontextmenu li.submenu
 
 ul.rcmcontextmenu li.submenu span
 {
-  cursor: pointer;
   background: url(images/contexticons.png) no-repeat right -188px;
   padding-right: 18px;
 }
 
-#rcmContextMenu li.markmessage a span,
-#rcmAddressMenu li.contactgroup a span
+#rcmContextMenu li.markmessage a span
 {
   text-indent: 15px;
 }
@@ -95,13 +93,11 @@ ul.rcmcontextmenu li a
   margin-left: 0;
 }
 
-
 ul.rcmcontextmenu li a span
 {
   display: block;
   background: url(images/contexticons.png) no-repeat 7px 20px;
   padding: 6px 10px 6px 29px;
-  cursor: pointer;
 }
 
 ul.rcmcontextmenu li a.active:hover
@@ -310,55 +306,8 @@ ul.rcmcontextmenu .popupmenu
   overflow: visible;
 }
 
-ul.rcmcontextmenu div.popupmenu
-{
-  height: 129px;
-  padding: 0;
-}
-
-ul.rcmcontextmenu ul.scrollable
-{
-  top: 15px;
-  height: 100px;
-  overflow: hidden;
-  border-top: 0;
-  border-bottom: 0;
-  margin: 0;
-}
-
-ul.rcmcontextmenu li div
-{
-  height: 12px;
-  overflow: hidden;
-  background: url(images/contexticons.png) #444 no-repeat center 20px;
-}
-
-ul.rcmcontextmenu li div.scroll_up_act
-{
-  background-position: center -216px;
-  border-bottom: 0;
-  cursor: pointer;
-}
-
-ul.rcmcontextmenu li div.scroll_up_pas
-{
-  background-position: center -233px;
-  border-bottom: 0;
-  cursor: default;
-}
-
-ul.rcmcontextmenu li div.scroll_down_act
-{
-  top: 117px;
-  background-position: center -251px;
-  border-top: 0;
-  cursor: pointer;
-}
-
-ul.rcmcontextmenu li div.scroll_down_pas
-{
-  top: 117px;
-  background-position: center -270px;
-  border-top: 0;
-  cursor: default;
+ul.rcmcontextmenu ul.scrollmenu {
+  max-height: 290px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
