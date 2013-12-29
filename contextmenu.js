@@ -528,6 +528,7 @@ function rcm_groupmenu_update(action, props) {
 				.attr('href', '#copy')
 				.addClass('active')
 				.attr('onclick', "rcm_set_dest_book('G" + gid + "', '" + props.source + "','" + props.id + "')")
+				.css('padding-left', '16px')
 				.html($('<span>').text(props.name));
 
 			var li = $('<li>').addClass('contactgroup').append(link);
