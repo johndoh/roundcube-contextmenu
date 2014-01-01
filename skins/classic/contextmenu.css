@@ -209,33 +209,42 @@ ul.rcmcontextmenu a.disabled:hover
 #rcmContextMenu ul.folders li a span,
 #rcmAddressMenu ul.folders li a span
 {
-  background: url(images/folders.png) 5px 1px no-repeat;
+  background: url(images/folders.png) 5px 0 no-repeat;
   padding-left: 28px;
 }
 
 #rcmContextMenu ul.folders li.inbox a span
 {
-  background-position: 5px -17px;
+  background-position: 5px -18px;
 }
 
 #rcmContextMenu ul.folders li.drafts a span
 {
-  background-position: 5px -36px;
+  background-position: 5px -38px;
 }
 
 #rcmContextMenu ul.folders li.sent a span
 {
-  background-position: 5px -54px;
+  background-position: 5px -55px;
 }
 
 #rcmContextMenu ul.folders li.junk a span
 {
-  background-position: 5px -73px;
+  background-position: 5px -74px;
 }
 
 #rcmContextMenu ul.folders li.trash a span
 {
-  background-position: 5px -90px;
+  /*
+  not used yet (folder selector widget in core needs to be updated)
+  background-position: 5px -181px;
+  */
+  background-position: 5px -92px;
+}
+
+#rcmContextMenu ul.folders li.trash.empty a span
+{
+  background-position: 5px -92px;
 }
 
 #rcmAddressMenu ul.folders li.addressbook a span
