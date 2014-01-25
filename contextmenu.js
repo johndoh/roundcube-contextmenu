@@ -12,6 +12,17 @@ function rcm_contextmenu_update() {
 	//	$("#rcm_delete").html('<span>' + rcmail.gettext('deletemessage') + '</span>');
 }
 
+function rcm_contextmenu_markfolder(props) {
+	if (props.folder == rcmail.env.trash_mailbox && props.mark == 'empty') {
+		if (props.status) {
+			$('#rcmContextMenu ul.folders li.trash').addClass(props.mark);
+		}
+		else {
+			$('#rcmContextMenu ul.folders li.trash').removeClass(props.mark);
+		}
+	}
+}
+
 function rcm_contextmenu_init(row) {
 	$("#" + row).contextMenu({
 		menu: 'rcmContextMenu',
@@ -654,6 +665,7 @@ $(document).ready(function() {
 		if ($('#rcmContextMenu').length > 0) {
 			rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); } );
 			rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
+			//rcmail.addEventListener('markfolder', function(props) { rcm_contextmenu_markfolder(props); } );
 		}
 
 		// init folder list menu
