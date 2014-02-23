@@ -16,8 +16,13 @@ function add_menu_text(menu, p) {
 			$(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.addbcc').attr('title'));
 		}
 	}
-	else if (menu == 'contactlist' && $(p.item).children('a').hasClass('delete')) {
-		$(p.item).children('a').children('span').text($('#addresslist div.boxfooter a.delete').attr('title'));
+	else if (menu == 'contactlist') {
+		if ($(p.item).children('a').hasClass('delete')) {
+			$(p.item).children('a').children('span').text($('#addresslist div.boxfooter a.delete').attr('title'));
+		}
+		else if ($(p.item).children('a').hasClass('removegroup')) {
+			$(p.item).children('a').children('span').text($('#addresslist div.boxfooter a.removegroup').attr('title'));
+		}
 	}
 	else if (menu == 'abooklist' && $(p.item).children('a').hasClass('add')) {
 		$(p.item).children('a').children('span').text($('#directorylist-footer a.add').attr('title'));
@@ -40,7 +45,19 @@ $(document).ready(function() {
 		}
 
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete'], 'list_object': rcmail.contact_list, 'list_object_select': false}, {'insertitem': function(p) { add_menu_text('contactlist', p); }}); } );
+			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete', ,'#addresslist div.boxfooter a.removegroup'], 'list_object': rcmail.contact_list, 'list_object_select': false}, {
+				'insertitem': function(p) { add_menu_text('contactlist', p); },
+				'afterinit': function(p) {
+					p.ref.list_selection(false, rcmail['rcm_selection']);
+
+					if (!rcmail.env.group || rcmail.env.readonly)
+						p.obj.find('a.removegroup').removeClass('active');
+				},
+				'afterselect': function(p) {
+					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')
+						rcmail.command('listgroup', {'source': rcmail.env.source, 'id': rcmail.env.group}, p.el);
+				}
+			}); } );
 			rcmail.add_onload("rcm_abookmenu_init('#directorylist li.addressbook', '#directorylist-footer', {'insertitem': function(p) { add_menu_text('abooklist', p); }})");
 			rcmail.add_onload("rcm_groupmenu_init('#directorylist ul.groups li', '#groupoptionsmenu')");
 			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_init(props.li, '#groupoptionsmenu') } );

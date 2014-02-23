@@ -19,22 +19,6 @@ function rcm_listmenu_init(row, props, events) {
     	},
     	'afterinit': function(p) {
 	    	p.ref.list_selection(false, rcmail['rcm_selection']);
-    	},
-		'select': function(p) {
-    		var prev_sel = p.ref.list_selection(true);
-			// enable the required command
-			var prev_command = rcmail.commands[p.command];
-			rcmail.enable_command(p.command, true);
-    		var result = rcmail.command(p.command, p.args, p.el);
-			rcmail.enable_command(p.command, prev_command);
-    		p.ref.list_selection(false, prev_sel);
-
-    		if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
-	    		rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
-	    		rcmail.enable_command(p.command, true);
-    		}
-
-    		return result;
     	}
 	}, events));
 
@@ -56,15 +40,6 @@ function rcm_foldermenu_init(el, menu_source, events) {
 				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter))) {
 					p.obj.find('a.cmd_purge').addClass('active');
 			}
-		},
-		'select': function(p) {
-			// enable the required command
-			var prev_command = rcmail.commands[p.command];
-			rcmail.enable_command(p.command, true);
-    		var result = rcmail.command(p.command, p.args, p.el);
-			rcmail.enable_command(p.command, prev_command);
-
-    		return result;
 		}
 	}, events));
 
@@ -87,21 +62,15 @@ function rcm_abookmenu_init(el, menu_source, events) {
 			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
 				p.obj.find('a').removeClass('active');
 		},
-		'select': function(p) {
+		'beforeselect': function(p) {
 			if (!$(p.el).hasClass('active'))
 				return false;
 
 			rcmail.env.source = rcmail.env.context_menu_source_id;
-
-			// enable the required command
-			var prev_command = rcmail.commands[p.command];
-			rcmail.enable_command(p.command, true);
-			var result = rcmail.command(p.command, p.args, p.el);
-			rcmail.enable_command(p.command, prev_command);
-
-			rcmail.command('list', rcmail.env.context_menu_source_id, p.el);
-
-    		return result;
+		},
+		'afterselect': function(p) {
+			if (rcmail.env.source = rcmail.env.context_menu_source_id);
+				rcmail.command('list', rcmail.env.context_menu_source_id, p.el);
 		}
 	}, events));
 
@@ -153,7 +122,7 @@ function rcm_groupmenu_init(el, menu_source, events) {
 					rcmail.env.group = prev_group;
 					prev_source = cur_source;
 					prev_group = cur_id;
-					rcmail.command('listgroup', {'source': prev_source,'id': prev_group}, p.el);
+					rcmail.command('listgroup', {'source': prev_source, 'id': prev_group}, p.el);
 					rcmail.enable_command('listgroup', false);
 					break;
 				case 'group-delete':
@@ -177,12 +146,38 @@ function rcm_groupmenu_init(el, menu_source, events) {
 }
 
 function rcm_callbackmenu_init(obj, props, events) {
-	if (!events)
-		events = {};
+	var std_events = {
+		'select': function(p) {
+			if (!$(p.el).hasClass('active'))
+				return false;
+
+			if (p.ref.list_object)
+	   			var prev_sel = p.ref.list_selection(true);
+
+			// enable the required command
+			var prev_command = rcmail.commands[p.command];
+			rcmail.enable_command(p.command, true);
+    		var result = rcmail.command(p.command, p.args, p.el);
+			rcmail.enable_command(p.command, prev_command);
+
+			if (p.ref.list_object)
+    			p.ref.list_selection(false, prev_sel);
+
+    		if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
+	    		rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
+	    		rcmail.enable_command(p.command, true);
+    		}
+
+    		return result;
+		}
+	}
+
+	if (events)
+		$.extend(std_events, events);
 
 	if (!rcmail['rcm_' + props.menu_name]) {
 		var menu = new rcube_context_menu(props);
-		$.each(events, function(trigger, func) {
+		$.each(std_events, function(trigger, func) {
 			menu.addEventListener(trigger, function(p) { func(p); });
 		});
 		menu.init();
@@ -303,7 +298,13 @@ function rcube_context_menu(p) {
 						if (elem.attr('target'))
 							$(a).attr('target', elem.attr('target'));
 
-						a.onclick = function() { return ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args}); }
+						a.onclick = function() {
+							ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
+							var result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args});
+							ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
+
+							return result;
+						}
 					}
 
 					elem.addClass('rcm_elem_' + elem.attr('id'));

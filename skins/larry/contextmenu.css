@@ -44,3 +44,8 @@ div.contextmenu ul li a.compose span.cmicon
 {
   background-position: 0 -281px;
 }
+
+div.contextmenu ul li a.removegroup span.cmicon
+{
+  background-position: 0 -347px;
+}
