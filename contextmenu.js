@@ -40,7 +40,14 @@ function rcm_foldermenu_init(el, menu_source, events) {
 				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter))) {
 					p.obj.find('a.cmd_purge').addClass('active');
 			}
-		}
+		},
+    	'beforeselect': function(p) {
+	    	rcmail['rcm_selection'] = rcmail.env.mailbox;
+	    	rcmail.env.mailbox = rcmail.env.context_menu_source_id;
+    	},
+    	'afterselect': function(p) {
+	    	rcmail.env.mailbox = rcmail['rcm_selection'];
+    	}
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
