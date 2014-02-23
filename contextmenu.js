@@ -2,690 +2,492 @@
  * ContextMenu plugin script
  */
 
-rcube_webmail.prototype.contextmenu_command_handlers = new Object();
-rcube_webmail.prototype.contextmenu_disable_multi = new Array('#reply','#reply-all','#reply-list','#forward-inline','#print','#edit','#viewsource','#download','#open','#edit');
+rcube_webmail.prototype.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create', 'addressbook-search-delete');
+rcube_webmail.prototype.context_menu_overload_commands = new Array('move', 'copy');
+rcube_webmail.prototype.context_menu_hide_bound = false;
+rcube_webmail.prototype.context_menu_commands = new Array();
 
-function rcm_contextmenu_update() {
-	//if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox && rcmail.env.mailbox != rcmail.env.trash_mailbox)
-	//	$("#rcm_delete").html('<span>' + rcmail.gettext('movemessagetotrash') + '</span>');
-	//else
-	//	$("#rcm_delete").html('<span>' + rcmail.gettext('deletemessage') + '</span>');
-}
+rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\'([^\']*)\'/;
 
-function rcm_contextmenu_markfolder(props) {
-	if (props.folder == rcmail.env.trash_mailbox && props.mark == 'empty') {
-		if (props.status) {
-			$('#rcmContextMenu ul.folders li.trash').addClass(props.mark);
-		}
-		else {
-			$('#rcmContextMenu ul.folders li.trash').removeClass(props.mark);
-		}
-	}
-}
+function rcm_listmenu_init(row, props, events) {
+	if (!events)
+		events = {};
 
-function rcm_contextmenu_init(row) {
-	$("#" + row).contextMenu({
-		menu: 'rcmContextMenu',
-		submenu_delay: 400
-	},
-	function(command, el, pos) {
-		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if ($(el) && matches) {
-			var prev_uid = rcmail.env.uid;
-			if (rcmail.message_list.selection.length <= 1 || !rcmail.message_list.in_selection(matches[1]))
-				rcmail.env.uid = matches[1];
-
-			// fix command string in IE
-			if (command.indexOf("#") > 0)
-				command = command.substr(command.indexOf("#") + 1);
-
+	var menu = rcm_callbackmenu_init(this, props, $.extend({
+    	'beforeinit': function(p) {
+	    	rcmail['rcm_selection'] = p.ref.list_selection(true);
+    	},
+    	'afterinit': function(p) {
+	    	p.ref.list_selection(false, rcmail['rcm_selection']);
+    	},
+		'select': function(p) {
+    		var prev_sel = p.ref.list_selection(true);
 			// enable the required command
-			cmd = (command == 'read' || command == 'unread' || command == 'flagged' || command == 'unflagged') ? 'mark' : command;
-			var prev_command = rcmail.commands[cmd];
-			rcmail.enable_command(cmd, true);
+			var prev_command = rcmail.commands[p.command];
+			rcmail.enable_command(p.command, true);
+    		var result = rcmail.command(p.command, p.args, p.el);
+			rcmail.enable_command(p.command, prev_command);
+    		p.ref.list_selection(false, prev_sel);
 
-			// process external commands
-			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
-				rcmail.contextmenu_command_handlers[command](command, el, pos);
-			}
-			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
-				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
-			}
-			else {
-				switch (command) {
-					case 'read':
-					case 'unread':
-					case 'flagged':
-					case 'unflagged':
-						rcmail.command('mark', command, $(el));
-						break;
-					case 'reply':
-					case 'reply-all':
-					case 'reply-list':
-					case 'forward-inline':
-					case 'forward-attachment':
-					case 'print':
-					case 'download':
-					case 'viewsource':
-						rcmail.command(command, '', $(el));
-						break;
-					case 'edit':
-						rcmail.command(command, 'new', $(el));
-						break;
-					case 'open':
-						rcmail.command(command, '', rcube_find_object('rcm_open'));
-						rcmail.sourcewin = window.open(rcube_find_object('rcm_open').href);
-						if (rcmail.sourcewin)
-							window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
+    		if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
+	    		rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
+	    		rcmail.enable_command(p.command, true);
+    		}
 
-						rcube_find_object('rcm_open').href = '#open';
-						break;
-					case 'delete':
-					case 'move':
-						if (command == 'move' && rcmail.env.rcm_destfolder == rcmail.env.mailbox)
-							return;
+    		return result;
+    	}
+	}, events));
 
-						var prev_sel = null;
-
-						// also select childs of (collapsed) threads
-						if (rcmail.env.uid) {
-							if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
-								prev_sel = rcmail.message_list.get_selection();
-								rcmail.message_list.select_row(rcmail.env.uid);
-							}
-
-							if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded)
-								rcmail.message_list.select_childs(rcmail.env.uid);
-
-							rcmail.env.uid = null;
-						}
-
-						rcmail.command(command, rcmail.env.rcm_destfolder, $(el));
-
-						if (prev_sel) {
-							rcmail.message_list.clear_selection();
-
-							for (var i in prev_sel)
-								rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY, true);
-						}
-
-						delete rcmail.env.rcm_destfolder;
-						break;
-				}
-			}
-
-			rcmail.enable_command(cmd, prev_command);
-			rcmail.env.uid = prev_uid;
+	$("#" + row).bind("contextmenu", function(e) {
+		if (matches = String($(this).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i)) {
+			rcm_show_menu(e, this, matches[1], menu);
 		}
 	});
 }
 
-function rcm_set_dest_folder(folder) {
-	rcmail.env.rcm_destfolder = folder;
-}
+function rcm_foldermenu_init(el, menu_source, events) {
+	if (!events)
+		events = {};
 
-function rcm_contextmenu_register_command(command, callback, label, pos, sep, multi, newSub, menu, liclass) {
-	if (!menu)
-		menu = $('#rcmContextMenu');
-
-	if (!liclass)
-		liclass = command;
-
-	if (typeof label != 'string') {
-		var menuItem = label.children('li');
-	}
-	else {
-		var menuItem = $('<li>').addClass(liclass);
-		$('<a>').attr('href', '#' + command).addClass('active').html($('<span>').text(rcmail.gettext(label))).appendTo(menuItem);
-	}
-
-	rcmail.contextmenu_command_handlers[command] = callback;
-
-	if (pos && menu.children('li.' + pos) && newSub) {
-		subMenu = menu.children('li.' + pos);
-		subMenu.removeClass();
-		subMenu.addClass('submenu');
-
-		var mainLink = null;
-		if (subMenu.children('a') && !subMenu.children('a').hasClass('mainlink')) {
-			subMenu.addClass('sublink');
-
-			var mainLink = $('<li>').addClass(pos);
-			subMenu.children('a').clone().appendTo(mainLink)
-		}
-
-		subMenu.children('a').addClass('mainlink');
-		var newMenu = $('<ul>').addClass('toolbarmenu').appendTo(subMenu);
-
-		if (mainLink)
-			newMenu.append(mainLink);
-
-		newMenu.append(menuItem);
-	}
-	else if (pos && menu.children('li.' + pos)) {
-		menu.children('li.' + pos).before(menuItem);
-	}
-	else {
-		menu.append(menuItem);
-	}
-
-	if (sep == 'before')
-		menuItem.addClass('separator_above');
-	else if (sep == 'after')
-		menuItem.addClass('separator_below');
-
-	if (!multi)
-		rcmail.contextmenu_disable_multi[rcmail.contextmenu_disable_multi.length] = '#' + command;
-}
-
-function rcm_foldermenu_init() {
-	$("#mailboxlist li").contextMenu({
-		menu: 'rcmFolderMenu'
-	},
-	function(command, el, pos) {
-		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i);
-		if ($(el) && matches) {
-			var mailbox = matches[1];
-			var messagecount = 0;
-
-			if (command == 'readfolder' || command == 'expunge' || command == 'purge') {
-				if (mailbox == rcmail.env.mailbox) {
-					messagecount = rcmail.env.messagecount;
-				}
-				else if (rcmail.env.unread_counts[mailbox] == 0) {
-					var lock = rcmail.set_busy(true, 'loading');
-
-					querystring = '_mbox=' + urlencode(mailbox);
-					querystring += (querystring ? '&' : '') + '_remote=1';
-					var url = rcmail.env.comm_path + '&_action=' + 'plugin.contextmenu.messagecount' + '&' + querystring
-
-					// send request
-					console.log('HTTP POST: ' + url);
-
-					jQuery.ajax({
-						url:    url,
-						dataType: "json",
-						success: function(response) { messagecount = response.env.messagecount; },
-						async:   false
-					});
-
-					rcmail.set_busy(false, null, lock);
-				}
-
-				if (rcmail.env.unread_counts[mailbox] == 0 && messagecount == 0) {
-					rcmail.display_message(rcmail.get_label('nomessagesfound'), 'notice');
-					return false;
-				}
+	var menu = rcm_callbackmenu_init(this, {'menu_name': 'folderlist', 'menu_source': menu_source, 'list_object': null, 'check_active': true}, $.extend({
+		'afterinit': function(p) {
+			if (rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox || rcmail.env.context_menu_source_id == rcmail.env.junk_mailbox
+				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.trash_mailbox) + RegExp.escape(rcmail.env.delimiter))
+				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter))) {
+					p.obj.find('a.cmd_purge').addClass('active');
 			}
-
-			// fix command string in IE
-			if (command.indexOf("#") > 0)
-				command = command.substr(command.indexOf("#") + 1);
-
+		},
+		'select': function(p) {
 			// enable the required command
-			var prev_command = rcmail.commands[command];
-			rcmail.enable_command(command, true);
+			var prev_command = rcmail.commands[p.command];
+			rcmail.enable_command(p.command, true);
+    		var result = rcmail.command(p.command, p.args, p.el);
+			rcmail.enable_command(p.command, prev_command);
 
-			// process external commands
-			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
-				rcmail.contextmenu_command_handlers[command](command, el, pos);
-			}
-			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
-				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
-			}
-			else {
-				switch (command) {
-					case 'readfolder':
-						var lock = rcmail.set_busy(true, 'loading');
-						rcmail.http_request('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox) + '&_cur=' + rcmail.env.mailbox + '&_oact=' + rcmail.env.action, lock);
-						break;
-					case 'expunge':
-						rcmail.expunge_mailbox(mailbox);
-						break;
-					case 'purge':
-						rcmail.purge_mailbox(mailbox);
-						break;
-					case 'collapseall':
-					case 'expandall':
-						targetdiv = (command == 'collapseall') ? 'expanded' : 'collapsed';
-						$("#mailboxlist div." + targetdiv).each( function() {
-							var el = $(this);
-							var matches = String($(el).attr('onclick')).match(/.*rcmail.command\(["']collapse-folder["'],\s*["']([^"']*)["']\).*/i);
-							rcmail.collapse_folder(matches[1]);
-						});
-						break;
-					case 'openfolder':
-						rcube_find_object('rcm_openfolder').href = '?_task=mail&_mbox='+urlencode(mailbox);
-						rcmail.sourcewin = window.open(rcube_find_object('rcm_openfolder').href);
-						if (rcmail.sourcewin)
-							window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
+    		return result;
+		}
+	}, events));
 
-						rcube_find_object('rcm_openfolder').href = '#openfolder';
-						break;
-				}
-			}
-
-			rcmail.enable_command(command, prev_command);
+	$(el).bind("contextmenu",function(e) {
+		if (matches = String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i)) {
+			rcm_show_menu(e, this, matches[1], menu);
 		}
 	});
 }
 
-function rcm_update_options(el) {
-	if (el.hasClass('message')) {
-		$('#rcmContextMenu').disableContextMenuItems('#reply-list');
-		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if ($(el) && matches) {
-			if (rcmail.message_list.selection.length > 1 && rcmail.message_list.in_selection(matches[1])) {
-				$('#rcmContextMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
-			}
-			else {
-				$('#rcmContextMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
+function rcm_abookmenu_init(el, menu_source, events) {
+	if (!events)
+		events = {};
 
-				var msg = rcmail.env.messages[matches[1]];
-				if (!msg.ml)
-					$('#rcmContextMenu').disableContextMenuItems('#reply-list');
-			}
-		}
-	}
-	else if (el.hasClass('mailbox')) {
-		$('#rcmFolderMenu').disableContextMenuItems('#readfolder,#purge,#collapseall,#expandall');
-		var matches = String($(el).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i);
-		if ($(el) && matches) {
-			var mailbox = matches[1];
+	var menu = rcm_callbackmenu_init(this, {'menu_name': 'abooklist', 'menu_source': menu_source}, $.extend({
+    	'beforeinit': function(p) {
+	    	p.obj.find('li.submenu').remove();
+    	},
+		'afterinit': function(p) {
+			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
+				p.obj.find('a').removeClass('active');
+		},
+		'select': function(p) {
+			if (!$(p.el).hasClass('active'))
+				return false;
 
-			if (rcmail.env.unread_counts[mailbox] > 0)
-				$('#rcmFolderMenu').enableContextMenuItems('#readfolder');
-
-			if (mailbox == rcmail.env.trash_mailbox || mailbox == rcmail.env.junk_mailbox
-				|| mailbox.match('^' + RegExp.escape(rcmail.env.trash_mailbox) + RegExp.escape(rcmail.env.delimiter))
-				|| mailbox.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter)))
-					$('#rcmFolderMenu').enableContextMenuItems('#purge');
-
-			if ($("#mailboxlist div.expanded").length > 0)
-				$('#rcmFolderMenu').enableContextMenuItems('#collapseall');
-
-			if ($("#mailboxlist div.collapsed").length > 0)
-				$('#rcmFolderMenu').enableContextMenuItems('#expandall');
-		}
-	}
-	else if (el.hasClass('addressbook') || el.hasClass('contactgroup')) {
-		$('#rcmGroupMenu').disableContextMenuItems('#group-create,#group-rename,#group-delete');
-
-		if ($(el).hasClass('contactgroup') && $(el).children('a').attr('rel')) {
-			var matches = $(el).children('a').attr('rel').match(/([A-Z0-9\-_]+):?([A-Z0-9\-_]+)?/i);
-
-			if (!rcmail.env.address_sources[matches[1]].readonly) {
-				if (!rcmail.name_input)
-					$('#rcmGroupMenu').enableContextMenuItems('#group-rename');
-
-				$('#rcmGroupMenu').enableContextMenuItems('#group-delete');
-			}
-		}
-		else if ($(el).hasClass('addressbook')) {
-			var source = $(el).children('a').attr('rel');
-
-			if (!rcmail.env.address_sources[source].readonly)
-				$('#rcmGroupMenu').enableContextMenuItems('#group-create')
-		}
-	}
-	else if (rcmail.env.task == 'addressbook') {
-		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if ($(el) && matches) {
-			if (rcmail.contact_list.selection.length > 1 && rcmail.contact_list.in_selection(matches[1]))
-				$('#rcmAddressMenu').disableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
-			else
-				$('#rcmAddressMenu').enableContextMenuItems(rcmail.contextmenu_disable_multi.join(','));
-
-			if (rcmail.env.group && rcmail.contact_list.in_selection(matches[1]))
-				$('#rcmAddressMenu').enableContextMenuItems('#group-remove-selected');
-			else
-				$('#rcmAddressMenu').disableContextMenuItems('#group-remove-selected');
-
-			var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
-
-			if (rcmail.env.address_sources[ab_src].readonly)
-				$('#rcmAddressMenu').disableContextMenuItems('#edit,#delete,#group-remove-selected');
-		}
-	}
-}
-
-function rcm_addressmenu_init(row) {
-	$("tr[id=" + row + "]").contextMenu({
-		menu: 'rcmAddressMenu'
-	},
-	function(command, el, pos) {
-		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if ($(el) && matches) {
-			var prev_cid = rcmail.env.cid;
-			if (rcmail.contact_list.selection.length <= 1 || !rcmail.contact_list.in_selection(matches[1]))
-				rcmail.env.cid = matches[1];
-
-			// fix command string in IE
-			if (command.indexOf("#") > 0)
-				command = command.substr(command.indexOf("#") + 1);
+			rcmail.env.source = rcmail.env.context_menu_source_id;
 
 			// enable the required command
-			cmd = command;
-			var prev_command = rcmail.commands[cmd];
-			rcmail.enable_command(cmd, true);
+			var prev_command = rcmail.commands[p.command];
+			rcmail.enable_command(p.command, true);
+			var result = rcmail.command(p.command, p.args, p.el);
+			rcmail.enable_command(p.command, prev_command);
 
-			// process external commands
-			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
-				rcmail.contextmenu_command_handlers[command](command, el, pos);
-			}
-			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
-				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
-			}
-			else {
-				switch (command) {
-					case 'edit':
-						rcmail.contact_list.select(rcmail.env.cid);
-						clearTimeout(rcmail.preview_timer)
-						rcmail.command(command, '', $(el));
-						break;
-					case 'compose':
-					case 'delete':
-					case 'copy':
-					case 'move':
-					case 'group-remove-selected':
-						var ab_src = rcmail.env.source ? rcmail.env.source : matches[1].split('-', 2)[1];
+			rcmail.command('list', rcmail.env.context_menu_source_id, p.el);
 
-						if (command == 'move') {
-							// check for valid taget
-							if (rcmail.env.rcm_destbook == ab_src || (rcmail.env.rcm_destgroup && rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup].id == rcmail.env.group))
-								return;
-						}
+    		return result;
+		}
+	}, events));
 
-						var prev_sel = null;
-
-						if (rcmail.env.cid) {
-							if (!rcmail.contact_list.in_selection(rcmail.env.cid)) {
-								prev_sel = rcmail.contact_list.get_selection();
-								rcmail.contact_list.select(rcmail.env.cid);
-							}
-							else if (rcmail.contact_list.get_single_selection() == rcmail.env.cid) {
-								rcmail.env.cid = null;
-							}
-							else {
-								prev_sel = rcmail.contact_list.get_selection();
-								rcmail.contact_list.select(rcmail.env.cid);
-							}
-						}
-
-						if (command == 'delete')
-							rcmail.env.cid = null;
-
-						rcmail.drag_active = true;
-						if (rcmail.env.rcm_destgroup) {
-							if (command == 'copy' && rcmail.env.rcm_destsource == ab_src) {
-								rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), ab_src, rcmail.env.rcm_destgroup);
-							}
-							else {
-								rcmail.command(command, rcmail.env.contactfolders['G' + rcmail.env.rcm_destsource + rcmail.env.rcm_destgroup], $(el));
-							}
-						}
-						else {
-							rcmail.command(command, rcmail.env.contactfolders[rcmail.env.rcm_destsource], $(el));
-						}
-						rcmail.drag_active = false;
-
-						if (prev_sel) {
-							rcmail.contact_list.clear_selection();
-
-							for (var i in prev_sel)
-								rcmail.contact_list.select_row(prev_sel[i], CONTROL_KEY, true);
-						}
-
-						rcmail.env.rcm_destbook = null;
-						rcmail.env.rcm_destsource = null;
-						rcmail.env.rcm_destgroup = null;
-						break;
-					case 'export':
-					case 'export-selected':
-						if (rcmail.env.cid) {
-							rcmail.contact_list.select(rcmail.env.cid);
-							clearTimeout(rcmail.preview_timer)
-						}
-
-						rcmail.command(command, '', $(el));
-						break;
-				}
-			}
-
-			rcmail.enable_command(cmd, prev_command);
-			rcmail.env.cid = prev_cid;
+	$(el).bind("contextmenu",function(e) {
+		if (matches = String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
+			rcm_show_menu(e, this, matches[1], menu);
 		}
 	});
 }
 
-function rcm_set_dest_book(obj, source, group) {
-	rcmail.env.rcm_destbook = obj;
-	rcmail.env.rcm_destsource = source;
-	rcmail.env.rcm_destgroup = group;
-}
+function rcm_groupmenu_init(el, menu_source, events) {
+	if (!events)
+		events = {};
 
-function rcm_groupmenu_init(li) {
-	$(li).contextMenu({
-		menu: 'rcmGroupMenu'
-	},
-	function(command, el, pos) {
-		var matches = $(el).children('a').attr('rel').match(/([A-Z0-9\-_]+):?([A-Z0-9\-_]+)?/i);
-		if ($(el) && matches) {
-			prev_group = rcmail.env.group;
-			prev_source = rcmail.env.source;
+	var menu = rcm_callbackmenu_init(this, {'menu_name': 'grouplist', 'menu_source': menu_source, 'list_object': null, 'check_active': true}, $.extend({
+		'afterinit': function(p) {
+			var ids = rcmail.env.context_menu_source_id.split(':', 2);
+			cur_source = ids[0];
 
-			cur_source = matches[1];
-			if (matches[2])
-				cur_id = matches[2];
-			else
-				cur_id = rcmail.env.group;
+			if (!rcmail.env.address_sources[cur_source].readonly)
+				p.obj.find('a').addClass('active');
+		},
+		'select': function(p) {
+			if (!$(p.el).hasClass('active'))
+				return false;
 
-			rcmail.env.group = cur_id
+			var prev_source = rcmail.env.source;
+			var prev_group = rcmail.env.group;
+			var result = false;
+
+			var ids = rcmail.env.context_menu_source_id.split(':', 2);
+			cur_source = ids[0];
+			cur_id = ids[1];
+
 			rcmail.env.source = cur_source;
-
-			// fix command string in IE
-			if (command.indexOf("#") > 0)
-				command = command.substr(command.indexOf("#") + 1);
+			rcmail.env.group = cur_id;
 
 			// enable the required command
-			var prev_command = rcmail.commands[command];
-			rcmail.enable_command(command, true);
+			var prev_command = rcmail.commands[p.command];
+			rcmail.enable_command(p.command, true);
 
-			// process external commands
-			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
-				rcmail.contextmenu_command_handlers[command](command, el, pos);
-			}
-			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
-				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
-			}
-			else {
-				switch (command) {
-					case 'group-create':
-						rcmail.command(command, '', $(el).children('a'));
-						break;
-					case 'group-rename':
-						rcmail.command(command, '', $(el).children('a'));
+			switch (p.command) {
+				case 'group-rename':
+					result = rcmail.command(p.command, p.args, p.el);
 
-						// callback requires target is selected
-						rcmail.enable_command('listgroup', true);
-						rcmail.env.group = prev_group;
-						rcmail.env.source = prev_source
-						prev_group = cur_id;
-						prev_source = cur_source;
-						rcmail.command('listgroup', {'source': prev_source,'id': prev_group}, $(el).children('a'));
-						rcmail.enable_command('listgroup', false);
-						break;
-					case 'group-delete':
-						rcmail.command(command, '', $(el).children('a'));
-						break;
-				}
+					// callback requires target is selected
+					rcmail.enable_command('listgroup', true);
+					rcmail.env.source = prev_source
+					rcmail.env.group = prev_group;
+					prev_source = cur_source;
+					prev_group = cur_id;
+					rcmail.command('listgroup', {'source': prev_source,'id': prev_group}, p.el);
+					rcmail.enable_command('listgroup', false);
+					break;
+				case 'group-delete':
+					result = rcmail.command(p.command, p.args, p.el);
+					break;
 			}
 
-			rcmail.enable_command(command, prev_command);
-			rcmail.env.group = prev_group;
+			rcmail.enable_command(p.command, prev_command);
 			rcmail.env.source = prev_source;
+			rcmail.env.group = prev_group;
+
+    		return result;
+		}
+	}, events));
+
+	$(el).bind("contextmenu",function(e) {
+		if (matches = String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
+			rcm_show_menu(e, this, matches[1], menu);
 		}
 	});
 }
 
-function rcm_groupmenu_update(action, props) {
-	var gid = props.source + props.id;
-	gid = gid.replace(rcmail.identifier_expr, '_');
+function rcm_callbackmenu_init(obj, props, events) {
+	if (!events)
+		events = {};
 
-	switch (action) {
-		case 'insert':
-			var link = $('<a>')
-				.attr('id', 'rcm_contextgrps_G' + gid)
-				.attr('href', '#copy')
-				.addClass('active')
-				.attr('onclick', "rcm_set_dest_book('G" + gid + "', '" + props.source + "','" + props.id + "')")
-				.css('padding-left', '16px')
-				.html($('<span>').text(props.name));
+	if (!rcmail['rcm_' + props.menu_name]) {
+		var menu = new rcube_context_menu(props);
+		$.each(events, function(trigger, func) {
+			menu.addEventListener(trigger, function(p) { func(p); });
+		});
+		menu.init();
+		rcmail['rcm_' + props.menu_name] = menu;
+	}
+	else {
+		var menu = rcmail['rcm_' + props.menu_name];
+	}
 
-			var li = $('<li>').addClass('contactgroup').append(link);
+	return menu;
+}
 
-			var sibling = $('#rcm_contextaddr_' + props.source);
-			$('a[id^="rcm_contextgrps_G"]').each(function(i, elem) {
-				if (props.name.toUpperCase().trim() >= $(this).text().toUpperCase().trim())
-					sibling = $(elem).parent();
-				else
-					return false;
+function rcm_show_menu(e, obj, id, menu) {
+	e.preventDefault();
+	e.cancelBubble = true;
+	if (e.stopPropagation)
+		e.stopPropagation();
+
+	rcmail.env.context_menu_source_id = id;
+	menu.show(obj, e);
+}
+
+function rcube_context_menu(p) {
+	this.menu_name;
+	this.menu_source;
+	this.is_submenu = false;
+	this.check_active = false;
+	this.list_object = rcmail.message_list;
+	this.list_object_select = true;
+	this.source_class = 'contextRow';
+
+	this.parent_menu = this;
+	this.parent_object = null;
+	this.container = null;
+	this.original_selection = new Array();
+	this.menu_selection = new Array();
+	this.submenus = new Array();
+
+	// overwrite default paramaters
+	if (p && typeof p === 'object')
+		for (var n in p)
+			this[n] = p[n];
+
+	var ref = this;
+
+	this.init = function() {
+		if (!this.container) {
+			var rows = [],
+			ul = $('<ul class="toolbarmenu iconized">'),
+			li = document.createElement('li'),
+			link = document.createElement('a'),
+			span = document.createElement('span');
+
+			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu"></div>');
+			link.href = '#';
+			link.className = 'icon active';
+			span.className = this.is_submenu ? 'icon' : 'icon cmicon';
+
+			if (this.is_submenu)
+				this.container.addClass('rcmsubmenu');
+
+			// loop over possible menu elements
+			sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
+			$.each(sources, function(i) {
+				$.each($(sources[i]).children(), function() {
+					var elem, command, args;
+
+					if ($(this).is('a')) {
+						elem = $(this);
+					}
+					else if ($(this).is('span') && $(this).children('a').length == 1) {
+						elem = $(this).children('a');
+
+						if ($(this).is('span') && $(this).children('span').length == 1 && $(this).children('span:first').attr('onclick').match(rcmail.context_menu_popup_pattern)) {
+							$(elem).attr('onclick', $(this).children('span').attr('onclick'));
+						}
+					}
+					else if ($(this).is('li') && $(this).children('a').length == 1) {
+						elem = $(this).children('a:first');
+
+						if (!elem.attr('onclick') || !elem.attr('onclick').match(rcmail.context_menu_command_pattern))
+							return;
+					}
+					else if ($(this).parent().is('a')) {
+						elem = $(this).parent();
+					}
+					else {
+						return;
+					}
+
+					if (matches = elem.attr('onclick').match(rcmail.context_menu_command_pattern)) {
+						command = matches[1];
+						args = matches[2];
+					}
+
+					// skip elements we dont need
+					if ($.inArray(rcmail.env.task + '-' + command, rcmail.context_menu_skip_commands) > -1) {
+						return;
+					}
+
+					var a = link.cloneNode(false), row = li.cloneNode(false);
+
+					// add command name element
+					tmp = span.cloneNode(false);
+					$(tmp).text(elem.text().trim().length > 0 ? elem.text() : elem.attr('title'));
+					tmp.className += elem.children('span').attr('class') ? ' ' + elem.children('span').attr('class') : '';
+					a.appendChild(tmp);
+					a.className += elem.attr('class') ? ' ' + elem.attr('class') : '';
+					$(a).removeClass('button').removeClass('disabled');
+
+					if (matches = elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
+						$(a).data('popup_id', matches[1]);
+						$(row).addClass('submenu');
+						a.onclick = function(e) { ref.submenu(a, e, $(this).data('popup_id')); return false; }
+					}
+					else {
+						$(a).addClass('cmd_' + command);
+						if (elem.attr('target'))
+							$(a).attr('target', elem.attr('target'));
+
+						a.onclick = function() { return ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args}); }
+					}
+
+					elem.addClass('rcm_elem_' + elem.attr('id'));
+					$(a).addClass('rcm_elem_' + elem.attr('id'));
+
+					row.appendChild(a);
+					ref.parent_menu.triggerEvent('insertitem', {item: row});
+					rows.push(row);
+				});
 			});
 
-			$(li).insertAfter($(sibling));
+			ul.append(rows).appendTo(this.container);
 
-			rcm_groupmenu_init(props.li);
-			break;
-		case 'update':
-			if ($('#rcm_contextgrps_G' + gid).length) {
-				if (props.newid) {
-					var new_gid = props.source + props.newid;
-					new_gid = new_gid.replace(rcmail.identifier_expr, '_');
+			// temporarily show element to calculate its size
+			this.container.css({left: '-1000px', top: '-1000px'})
+				.appendTo($('body')).show();
 
-					var link = $('<a>')
-						.attr('id', 'rcm_contextgrps_G' + new_gid)
-						.attr('href', '#copy')
-						.addClass('active')
-						.attr('onclick', "rcm_set_dest_book('G" + new_gid + "', '" + props.source + "','" + props.newid + "')")
-						.html($('<span>').text(props.name));
+			if (!rcmail.env.context_menu_hide_bound) {
+				// Hide bindings
+				setTimeout(function() { // Delay for Mozilla
+					$(document).bind('click', function(e) {
+						ref.hide(e);
+					});
 
-					$('#rcm_contextgrps_G' + gid).replaceWith(link);
-				}
-				else {
-					$('#rcm_contextgrps_G' + gid).html($('<span>').text(props.name));
-				}
+					// Hide menu after clicks in iframes (eg. preview pane)
+					$('iframe').load(function() {
+						// this == iframe
+						var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+						doc.onclick = function() { $(document).click(); };
+					});
 
-				row = $('#rcm_contextgrps_G' + gid).parent().clone(true);
-				$('#rcm_contextgrps_G' + gid).parent().remove();
+					$('iframe').contents().mouseup( function() { $(document).click(); } );
+				}, 0);
 
-				var sibling = $('#rcm_contextaddr_' + props.source);
-				$('a[id^="rcm_contextgrps_G"]').each(function(i, elem) {
-					if (props.name.toUpperCase().trim() >= $(this).text().toUpperCase().trim())
-						sibling = $(elem).parent();
-					else
-						return false;
-				});
+				rcmail.env.contextmenu_hide_bound = true;
+			}
+		}
+	};
 
-				$(row).insertAfter($(sibling));
+	this.show = function(obj, e) {
+		if (obj) {
+			this.hide(e);
+			$(obj).addClass(this.source_class);
+		}
+
+		this.parent_menu.triggerEvent('beforeinit', {ref: this, obj: this.container});
+		$.each(this.container.find('a'), function() {
+			if (ref.check_active && typeof ref.menu_source == 'string') {
+				$(ref.menu_source).parent().show();
 			}
 
-			break;
-		case 'remove':
-			if ($('#rcm_contextgrps_G' + gid).length)
-				$('#rcm_contextgrps_G' + gid).remove();
+			if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
+				$(this).parent('li')[$('#' + btn[1]).is(':visible') ? 'show' : 'hide']();
+				$(this).removeClass('active').removeClass('disabled');
 
-			break;
+				if ($('#' + btn[1]).hasClass('disabled') && ref.list_object && ref.list_object.selection.length > 1) {
+					$(this).addClass('disabled');
+				}
+				else if (!ref.check_active || $('#' + btn[1]).hasClass('active')) {
+					$(this).addClass('active');
+				}
+			}
+
+			if (ref.check_active && typeof ref.menu_source == 'string') {
+				$(ref.menu_source).parent().hide();
+			}
+		});
+		this.parent_menu.triggerEvent('afterinit', {ref: this, obj: this.container});
+
+		// position menu on the screen
+		if (this.is_submenu) {
+			rcmail.element_position(this.container, this.parent_object);
+		}
+		else {
+			this.position(e, this.container);
+		}
+
+		this.container.show();
+	};
+
+	this.hide = function(e) {
+		if (!$(e.target).is('.folder-selector-link')) {
+			$('.' + this.source_class).removeClass(this.source_class);
+			$('div.contextmenu').hide();
+			$('#folder-selector').hide();
+
+			for (var i in rcmail.context_menu_commands) {
+				if (!rcmail.context_menu_commands[i]) {
+					rcmail.enable_command(i, false);
+				}
+			}
+
+			rcmail.context_menu_commands = new Array();
+		}
+	};
+
+	this.submenu = function(link, e, obj) {
+		e.cancelBubble = true;
+		if (e.stopPropagation)
+			e.stopPropagation();
+
+		$('.rcmsubmenu').hide();
+
+		var id = rcmail.gui_containers[obj] ? rcmail.gui_containers[obj].attr('id') : obj;
+		if (!this.submenus[id]) {
+	    	this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': '#' + id + ' ul', 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'check_active': true, 'list_object': this.list_object});
+	    	this.submenus[id].init();
+		}
+
+		this.submenus[id].show(null, e);
+	};
+
+	this.position = function(e, menu) {
+		var win = $(window),
+		win_height = win.height(),
+		elem_height = $(menu).height(),
+		elem_width = $(menu).width(),
+		top = e.pageY,
+		left = e.pageX;
+
+		if (top + elem_height > win_height) {
+			top -= elem_height;
+
+			if (top < 0)
+				top = Math.max(0, (win_height - elem_height) / 2);
+		}
+
+		if (left + elem_width > win.width())
+			left -= elem_width;
+
+		menu.css({left: left + 'px', top: top + 'px'});
+	};
+
+	this.list_selection = function(show, prev_sel) {
+		if (show) {
+			if (this.list_object.selection.length == 0 || !this.list_object.in_selection(rcmail.env.context_menu_source_id)) {
+				prev_sel = this.list_object.get_selection();
+				this.list_object.highlight_row(rcmail.env.context_menu_source_id, true);
+
+				for (var i in prev_sel)
+					this.list_object.highlight_row(prev_sel[i], true);
+
+				if (this.list_object_select)
+					this.list_object.triggerEvent('select');
+			}
+		}
+		else if (prev_sel) {
+			for (var i in prev_sel)
+				this.list_object.highlight_row(prev_sel[i], true);
+
+			this.list_object.highlight_row(rcmail.env.context_menu_source_id, true);
+
+			if (this.list_object_select)
+				this.list_object.triggerEvent('select');
+		}
+
+		return prev_sel;
+	};
+
+	this.addEventListener = rcube_event_engine.prototype.addEventListener;
+	this.removeEventListener = rcube_event_engine.prototype.removeEventListener;
+	this.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+};
+
+function rcm_override_mailbox_command(props, before) {
+	if ($('div.contextmenu').is(':visible') && $.inArray(props.action, rcmail.context_menu_overload_commands) >= 0) {
+		if (before) {
+			rcmail.env.context_menu_prev_sel = null;
+			if (rcmail.message_list.selection.length == 0 || !rcmail.message_list.in_selection(rcmail.env.context_menu_source_id)) {
+				rcmail.env.context_menu_prev_sel = rcmail.message_list.get_selection();
+				rcmail.message_list.highlight_row(rcmail.env.context_menu_source_id, true);
+
+				for (var i in rcmail.env.context_menu_prev_sel)
+					rcmail.message_list.highlight_row(rcmail.env.context_menu_prev_sel[i], true);
+
+				rcmail.message_list.triggerEvent('select');
+			}
+		}
+		else if (rcmail.env.context_menu_prev_sel) {
+			for (var i in rcmail.env.context_menu_prev_sel)
+				rcmail.message_list.highlight_row(rcmail.env.context_menu_prev_sel[i], true);
+
+			rcmail.message_list.highlight_row(rcmail.env.context_menu_source_id, true);
+			rcmail.message_list.triggerEvent('select');
+		}
 	}
 }
-
-function rcm_composemenu_init(row) {
-	$("tr[id=" + row + "]").contextMenu({
-		menu: 'rcmComposeMenu'
-	},
-	function(command, el, pos) {
-		var matches = String($(el).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i);
-		if ($(el) && matches) {
-			var prev_cid = rcmail.env.cid;
-			if (rcmail.contact_list.selection.length <= 1 || !rcmail.contact_list.in_selection(matches[1]))
-				rcmail.env.cid = matches[1];
-
-			// fix command string in IE
-			if (command.indexOf("#") > 0)
-				command = command.substr(command.indexOf("#") + 1);
-
-			// enable the required command
-			cmd = command;
-			var prev_command = rcmail.commands[cmd];
-			rcmail.enable_command(cmd, true);
-
-			// process external commands
-			if (typeof rcmail.contextmenu_command_handlers[command] == 'function') {
-				rcmail.contextmenu_command_handlers[command](command, el, pos);
-			}
-			else if (typeof rcmail.contextmenu_command_handlers[command] == 'string') {
-				window[rcmail.contextmenu_command_handlers[command]](command, el, pos);
-			}
-			else {
-				var prev_sel = null;
-
-				prev_sel = rcmail.contact_list.get_selection();
-				rcmail.contact_list.select(rcmail.env.cid);
-				clearTimeout(rcmail.preview_timer)
-
-				switch (command) {
-					case 'add-recipient-to':
-						rcmail.command('add-recipient', 'to', $(el));
-						break;
-					case 'add-recipient-cc':
-						rcmail.command('add-recipient', 'cc', $(el));
-						break;
-					case 'add-recipient-bcc':
-						rcmail.command('add-recipient', 'bcc', $(el));
-						break;
-				}
-
-				if (prev_sel) {
-					rcmail.contact_list.clear_selection();
-
-					for (var i in prev_sel) {
-						rcmail.contact_list.select_row(prev_sel[i], CONTROL_KEY, true);
-					}
-				}
-			}
-
-			rcmail.enable_command(cmd, prev_command);
-			rcmail.env.cid = prev_cid;
-		}
-	});
-}
-
-$(document).ready(function() {
-	if (window.rcmail) {
-		// init message list menu
-		if ($('#rcmContextMenu').length > 0) {
-			rcmail.addEventListener('listupdate', function(props) { rcm_contextmenu_update(); } );
-			rcmail.addEventListener('insertrow', function(props) { rcm_contextmenu_init(props.row.id); } );
-			//rcmail.addEventListener('markfolder', function(props) { rcm_contextmenu_markfolder(props); } );
-		}
-
-		// init folder list menu
-		if ($('#rcmFolderMenu').length > 0)
-			rcmail.add_onload('rcm_foldermenu_init();');
-
-		// init contact list menu
-		if ($('#rcmAddressMenu').length > 0)
-			rcmail.addEventListener('insertrow', function(props) { rcm_addressmenu_init(props.row.id); } );
-
-		// init group list menu
-		if ($('#rcmGroupMenu').length > 0) {
-			rcmail.add_onload('rcm_groupmenu_init("#directorylist li");');
-			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_update('insert', props); } );
-			rcmail.addEventListener('group_update', function(props) { rcm_groupmenu_update('update', props); } );
-			rcmail.addEventListener('group_delete', function(props) { rcm_groupmenu_update('remove', props); } );
-		}
-
-		// init compose screen menu
-		if ($('#rcmComposeMenu').length > 0)
-			rcmail.addEventListener('insertrow', function(props) { rcm_composemenu_init(props.row.id); } );
-	}
-});
