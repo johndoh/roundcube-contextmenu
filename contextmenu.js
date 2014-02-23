@@ -35,6 +35,11 @@ function rcm_foldermenu_init(el, menu_source, events) {
 
 	var menu = rcm_callbackmenu_init(this, {'menu_name': 'folderlist', 'menu_source': menu_source, 'list_object': null, 'check_active': true}, $.extend({
 		'afterinit': function(p) {
+			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
+				p.obj.find('a').removeClass('active');
+				p.obj.find('a.cmd_expunge').addClass('active');
+			}
+
 			if (rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox || rcmail.env.context_menu_source_id == rcmail.env.junk_mailbox
 				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.trash_mailbox) + RegExp.escape(rcmail.env.delimiter))
 				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter))) {
