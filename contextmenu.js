@@ -163,20 +163,25 @@ function rcm_callbackmenu_init(obj, props, events) {
 			if (!$(p.el).hasClass('active'))
 				return false;
 
-			if (p.ref.list_object)
+			if (p.ref.list_object) {
+				var prev_display_next = rcmail.env.display_next;
+
+				if (!(p.ref.list_object.selection.length == 1 && p.ref.list_object.in_selection(rcmail.env.context_menu_source_id)))
+					rcmail.env.display_next = false;
+
 				var prev_sel = p.ref.list_selection(true);
+			}
 
 			// enable the required command
 			var prev_command = rcmail.commands[p.command];
-			var prev_display_next = rcmail.env.display_next;
-			rcmail.env.display_next = false;
 			rcmail.enable_command(p.command, true);
 			var result = rcmail.command(p.command, p.args, p.el);
 			rcmail.enable_command(p.command, prev_command);
-			rcmail.env.display_next = prev_display_next;
 
-			if (p.ref.list_object)
+			if (p.ref.list_object) {
 				p.ref.list_selection(false, prev_sel);
+				rcmail.env.display_next = prev_display_next;
+			}
 
 			if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
 				rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
