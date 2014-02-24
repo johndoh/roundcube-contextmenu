@@ -14,12 +14,12 @@ function rcm_listmenu_init(row, props, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init(this, props, $.extend({
-    	'beforeinit': function(p) {
-	    	rcmail['rcm_selection'] = p.ref.list_selection(true);
-    	},
-    	'afterinit': function(p) {
-	    	p.ref.list_selection(false, rcmail['rcm_selection']);
-    	}
+		'beforeinit': function(p) {
+			rcmail['rcm_selection'] = p.ref.list_selection(true);
+		},
+		'afterinit': function(p) {
+			p.ref.list_selection(false, rcmail['rcm_selection']);
+		}
 	}, events));
 
 	$("#" + row).bind("contextmenu", function(e) {
@@ -46,13 +46,13 @@ function rcm_foldermenu_init(el, menu_source, events) {
 					p.obj.find('a.cmd_purge').addClass('active');
 			}
 		},
-    	'beforeselect': function(p) {
-	    	rcmail['rcm_selection'] = rcmail.env.mailbox;
-	    	rcmail.env.mailbox = rcmail.env.context_menu_source_id;
-    	},
-    	'afterselect': function(p) {
-	    	rcmail.env.mailbox = rcmail['rcm_selection'];
-    	}
+		'beforeselect': function(p) {
+			rcmail['rcm_selection'] = rcmail.env.mailbox;
+			rcmail.env.mailbox = rcmail.env.context_menu_source_id;
+		},
+		'afterselect': function(p) {
+			rcmail.env.mailbox = rcmail['rcm_selection'];
+		}
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
@@ -67,9 +67,9 @@ function rcm_abookmenu_init(el, menu_source, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init(this, {'menu_name': 'abooklist', 'menu_source': menu_source}, $.extend({
-    	'beforeinit': function(p) {
-	    	p.obj.find('li.submenu').remove();
-    	},
+		'beforeinit': function(p) {
+			p.obj.find('li.submenu').remove();
+		},
 		'afterinit': function(p) {
 			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
 				p.obj.find('a').removeClass('active');
@@ -146,7 +146,7 @@ function rcm_groupmenu_init(el, menu_source, events) {
 			rcmail.env.source = prev_source;
 			rcmail.env.group = prev_group;
 
-    		return result;
+			return result;
 		}
 	}, events));
 
@@ -164,23 +164,26 @@ function rcm_callbackmenu_init(obj, props, events) {
 				return false;
 
 			if (p.ref.list_object)
-	   			var prev_sel = p.ref.list_selection(true);
+				var prev_sel = p.ref.list_selection(true);
 
 			// enable the required command
 			var prev_command = rcmail.commands[p.command];
+			var prev_display_next = rcmail.env.display_next;
+			rcmail.env.display_next = false;
 			rcmail.enable_command(p.command, true);
-    		var result = rcmail.command(p.command, p.args, p.el);
+			var result = rcmail.command(p.command, p.args, p.el);
 			rcmail.enable_command(p.command, prev_command);
+			rcmail.env.display_next = prev_display_next;
 
 			if (p.ref.list_object)
-    			p.ref.list_selection(false, prev_sel);
+				p.ref.list_selection(false, prev_sel);
 
-    		if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
-	    		rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
-	    		rcmail.enable_command(p.command, true);
-    		}
+			if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
+				rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
+				rcmail.enable_command(p.command, true);
+			}
 
-    		return result;
+			return result;
 		}
 	}
 
@@ -419,8 +422,8 @@ function rcube_context_menu(p) {
 
 		var id = rcmail.gui_containers[obj] ? rcmail.gui_containers[obj].attr('id') : obj;
 		if (!this.submenus[id]) {
-	    	this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': '#' + id + ' ul', 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'check_active': true, 'list_object': this.list_object});
-	    	this.submenus[id].init();
+			this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': '#' + id + ' ul', 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'check_active': true, 'list_object': this.list_object});
+			this.submenus[id].init();
 		}
 
 		this.submenus[id].show(null, e);
