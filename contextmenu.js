@@ -329,10 +329,7 @@ function rcube_context_menu(p) {
 			});
 
 			ul.append(rows).appendTo(this.container);
-
-			// temporarily show element to calculate its size
-			this.container.css({left: '-1000px', top: '-1000px'})
-				.appendTo($('body')).show();
+			this.container.css('display', 'none').appendTo($('body'))
 
 			if (!rcmail.env.context_menu_hide_bound) {
 				// Hide bindings
@@ -430,6 +427,9 @@ function rcube_context_menu(p) {
 	};
 
 	this.position = function(e, menu) {
+		// temporarily show element to calculate its size
+		this.container.css({left: '-1000px', top: '-1000px'}).show();
+
 		var win = $(window),
 		win_height = win.height(),
 		elem_height = $(menu).height(),
