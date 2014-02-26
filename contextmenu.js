@@ -251,7 +251,7 @@ function rcube_context_menu(p) {
 			link = document.createElement('a'),
 			span = document.createElement('span');
 
-			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu"></div>');
+			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu" style="display: none;"></div>');
 			link.href = '#';
 			link.className = 'icon active';
 			span.className = this.is_submenu ? 'icon' : 'icon cmicon';
@@ -318,10 +318,13 @@ function rcube_context_menu(p) {
 						if (elem.attr('target'))
 							$(a).attr('target', elem.attr('target'));
 
-						a.onclick = function() {
+						a.onclick = function(e) {
 							ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
 							var result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args});
 							ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
+
+							// ensure menu is always hidden after action (for Safari)
+							ref.hide(e);
 
 							return result;
 						}
@@ -337,24 +340,22 @@ function rcube_context_menu(p) {
 			});
 
 			ul.append(rows).appendTo(this.container);
-			this.container.css('display', 'none').appendTo($('body'))
+			this.container.appendTo($('body'));
 
 			if (!rcmail.env.context_menu_hide_bound) {
 				// Hide bindings
-				setTimeout(function() { // Delay for Mozilla
-					$(document).bind('click', function(e) {
-						ref.hide(e);
-					});
+				$(document).bind('click', function(e) {
+					ref.hide(e);
+				});
 
-					// Hide menu after clicks in iframes (eg. preview pane)
-					$('iframe').load(function() {
-						// this == iframe
-						var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-						doc.onclick = function() { $(document).click(); };
-					});
+				// Hide menu after clicks in iframes (eg. preview pane)
+				$('iframe').load(function() {
+					// this == iframe
+					var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
+					doc.onclick = function() { $(document).click(); };
+				});
 
-					$('iframe').contents().mouseup( function() { $(document).click(); } );
-				}, 0);
+				$('iframe').contents().mouseup( function() { $(document).click(); } );
 
 				rcmail.env.contextmenu_hide_bound = true;
 			}
