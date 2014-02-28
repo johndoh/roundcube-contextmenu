@@ -33,7 +33,7 @@ $(document).ready(function() {
 	if (window.rcmail) {
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
-			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', '#mailboxoptionsmenu')");
+			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': '#mailboxoptionsmenu'})");
 
 			// special handeling for move/copy functions (folder selector)
 			rcmail.addEventListener('actionbefore', function(props) { rcm_override_mailbox_command(props, true); } );
@@ -58,9 +58,9 @@ $(document).ready(function() {
 						rcmail.command('listgroup', {'source': rcmail.env.source, 'id': rcmail.env.group}, p.el);
 				}
 			}); } );
-			rcmail.add_onload("rcm_abookmenu_init('#directorylist li.addressbook', '#directorylist-footer', {'insertitem': function(p) { add_menu_text('abooklist', p); }})");
-			rcmail.add_onload("rcm_groupmenu_init('#directorylist ul.groups li', '#groupoptionsmenu')");
-			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_init(props.li, '#groupoptionsmenu') } );
+			rcmail.add_onload("rcm_abookmenu_init('#directorylist li.addressbook', {'menu_source': '#directorylist-footer'}, {'insertitem': function(p) { add_menu_text('abooklist', p); }})");
+			rcmail.add_onload("rcm_groupmenu_init('#directorylist ul.groups li', {'menu_source': '#groupoptionsmenu'})");
+			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_init(props.li, {'menu_source': '#groupoptionsmenu'}) } );
 		}
 	}
 });

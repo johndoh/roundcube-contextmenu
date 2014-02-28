@@ -29,11 +29,11 @@ function rcm_listmenu_init(row, props, events) {
 	});
 }
 
-function rcm_foldermenu_init(el, menu_source, events) {
+function rcm_foldermenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, {'menu_name': 'folderlist', 'menu_source': menu_source, 'list_object': null, 'check_active': true}, $.extend({
+	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'folderlist', 'list_object': null, 'check_active': true}, props), $.extend({
 		'afterinit': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
 				p.obj.find('a').removeClass('active');
@@ -62,11 +62,11 @@ function rcm_foldermenu_init(el, menu_source, events) {
 	});
 }
 
-function rcm_abookmenu_init(el, menu_source, events) {
+function rcm_abookmenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, {'menu_name': 'abooklist', 'menu_source': menu_source}, $.extend({
+	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'abooklist'}, props), $.extend({
 		'beforeinit': function(p) {
 			p.obj.find('li.submenu').remove();
 		},
@@ -93,11 +93,11 @@ function rcm_abookmenu_init(el, menu_source, events) {
 	});
 }
 
-function rcm_groupmenu_init(el, menu_source, events) {
+function rcm_groupmenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, {'menu_name': 'grouplist', 'menu_source': menu_source, 'list_object': null, 'check_active': true}, $.extend({
+	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'grouplist', 'list_object': null, 'check_active': true}, props), $.extend({
 		'afterinit': function(p) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
@@ -228,6 +228,7 @@ function rcube_context_menu(p) {
 	this.list_object = rcmail.message_list;
 	this.list_object_select = true;
 	this.source_class = 'contextRow';
+	this.mouseover_submenu = false;
 
 	this.parent_menu = this;
 	this.parent_object = null;
@@ -252,6 +253,7 @@ function rcube_context_menu(p) {
 			span = document.createElement('span');
 
 			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu" style="display: none;"></div>');
+
 			link.href = '#';
 			link.className = 'icon active';
 			span.className = this.is_submenu ? 'icon' : 'icon cmicon';
@@ -312,6 +314,9 @@ function rcube_context_menu(p) {
 						$(a).data('popup_id', matches[1]);
 						$(row).addClass('submenu');
 						a.onclick = function(e) { ref.submenu(a, e, $(this).data('popup_id')); return false; }
+
+						if (ref.mouseover_submenu)
+							a.onmouseover = function(e) { ref.submenu(a, e, $(this).data('popup_id')); return false; }
 					}
 					else {
 						$(a).addClass('cmd_' + command);
@@ -328,6 +333,9 @@ function rcube_context_menu(p) {
 
 							return result;
 						}
+
+						if (ref.mouseover_submenu && !ref.is_submenu)
+							a.onmouseover = function(e) { $('div.rcmsubmenu').hide(); $('#folder-selector').hide(); }
 					}
 
 					elem.addClass('rcm_elem_' + elem.attr('id'));
@@ -425,6 +433,7 @@ function rcube_context_menu(p) {
 			e.stopPropagation();
 
 		$('.rcmsubmenu').hide();
+		$('#folder-selector').hide();
 
 		var id = rcmail.gui_containers[obj] ? rcmail.gui_containers[obj].attr('id') : obj;
 		if (!this.submenus[id]) {
