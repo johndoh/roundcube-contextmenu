@@ -29,6 +29,11 @@ function add_menu_text(menu, p) {
 	}
 }
 
+function reorder_contact_menu(p) {
+	var ul = p.obj.find('ul:first');
+	$(p.obj).find('a.export').parent('li').appendTo(ul);
+}
+
 $(document).ready(function() {
 	if (window.rcmail) {
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
@@ -47,6 +52,7 @@ $(document).ready(function() {
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete', ,'#addresslist div.boxfooter a.removegroup'], 'list_object': rcmail.contact_list, 'list_object_select': false}, {
 				'insertitem': function(p) { add_menu_text('contactlist', p); },
+				'init': function(p) { reorder_contact_menu(p); },
 				'afteractivate': function(p) {
 					p.ref.list_selection(false, rcmail['rcm_selection']);
 
