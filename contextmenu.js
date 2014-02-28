@@ -14,10 +14,10 @@ function rcm_listmenu_init(row, props, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init(this, props, $.extend({
-		'beforeinit': function(p) {
+		'beforeactivate': function(p) {
 			rcmail['rcm_selection'] = p.ref.list_selection(true);
 		},
-		'afterinit': function(p) {
+		'afteractivate': function(p) {
 			p.ref.list_selection(false, rcmail['rcm_selection']);
 		}
 	}, events));
@@ -34,7 +34,7 @@ function rcm_foldermenu_init(el, props, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'folderlist', 'list_object': null, 'check_active': true}, props), $.extend({
-		'afterinit': function(p) {
+		'afteractivate': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
 				p.obj.find('a').removeClass('active');
 				p.obj.find('a.cmd_expunge').addClass('active');
@@ -67,10 +67,10 @@ function rcm_abookmenu_init(el, props, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'abooklist'}, props), $.extend({
-		'beforeinit': function(p) {
+		'beforeactivate': function(p) {
 			p.obj.find('li.submenu').remove();
 		},
-		'afterinit': function(p) {
+		'afteractivate': function(p) {
 			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
 				p.obj.find('a').removeClass('active');
 		},
@@ -98,7 +98,7 @@ function rcm_groupmenu_init(el, props, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'grouplist', 'list_object': null, 'check_active': true}, props), $.extend({
-		'afterinit': function(p) {
+		'afteractivate': function(p) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
 
@@ -348,6 +348,7 @@ function rcube_context_menu(p) {
 			});
 
 			ul.append(rows).appendTo(this.container);
+			this.parent_menu.triggerEvent('init', {ref: this, obj: this.container});
 			this.container.appendTo($('body'));
 
 			if (!rcmail.env.context_menu_hide_bound) {
@@ -376,7 +377,7 @@ function rcube_context_menu(p) {
 			$(obj).addClass(this.source_class);
 		}
 
-		this.parent_menu.triggerEvent('beforeinit', {ref: this, obj: this.container});
+		this.parent_menu.triggerEvent('beforeactivate', {ref: this, obj: this.container});
 		$.each(this.container.find('a'), function() {
 			if (ref.check_active && typeof ref.menu_source == 'string') {
 				$(ref.menu_source).parent().show();
@@ -398,7 +399,7 @@ function rcube_context_menu(p) {
 				$(ref.menu_source).parent().hide();
 			}
 		});
-		this.parent_menu.triggerEvent('afterinit', {ref: this, obj: this.container});
+		this.parent_menu.triggerEvent('afteractivate', {ref: this, obj: this.container});
 
 		// position menu on the screen
 		if (this.is_submenu) {

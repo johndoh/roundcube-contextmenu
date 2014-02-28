@@ -47,7 +47,7 @@ $(document).ready(function() {
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete', ,'#addresslist div.boxfooter a.removegroup'], 'list_object': rcmail.contact_list, 'list_object_select': false}, {
 				'insertitem': function(p) { add_menu_text('contactlist', p); },
-				'afterinit': function(p) {
+				'afteractivate': function(p) {
 					p.ref.list_selection(false, rcmail['rcm_selection']);
 
 					if (!rcmail.env.group || rcmail.env.readonly)
