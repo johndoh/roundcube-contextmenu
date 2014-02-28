@@ -17,6 +17,7 @@
 
 div.contextmenu a {
   outline: 0;
+  cursor: default;
 }
 
 div.contextmenu ul li a span.cmicon

@@ -36,7 +36,7 @@ function rcm_foldermenu_init(el, props, events) {
 	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'folderlist', 'list_object': null, 'check_active': true}, props), $.extend({
 		'afteractivate': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
-				p.obj.find('a').removeClass('active');
+				p.obj.find('a').removeClass('active').addClass('disabled');
 				p.obj.find('a.cmd_expunge').addClass('active');
 			}
 
@@ -72,7 +72,7 @@ function rcm_abookmenu_init(el, props, events) {
 		},
 		'afteractivate': function(p) {
 			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
-				p.obj.find('a').removeClass('active');
+				p.obj.find('a').removeClass('active').addClass('disabled');;
 		},
 		'beforeselect': function(p) {
 			if (!$(p.el).hasClass('active'))

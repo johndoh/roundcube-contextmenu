@@ -57,7 +57,7 @@ $(document).ready(function() {
 					p.ref.list_selection(false, rcmail['rcm_selection']);
 
 					if (!rcmail.env.group || rcmail.env.readonly)
-						p.obj.find('a.removegroup').removeClass('active');
+						p.obj.find('a.removegroup').removeClass('active').addClass('disabled');;
 				},
 				'afterselect': function(p) {
 					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')
