@@ -266,23 +266,23 @@ function rcube_context_menu(p) {
 					var elem, command, args;
 
 					if ($(this).is('a')) {
-						elem = $(this);
+						elem = $(this).clone();
 					}
 					else if ($(this).is('span') && $(this).children('a').length == 1) {
-						elem = $(this).children('a');
+						elem = $(this).children('a').clone();
 
 						if ($(this).is('span') && $(this).children('span').length == 1 && $(this).children('span:first').attr('onclick').match(rcmail.context_menu_popup_pattern)) {
 							$(elem).attr('onclick', $(this).children('span').attr('onclick'));
 						}
 					}
 					else if ($(this).is('li') && $(this).children('a').length == 1) {
-						elem = $(this).children('a:first');
+						elem = $(this).children('a:first').clone();;
 
 						if (!elem.attr('onclick') || !elem.attr('onclick').match(rcmail.context_menu_command_pattern))
 							return;
 					}
 					else if ($(this).parent().is('a')) {
-						elem = $(this).parent();
+						elem = $(this).parent().clone();;
 					}
 					else {
 						return;
