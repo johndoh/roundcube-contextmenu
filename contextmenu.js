@@ -37,21 +37,14 @@ function rcm_foldermenu_init(el, props, events) {
 		'afteractivate': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
 				p.obj.find('a').removeClass('active').addClass('disabled');
-				p.obj.find('a.cmd_expunge').addClass('active');
 			}
 
-			if (rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox || rcmail.env.context_menu_source_id == rcmail.env.junk_mailbox
-				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.trash_mailbox) + RegExp.escape(rcmail.env.delimiter))
-				|| rcmail.env.context_menu_source_id.match('^' + RegExp.escape(rcmail.env.junk_mailbox) + RegExp.escape(rcmail.env.delimiter))) {
-					p.obj.find('a.cmd_purge').addClass('active');
-			}
-		},
-		'beforeselect': function(p) {
-			rcmail['rcm_selection'] = rcmail.env.mailbox;
-			rcmail.env.mailbox = rcmail.env.context_menu_source_id;
-		},
-		'afterselect': function(p) {
-			rcmail.env.mailbox = rcmail['rcm_selection'];
+			if ($(p.source).children('a:first').has('span.unreadcount').length)
+				p.obj.find('a.readfolder').addClass('active');
+
+			p.obj.find('a.collapseall').addClass('active');
+			p.obj.find('a.expandall').addClass('active');
+			p.obj.find('a.openfolder').addClass('active');
 		}
 	}, events));
 
@@ -377,12 +370,11 @@ function rcube_context_menu(p) {
 			$(obj).addClass(this.source_class);
 		}
 
-		this.parent_menu.triggerEvent('beforeactivate', {ref: this, obj: this.container});
-		$.each(this.container.find('a'), function() {
-			if (ref.check_active && typeof ref.menu_source == 'string') {
-				$(ref.menu_source).parent().show();
-			}
+		this.parent_menu.triggerEvent('beforeactivate', {ref: this, obj: this.container, source: obj});
+		if (ref.check_active)
+			typeof ref.menu_source == 'string' ? $(ref.menu_source).parent().show() : $.each(ref.menu_source, function(i) { $(ref.menu_source[i]).parent().show(); } );
 
+		$.each(this.container.find('a'), function() {
 			if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
 				$(this).parent('li')[$('#' + btn[1]).is(':visible') ? 'show' : 'hide']();
 				$(this).removeClass('active').removeClass('disabled');
@@ -394,12 +386,11 @@ function rcube_context_menu(p) {
 					$(this).addClass('active');
 				}
 			}
-
-			if (ref.check_active && typeof ref.menu_source == 'string') {
-				$(ref.menu_source).parent().hide();
-			}
 		});
-		this.parent_menu.triggerEvent('afteractivate', {ref: this, obj: this.container});
+		if (ref.check_active)
+			typeof ref.menu_source == 'string' ? $(ref.menu_source).parent().hide() : $.each(ref.menu_source, function(i) { $(ref.menu_source[i]).parent().hide(); } );
+
+		this.parent_menu.triggerEvent('afteractivate', {ref: this, obj: this.container, source: obj});
 
 		// position menu on the screen
 		if (this.is_submenu) {
@@ -523,3 +514,31 @@ function rcm_override_mailbox_command(props, before) {
 		}
 	}
 }
+
+$(document).ready(function() {
+	if (window.rcmail) {
+		rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
+			var lock = rcmail.set_busy(true, 'loading');
+			rcmail.http_request('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
+		}, false);
+
+		rcmail.register_command('plugin.contextmenu.collapseall', function(props, obj) {
+			$("#mailboxlist div.expanded").each(function() { $(this).click(); });
+		}, false);
+
+		rcmail.register_command('plugin.contextmenu.expandall', function(props, obj) {
+			$("#mailboxlist div.collapsed").each(function() { $(this).click(); });
+		}, false);
+
+		rcmail.register_command('plugin.contextmenu.openfolder', function(props, obj) {
+			var button_id = rcmail.buttons['plugin.contextmenu.openfolder'][0].id;
+
+			rcube_find_object(button_id).href = '?_task=mail&_mbox='+urlencode(rcmail.env.context_menu_source_id);
+			rcmail.sourcewin = window.open(rcube_find_object(button_id).href);
+			if (rcmail.sourcewin)
+				window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
+
+			rcube_find_object(button_id).href = '#';
+		}, false);
+	}
+});

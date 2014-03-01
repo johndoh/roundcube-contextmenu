@@ -9,7 +9,7 @@ $(document).ready(function() {
 	if (window.rcmail) {
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
-			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': '#mailboxoptionsmenu ul'})");
+			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu ul']})");
 
 			// special handeling for move/copy functions (folder selector)
 			rcmail.addEventListener('actionbefore', function(props) { rcm_override_mailbox_command(props, true); } );
