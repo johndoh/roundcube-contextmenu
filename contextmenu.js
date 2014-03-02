@@ -22,9 +22,10 @@ function rcm_listmenu_init(row, props, events) {
 		}
 	}, events));
 
+	var list_object = props.list_object ? props.list_object : rcmail.message_list;
 	$("#" + row).bind("contextmenu", function(e) {
-		if (matches = String($(this).attr('id')).match(/rcmrow([a-z0-9\-_=]+)/i)) {
-			rcm_show_menu(e, this, matches[1], menu);
+		if (String($(this).attr('id')).match(list_object.id_regexp)) {
+			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
 }
@@ -49,8 +50,8 @@ function rcm_foldermenu_init(el, props, events) {
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
-		if (matches = String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i)) {
-			rcm_show_menu(e, this, matches[1], menu);
+		if (String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i)) {
+			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
 }
@@ -80,8 +81,8 @@ function rcm_abookmenu_init(el, props, events) {
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
-		if (matches = String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
-			rcm_show_menu(e, this, matches[1], menu);
+		if (String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
+			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
 }
@@ -144,8 +145,8 @@ function rcm_groupmenu_init(el, props, events) {
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
-		if (matches = String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
-			rcm_show_menu(e, this, matches[1], menu);
+		if (String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
+			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
 }
@@ -283,9 +284,9 @@ function rcube_context_menu(p) {
 						return;
 					}
 
-					if (matches = elem.attr('onclick').match(rcmail.context_menu_command_pattern)) {
-						command = matches[1];
-						args = matches[2];
+					if (elem.attr('onclick').match(rcmail.context_menu_command_pattern)) {
+						command = RegExp.$1;
+						args = RegExp.$2;
 					}
 
 					// skip elements we dont need
@@ -303,8 +304,8 @@ function rcube_context_menu(p) {
 					a.className += elem.attr('class') ? ' ' + elem.attr('class') : '';
 					$(a).removeClass('button').removeClass('disabled');
 
-					if (matches = elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
-						$(a).data('popup_id', matches[1]);
+					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
+						$(a).data('popup_id', RegExp.$1);
 						$(row).addClass('submenu');
 						a.onclick = function(e) { ref.submenu(a, e, $(this).data('popup_id')); return false; }
 
