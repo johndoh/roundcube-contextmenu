@@ -75,7 +75,7 @@ function rcm_abookmenu_init(el, props, events) {
 			rcmail.env.source = rcmail.env.context_menu_source_id;
 		},
 		'afterselect': function(p) {
-			if (rcmail.env.source = rcmail.env.context_menu_source_id);
+			if (rcmail.env.source = rcmail.env.context_menu_source_id)
 				rcmail.command('list', rcmail.env.context_menu_source_id, p.el);
 		}
 	}, events));
@@ -215,8 +215,8 @@ function rcm_show_menu(e, obj, id, menu) {
 }
 
 function rcube_context_menu(p) {
-	this.menu_name;
-	this.menu_source;
+	this.menu_name = null;
+	this.menu_source = null;
 	this.is_submenu = false;
 	this.check_active = false;
 	this.list_object = rcmail.message_list;
