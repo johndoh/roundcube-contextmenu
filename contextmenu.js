@@ -43,9 +43,7 @@ function rcm_foldermenu_init(el, props, events) {
 			if ($(p.source).children('a:first').has('span.unreadcount').length)
 				p.obj.find('a.readfolder').addClass('active');
 
-			p.obj.find('a.collapseall').addClass('active');
-			p.obj.find('a.expandall').addClass('active');
-			p.obj.find('a.openfolder').addClass('active');
+			p.obj.find('a.rcmglobal').addClass('active');
 		}
 	}, events));
 

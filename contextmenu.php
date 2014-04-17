@@ -31,9 +31,9 @@ class contextmenu extends rcube_plugin
 
 		$li = '';
 		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.readfolder', 'type' => 'link', 'class' => 'readfolder', 'label' => 'contextmenu.markreadfolder')));
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.collapseall', 'type' => 'link', 'class' => 'collapseall', 'label' => 'contextmenu.collapseall')));
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.expandall', 'type' => 'link', 'class' => 'expandall', 'label' => 'contextmenu.expandall')));
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.openfolder', 'type' => 'link', 'class' => 'openfolder', 'label' => 'openinextwin')));
+		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.collapseall', 'type' => 'link', 'class' => 'collapseall rcmglobal', 'label' => 'contextmenu.collapseall')));
+		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.expandall', 'type' => 'link', 'class' => 'expandall rcmglobal', 'label' => 'contextmenu.expandall')));
+		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.openfolder', 'type' => 'link', 'class' => 'openfolder rcmglobal', 'label' => 'openinextwin')));
 
 		$out = html::tag('ul', array('id' => 'rcmFolderMenu'), $li);
 		$this->api->output->add_footer(html::div(array('style' => 'display: none;'), $out));
