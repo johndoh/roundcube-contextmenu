@@ -220,7 +220,8 @@ function rcube_context_menu(p) {
 	this.list_object = rcmail.message_list;
 	this.list_object_select = true;
 	this.source_class = 'contextRow';
-	this.mouseover_submenu = false;
+	this.mouseover_submenu = true;
+	this.mouseover_timeout = 400;
 
 	this.parent_menu = this;
 	this.parent_object = null;
@@ -228,6 +229,7 @@ function rcube_context_menu(p) {
 	this.original_selection = new Array();
 	this.menu_selection = new Array();
 	this.submenus = new Array();
+	this.timers = new Array();
 
 	// overwrite default paramaters
 	if (p && typeof p === 'object')
@@ -305,10 +307,17 @@ function rcube_context_menu(p) {
 					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
 						$(a).data('popup_id', RegExp.$1);
 						$(row).addClass('submenu');
-						a.onclick = function(e) { ref.submenu(a, e, $(this).data('popup_id')); return false; }
+						a.onclick = function(e) { ref.submenu(a, e); return false; }
 
-						if (ref.mouseover_submenu)
-							a.onmouseover = function(e) { ref.submenu(a, e, $(this).data('popup_id')); return false; }
+						if (ref.mouseover_submenu) {
+							a.onmouseover = function(e) {
+								ref.timers['submenu_show'] = window.setTimeout(function() {
+									ref.submenu(a, e);
+								}, ref.mouseover_timeout);
+							}
+
+							a.onmouseout = function(e) { clearTimeout(ref.timers['submenu_show']);	}
+						}
 					}
 					else {
 						$(a).addClass('cmd_' + command);
@@ -326,8 +335,16 @@ function rcube_context_menu(p) {
 							return result;
 						}
 
-						if (ref.mouseover_submenu && !ref.is_submenu)
-							a.onmouseover = function(e) { $('div.rcmsubmenu').hide(); $('#folder-selector').hide(); }
+						if (ref.mouseover_submenu && !ref.is_submenu) {
+							a.onmouseover = function(e) {
+								ref.timers['submenu_hide'] = window.setTimeout(function() {
+									$('div.rcmsubmenu').hide();
+									$('#folder-selector').hide();
+								}, ref.mouseover_timeout);
+							}
+
+							a.onmouseout = function(e) { clearTimeout(ref.timers['submenu_hide']); }
+						}
 					}
 
 					elem.addClass('rcm_elem_' + elem.attr('id'));
@@ -418,7 +435,7 @@ function rcube_context_menu(p) {
 		}
 	};
 
-	this.submenu = function(link, e, obj) {
+	this.submenu = function(link, e) {
 		e.cancelBubble = true;
 		if (e.stopPropagation)
 			e.stopPropagation();
@@ -426,7 +443,7 @@ function rcube_context_menu(p) {
 		$('.rcmsubmenu').hide();
 		$('#folder-selector').hide();
 
-		var id = rcmail.gui_containers[obj] ? rcmail.gui_containers[obj].attr('id') : obj;
+		var id = rcmail.gui_containers[$(link).data('popup_id')] ? rcmail.gui_containers[$(link).data('popup_id')].attr('id') : $(link).data('popup_id');
 		if (!this.submenus[id]) {
 			this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': '#' + id + ' ul', 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'check_active': true, 'list_object': this.list_object});
 			this.submenus[id].init();
