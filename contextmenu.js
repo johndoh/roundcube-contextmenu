@@ -298,7 +298,7 @@ function rcube_context_menu(p) {
 
 					// add command name element
 					tmp = span.cloneNode(false);
-					$(tmp).text(elem.text().trim().length > 0 ? elem.text() : elem.attr('title'));
+					$(tmp).text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
 					tmp.className += elem.children('span').attr('class') ? ' ' + elem.children('span').attr('class') : '';
 					a.appendChild(tmp);
 					a.className += elem.attr('class') ? ' ' + elem.attr('class') : '';
@@ -420,7 +420,9 @@ function rcube_context_menu(p) {
 	};
 
 	this.hide = function(e) {
-		if (!$(e.target).is('.folder-selector-link')) {
+		// use window.event when e is not defined (legacy support for IE8)
+		var target = e ? e.target : window.event.srcElement;
+		if (!$(target).is('.folder-selector-link')) {
 			$('.' + this.source_class).removeClass(this.source_class);
 			$('div.contextmenu').hide();
 			$('#folder-selector').hide();
@@ -436,9 +438,15 @@ function rcube_context_menu(p) {
 	};
 
 	this.submenu = function(link, e) {
-		e.cancelBubble = true;
-		if (e.stopPropagation)
-			e.stopPropagation();
+		// use window.event when e is not defined (legacy support for IE8)
+		if (!e)
+			e = window.event
+
+		if (e) {
+			e.cancelBubble = true;
+			if (e.stopPropagation)
+				e.stopPropagation();
+		}
 
 		$('.rcmsubmenu').hide();
 		$('#folder-selector').hide();
