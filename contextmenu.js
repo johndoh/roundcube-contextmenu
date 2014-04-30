@@ -440,7 +440,7 @@ function rcube_context_menu(p) {
 	this.submenu = function(link, e) {
 		// use window.event when e is not defined (legacy support for IE8)
 		if (!e)
-			e = window.event
+			e = window.event;
 
 		if (e) {
 			e.cancelBubble = true;
