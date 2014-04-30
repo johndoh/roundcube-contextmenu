@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 2.0 (2014-04-30, rc-1.0)
+=================================================
  * Remove IE6 support
  * Remove rcm_contextmenu_register_command, use commands from toolbars
  * Remove specially created manus, generate context menu dynamically from UI
