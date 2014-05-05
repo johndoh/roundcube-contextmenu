@@ -24,7 +24,7 @@ function rcm_listmenu_init(row, props, events) {
 
 	var list_object = props.list_object ? props.list_object : rcmail.message_list;
 	$("#" + row).bind("contextmenu", function(e) {
-		if (uid = list_object.get_row_uid($(this))) {
+		if (uid = list_object.get_row_uid(this)) {
 			rcm_show_menu(e, this, uid, menu);
 		}
 	});
