@@ -30,13 +30,13 @@ class contextmenu extends rcube_plugin
 		$this->add_texts('localization/');
 
 		$li = '';
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.readfolder', 'type' => 'link', 'class' => 'readfolder', 'label' => 'contextmenu.markreadfolder')));
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.collapseall', 'type' => 'link', 'class' => 'collapseall rcmglobal', 'label' => 'contextmenu.collapseall')));
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.expandall', 'type' => 'link', 'class' => 'expandall rcmglobal', 'label' => 'contextmenu.expandall')));
-		$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.contextmenu.openfolder', 'type' => 'link', 'class' => 'openfolder rcmglobal', 'label' => 'openinextwin')));
+		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.readfolder', 'type' => 'link', 'class' => 'readfolder', 'label' => 'contextmenu.markreadfolder', 'tabindex' => '-1', 'aria-disabled' => 'true')));
+		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.collapseall', 'type' => 'link', 'class' => 'collapseall rcmglobal', 'label' => 'contextmenu.collapseall', 'tabindex' => '-1', 'aria-disabled' => 'true')));
+		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.expandall', 'type' => 'link', 'class' => 'expandall rcmglobal', 'label' => 'contextmenu.expandall', 'tabindex' => '-1', 'aria-disabled' => 'true')));
+		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.openfolder', 'type' => 'link', 'class' => 'openfolder rcmglobal', 'label' => 'openinextwin', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 
-		$out = html::tag('ul', array('id' => 'rcmFolderMenu'), $li);
-		$this->api->output->add_footer(html::div(array('style' => 'display: none;'), $out));
+		$out = html::tag('ul', array('id' => 'rcmFolderMenu', 'role' => 'menu'), $li);
+		$this->api->output->add_footer(html::div(array('style' => 'display: none;', 'aria-hidden' => 'true'), $out));
 	}
 
 	public function readfolder()

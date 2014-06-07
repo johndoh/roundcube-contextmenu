@@ -48,7 +48,10 @@ function rcm_foldermenu_init(el, props, events) {
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
-		if (String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this\).*/i)) {
+		// remove focus (and keyboard nav highlighting) from A
+		$(this).children('a').blur();
+
+		if (String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this,\s*event\).*/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -79,6 +82,8 @@ function rcm_abookmenu_init(el, props, events) {
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
+		$(this).children('a').blur();
+
 		if (String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
@@ -126,7 +131,7 @@ function rcm_groupmenu_init(el, props, events) {
 					rcmail.env.group = prev_group;
 					prev_source = cur_source;
 					prev_group = cur_id;
-					rcmail.command('listgroup', {'source': prev_source, 'id': prev_group}, p.el);
+					rcmail.command('listgroup', {'source': prev_source, 'id': prev_group}, p.el, p.evt);
 					rcmail.enable_command('listgroup', false);
 					break;
 				case 'group-delete':
@@ -143,6 +148,9 @@ function rcm_groupmenu_init(el, props, events) {
 	}, events));
 
 	$(el).bind("contextmenu",function(e) {
+		// remove focus (and keyboard nav highlighting) from A
+		$(this).children('a').blur();
+
 		if (String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
@@ -167,7 +175,7 @@ function rcm_callbackmenu_init(obj, props, events) {
 			// enable the required command
 			var prev_command = rcmail.commands[p.command];
 			rcmail.enable_command(p.command, true);
-			var result = rcmail.command(p.command, p.args, p.el);
+			var result = rcmail.command(p.command, p.args, p.el, p.evt);
 			rcmail.enable_command(p.command, prev_command);
 
 			if (p.ref.list_object) {
@@ -241,15 +249,19 @@ function rcube_context_menu(p) {
 	this.init = function() {
 		if (!this.container) {
 			var rows = [],
-			ul = $('<ul class="toolbarmenu iconized">'),
+			ul = $('<ul class="toolbarmenu iconized" role="menu">'),
 			li = document.createElement('li'),
 			link = document.createElement('a'),
 			span = document.createElement('span');
 
 			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu" style="display: none;"></div>');
 
+			li.setAttribute('role', 'menuitem');
 			link.href = '#';
 			link.className = 'icon active';
+			link.setAttribute('role', 'button');
+			link.setAttribute('tabindex', '-1');
+			link.setAttribute('aria-disabled', 'true');
 			span.className = this.is_submenu ? 'icon' : 'icon cmicon';
 
 			if (this.is_submenu)
@@ -258,21 +270,23 @@ function rcube_context_menu(p) {
 			// loop over possible menu elements
 			sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
 			$.each(sources, function(i) {
+				ul.attr('aria-labelledby', $(sources[i]).attr('aria-labelledby'));
+
 				$.each($(sources[i]).children(), function() {
 					var elem, command, args;
 
 					if ($(this).is('a')) {
 						elem = $(this).clone();
 					}
-					else if ($(this).is('span') && $(this).children('a').length == 1) {
-						elem = $(this).children('a').clone();
+					else if ($(this).is('span') && $(this).children().length == 2) {
+						elem = $(this).children(':first').clone();
 
-						if ($(this).is('span') && $(this).children('span').length == 1 && $(this).children('span:first').attr('onclick').match(rcmail.context_menu_popup_pattern)) {
-							$(elem).attr('onclick', $(this).children('span').attr('onclick'));
+						if ($(this).children(':last').attr('onclick').match(rcmail.context_menu_popup_pattern)) {
+							$(elem).attr('onclick', $(this).children(':last').attr('onclick'));
 						}
 					}
 					else if ($(this).is('li') && $(this).children('a').length == 1) {
-						elem = $(this).children('a:first').clone();;
+						elem = $(this).children('a').clone();;
 
 						if (!elem.attr('onclick') || !elem.attr('onclick').match(rcmail.context_menu_command_pattern))
 							return;
@@ -326,7 +340,7 @@ function rcube_context_menu(p) {
 
 						a.onclick = function(e) {
 							ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
-							var result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args});
+							var result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args, evt: e});
 							ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
 
 							// ensure menu is always hidden after action (for Safari)

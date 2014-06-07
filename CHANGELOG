@@ -1,6 +1,7 @@
 Roundcube Webmail ContextMenu
 =============================
 
+ * Update after dev-accessibility merged to RC master
  * Support multi-folder search results (66536974fe)
 
 Version 2.0 (2014-04-30, rc-1.0)

@@ -2,7 +2,7 @@
  * ContextMenu plugin script
  */
 
-rcube_webmail.prototype.context_menu_popup_pattern = /UI\.show_popup\(\'([^\']+)\'/;
+rcube_webmail.prototype.context_menu_popup_pattern = /UI\.toggle_popup\(\'([^\']+)\'/;
 
 function add_menu_text(menu, p) {
 	if (menu == 'composeto') {
