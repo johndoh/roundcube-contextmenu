@@ -330,7 +330,7 @@ function rcube_context_menu(p) {
 								}, ref.mouseover_timeout);
 							}
 
-							a.onmouseout = function(e) { clearTimeout(ref.timers['submenu_show']);	}
+							a.onmouseout = function(e) { $(this).blur(); clearTimeout(ref.timers['submenu_show']);	}
 						}
 					}
 					else {
