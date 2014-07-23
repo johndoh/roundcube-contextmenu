@@ -284,6 +284,11 @@ function rcube_context_menu(p) {
 						return;
 					}
 
+					// skip any element that does not look like a Roundcube button
+					if (!elem.attr('onclick')) {
+						return;
+					}
+
 					if (elem.attr('onclick').match(rcmail.context_menu_command_pattern)) {
 						command = RegExp.$1;
 						args = RegExp.$2;
