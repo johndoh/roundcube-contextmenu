@@ -3,6 +3,8 @@
  */
 
 rcube_webmail.prototype.context_menu_popup_pattern = /UI\.toggle_popup\(\'([^\']+)\'/;
+rcube_webmail.prototype.context_menu_button_active_class = new Array('active');
+rcube_webmail.prototype.context_menu_button_disabled_class = new Array('disabled');
 
 function add_menu_text(menu, p) {
 	if (menu == 'composeto') {
@@ -50,7 +52,7 @@ $(document).ready(function() {
 		}
 
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete', ,'#addresslist div.boxfooter a.removegroup'], 'list_object': rcmail.contact_list, 'list_object_select': false}, {
+			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete','#addresslist div.boxfooter a.removegroup'], 'list_object': rcmail.contact_list}, {
 				'insertitem': function(p) { add_menu_text('contactlist', p); },
 				'init': function(p) { reorder_contact_menu(p); },
 				'afteractivate': function(p) {
