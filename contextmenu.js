@@ -34,7 +34,7 @@ function rcm_foldermenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'folderlist', 'list_object': null, 'show_parent': true}, props), $.extend({
+	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'folderlist', 'list_object': null}, props), $.extend({
 		'afteractivate': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
 				p.obj.find('a').removeClass('active').addClass('disabled');
@@ -98,7 +98,7 @@ function rcm_groupmenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'grouplist', 'list_object': null, 'show_parent': true}, props), $.extend({
+	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'grouplist', 'list_object': null}, props), $.extend({
 		'afteractivate': function(p) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
@@ -227,13 +227,12 @@ function rcm_show_menu(e, obj, id, menu) {
 function rcube_context_menu(p) {
 	this.menu_name = null;
 	this.menu_source = null;
-	this.is_submenu = false;
-	this.show_parent = false;
 	this.list_object = rcmail.message_list;
 	this.source_class = 'contextRow';
 	this.mouseover_submenu = true;
 	this.mouseover_timeout = 400;
 
+	this.is_submenu = false;
 	this.parent_menu = this;
 	this.parent_object = null;
 	this.container = null;
@@ -269,12 +268,16 @@ function rcube_context_menu(p) {
 
 			if (this.is_submenu) {
 				this.container.addClass('rcmsubmenu');
-				this.show_parent = true;
 			}
 
-			// loop over possible menu elements
+			// loop over possible menu elements and build settings object
 			sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
+			this.menu_source = {}
 			$.each(sources, function(i) {
+				ref.menu_source[sources[i]] = {
+					'toggle': !$(sources[i]).is(':visible')
+				};
+
 				ul.attr('aria-labelledby', $(sources[i]).attr('aria-labelledby'));
 
 				$.each($(sources[i]).children(), function() {
@@ -411,8 +414,12 @@ function rcube_context_menu(p) {
 		}
 
 		this.parent_menu.triggerEvent('beforeactivate', {ref: this, obj: this.container, source: obj});
-		if (ref.show_parent)
-			typeof ref.menu_source == 'string' ? $(ref.menu_source).parent().show() : $.each(ref.menu_source, function(i) { $(ref.menu_source[i]).parent().show(); } );
+
+		$.each(ref.menu_source, function(id, props) {
+			if (props.toggle) {
+				$(id).parent().show();
+			}
+		});
 
 		$.each(this.container.find('a'), function() {
 			if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
@@ -427,8 +434,12 @@ function rcube_context_menu(p) {
 				}
 			}
 		});
-		if (ref.show_parent)
-			typeof ref.menu_source == 'string' ? $(ref.menu_source).parent().hide() : $.each(ref.menu_source, function(i) { $(ref.menu_source[i]).parent().hide(); } );
+
+		$.each(ref.menu_source, function(id, props) {
+			if (props.toggle) {
+				$(id).parent().hide();
+			}
+		});
 
 		this.parent_menu.triggerEvent('afteractivate', {ref: this, obj: this.container, source: obj});
 
