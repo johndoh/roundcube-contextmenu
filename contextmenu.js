@@ -229,7 +229,6 @@ function rcube_context_menu(p) {
 	this.menu_source = null;
 	this.list_object = rcmail.message_list;
 	this.source_class = 'contextRow';
-	this.mouseover_submenu = true;
 	this.mouseover_timeout = 400;
 
 	this.is_submenu = false;
@@ -336,7 +335,7 @@ function rcube_context_menu(p) {
 						$(row).addClass('submenu');
 						a.onclick = function(e) { ref.submenu(a, e); return false; }
 
-						if (ref.mouseover_submenu) {
+						if (ref.mouseover_timeout > -1) {
 							a.onmouseover = function(e) {
 								ref.timers['submenu_show'] = window.setTimeout(function() {
 									ref.submenu(a, e);
@@ -362,7 +361,7 @@ function rcube_context_menu(p) {
 							return result;
 						}
 
-						if (ref.mouseover_submenu && !ref.is_submenu) {
+						if (ref.mouseover_timeout > -1 && !ref.is_submenu) {
 							a.onmouseover = function(e) {
 								ref.timers['submenu_hide'] = window.setTimeout(function() {
 									$('div.rcmsubmenu').hide();
