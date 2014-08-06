@@ -13,7 +13,7 @@ function rcm_listmenu_init(row, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, props, $.extend({
+	var menu = rcm_callbackmenu_init(props, $.extend({
 		'beforeactivate': function(p) {
 			rcmail['rcm_selection'] = p.ref.list_selection(true);
 		},
@@ -34,7 +34,7 @@ function rcm_foldermenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'folderlist', 'list_object': null}, props), $.extend({
+	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'folderlist', 'list_object': null}, props), $.extend({
 		'afteractivate': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
 				p.obj.find('a').removeClass('active').addClass('disabled');
@@ -65,7 +65,7 @@ function rcm_abookmenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'abooklist'}, props), $.extend({
+	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'abooklist'}, props), $.extend({
 		'beforeactivate': function(p) {
 			p.obj.find('li.submenu').remove();
 		},
@@ -98,7 +98,7 @@ function rcm_groupmenu_init(el, props, events) {
 	if (!events)
 		events = {};
 
-	var menu = rcm_callbackmenu_init(this, $.extend({'menu_name': 'grouplist', 'list_object': null}, props), $.extend({
+	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'grouplist', 'list_object': null}, props), $.extend({
 		'afteractivate': function(p) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
@@ -161,7 +161,7 @@ function rcm_groupmenu_init(el, props, events) {
 	});
 }
 
-function rcm_callbackmenu_init(obj, props, events) {
+function rcm_callbackmenu_init(props, events) {
 	var std_events = {
 		'select': function(p) {
 			if (!$(p.el).hasClass('active'))
