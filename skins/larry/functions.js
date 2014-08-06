@@ -32,8 +32,8 @@ function add_menu_text(menu, p) {
 }
 
 function reorder_contact_menu(p) {
-	var ul = p.obj.find('ul:first');
-	$(p.obj).find('a.export').parent('li').appendTo(ul);
+	var ul = p.ref.container.find('ul:first');
+	$(p.ref.container).find('a.export').parent('li').appendTo(ul);
 }
 
 $(document).ready(function() {
@@ -59,7 +59,7 @@ $(document).ready(function() {
 					p.ref.list_selection(false, rcmail['rcm_selection']);
 
 					if (!rcmail.env.group || rcmail.env.readonly)
-						p.obj.find('a.removegroup').removeClass('active').addClass('disabled');;
+						p.ref.container.find('a.removegroup').removeClass('active').addClass('disabled');;
 				},
 				'afterselect': function(p) {
 					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')

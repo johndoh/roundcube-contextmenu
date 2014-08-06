@@ -37,17 +37,17 @@ function rcm_foldermenu_init(el, props, events) {
 	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'folderlist', 'list_object': null}, props), $.extend({
 		'afteractivate': function(p) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox) {
-				p.obj.find('a').removeClass('active').addClass('disabled');
+				p.ref.container.find('a').removeClass('active').addClass('disabled');
 			}
 
 			if ($(p.source).children('a:first').has('span.unreadcount').length > 0) {
-				p.obj.find('a.readfolder').addClass('active');
+				p.ref.container.find('a.readfolder').addClass('active');
 			}
 			else {
-				p.obj.find('a').removeClass('active').addClass('disabled');
+				p.ref.container.find('a').removeClass('active').addClass('disabled');
 			}
 
-			p.obj.find('a.rcmglobal').addClass('active');
+			p.ref.container.find('a.rcmglobal').addClass('active');
 		}
 	}, events));
 
@@ -67,11 +67,11 @@ function rcm_abookmenu_init(el, props, events) {
 
 	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'abooklist'}, props), $.extend({
 		'beforeactivate': function(p) {
-			p.obj.find('li.submenu').remove();
+			p.ref.container.find('li.submenu').remove();
 		},
 		'afteractivate': function(p) {
 			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
-				p.obj.find('a').removeClass('active').addClass('disabled');;
+				p.ref.container.find('a').removeClass('active').addClass('disabled');;
 		},
 		'beforeselect': function(p) {
 			if (!$(p.el).hasClass('active'))
@@ -104,7 +104,7 @@ function rcm_groupmenu_init(el, props, events) {
 			cur_source = ids[0];
 
 			if (!rcmail.env.address_sources[cur_source].readonly)
-				p.obj.find('a').addClass('active');
+				p.ref.container.find('a').addClass('active');
 		},
 		'select': function(p) {
 			if (!$(p.el).hasClass('active'))
@@ -383,7 +383,7 @@ function rcube_context_menu(p) {
 			});
 
 			ul.append(rows).appendTo(this.container);
-			this.parent_menu.triggerEvent('init', {ref: this, obj: this.container});
+			this.parent_menu.triggerEvent('init', {ref: this});
 			this.container.appendTo($('body'));
 
 			if (!rcmail.env.context_menu_hide_bound) {
@@ -412,7 +412,7 @@ function rcube_context_menu(p) {
 			$(obj).addClass(this.source_class);
 		}
 
-		this.parent_menu.triggerEvent('beforeactivate', {ref: this, obj: this.container, source: obj});
+		this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj});
 
 		$.each(ref.menu_source, function(id, props) {
 			if (props.toggle) {
@@ -440,7 +440,7 @@ function rcube_context_menu(p) {
 			}
 		});
 
-		this.parent_menu.triggerEvent('afteractivate', {ref: this, obj: this.container, source: obj});
+		this.parent_menu.triggerEvent('afteractivate', {ref: this, source: obj});
 
 		// position menu on the screen
 		if (this.is_submenu) {
