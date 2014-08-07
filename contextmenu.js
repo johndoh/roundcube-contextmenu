@@ -6,6 +6,7 @@ rcube_webmail.prototype.context_menu_skip_commands = new Array('mail-checkmail',
 rcube_webmail.prototype.context_menu_overload_commands = new Array('move', 'copy');
 rcube_webmail.prototype.context_menu_hide_bound = false;
 rcube_webmail.prototype.context_menu_commands = new Array();
+rcube_webmail.prototype.context_menu_popup_menus = new Array();
 
 rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\'([^\']*)\'/;
 
@@ -51,11 +52,18 @@ function rcm_foldermenu_init(el, props, events) {
 		}
 	}, events));
 
-	$(el).bind("contextmenu",function(e) {
-		// remove focus (and keyboard nav highlighting) from A
-		$(this).children('a').blur();
+	$(el).bind("click",function(e) {
+		// hide menu when changing folder
+		menu.hide(e);
+	});
 
-		if (String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this,\s*event\).*/i)) {
+	$(el).bind("contextmenu",function(e) {
+		var source = $(this).children('a');
+
+		// remove focus (and keyboard nav highlighting) from A
+		source.blur();
+
+		if (source.attr('onclick') && String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this,\s*event\).*/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -71,7 +79,7 @@ function rcm_abookmenu_init(el, props, events) {
 		},
 		'afteractivate': function(p) {
 			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
-				p.ref.container.find('a').removeClass('active').addClass('disabled');;
+				p.ref.container.find('a').removeClass('active').addClass('disabled');
 		},
 		'beforeselect': function(p) {
 			if (!$(p.el).hasClass('active'))
@@ -85,10 +93,18 @@ function rcm_abookmenu_init(el, props, events) {
 		}
 	}, events));
 
-	$(el).bind("contextmenu",function(e) {
-		$(this).children('a').blur();
+	$(el).bind("click",function(e) {
+		// hide menu when changing address book
+		menu.hide(e);
+	});
 
-		if (String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
+	$(el).bind("contextmenu",function(e) {
+		var source = $(this).children('a');
+
+		// remove focus (and keyboard nav highlighting) from A
+		source.blur();
+
+		if (source.attr('rel') && String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -103,8 +119,9 @@ function rcm_groupmenu_init(el, props, events) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
 
-			if (!rcmail.env.address_sources[cur_source].readonly)
-				p.ref.container.find('a').addClass('active');
+			if (rcmail.env.address_sources[cur_source].readonly) {
+				p.ref.container.find('a').removeClass('active').addClass('disabled');
+			}
 		},
 		'select': function(p) {
 			if (!$(p.el).hasClass('active'))
@@ -151,11 +168,18 @@ function rcm_groupmenu_init(el, props, events) {
 		}
 	}, events));
 
-	$(el).bind("contextmenu",function(e) {
-		// remove focus (and keyboard nav highlighting) from A
-		$(this).children('a').blur();
+	$(el).bind("click",function(e) {
+		// hide menu when changing group
+		menu.hide(e);
+	});
 
-		if (String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
+	$(el).bind("contextmenu",function(e) {
+		var source = $(this).children('a');
+
+		// remove focus (and keyboard nav highlighting) from A
+		source.blur();
+
+		if (source.attr('rel') && String(source.attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -220,6 +244,11 @@ function rcm_show_menu(e, obj, id, menu) {
 	if (e.stopPropagation)
 		e.stopPropagation();
 
+	// hide any other open menus
+	for (var i = 0; i < rcmail.menu_stack.length; i++) {
+		rcmail.hide_menu(rcmail.menu_stack[i]);
+	}
+
 	rcmail.env.context_menu_source_id = id;
 	menu.show(obj, e);
 }
@@ -240,7 +269,7 @@ function rcube_context_menu(p) {
 	this.submenus = new Array();
 	this.timers = new Array();
 
-	// overwrite default paramaters
+	// overwrite default parameters
 	if (p && typeof p === 'object')
 		for (var n in p)
 			this[n] = p[n];
@@ -315,7 +344,7 @@ function rcube_context_menu(p) {
 						args = RegExp.$2;
 					}
 
-					// skip elements we dont need
+					// skip elements we don't need
 					if ($.inArray(rcmail.env.task + '-' + command, rcmail.context_menu_skip_commands) > -1) {
 						return;
 					}
@@ -351,9 +380,15 @@ function rcube_context_menu(p) {
 							$(a).attr('target', elem.attr('target'));
 
 						a.onclick = function(e) {
+							var cur_popups = rcmail.menu_stack.length;
+
 							ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
 							var result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args, evt: e});
 							ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
+
+							if (rcmail.menu_stack.length > cur_popups) {
+								rcmail.context_menu_popup_menus.push(rcmail.menu_stack[rcmail.menu_stack.length - 1]);
+							}
 
 							// ensure menu is always hidden after action (for Safari)
 							ref.hide(e);
@@ -401,7 +436,7 @@ function rcube_context_menu(p) {
 
 				$('iframe').contents().mouseup( function() { $(document).click(); } );
 
-				rcmail.env.contextmenu_hide_bound = true;
+				rcmail.env.context_menu_hide_bound = true;
 			}
 		}
 	};
@@ -456,10 +491,18 @@ function rcube_context_menu(p) {
 	this.hide = function(e) {
 		// use window.event when e is not defined (legacy support for IE8)
 		var target = e ? e.target : window.event.srcElement;
-		if (!$(target).is('.folder-selector-link')) {
+
+		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_popup_menus.length == 0 || $(target).parents('div.contextmenu').length == 0)) {
 			$('.' + this.source_class).removeClass(this.source_class);
 			$('div.contextmenu').hide();
-			$('#folder-selector').hide();
+
+			// close popup menus opened by the contextmenu
+			for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
+				//@TODO - fix for rc issue #1490027
+				//rcmail.hide_menu(rcmail.context_menu_popup_menus[i]);
+				$('#' + rcmail.context_menu_popup_menus[i]).hide();
+				rcmail.context_menu_popup_menus.pop();
+			}
 
 			for (var i in rcmail.context_menu_commands) {
 				if (!rcmail.context_menu_commands[i]) {
@@ -526,7 +569,8 @@ function rcube_context_menu(p) {
 
 				for (var i in prev_sel)
 					this.list_object.highlight_row(prev_sel[i], true);
-					this.list_object.triggerEvent('select');
+
+				this.list_object.triggerEvent('select');
 			}
 		}
 		else if (prev_sel) {
