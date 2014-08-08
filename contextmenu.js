@@ -63,7 +63,7 @@ function rcm_foldermenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('onclick') && String($(this).children('a').attr('onclick')).match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this,\s*event\).*/i)) {
+		if (source.attr('onclick') && source.match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this,\s*event\).*/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -104,7 +104,7 @@ function rcm_abookmenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('rel') && String($(this).children('a').attr('rel')).match(/([A-Z0-9\-_]+)/i)) {
+		if (source.attr('rel') && source.attr('rel').match(/([A-Z0-9\-_]+)/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -179,7 +179,7 @@ function rcm_groupmenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('rel') && String(source.attr('rel')).match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
+		if (source.attr('rel') && source.attr('rel').match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
