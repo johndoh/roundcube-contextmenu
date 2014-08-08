@@ -15,14 +15,18 @@ class contextmenu extends rcube_plugin
 	function init()
 	{
 		$rcmail = rcube::get_instance();
-		if ($rcmail->task == 'mail' && $rcmail->action == '')
-			$this->addition_folder_options();
+		if ($rcmail->task == 'mail') {
+			$this->register_action('plugin.contextmenu.readfolder', array($this, 'readfolder'));
+
+			// on the mailbox screen only add some additional options for the folder menu
+			if ($rcmail->action == '') {
+				$this->addition_folder_options();
+			}
+		}
 
 		$this->include_script('contextmenu.js');
 		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 		$this->include_script($this->local_skin_path() . '/functions.js');
-
-		$this->register_action('plugin.contextmenu.readfolder', array($this, 'readfolder'));
 	}
 
 	public function addition_folder_options()
