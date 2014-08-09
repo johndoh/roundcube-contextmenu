@@ -55,9 +55,8 @@ function rcm_foldermenu_init(el, props, events) {
 	$(el).bind("click",function(e) {
 		// hide menu when changing folder
 		menu.hide(e);
-	});
-
-	$(el).bind("contextmenu",function(e) {
+	})
+	.bind("contextmenu", function(e) {
 		var source = $(this).children('a');
 
 		// remove focus (and keyboard nav highlighting) from A
@@ -82,7 +81,6 @@ function rcm_abookmenu_init(el, props, events) {
 			cur_source = ids[0];
 
 			p.ref.container.find('a').removeClass('active').addClass('disabled');
-
 
 			if ($(p.source).hasClass('addressbook')) {
 				// addressbook
@@ -189,9 +187,8 @@ function rcm_abookmenu_init(el, props, events) {
 	$(el).bind("click",function(e) {
 		// hide menu when changing address book
 		menu.hide(e);
-	});
-
-	$(el).bind("contextmenu",function(e) {
+	})
+	.bind("contextmenu",function(e) {
 		var source = $(this).children('a');
 
 		// remove focus (and keyboard nav highlighting) from A
@@ -448,9 +445,9 @@ function rcube_context_menu(p) {
 			this.parent_menu.triggerEvent('init', {ref: this});
 			this.container.appendTo($('body'));
 
-			if (!rcmail.env.context_menu_hide_bound) {
+			if (!rcmail.context_menu_hide_bound) {
 				// Hide bindings
-				$(document).bind('click', function(e) {
+				$(document.body).bind('click contextmenu', function(e) {
 					ref.hide(e);
 				});
 
@@ -458,12 +455,12 @@ function rcube_context_menu(p) {
 				$('iframe').load(function() {
 					// this == iframe
 					var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-					doc.onclick = function() { $(document).click(); };
+					doc.onclick = function() { $(document.body).trigger('click'); };
 				});
 
-				$('iframe').contents().mouseup( function() { $(document).click(); } );
+				$('iframe').contents().mouseup( function() { $(document.body).trigger('click'); } );
 
-				rcmail.env.context_menu_hide_bound = true;
+				rcmail.context_menu_hide_bound = true;
 			}
 
 			rcmail.triggerEvent('contextmenu_init', this);
