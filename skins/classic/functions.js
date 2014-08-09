@@ -24,9 +24,9 @@ $(document).ready(function() {
 
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': '#abooktoolbar', 'list_object': rcmail.contact_list}); } );
-			rcmail.add_onload("rcm_abookmenu_init('#directorylist li.addressbook', {'menu_source': '#directorylist-footer'})");
-			rcmail.add_onload("rcm_groupmenu_init('#directorylist ul.groups li', {'menu_source': '#groupoptionsmenu ul'})");
-			rcmail.addEventListener('group_insert', function(props) { rcm_groupmenu_init(props.li, {'menu_source': '#groupoptionsmenu'}) } );
+			rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']})");
+			rcmail.addEventListener('group_insert', function(props) { rcm_abookmenu_init(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}) } );
+			rcmail.addEventListener('abook_search_insert', function(props) { rcm_abookmenu_init(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}) } );
 		}
 	}
 });

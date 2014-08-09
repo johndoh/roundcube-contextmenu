@@ -9,6 +9,7 @@
 
 #mailboxlist li.contextRow,
 #directorylist li.contextRow,
+#savedsearchlist li.contextRow,
 #addresslist .contextRow,
 #contacts-table .contextRow
 {

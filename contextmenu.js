@@ -2,13 +2,13 @@
  * ContextMenu plugin script
  */
 
-rcube_webmail.prototype.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create', 'addressbook-search-delete');
+rcube_webmail.prototype.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create');
 rcube_webmail.prototype.context_menu_overload_commands = new Array('move', 'copy');
 rcube_webmail.prototype.context_menu_hide_bound = false;
 rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
 
-rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\'([^\']*)\'/;
+rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'([^\']*)\'/;
 
 function rcm_listmenu_init(row, props, events) {
 	if (!events)
@@ -63,7 +63,7 @@ function rcm_foldermenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('onclick') && source.attr('onclick').match(/.*rcmail.command\(["']list["'],\s*["']([^"']*)["'],\s*this,\s*event\).*/i)) {
+		if (source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
 			rcm_show_menu(e, this, RegExp.$1, menu);
 		}
 	});
@@ -78,50 +78,36 @@ function rcm_abookmenu_init(el, props, events) {
 			p.ref.container.find('li.submenu').remove();
 		},
 		'afteractivate': function(p) {
-			if (!rcmail.env.address_sources[rcmail.env.context_menu_source_id].groups || rcmail.env.address_sources[rcmail.env.context_menu_source_id].readonly)
-				p.ref.container.find('a').removeClass('active').addClass('disabled');
+			var ids = rcmail.env.context_menu_source_id.split(':', 2);
+			cur_source = ids[0];
+
+			p.ref.container.find('a').removeClass('active').addClass('disabled');
+
+
+			if ($(p.source).hasClass('addressbook')) {
+				// addressbook
+				if (rcmail.env.address_sources[cur_source].groups && !rcmail.env.address_sources[cur_source].readonly) {
+					p.ref.container.find('a.cmd_group-create').removeClass('disabled').addClass('active');
+				}
+			}
+			else if ($(p.source).hasClass('contactgroup')) {
+				// group
+				if (!rcmail.env.address_sources[cur_source].readonly) {
+					p.ref.container.find('a.cmd_group-rename,a.cmd_group-delete').removeClass('disabled').addClass('active');
+				}
+			}
+			else if ($(p.source).hasClass('contactsearch')) {
+				// saved search
+				p.ref.container.find('a.cmd_search-delete').removeClass('disabled').addClass('active');
+			}
 		},
 		'beforeselect': function(p) {
 			if (!$(p.el).hasClass('active'))
 				return false;
 
-			rcmail.env.source = rcmail.env.context_menu_source_id;
-		},
-		'afterselect': function(p) {
-			if (rcmail.env.source = rcmail.env.context_menu_source_id)
-				rcmail.command('list', rcmail.env.context_menu_source_id, p.el);
-		}
-	}, events));
-
-	$(el).bind("click",function(e) {
-		// hide menu when changing address book
-		menu.hide(e);
-	});
-
-	$(el).bind("contextmenu",function(e) {
-		var source = $(this).children('a');
-
-		// remove focus (and keyboard nav highlighting) from A
-		source.blur();
-
-		if (source.attr('rel') && source.attr('rel').match(/([A-Z0-9\-_]+)/i)) {
-			rcm_show_menu(e, this, RegExp.$1, menu);
-		}
-	});
-}
-
-function rcm_groupmenu_init(el, props, events) {
-	if (!events)
-		events = {};
-
-	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'grouplist', 'list_object': null}, props), $.extend({
-		'afteractivate': function(p) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
-
-			if (rcmail.env.address_sources[cur_source].readonly) {
-				p.ref.container.find('a').removeClass('active').addClass('disabled');
-			}
+			rcmail.env.source = cur_source;
 		},
 		'select': function(p) {
 			if (!$(p.el).hasClass('active'))
@@ -158,6 +144,31 @@ function rcm_groupmenu_init(el, props, events) {
 				case 'group-delete':
 					result = rcmail.command(p.command, p.args, p.el);
 					break;
+				case 'search-delete':
+					var result = false;
+
+					if ($(p.ref.selected_object).children('a').attr('rel')) {
+						var prev_search_id = rcmail.env.search_id;
+						var prev_search_request = rcmail.env.search_request;
+						var prev_command = rcmail.commands[p.command];
+						rcmail.env.search_request = true;
+						rcmail.env.search_id = $(p.ref.selected_object).children('a').attr('rel').replace('S', '');
+
+						rcmail.enable_command(p.command, true);
+						result = rcmail.command(p.command, p.args, p.el, p.evt);
+						rcmail.enable_command(p.command, prev_command);
+
+						rcmail.env.search_request = prev_search_request;
+						rcmail.env.search_id = prev_search_id;
+					}
+					break;
+				default:
+					// enable the required command
+					var prev_command = rcmail.commands[p.command];
+					rcmail.enable_command(p.command, true);
+					var result = rcmail.command(p.command, p.args, p.el, p.evt);
+					rcmail.enable_command(p.command, prev_command);
+					break;
 			}
 
 			rcmail.enable_command(p.command, prev_command);
@@ -165,11 +176,18 @@ function rcm_groupmenu_init(el, props, events) {
 			rcmail.env.group = prev_group;
 
 			return result;
+		},
+		'afterselect': function(p) {
+			var ids = rcmail.env.context_menu_source_id.split(':', 2);
+			cur_source = ids[0];
+
+			if (rcmail.env.source = cur_source)
+				rcmail.command('list', cur_source, p.el);
 		}
 	}, events));
 
 	$(el).bind("click",function(e) {
-		// hide menu when changing group
+		// hide menu when changing address book
 		menu.hide(e);
 	});
 
@@ -263,6 +281,7 @@ function rcube_context_menu(p) {
 	this.is_submenu = false;
 	this.parent_menu = this;
 	this.parent_object = null;
+	this.selected_object = null
 	this.container = null;
 	this.original_selection = new Array();
 	this.menu_selection = new Array();
@@ -381,10 +400,18 @@ function rcube_context_menu(p) {
 
 						a.onclick = function(e) {
 							var cur_popups = rcmail.menu_stack.length;
+							var result;
 
-							ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
-							var result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args, evt: e});
-							ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
+							callback = ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
+							if (!callback || !callback.abort) {
+								result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args, evt: e});
+							}
+							else {
+								result = callback.result;
+							}
+
+							if (!callback || !callback.skipafterselect)
+								ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
 
 							if (rcmail.menu_stack.length > cur_popups) {
 								rcmail.context_menu_popup_menus.push(rcmail.menu_stack[rcmail.menu_stack.length - 1]);
@@ -438,6 +465,8 @@ function rcube_context_menu(p) {
 
 				rcmail.env.context_menu_hide_bound = true;
 			}
+
+			rcmail.triggerEvent('contextmenu_init', this);
 		}
 	};
 
@@ -485,6 +514,7 @@ function rcube_context_menu(p) {
 			this.position(e, this.container);
 		}
 
+		this.selected_object = obj;
 		this.container.show();
 	};
 
@@ -493,6 +523,7 @@ function rcube_context_menu(p) {
 		var target = e ? e.target : window.event.srcElement;
 
 		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_popup_menus.length == 0 || $(target).parents('div.contextmenu').length == 0)) {
+			this.selected_object = null;
 			$('.' + this.source_class).removeClass(this.source_class);
 			$('div.contextmenu').hide();
 
