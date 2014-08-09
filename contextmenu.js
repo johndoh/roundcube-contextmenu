@@ -63,7 +63,7 @@ function rcm_foldermenu_init(el, props, events) {
 		source.blur();
 
 		if (source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
-			rcm_show_menu(e, this, RegExp.$1, menu);
+			rcm_show_menu(e, this, RegExp.$2, menu);
 		}
 	});
 }
