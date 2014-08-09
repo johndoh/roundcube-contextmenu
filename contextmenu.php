@@ -24,9 +24,13 @@ class contextmenu extends rcube_plugin
 			}
 		}
 
-		$this->include_script('contextmenu.js');
-		$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
-		$this->include_script($this->local_skin_path() . '/functions.js');
+		if ($rcmail->output->type == 'html') {
+			$rcmail->output->add_script("rcmail.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create');");
+			$rcmail->output->add_script("rcmail.context_menu_overload_commands = new Array('move', 'copy');");
+			$this->include_script('contextmenu.js');
+			$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
+			$this->include_script($this->local_skin_path() . '/functions.js');
+		}
 	}
 
 	public function addition_folder_options()

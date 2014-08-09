@@ -2,8 +2,6 @@
  * ContextMenu plugin script
  */
 
-rcube_webmail.prototype.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create');
-rcube_webmail.prototype.context_menu_overload_commands = new Array('move', 'copy');
 rcube_webmail.prototype.context_menu_hide_bound = false;
 rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
@@ -361,7 +359,7 @@ function rcube_context_menu(p) {
 					}
 
 					// skip elements we don't need
-					if ($.inArray(rcmail.env.task + '-' + command, rcmail.context_menu_skip_commands) > -1) {
+					if ($.inArray(rcmail.env.task + '-' + command, rcmail.context_menu_skip_commands) > -1 || elem.hasClass('no_contextmenu')) {
 						return;
 					}
 

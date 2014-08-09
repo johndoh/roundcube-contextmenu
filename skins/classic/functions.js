@@ -2,7 +2,7 @@
  * ContextMenu plugin script
  */
 
-rcube_webmail.prototype.context_menu_skip_commands = $.merge(rcube_webmail.prototype.context_menu_skip_commands, new Array('addressbook-group-remove-selected'));
+rcmail.context_menu_skip_commands.push('addressbook-group-remove-selected');
 rcube_webmail.prototype.context_menu_popup_pattern = /rcmail_ui\.show_popup\(\'([^\']+)\'/;
 rcube_webmail.prototype.context_menu_button_active_class = new Array('active', 'button');
 rcube_webmail.prototype.context_menu_button_disabled_class = new Array('disabled', 'buttonPas');
