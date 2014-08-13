@@ -30,6 +30,7 @@ class contextmenu extends rcube_plugin
 			$this->include_script('contextmenu.js');
 			$this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
 			$this->include_script($this->local_skin_path() . '/functions.js');
+			$this->api->output->set_env('contextmenu', true);
 		}
 	}
 
