@@ -97,7 +97,7 @@ function rcm_abookmenu_init(el, props, events) {
 				p.ref.container.find('a.cmd_search-delete').removeClass('disabled').addClass('active');
 			}
 		},
-		'beforeselect': function(p) {
+		'beforecommand': function(p) {
 			if (!$(p.el).hasClass('active'))
 				return false;
 
@@ -105,7 +105,7 @@ function rcm_abookmenu_init(el, props, events) {
 			cur_source = ids[0];
 			rcmail.env.source = cur_source;
 		},
-		'select': function(p) {
+		'command': function(p) {
 			if (!$(p.el).hasClass('active'))
 				return false;
 
@@ -173,7 +173,7 @@ function rcm_abookmenu_init(el, props, events) {
 
 			return result;
 		},
-		'afterselect': function(p) {
+		'aftercommand': function(p) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
 
@@ -200,7 +200,7 @@ function rcm_abookmenu_init(el, props, events) {
 
 function rcm_callbackmenu_init(props, events) {
 	var std_events = {
-		'select': function(p) {
+		'command': function(p) {
 			if (!$(p.el).hasClass('active'))
 				return false;
 
@@ -239,7 +239,7 @@ function rcm_callbackmenu_init(props, events) {
 	if (!rcmail['rcm_' + props.menu_name]) {
 		var menu = new rcube_context_menu(props);
 		$.each(std_events, function(trigger, func) {
-			menu.addEventListener(trigger, function(p) { func(p); });
+			menu.addEventListener(trigger, function(p) { return func(p); });
 		});
 		menu.init();
 		rcmail['rcm_' + props.menu_name] = menu;
@@ -397,16 +397,16 @@ function rcube_context_menu(p) {
 							var cur_popups = rcmail.menu_stack.length;
 							var result;
 
-							callback = ref.parent_menu.triggerEvent('beforeselect', {ref: ref, el: this, command: command, args: args});
+							var callback = ref.parent_menu.triggerEvent('beforecommand', {ref: ref, el: this, command: command, args: args});
 							if (!callback || !callback.abort) {
-								result = ref.parent_menu.triggerEvent('select', {ref: ref, el: this, command: command, args: args, evt: e});
+								result = ref.parent_menu.triggerEvent('command', {ref: ref, el: this, command: command, args: args, evt: e});
 							}
 							else {
 								result = callback.result;
 							}
 
-							if (!callback || !callback.skipafterselect)
-								ref.parent_menu.triggerEvent('afterselect', {ref: ref, el: this, command: command, args: args});
+							if (!callback || !callback.skipaftercommand)
+								ref.parent_menu.triggerEvent('aftercommand', {ref: ref, el: this, command: command, args: args});
 
 							if (rcmail.menu_stack.length > cur_popups) {
 								rcmail.context_menu_popup_menus.push(rcmail.menu_stack[rcmail.menu_stack.length - 1]);
@@ -468,38 +468,50 @@ function rcube_context_menu(p) {
 	this.show = function(obj, e) {
 		if (obj) {
 			this.hide(e);
-			$(obj).addClass(this.source_class);
 		}
 
-		this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj});
-
-		$.each(ref.menu_source, function(id, props) {
-			if (props.toggle) {
-				$(id).parent().show();
+		var callback = this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj});
+		if (!callback || !callback.abort) {
+			if (obj) {
+				$(obj).addClass(this.source_class);
 			}
-		});
 
-		$.each(this.container.find('a'), function() {
-			if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
-				$(this).parent('li')[$('#' + btn[1]).is(':visible') ? 'show' : 'hide']();
-				$(this).removeClass('active').removeClass('disabled');
-
-				if (rcm_check_button_state(btn[1], false) && ref.list_object && ref.list_object.selection.length > 1) {
-					$(this).addClass('disabled');
+			$.each(ref.menu_source, function(id, props) {
+				if (props.toggle) {
+					$(id).parent().show();
 				}
-				else if (!rcm_check_button_state(btn[1], false) && (!ref.is_submenu || rcm_check_button_state(btn[1], true))) {
-					$(this).addClass('active');
+			});
+
+			$.each(this.container.find('a'), function() {
+				if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
+					$(this).parent('li')[$('#' + btn[1]).is(':visible') ? 'show' : 'hide']();
+					$(this).removeClass('active').removeClass('disabled');
+
+					var enabled = false;
+					if (!rcm_check_button_state(btn[1], false) && (!ref.is_submenu || rcm_check_button_state(btn[1], true))) {
+						enabled = true;
+					}
+
+					var ret = ref.parent_menu.triggerEvent('activate', {el: this, btn: btn[1], enabled: enabled});
+					enabled = ret != null ? ret : enabled;
+
+					if (enabled) {
+						$(this).addClass('active');
+					}
+					else {
+						$(this).addClass('disabled');
+					}
 				}
-			}
-		});
+			});
 
-		$.each(ref.menu_source, function(id, props) {
-			if (props.toggle) {
-				$(id).parent().hide();
-			}
-		});
+			$.each(ref.menu_source, function(id, props) {
+				if (props.toggle) {
+					$(id).parent().hide();
+				}
+			});
 
-		this.parent_menu.triggerEvent('afteractivate', {ref: this, source: obj});
+			this.parent_menu.triggerEvent('afteractivate', {ref: this, source: obj});
+		}
 
 		// position menu on the screen
 		if (this.is_submenu) {
@@ -509,8 +521,10 @@ function rcube_context_menu(p) {
 			this.position(e, this.container);
 		}
 
-		this.selected_object = obj;
-		this.container.show();
+		if (!callback || callback.show !== false) {
+			this.selected_object = obj;
+			this.container.show();
+		}
 	};
 
 	this.hide = function(e) {
@@ -565,7 +579,7 @@ function rcube_context_menu(p) {
 
 	this.position = function(e, menu) {
 		// temporarily show element to calculate its size
-		this.container.css({left: '-1000px', top: '-1000px'}).show();
+		menu.css({left: '-1000px', top: '-1000px'}).show();
 
 		var win = $(window),
 		win_height = win.height(),
@@ -584,6 +598,7 @@ function rcube_context_menu(p) {
 		if (left + elem_width > win.width())
 			left -= elem_width;
 
+		menu.hide();
 		menu.css({left: left + 'px', top: top + 'px'});
 	};
 

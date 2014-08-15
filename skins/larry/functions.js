@@ -61,7 +61,7 @@ $(document).ready(function() {
 					if (!rcmail.env.group || rcmail.env.readonly)
 						p.ref.container.find('a.removegroup').removeClass('active').addClass('disabled');;
 				},
-				'afterselect': function(p) {
+				'aftercommand': function(p) {
 					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')
 						rcmail.command('listgroup', {'source': rcmail.env.source, 'id': rcmail.env.group}, p.el);
 				}
