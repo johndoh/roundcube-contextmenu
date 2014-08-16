@@ -56,7 +56,7 @@ $(document).ready(function() {
 				'insertitem': function(p) { add_menu_text('contactlist', p); },
 				'init': function(p) { reorder_contact_menu(p); },
 				'afteractivate': function(p) {
-					p.ref.list_selection(false, rcmail['rcm_selection']);
+					p.ref.list_selection(false, rcmail.env.contextmenu_selection);
 
 					if (!rcmail.env.group || rcmail.env.readonly)
 						p.ref.container.find('a.removegroup').removeClass('active').addClass('disabled');;

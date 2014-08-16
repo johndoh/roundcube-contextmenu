@@ -14,10 +14,10 @@ function rcm_listmenu_init(row, props, events) {
 
 	var menu = rcm_callbackmenu_init(props, $.extend({
 		'beforeactivate': function(p) {
-			rcmail['rcm_selection'] = p.ref.list_selection(true);
+			rcmail.env.contextmenu_selection = p.ref.list_selection(true);
 		},
 		'afteractivate': function(p) {
-			p.ref.list_selection(false, rcmail['rcm_selection']);
+			p.ref.list_selection(false, rcmail.env.contextmenu_selection);
 		}
 	}, events));
 
@@ -236,16 +236,16 @@ function rcm_callbackmenu_init(props, events) {
 	if (events)
 		$.extend(std_events, events);
 
-	if (!rcmail['rcm_' + props.menu_name]) {
+	if (!rcmail.env.contextmenus[props.menu_name]) {
 		var menu = new rcube_context_menu(props);
 		$.each(std_events, function(trigger, func) {
 			menu.addEventListener(trigger, function(p) { return func(p); });
 		});
 		menu.init();
-		rcmail['rcm_' + props.menu_name] = menu;
+		rcmail.env.contextmenus[props.menu_name] = menu;
 	}
 	else {
-		var menu = rcmail['rcm_' + props.menu_name];
+		var menu = rcmail.env.contextmenus[props.menu_name];
 	}
 
 	return menu;
@@ -672,6 +672,8 @@ function rcm_check_button_state(btn, active) {
 
 $(document).ready(function() {
 	if (window.rcmail) {
+		rcmail.env.contextmenus = new Array();
+
 		rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
 			var lock = rcmail.set_busy(true, 'loading');
 			rcmail.http_request('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
