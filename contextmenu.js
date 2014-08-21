@@ -45,10 +45,6 @@ function rcm_foldermenu_init(el, props, events) {
 				enabled = $(p.source).children('a:first').has('span.unreadcount').length > 0 ? true : false;
 			}
 
-			if ($(p.el).hasClass('rcmglobal')) {
-				enabled = true;
-			}
-
 			return enabled;
 		}
 	}, events));
@@ -515,7 +511,10 @@ function rcube_context_menu(p) {
 			});
 
 			$.each(this.container.find('a'), function() {
-				if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
+				if ($(this).hasClass('rcm_active')) {
+					$(this).addClass('active');
+				}
+				else if (btn = $(this).attr('class').match(/rcm_elem_([a-z0-9]+)/)) {
 					$(this).parent('li')[(btn[1] == 'rcmjs' || $('#' + btn[1]).is(':visible')) ? 'show' : 'hide']();
 					$(this).removeClass('active').removeClass('disabled');
 
