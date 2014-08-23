@@ -389,7 +389,7 @@ function rcube_context_menu(p) {
 					}
 
 					// skip elements we don't need
-					if ($.inArray(rcmail.env.task + '-' + command, rcmail.context_menu_skip_commands) > -1 || elem.hasClass('no_contextmenu')) {
+					if ($.inArray(rcmail.env.task + '-' + command, rcmail.context_menu_skip_commands) > -1 || elem.hasClass('rcm_ignore')) {
 						return;
 					}
 
@@ -402,6 +402,7 @@ function rcube_context_menu(p) {
 					a.appendChild(tmp);
 					a.className += elem.attr('class') ? ' ' + elem.attr('class') : '';
 					$(a).removeClass('button').removeClass('disabled');
+					$(a).addClass('rcm_elem_' + elem.attr('id'));
 
 					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
 						$(a).data('command', RegExp.$1);
@@ -459,9 +460,6 @@ function rcube_context_menu(p) {
 							a.onmouseout = function(e) { clearTimeout(ref.timers['submenu_hide']); }
 						}
 					}
-
-					elem.addClass('rcm_elem_' + elem.attr('id'));
-					$(a).addClass('rcm_elem_' + elem.attr('id'));
 
 					row.appendChild(a);
 					ref.parent_menu.triggerEvent('insertitem', {item: row});
