@@ -194,7 +194,7 @@ function rcm_abookmenu_init(el, props, events) {
 		menu.hide(e);
 	})
 	.bind("contextmenu",function(e) {
-		var source = $(this).children('a');
+		var source = $('>a, >div>a', this);
 
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
