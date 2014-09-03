@@ -398,9 +398,9 @@ function rcube_context_menu(p) {
 					// add command name element
 					tmp = span.cloneNode(false);
 					$(tmp).text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
-					tmp.className += elem.children('span').attr('class') ? ' ' + elem.children('span').attr('class') : '';
+					$(tmp).addClass(elem.children('span').attr('class') ? elem.children('span').attr('class') : '');
 					a.appendChild(tmp);
-					a.className += elem.attr('class') ? ' ' + elem.attr('class') : '';
+					$(a).addClass(elem.attr('class') ? elem.attr('class') : '');
 					$(a).removeClass('button').removeClass('disabled');
 					$(a).addClass('rcm_elem_' + elem.attr('id'));
 
