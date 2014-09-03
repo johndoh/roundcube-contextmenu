@@ -26,9 +26,6 @@ function add_menu_text(menu, p) {
 			$(p.item).children('a').children('span').text($('#addresslist div.boxfooter a.removegroup').attr('title'));
 		}
 	}
-	else if (menu == 'abooklist' && $(p.item).children('a').hasClass('add')) {
-		$(p.item).children('a').children('span').text($('#directorylist-footer a.add').attr('title'));
-	}
 }
 
 function reorder_contact_menu(p) {
