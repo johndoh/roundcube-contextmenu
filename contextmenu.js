@@ -226,7 +226,7 @@ function rcm_foldermenu_init() {
 				switch (command) {
 					case 'readfolder':
 						var lock = rcmail.set_busy(true, 'loading');
-						rcmail.http_request('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox) + '&_cur=' + rcmail.env.mailbox + '&_oact=' + rcmail.env.action, lock);
+						rcmail.http_post('plugin.contextmenu.readfolder', '_mbox=' + urlencode(mailbox) + '&_cur=' + rcmail.env.mailbox + '&_oact=' + rcmail.env.action, lock);
 						break;
 					case 'expunge':
 						rcmail.expunge_mailbox(mailbox);

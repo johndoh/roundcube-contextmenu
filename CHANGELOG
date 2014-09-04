@@ -2,6 +2,7 @@ Roundcube Webmail ContextMenu
 =============================
 
  * Add menu to contact list on compose screen (requires b3c034c)
+ * Fix possible CSRF in readfolder action
 
 Version 1.12 (2013-12-01, rc-1.0)
 =================================================
