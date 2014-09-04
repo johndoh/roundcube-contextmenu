@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+ * Fix possible CSRF in readfolder action
+
 Version 2.0 (2014-04-30, rc-1.0)
 =================================================
  * Remove IE6 support

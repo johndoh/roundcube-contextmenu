@@ -42,9 +42,9 @@ class contextmenu extends rcube_plugin
 	public function readfolder()
 	{
 		$storage = rcube::get_instance()->storage;
-		$cbox = rcube_utils::get_input_value('_cur', rcube_utils::INPUT_GET);
-		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET);
-		$oact = rcube_utils::get_input_value('_oact', rcube_utils::INPUT_GET);
+		$cbox = rcube_utils::get_input_value('_cur', rcube_utils::INPUT_POST);
+		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+		$oact = rcube_utils::get_input_value('_oact', rcube_utils::INPUT_POST);
 
 		$uids = $storage->search_once($mbox, 'ALL UNSEEN', true);
 
