@@ -713,7 +713,7 @@ $(document).ready(function() {
 
 		rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
 			var lock = rcmail.set_busy(true, 'loading');
-			rcmail.http_request('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
+			rcmail.http_post('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
 		}, false);
 
 		rcmail.register_command('plugin.contextmenu.collapseall', function(props, obj) {
