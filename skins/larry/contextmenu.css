@@ -16,7 +16,9 @@
   background-color: #C7E3EF;
 }
 
-div.contextmenu a {
+div.contextmenu a
+{
+  position: relative;
   outline: 0;
   cursor: default;
 }
@@ -26,10 +28,19 @@ div.contextmenu ul.iconized li a span.cmicon
   background: url(images/contexticons.png) no-repeat 0 20px;
 }
 
-div.contextmenu ul.iconized li.submenu a span.cmicon
+div.contextmenu ul li.submenu a span.cmicon
 {
-  background-position: right -192px;
   padding-right: 18px;
+}
+
+div.contextmenu ul.iconized li.submenu a span.right-arrow
+{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 15px;
+  width: 18px;
+  background: url(images/contexticons.png) no-repeat right -194px;
 }
 
 div.contextmenu ul.iconized li a.reply span.cmicon
@@ -152,11 +163,13 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.cmicon
 
 /*** address book selector ***/
 
-#addressbook-selector {
+#addressbook-selector
+{
 	z-index: 1000;
 }
 
-#addressbook-selector li a span {
+#addressbook-selector li a span
+{
   background: url(images/contexticons.png) no-repeat 0 20px;
   display: block;
   height: 17px;
@@ -167,10 +180,12 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.cmicon
   text-overflow: ellipsis;
 }
 
-#addressbook-selector li a.addressbook span {
+#addressbook-selector li a.addressbook span
+{
 	background-position: 0 -397px;
 }
 
-#addressbook-selector li a.contactgroup span {
+#addressbook-selector li a.contactgroup span
+{
 	background-position: 0 -418px;
 }

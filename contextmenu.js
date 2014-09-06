@@ -414,6 +414,7 @@ function rcube_context_menu(p) {
 
 					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
 						a.data('command', RegExp.$1);
+						a.append($('<span>').addClass('right-arrow'));
 						row.addClass('submenu');
 						a.click(function(e) { ref.submenu(a, e); return false; });
 

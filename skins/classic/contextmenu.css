@@ -20,12 +20,15 @@ div.contextmenu li a.active:hover
   color: #fff;
 }
 
-div.contextmenu a {
+div.contextmenu a
+{
+  position: relative;
   outline: 0;
   padding: 0 !important;
 }
 
-div.contextmenu ul.iconized li a span {
+div.contextmenu ul.iconized li a span
+{
   display: block;
   padding: 1px 12px 3px 28px;
 }
@@ -37,8 +40,17 @@ div.contextmenu ul.iconized li a span.icon
 
 div.contextmenu ul.iconized li.submenu a span.icon
 {
-  background-position: right 0;
   padding-right: 15px;
+}
+
+div.contextmenu ul.iconized li.submenu a span.right-arrow
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 15px;
+  width: 15px;
+  background: url(images/contexticons.png) no-repeat right 1px;
 }
 
 div.contextmenu ul.iconized li a.reply span.icon
