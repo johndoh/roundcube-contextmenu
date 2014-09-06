@@ -41,6 +41,12 @@ div.contextmenu ul.iconized li.submenu a span.right-arrow
   height: 15px;
   width: 18px;
   background: url(images/contexticons.png) no-repeat right -194px;
+  opacity: 0.2;
+}
+
+div.contextmenu ul.iconized li.submenu a.active span.right-arrow
+{
+  opacity: 0.99;
 }
 
 div.contextmenu ul.iconized li a.reply span.cmicon
