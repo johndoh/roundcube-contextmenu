@@ -317,19 +317,17 @@ function rcube_context_menu(p) {
 
 			var rows = [],
 			ul = $('<ul class="toolbarmenu iconized" role="menu">'),
-			li = document.createElement('li'),
-			link = document.createElement('a'),
-			span = document.createElement('span');
+			li = $('<li>'),	link = $('<a>'), span = $('<span>');
 
 			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu" style="display: none;"></div>');
 
-			li.setAttribute('role', 'menuitem');
-			link.href = '#';
-			link.className = 'icon active';
-			link.setAttribute('role', 'button');
-			link.setAttribute('tabindex', '-1');
-			link.setAttribute('aria-disabled', 'true');
-			span.className = this.is_submenu ? 'icon' : 'icon cmicon';
+			li.attr('role', 'menuitem');
+			link.attr('href', '#');
+			link.addClass('icon active');
+			link.attr('role', 'button');
+			link.attr('tabindex', '-1');
+			link.attr('aria-disabled', 'true');
+			span.addClass(this.is_submenu ? 'icon' : 'icon cmicon');
 
 			if (this.is_submenu) {
 				this.container.addClass('rcmsubmenu');
@@ -403,38 +401,38 @@ function rcube_context_menu(p) {
 						return;
 					}
 
-					var a = link.cloneNode(false), row = li.cloneNode(false);
+					var a = link.clone(), row = li.clone();
 
 					// add command name element
-					tmp = span.cloneNode(false);
-					$(tmp).text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
-					$(tmp).addClass(elem.children('span').attr('class') ? elem.children('span').attr('class') : '');
-					a.appendChild(tmp);
-					$(a).addClass(elem.attr('class') ? elem.attr('class') : '');
-					$(a).removeClass('button').removeClass('disabled');
-					$(a).addClass('rcm_elem_' + elem.attr('id'));
+					tmp = span.clone();
+					tmp.text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
+					tmp.addClass(elem.children('span').attr('class') ? elem.children('span').attr('class') : '');
+					a.append(tmp);
+					a.addClass(elem.attr('class') ? elem.attr('class') : '');
+					a.removeClass('button').removeClass('disabled');
+					a.addClass('rcm_elem_' + elem.attr('id'));
 
 					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
-						$(a).data('command', RegExp.$1);
-						$(row).addClass('submenu');
-						a.onclick = function(e) { ref.submenu(a, e); return false; }
+						a.data('command', RegExp.$1);
+						row.addClass('submenu');
+						a.click(function(e) { ref.submenu(a, e); return false; });
 
 						if (ref.mouseover_timeout > -1) {
-							a.onmouseover = function(e) {
+							a.mouseover(function(e) {
 								ref.timers['submenu_show'] = window.setTimeout(function() {
 									ref.submenu(a, e);
 								}, ref.mouseover_timeout);
-							}
+							});
 
-							a.onmouseout = function(e) { $(this).blur(); clearTimeout(ref.timers['submenu_show']);	}
+							a.mouseout(function(e) { $(this).blur(); clearTimeout(ref.timers['submenu_show']); });
 						}
 					}
 					else {
-						$(a).data('command', command);
+						a.data('command', command);
 						if (elem.attr('target'))
-							$(a).attr('target', elem.attr('target'));
+							a.attr('target', elem.attr('target'));
 
-						a.onclick = function(e) {
+						a.click(function(e) {
 							var cur_popups = rcmail.menu_stack.length;
 							var result;
 
@@ -457,21 +455,21 @@ function rcube_context_menu(p) {
 							ref.hide(e);
 
 							return result;
-						}
+						});
 
 						if (ref.mouseover_timeout > -1 && !ref.is_submenu) {
-							a.onmouseover = function(e) {
+							a.mouseover(function(e) {
 								ref.timers['submenu_hide'] = window.setTimeout(function() {
 									$('div.rcmsubmenu').hide();
 									$('#folder-selector').hide();
 								}, ref.mouseover_timeout);
-							}
+							});
 
-							a.onmouseout = function(e) { clearTimeout(ref.timers['submenu_hide']); }
+							a.mouseout(function(e) { clearTimeout(ref.timers['submenu_hide']); });
 						}
 					}
 
-					row.appendChild(a);
+					row.append(a);
 					ref.parent_menu.triggerEvent('insertitem', {item: row});
 					rows.push(row);
 				});
