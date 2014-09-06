@@ -415,16 +415,30 @@ function rcube_context_menu(p) {
 					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
 						a.data('command', RegExp.$1);
 						row.addClass('submenu');
-						a.click(function(e) { ref.submenu(a, e); return false; });
+						a.click(function(e) {
+							if (!$(this).hasClass('active'))
+								return;
+
+							ref.submenu(a, e);
+							return false;
+						});
 
 						if (ref.mouseover_timeout > -1) {
 							a.mouseover(function(e) {
+								if (!$(this).hasClass('active'))
+									return;
+
 								ref.timers['submenu_show'] = window.setTimeout(function() {
 									ref.submenu(a, e);
 								}, ref.mouseover_timeout);
 							});
 
-							a.mouseout(function(e) { $(this).blur(); clearTimeout(ref.timers['submenu_show']); });
+							a.mouseout(function(e) {
+								if (!$(this).hasClass('active'))
+									return;
+
+								$(this).blur(); clearTimeout(ref.timers['submenu_show']);
+							});
 						}
 					}
 					else {
