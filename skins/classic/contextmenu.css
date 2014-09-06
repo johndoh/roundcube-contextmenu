@@ -58,6 +58,11 @@ div.contextmenu ul.iconized li a.reply span.icon
   background-position: 7px -119px;
 }
 
+div.contextmenu ul.iconized li a.replyAll span.icon
+{
+  background-position: 7px -392px;
+}
+
 div.contextmenu ul.iconized li a.replyalllink span.icon
 {
   background-position: 7px -392px;
@@ -66,6 +71,11 @@ div.contextmenu ul.iconized li a.replyalllink span.icon
 div.contextmenu ul.iconized li a.replylistlink span.icon
 {
   background-position: 7px -377px;
+}
+
+div.contextmenu ul.iconized li a.forward span.icon
+{
+  background-position: 7px -102px;
 }
 
 div.contextmenu ul.iconized li a.forwardlink span.icon
@@ -81,6 +91,11 @@ div.contextmenu ul.iconized li a.forwardattachmentlink span.icon
 div.contextmenu ul.iconized li a.delete span.icon
 {
   background-position: 7px -187px;
+}
+
+div.contextmenu ul.iconized li a.markmessage span.icon
+{
+  background-position: 7px -457px;
 }
 
 div.contextmenu ul.iconized li a.readlink span.icon
@@ -100,6 +115,11 @@ div.contextmenu ul.iconized li a.flaggedlink span.icon
 div.contextmenu ul.iconized li a.unflaggedlink span.icon
 {
   background-position: 7px -153px;
+}
+
+div.contextmenu ul.iconized li a.messagemenu span.icon
+{
+  background-position: 7px -475px;
 }
 
 div.contextmenu ul.iconized li a.compose span.icon
@@ -144,6 +164,11 @@ div.contextmenu ul.iconized li a.movecontact span.icon
 div.contextmenu ul.iconized li a.copycontact span.icon
 {
   background: url(images/messageactions.png) no-repeat 5px -143px;
+}
+
+div.contextmenu ul.iconized li a.export span.icon
+{
+  background-position: 7px -288px;
 }
 
 div.contextmenu ul.iconized li a.exportalllink span.icon
