@@ -51,3 +51,28 @@ div.contextmenu ul li a.removegroup span.cmicon
 {
   background-position: 0 -347px;
 }
+
+/*** address book selector ***/
+
+#addressbook-selector {
+	z-index: 1000;
+}
+
+#addressbook-selector li a span {
+  background: url(images/contexticons.png) no-repeat 0 20px;
+  display: block;
+  height: 17px;
+  min-height: 14px;
+  padding: 4px 4px 1px 28px;
+  overflow: hidden;
+  max-width: 120px;
+  text-overflow: ellipsis;
+}
+
+#addressbook-selector li a.addressbook span {
+	background-position: 0 -397px;
+}
+
+#addressbook-selector li a.contactgroup span {
+	background-position: 0 -421px;
+}

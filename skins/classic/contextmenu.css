@@ -114,3 +114,37 @@ div.contextmenu ul li a.compose span.icon
 {
   background-position: 5px -52px;
 }
+
+/*** address book selector ***/
+
+#addressbook-selector li a
+{
+  padding: 0;
+}
+
+#addressbook-selector li a span
+{
+  background: url(images/contexticons.png) no-repeat 0 20px;
+  display: block;
+  height: 15px;
+  min-height: 14px;
+  padding: 2px 4px 2px 28px;
+  overflow: hidden;
+  max-width: 120px;
+  text-overflow: ellipsis;
+}
+
+#addressbook-selector li a.active:hover span
+{
+  color: white;
+}
+
+#addressbook-selector li a.addressbook span
+{
+  background-position: 5px -306px;
+}
+
+#addressbook-selector li a.contactgroup span
+{
+  background-position: 5px -343px;
+}

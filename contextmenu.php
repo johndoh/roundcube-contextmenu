@@ -24,6 +24,10 @@ class contextmenu extends rcube_plugin
 			}
 		}
 
+		if ($rcmail->task == 'addressbook') {
+			$rcmail->output->add_label('moveto', 'copyto');
+		}
+
 		if ($rcmail->output->type == 'html') {
 			$rcmail->output->add_script("rcmail.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create');");
 			$rcmail->output->add_script("rcmail.context_menu_overload_commands = new Array('move', 'copy');");

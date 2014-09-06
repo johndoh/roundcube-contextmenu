@@ -707,6 +707,91 @@ function rcm_check_button_state(btn, active) {
 	return found;
 }
 
+function rcm_addressbook_selector(event, type, callback) {
+	var container = rcmail.rcm_addressbook_selector_element;
+
+	if (!container) {
+		var rows = [],
+			ul = $('<ul class="toolbarmenu">');
+
+		container = $('<div id="addressbook-selector" class="popupmenu"></div>');
+
+		// loop over address books
+		$.each(rcmail.env.address_sources, function() {
+			if (!this.readonly) {
+				rows.push(rcm_addressbook_selector_item(this));
+
+				if (this.groups) {
+					var ref = this;
+					$.each(rcmail.env.contactgroups, function() {
+						rows.push(rcm_addressbook_selector_item(this, ref.id));
+					});
+				}
+			}
+		});
+
+		ul.append(rows).appendTo(container);
+
+		// temporarily show element to calculate its size
+		container.css({left: '-1000px', top: '-1000px'})
+			.appendTo($('body')).show();
+
+		// set max-height if the list is long
+		if (rows.length > 10)
+			container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9);
+
+		// register delegate event handler for folder item clicks
+		container.on('click', 'a.active', function(e){
+			container.data('callback')(this, e);
+			return false;
+		});
+
+		rcmail.rcm_addressbook_selector_element = container;
+	}
+
+	container.data('callback', callback);
+
+	// customize menu for move or copy
+	container.find('li').show();
+
+	// search result may contain contacts from many sources, but if there is only one...
+	var source = rcmail.env.source;
+	if (source == '' && rcmail.env.selection_sources.length == 1)
+		source = rcmail.env.selection_sources[0];
+
+	if (type == 'move' && source) {
+		$.each(container.find('a'), function() {
+			if (($(this).data('source') && $(this).data('source') == source) || $(this).data('id') == source)
+				$(this).parent('li').hide();
+		});
+	}
+
+	// position menu on the screen
+	rcmail.show_menu('addressbook-selector', true, event);
+}
+
+function rcm_addressbook_selector_item(obj, abook_id) {
+	if (abook_id && abook_id === obj.source || !abook_id) {
+		var a = $('<a>').attr('href', '#').addClass('icon'),
+			row = $('<li>');
+
+		if (obj.type == 'group') {
+			a.addClass('active contactgroup')
+			a.data('source', obj.source);
+			a.data('id', obj.id);
+			a.css('padding-left', '16px');
+		}
+		else {
+			a.addClass('addressbook active').data('id', obj.id);
+		}
+
+		// add address book name element
+		a.append($('<span>').text(obj.name));
+
+		return row.append(a);
+	}
+}
+
 $(document).ready(function() {
 	if (window.rcmail) {
 		rcmail.env.contextmenus = new Array();
@@ -734,5 +819,38 @@ $(document).ready(function() {
 
 			rcube_find_object(button_id).href = '#';
 		}, false);
+
+		rcmail.register_command('plugin.contextmenu.copy_contact', function(command, obj, event) {
+			return rcm_addressbook_selector(event, command, function(obj, evt) {
+				var menu = rcmail.env.contextmenus['contactlist'];
+				var prev_display_next = rcmail.env.display_next;
+
+				if (!(menu.list_object.selection.length == 1 && menu.list_object.in_selection(rcmail.env.context_menu_source_id)))
+					rcmail.env.display_next = false;
+
+				var prev_sel = menu.list_selection(true);
+
+				// search result may contain contacts from many sources, but if there is only one...
+				var source = rcmail.env.source;
+				if (source == '' && rcmail.env.selection_sources.length == 1)
+					source = rcmail.env.selection_sources[0];
+
+				if (command == 'copy' && $(obj).data('source') && $(obj).data('source') == source) {
+					rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), $(obj).data('source'), $(obj).data('id'));
+				}
+				else if ($(obj).data('source')) {
+					rcmail.command(command, rcmail.env.contactgroups['G' + $(obj).data('source') + $(obj).data('id')], evt);
+				}
+				else {
+					rcmail.command(command, rcmail.env.address_sources[$(obj).data('id')], evt);
+				}
+
+				menu.list_selection(false, prev_sel);
+				rcmail.env.display_next = prev_display_next;
+			});
+		}, false);
+		rcmail.addEventListener('group_insert', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
+		rcmail.addEventListener('group_update', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
+		rcmail.addEventListener('group_delete', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
 	}
 });

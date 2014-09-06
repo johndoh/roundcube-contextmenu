@@ -4,6 +4,7 @@ Roundcube Webmail ContextMenu
  * Update after dev-accessibility merged to RC master
  * Support multi-folder search results (66536974fe)
  * Fix possible CSRF in readfolder action
+ * Add option to move/copy contacts in address book
 
 Version 2.0 (2014-04-30, rc-1.0)
 =================================================

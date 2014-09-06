@@ -7,6 +7,21 @@ rcube_webmail.prototype.context_menu_popup_pattern = /rcmail_ui\.show_popup\(\'(
 rcube_webmail.prototype.context_menu_button_active_class = new Array('active', 'button');
 rcube_webmail.prototype.context_menu_button_disabled_class = new Array('disabled', 'buttonPas');
 
+function reorder_contact_menu(p) {
+	var ul = p.ref.container.find('ul:first');
+	$(p.ref.container).find('a.export').parent('li').appendTo(ul);
+
+	var available_sources = 0;
+	$.each(rcmail.env.address_sources, function() {
+		if (!this.readonly)
+			available_sources++;
+	});
+
+	if (available_sources < 2) {
+		$(p.ref.container).find('a.movecontact').parent('li').remove();
+	}
+}
+
 $(document).ready(function() {
 	if (window.rcmail) {
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
@@ -23,7 +38,15 @@ $(document).ready(function() {
 		}
 
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': '#abooktoolbar', 'list_object': rcmail.contact_list}); } );
+			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', {label: rcmail.gettext('moveto'), command: 'plugin.contextmenu.copy_contact', props: 'move', class: 'movecontact'}, {label: rcmail.gettext('copyto'), command: 'plugin.contextmenu.copy_contact', props: 'copy', class: 'copycontact'}], 'list_object': rcmail.contact_list}, {
+				'init': function(p) { reorder_contact_menu(p); },
+				'afteractivate': function(p) {
+					p.ref.list_selection(false, rcmail.env.contextmenu_selection);
+
+					if (rcmail.env.readonly)
+						p.ref.container.find('a.movecontact').removeClass('active').addClass('disabled');
+				}
+			}); } );
 			rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']})");
 			rcmail.addEventListener('group_insert', function(props) { rcm_abookmenu_init(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}) } );
 			rcmail.addEventListener('abook_search_insert', function(props) { rcm_abookmenu_init(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}) } );
