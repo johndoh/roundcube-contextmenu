@@ -21,35 +21,133 @@ div.contextmenu a {
   cursor: default;
 }
 
-div.contextmenu ul li a span.cmicon
+div.contextmenu ul.iconized li a span.cmicon
 {
   background: url(images/contexticons.png) no-repeat 0 20px;
 }
 
-div.contextmenu ul li.submenu a span.cmicon
+div.contextmenu ul.iconized li.submenu a span.cmicon
 {
   background-position: right -192px;
   padding-right: 18px;
 }
 
-div.contextmenu ul li a.reply span.cmicon
+div.contextmenu ul.iconized li a.reply span.cmicon
 {
   background-position: 0 -122px;
 }
 
-div.contextmenu ul li a.delete span.cmicon
+div.contextmenu ul.iconized li a.replyalllink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -147px;
+}
+
+div.contextmenu ul.iconized li a.replylistlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -464px;
+}
+
+div.contextmenu ul.iconized li a.forwardlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -169px;
+}
+
+div.contextmenu ul.iconized li a.forwardattachmentlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -445px;
+}
+
+div.contextmenu ul.iconized li a.delete span.cmicon
 {
   background-position: 0 -96px;
 }
 
-div.contextmenu ul li a.compose span.cmicon
+div.contextmenu ul.iconized li a.compose span.cmicon
 {
   background-position: 0 -281px;
 }
 
-div.contextmenu ul li a.removegroup span.cmicon
+div.contextmenu ul.iconized li a.removegroup span.cmicon
 {
   background-position: 0 -347px;
+}
+
+div.contextmenu ul.iconized li a.readfolder span.cmicon
+{
+  background-position: 0 -26px;
+}
+
+div.contextmenu ul.iconized li a.cmd_expunge span.cmicon
+{
+  background-position: 0 -523px;
+}
+
+div.contextmenu ul.iconized li a.cmd_purge span.cmicon
+{
+  background-position: 0 -504px;
+}
+
+div.contextmenu ul.iconized li a.collapseall span.cmicon
+{
+  background-position: 0 -326px;
+}
+
+div.contextmenu ul.iconized li a.expandall span.cmicon
+{
+  background-position: 0 -305px;
+}
+
+div.contextmenu ul.iconized li a.openfolder span.cmicon
+{
+  background-position: 0 -484px;
+}
+
+div.contextmenu ul.iconized li a.addto span.cmicon,
+div.contextmenu ul.iconized li a.addcc span.cmicon,
+div.contextmenu ul.iconized li a.addbcc span.cmicon
+{
+  background-position: 0 -281px;
+}
+
+div.contextmenu ul.iconized li a.movecontact span.icon
+{
+  background-position: 0 -632px;
+}
+
+div.contextmenu ul.iconized li a.copycontact span.icon
+{
+  background-position: 0 -651px;
+}
+
+div.contextmenu ul.iconized li a.exportalllink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -568px;
+}
+
+div.contextmenu ul.iconized li a.exportsellink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -543px;
+}
+
+
+div.contextmenu ul.iconized li a.cmd_group-create span.cmicon
+{
+  background-position: 0 -613px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-rename span.cmicon
+{
+  background-position: 0 -591px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-delete span.cmicon
+{
+  background-position: 0 -96px;
+}
+
+div.contextmenu ul.iconized li a.cmd_search-delete span.cmicon
+{
+  background-position: 0 -96px;
 }
 
 /*** address book selector ***/
@@ -74,5 +172,5 @@ div.contextmenu ul li a.removegroup span.cmicon
 }
 
 #addressbook-selector li a.contactgroup span {
-	background-position: 0 -421px;
+	background-position: 0 -418px;
 }
