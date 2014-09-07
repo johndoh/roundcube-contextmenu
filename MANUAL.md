@@ -87,7 +87,7 @@ The JSON object can have:
 * `label` (string) required - text for the menu element
 * `command` (string) required - the Roundcube command to execute on click
 * `props` (string) optional - arguments to pass to the Roundcube command
-* `class` (string) optional - class(es) to apply to the menu element
+* `classes` (string) optional - classes to apply to the menu element
 
 ## Working with an existing Contextmenu
 
@@ -97,7 +97,7 @@ rcmail.addEventListener('contextmenu_init', function(menu) {
   // identify the folder list context menu
   if (menu.menu_name == 'folderlist') {
     // add a shortcut to the folder management screen to the end of the menu
-    menu.menu_source.push({label: 'Manage folders', command: 'folders', props: '', class: 'managefolders'});
+    menu.menu_source.push({label: 'Manage folders', command: 'folders', props: '', classes: 'managefolders'});
 
     // make sure this new shortcut is always active
     menu.addEventListener('activate', function(p) {

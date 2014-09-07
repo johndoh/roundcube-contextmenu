@@ -38,7 +38,7 @@ $(document).ready(function() {
 		}
 
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', {label: rcmail.gettext('moveto'), command: 'plugin.contextmenu.copy_contact', props: 'move', class: 'movecontact'}, {label: rcmail.gettext('copyto'), command: 'plugin.contextmenu.copy_contact', props: 'copy', class: 'copycontact'}], 'list_object': rcmail.contact_list}, {
+			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', {label: rcmail.gettext('moveto'), command: 'plugin.contextmenu.copy_contact', props: 'move', classes: 'movecontact'}, {label: rcmail.gettext('copyto'), command: 'plugin.contextmenu.copy_contact', props: 'copy', classes: 'copycontact'}], 'list_object': rcmail.contact_list}, {
 				'init': function(p) { reorder_contact_menu(p); },
 				'afteractivate': function(p) {
 					p.ref.list_selection(false, rcmail.env.contextmenu_selection);

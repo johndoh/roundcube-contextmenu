@@ -379,7 +379,7 @@ function rcube_context_menu(p) {
 						elem = $('<a>').attr('href', '#')
 								.attr('id', 'rcmjs')
 								.attr('onclick', "return rcmail.command('"+ this.command +"','"+ this.props +"',this,event)")
-								.addClass(this.class)
+								.addClass(this.classes)
 								.html(this.label);
 					}
 					else {
