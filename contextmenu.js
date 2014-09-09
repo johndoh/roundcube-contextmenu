@@ -462,6 +462,7 @@ function rcube_context_menu(p) {
 								ref.parent_menu.triggerEvent('aftercommand', {ref: ref, el: this, command: command, args: args});
 
 							if (rcmail.menu_stack.length > cur_popups) {
+								clearTimeout(ref.timers['submenu_hide']);
 								rcmail.context_menu_popup_menus.push(rcmail.menu_stack[rcmail.menu_stack.length - 1]);
 							}
 
@@ -512,7 +513,7 @@ function rcube_context_menu(p) {
 				$('iframe').contents().mouseup( function() { $(document.body).trigger('click'); } );
 
 				// special event to hide menu after use of folder or address book type selectors
-				rcmail.addEventListener('menu-close', function(props) { if (props.originalEvent) { ref.hide(props.originalEvent); } });
+				rcmail.addEventListener('menu-close', function(props) { if (props.originalEvent && !$('#' + props.name).hasClass('rcmsubmenu')) { ref.hide(props.originalEvent); } });
 
 				rcmail.context_menu_hide_bound = true;
 			}
@@ -589,7 +590,12 @@ function rcube_context_menu(p) {
 		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_popup_menus.length == 0 || $(target).parents('div.contextmenu').length == 0)) {
 			this.selected_object = null;
 			$('.' + this.source_class).removeClass(this.source_class);
-			$('div.contextmenu').hide();
+			$.each($('div.contextmenu'), function() {
+				if ($(this).is(':visible')) {
+					$(this).hide();
+					rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
+				}
+			});
 
 			// close popup menus opened by the contextmenu
 			for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
@@ -624,12 +630,17 @@ function rcube_context_menu(p) {
 				e.stopPropagation();
 		}
 
-		$('.rcmsubmenu').hide();
 		// close popup menus opened by the contextmenu
 		for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
 			rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
 			rcmail.context_menu_popup_menus.pop();
 		}
+		$.each($('.rcmsubmenu'), function() {
+			if ($(this).is(':visible')) {
+				$(this).hide();
+				rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
+			}
+		});
 
 		var id = rcmail.gui_containers[$(link).data('command')] ? rcmail.gui_containers[$(link).data('command')].attr('id') : $(link).data('command');
 		if (!this.submenus[id]) {
