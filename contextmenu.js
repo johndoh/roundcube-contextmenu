@@ -280,7 +280,7 @@ function rcm_show_menu(e, obj, id, menu) {
 
 	// hide any other open menus
 	for (var i = 0; i < rcmail.menu_stack.length; i++) {
-		rcmail.hide_menu(rcmail.menu_stack[i]);
+		rcmail.hide_menu(rcmail.menu_stack[i], e);
 	}
 
 	rcmail.env.context_menu_source_id = id;
@@ -428,9 +428,9 @@ function rcube_context_menu(p) {
 								if (!$(this).hasClass('active'))
 									return;
 
-								ref.timers['submenu_show'] = window.setTimeout(function() {
+								ref.timers['submenu_show'] = window.setTimeout(function(a, e) {
 									ref.submenu(a, e);
-								}, ref.mouseover_timeout);
+								}, ref.mouseover_timeout, a, e);
 							});
 
 							a.mouseout(function(e) {
@@ -507,6 +507,9 @@ function rcube_context_menu(p) {
 				});
 
 				$('iframe').contents().mouseup( function() { $(document.body).trigger('click'); } );
+
+				// special event to hide menu after use of folder or address book type selectors
+				rcmail.addEventListener('menu-close', function(props) { if (props.originalEvent) { ref.hide(props.originalEvent); } });
 
 				rcmail.context_menu_hide_bound = true;
 			}
@@ -588,8 +591,12 @@ function rcube_context_menu(p) {
 			// close popup menus opened by the contextmenu
 			for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
 				//@TODO - fix for rc issue #1490027
-				//rcmail.hide_menu(rcmail.context_menu_popup_menus[i]);
+				//rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
 				$('#' + rcmail.context_menu_popup_menus[i]).hide();
+
+				if ($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack) >= 0)
+					rcmail.menu_stack.splice($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack), 1);
+
 				rcmail.context_menu_popup_menus.pop();
 			}
 
@@ -615,7 +622,11 @@ function rcube_context_menu(p) {
 		}
 
 		$('.rcmsubmenu').hide();
-		$('#folder-selector').hide();
+		// close popup menus opened by the contextmenu
+		for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
+			rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
+			rcmail.context_menu_popup_menus.pop();
+		}
 
 		var id = rcmail.gui_containers[$(link).data('command')] ? rcmail.gui_containers[$(link).data('command')].attr('id') : $(link).data('command');
 		if (!this.submenus[id]) {
