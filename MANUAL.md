@@ -126,6 +126,8 @@ To prevent an element from appearing in a Contextmenu give it the class `rcm_ign
 
 To make sure an element in the Contextmenu is always active give it the class `rcm_active`.
 
+The environmental variable `rcmail.env.context_menu_source_id` contains the ID of the specific element that the Contextmenu was triggered on, this is the `source_id` passed to `rcm_show_menu`
+
 ## Events
 
 The following events are triggered by Contextmenu:
