@@ -473,10 +473,13 @@ function rcube_context_menu(p) {
 
 						if (ref.mouseover_timeout > -1 && !ref.is_submenu) {
 							a.mouseover(function(e) {
-								ref.timers['submenu_hide'] = window.setTimeout(function() {
+								ref.timers['submenu_hide'] = window.setTimeout(function(e) {
 									$('div.rcmsubmenu').hide();
-									$('#folder-selector').hide();
-								}, ref.mouseover_timeout);
+									// hide any other open menus
+									for (var i = 0; i < rcmail.menu_stack.length; i++) {
+										rcmail.hide_menu(rcmail.menu_stack[i], e);
+									}
+								}, ref.mouseover_timeout, e);
 							});
 
 							a.mouseout(function(e) { clearTimeout(ref.timers['submenu_hide']); });
