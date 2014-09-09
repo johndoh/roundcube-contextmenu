@@ -580,6 +580,7 @@ function rcube_context_menu(p) {
 		if (!callback || callback.show !== false) {
 			this.selected_object = obj;
 			this.container.show();
+			rcmail.triggerEvent('menu-open', { name: this.container.attr('id'), props:{ menu: this.container.attr('id') }, originalEvent: e });
 		}
 	};
 
