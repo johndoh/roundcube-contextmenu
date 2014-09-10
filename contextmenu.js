@@ -287,6 +287,28 @@ function rcm_show_menu(e, obj, id, menu) {
 	menu.show(obj, e);
 }
 
+function rcm_hide_menu(e, sub_only) {
+	$.each($(sub_only ? '.rcmsubmenu' : 'div.contextmenu'), function() {
+		if ($(this).is(':visible')) {
+			$(this).hide();
+			rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
+		}
+	});
+
+	// close popup menus opened by the contextmenu
+	for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
+		//@TODO - fix for rc issue #1490027
+		//rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
+		$('#' + rcmail.context_menu_popup_menus[i]).hide();
+		rcmail.triggerEvent('menu-close', { name:rcmail.context_menu_popup_menus[i], props:{ menu:rcmail.context_menu_popup_menus[i] }, originalEvent: e });
+
+		if ($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack) >= 0)
+			rcmail.menu_stack.splice($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack), 1);
+
+		rcmail.context_menu_popup_menus.pop();
+	}
+}
+
 function rcube_context_menu(p) {
 	this.menu_name = null;
 	this.menu_source = null;
@@ -447,6 +469,11 @@ function rcube_context_menu(p) {
 							a.attr('target', elem.attr('target'));
 
 						a.click(function(e) {
+							if ($(this).parents('.rcmsubmenu').length == 0) {
+								rcm_hide_menu(e, true);
+								clearTimeout(ref.timers['submenu_hide']);
+							}
+
 							var cur_popups = rcmail.menu_stack.length;
 							var result;
 
@@ -462,7 +489,6 @@ function rcube_context_menu(p) {
 								ref.parent_menu.triggerEvent('aftercommand', {ref: ref, el: this, command: command, args: args});
 
 							if (rcmail.menu_stack.length > cur_popups) {
-								clearTimeout(ref.timers['submenu_hide']);
 								rcmail.context_menu_popup_menus.push(rcmail.menu_stack[rcmail.menu_stack.length - 1]);
 							}
 
@@ -475,11 +501,7 @@ function rcube_context_menu(p) {
 						if (ref.mouseover_timeout > -1 && !ref.is_submenu) {
 							a.mouseover(function(e) {
 								ref.timers['submenu_hide'] = window.setTimeout(function(e) {
-									$('div.rcmsubmenu').hide();
-									// hide any other open menus
-									for (var i = 0; i < rcmail.menu_stack.length; i++) {
-										rcmail.hide_menu(rcmail.menu_stack[i], e);
-									}
+									rcm_hide_menu(e, true);
 								}, ref.mouseover_timeout, e);
 							});
 
@@ -591,24 +613,7 @@ function rcube_context_menu(p) {
 		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_popup_menus.length == 0 || $(target).parents('div.contextmenu').length == 0)) {
 			this.selected_object = null;
 			$('.' + this.source_class).removeClass(this.source_class);
-			$.each($('div.contextmenu'), function() {
-				if ($(this).is(':visible')) {
-					$(this).hide();
-					rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
-				}
-			});
-
-			// close popup menus opened by the contextmenu
-			for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
-				//@TODO - fix for rc issue #1490027
-				//rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
-				$('#' + rcmail.context_menu_popup_menus[i]).hide();
-
-				if ($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack) >= 0)
-					rcmail.menu_stack.splice($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack), 1);
-
-				rcmail.context_menu_popup_menus.pop();
-			}
+			rcm_hide_menu(e);
 
 			for (var i in rcmail.context_menu_commands) {
 				if (!rcmail.context_menu_commands[i]) {
@@ -631,17 +636,7 @@ function rcube_context_menu(p) {
 				e.stopPropagation();
 		}
 
-		// close popup menus opened by the contextmenu
-		for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
-			rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
-			rcmail.context_menu_popup_menus.pop();
-		}
-		$.each($('.rcmsubmenu'), function() {
-			if ($(this).is(':visible')) {
-				$(this).hide();
-				rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
-			}
-		});
+		rcm_hide_menu(e, true);
 
 		var id = rcmail.gui_containers[$(link).data('command')] ? rcmail.gui_containers[$(link).data('command')].attr('id') : $(link).data('command');
 		if (!this.submenus[id]) {
