@@ -31,16 +31,6 @@ function add_menu_text(menu, p) {
 function reorder_contact_menu(p) {
 	var ul = p.ref.container.find('ul:first');
 	$(p.ref.container).find('a.export').parent('li').appendTo(ul);
-
-	var available_sources = 0;
-	$.each(rcmail.env.address_sources, function() {
-		if (!this.readonly)
-			available_sources++;
-	});
-
-	if (available_sources < 2) {
-		$(p.ref.container).find('a.movecontact').parent('li').remove();
-	}
 }
 
 $(document).ready(function() {
@@ -59,7 +49,7 @@ $(document).ready(function() {
 		}
 
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete','#addresslist div.boxfooter a.removegroup', {label: rcmail.gettext('moveto'), command: 'plugin.contextmenu.copy_contact', props: 'move', classes: 'movecontact'}, {label: rcmail.gettext('copyto'), command: 'plugin.contextmenu.copy_contact', props: 'copy', classes: 'copycontact'}], 'list_object': rcmail.contact_list}, {
+			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar','#addresslist div.boxfooter a.delete','#addresslist div.boxfooter a.removegroup', '#rcmAddressBookMenu'], 'list_object': rcmail.contact_list}, {
 				'insertitem': function(p) { add_menu_text('contactlist', p); },
 				'init': function(p) { reorder_contact_menu(p); },
 				'afteractivate': function(p) {
@@ -67,9 +57,6 @@ $(document).ready(function() {
 
 					if (!rcmail.env.group || rcmail.env.readonly)
 						p.ref.container.find('a.removegroup').removeClass('active').addClass('disabled');
-
-					if (rcmail.env.readonly)
-						p.ref.container.find('a.movecontact').removeClass('active').addClass('disabled');
 				},
 				'aftercommand': function(p) {
 					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')

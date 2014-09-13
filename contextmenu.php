@@ -24,8 +24,9 @@ class contextmenu extends rcube_plugin
 			}
 		}
 
-		if ($rcmail->task == 'addressbook') {
-			$rcmail->output->add_label('moveto', 'copyto');
+		if ($rcmail->task == 'addressbook' && $rcmail->action == '') {
+			// give other plugins a change to add address books before checking if they exist for the menu
+			$this->add_hook('render_page', array($this, 'addition_addressbook_options'));
 		}
 
 		if ($rcmail->output->type == 'html') {
@@ -49,6 +50,21 @@ class contextmenu extends rcube_plugin
 		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.openfolder', 'type' => 'link', 'class' => 'openfolder rcm_active', 'label' => 'openinextwin', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 
 		$out = html::tag('ul', array('id' => 'rcmFolderMenu', 'role' => 'menu'), $li);
+		$this->api->output->add_footer(html::div(array('style' => 'display: none;', 'aria-hidden' => 'true'), $out));
+	}
+
+	public function addition_addressbook_options()
+	{
+		$li = '';
+
+		if (count(rcube::get_instance()->get_address_sources(true)) > 1) {
+			// only show the move option if there are sources to move between
+			$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'move', 'type' => 'link', 'class' => 'movecontact disabled', 'classact' => 'movecontact active', 'label' => 'moveto', 'tabindex' => '-1', 'aria-disabled' => 'true')));
+		}
+
+		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'copy', 'type' => 'link', 'class' => 'copycontact disabled', 'classact' => 'copycontact active', 'label' => 'copyto', 'tabindex' => '-1', 'aria-disabled' => 'true')));
+
+		$out = html::tag('ul', array('id' => 'rcmAddressBookMenu', 'role' => 'menu'), $li);
 		$this->api->output->add_footer(html::div(array('style' => 'display: none;', 'aria-hidden' => 'true'), $out));
 	}
 
