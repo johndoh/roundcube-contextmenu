@@ -700,26 +700,18 @@ function rcube_context_menu(p) {
 	this.triggerEvent = rcube_event_engine.prototype.triggerEvent;
 };
 
-function rcm_override_mailbox_command(props, before) {
+function rcm_override_mailbox_command(menu, props, before) {
 	if ($('div.contextmenu').is(':visible') && $.inArray(props.action, rcmail.context_menu_overload_commands) >= 0) {
 		if (before) {
-			rcmail.env.context_menu_prev_sel = null;
-			if (rcmail.message_list.selection.length == 0 || !rcmail.message_list.in_selection(rcmail.env.context_menu_source_id)) {
-				rcmail.env.context_menu_prev_sel = rcmail.message_list.get_selection();
-				rcmail.message_list.highlight_row(rcmail.env.context_menu_source_id, true);
+			rcmail.env.context_menu_prev_display_next = rcmail.env.display_next;
+			if (!(menu.list_object.selection.length == 1 && menu.list_object.in_selection(rcmail.env.context_menu_source_id)))
+				rcmail.env.display_next = false;
 
-				for (var i in rcmail.env.context_menu_prev_sel)
-					rcmail.message_list.highlight_row(rcmail.env.context_menu_prev_sel[i], true);
-
-				rcmail.message_list.triggerEvent('select');
-			}
+			rcmail.env.context_menu_prev_sel = menu.list_selection(true);
 		}
 		else if (rcmail.env.context_menu_prev_sel) {
-			for (var i in rcmail.env.context_menu_prev_sel)
-				rcmail.message_list.highlight_row(rcmail.env.context_menu_prev_sel[i], true);
-
-			rcmail.message_list.highlight_row(rcmail.env.context_menu_source_id, true);
-			rcmail.message_list.triggerEvent('select');
+			menu.list_selection(false, rcmail.env.context_menu_prev_sel);
+			rcmail.env.display_next = rcmail.env.context_menu_prev_display_next;
 		}
 	}
 }
@@ -853,26 +845,34 @@ $(document).ready(function() {
 			rcube_find_object(button_id).href = '#';
 		}, false);
 
-		// address book selector
+		if ((rcmail.env.task == 'mail' || rcmail.env.task == 'addressbook') && rcmail.env.action == '') {
+			// special handeling for move/copy functions (folder/address book selector)
+			rcmail.addEventListener('actionbefore', function(props) {
+				var menu = rcmail.env.task == 'addressbook' ? rcmail.env.contextmenus['contactlist'] : rcmail.env.contextmenus['messagelist'];
+				rcm_override_mailbox_command(menu, props, true);
+			});
+
+			rcmail.addEventListener('actionafter', function(props) {
+				var menu = rcmail.env.task == 'addressbook' ? rcmail.env.contextmenus['contactlist'] : rcmail.env.contextmenus['messagelist'];
+				rcm_override_mailbox_command(menu, props, false);
+			});
+		}
+
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
+			// address book selector
 			rcmail.addEventListener('actionbefore', function(props) {
 				if ((props.action == 'move' || props.action == 'copy') && props.props == '') {
 					rcm_addressbook_selector(props.originalEvent, props.action, function(obj, evt) {
-						var menu = rcmail.env.contextmenus['contactlist'];
-						var prev_display_next = rcmail.env.display_next;
-
-						if (!(menu.list_object.selection.length == 1 && menu.list_object.in_selection(rcmail.env.context_menu_source_id)))
-							rcmail.env.display_next = false;
-
-						var prev_sel = menu.list_selection(true);
-
 						// search result may contain contacts from many sources, but if there is only one...
 						var source = rcmail.env.source;
 						if (source == '' && rcmail.env.selection_sources.length == 1)
 							source = rcmail.env.selection_sources[0];
 
 						if (evt.data.cmd == 'copy' && $(obj).data('source') && $(obj).data('source') == source) {
+							var menu = rcmail.env.task == 'addressbook' ? rcmail.env.contextmenus['contactlist'] : rcmail.env.contextmenus['messagelist'];
+							rcm_override_mailbox_command(menu, {action: evt.data.cmd}, true);
 							rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), $(obj).data('source'), $(obj).data('id'));
+							rcm_override_mailbox_command(menu, {action: evt.data.cmd}, false);
 						}
 						else if ($(obj).data('source')) {
 							rcmail.command(evt.data.cmd, rcmail.env.contactgroups['G' + $(obj).data('source') + $(obj).data('id')], evt);
@@ -880,9 +880,6 @@ $(document).ready(function() {
 						else {
 							rcmail.command(evt.data.cmd, rcmail.env.address_sources[$(obj).data('id')], evt);
 						}
-
-						menu.list_selection(false, prev_sel);
-						rcmail.env.display_next = prev_display_next;
 					});
 
 					return false;
