@@ -20,97 +20,228 @@ div.contextmenu li a.active:hover
   color: #fff;
 }
 
-div.contextmenu a {
+div.contextmenu a
+{
+  position: relative;
   outline: 0;
   padding: 0 !important;
 }
 
-div.contextmenu ul li a span {
+div.contextmenu ul.iconized li a span
+{
   display: block;
   padding: 1px 12px 3px 28px;
 }
 
-div.contextmenu ul li a span.icon
+div.contextmenu ul.iconized li a span.icon
 {
   background: url(images/contexticons.png) no-repeat 0 20px;
 }
 
-div.contextmenu ul li.submenu a span.icon
+div.contextmenu ul.iconized li.submenu a span.icon
 {
-  background-position: right 0;
   padding-right: 15px;
 }
 
-div.contextmenu ul li a.reply span.icon
+div.contextmenu ul.iconized li.submenu a span.right-arrow
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 15px;
+  width: 15px;
+  background: url(images/contexticons.png) no-repeat right 1px;
+}
+
+div.contextmenu ul.iconized li a.reply span.icon
 {
   background-position: 7px -119px;
 }
 
-div.contextmenu ul li a.delete span.icon
+div.contextmenu ul.iconized li a.replyAll span.icon
+{
+  background-position: 7px -392px;
+}
+
+div.contextmenu ul.iconized li a.replyalllink span.icon
+{
+  background-position: 7px -392px;
+}
+
+div.contextmenu ul.iconized li a.replylistlink span.icon
+{
+  background-position: 7px -377px;
+}
+
+div.contextmenu ul.iconized li a.forward span.icon
+{
+  background-position: 7px -102px;
+}
+
+div.contextmenu ul.iconized li a.forwardlink span.icon
+{
+  background-position: 7px -102px;
+}
+
+div.contextmenu ul.iconized li a.forwardattachmentlink span.icon
+{
+  background-position: 7px -361px;
+}
+
+div.contextmenu ul.iconized li a.delete span.icon
 {
   background-position: 7px -187px;
 }
 
-div.contextmenu ul li a.readlink span.icon
+div.contextmenu ul.iconized li a.markmessage span.icon
+{
+  background-position: 7px -457px;
+}
+
+div.contextmenu ul.iconized li a.readlink span.icon
 {
   background-position: 7px -85px;
 }
 
-div.contextmenu ul li a.unreadlink span.icon
+div.contextmenu ul.iconized li a.unreadlink span.icon
 {
   background-position: 7px -136px;
 }
-div.contextmenu ul li a.flaggedlink span.icon
+div.contextmenu ul.iconized li a.flaggedlink span.icon
 {
   background-position: 7px -170px;
 }
 
-div.contextmenu ul li a.unflaggedlink span.icon
+div.contextmenu ul.iconized li a.unflaggedlink span.icon
 {
   background-position: 7px -153px;
 }
 
-div.contextmenu ul li a.compose span.icon
+div.contextmenu ul.iconized li a.messagemenu span.icon
+{
+  background-position: 7px -475px;
+}
+
+div.contextmenu ul.iconized li a.compose span.icon
 {
   background-position: 8px -237px;
 }
 
-#rcm_messagemenu ul li a span.icon
+div.contextmenu ul.iconized li a.readfolder span.icon
+{
+  background-position: 7px -85px;
+}
+
+div.contextmenu ul.iconized li a.collapseall span.icon
+{
+  background-position: 7px -203px;
+}
+div.contextmenu ul.iconized li a.expandall span.icon
+{
+  background-position: 7px -219px;
+}
+
+div.contextmenu ul.iconized li a.cmd_expunge span.icon
+{
+  background-position: 7px -254px;
+}
+
+div.contextmenu ul.iconized li a.cmd_purge span.icon
+{
+  background-position: 7px -271px;
+}
+
+div.contextmenu ul.iconized li a.openfolder span.icon
+{
+  background: url(images/messageactions.png) no-repeat 6px -52px;
+}
+
+div.contextmenu ul.iconized li a.movecontact span.icon
+{
+  background: url(images/messageactions.png) no-repeat 5px -161px;
+}
+
+div.contextmenu ul.iconized li a.copycontact span.icon
+{
+  background: url(images/messageactions.png) no-repeat 5px -143px;
+}
+
+div.contextmenu ul.iconized li a.export span.icon
+{
+  background-position: 7px -288px;
+}
+
+div.contextmenu ul.iconized li a.exportalllink span.icon
+{
+  background-position: 7px -411px;
+}
+
+div.contextmenu ul.iconized li a.exportsellink span.icon
+{
+  background-position: 7px -288px;
+}
+
+div.contextmenu ul.iconized li a.cmd_add-recipient span.icon
+{
+  background-position: 8px -236px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-create span.icon
+{
+  background-position: 7px -441px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-rename span.icon
+{
+  background-position: 7px -426px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-delete span.icon
+{
+  background-position: 7px -186px;
+}
+
+div.contextmenu ul.iconized li a.cmd_search-delete span.icon
+{
+  background-position: 7px -186px;
+}
+
+#rcm_messagemenu ul.iconized li a span.icon
 {
   background: url(images/messageactions.png) no-repeat 5px 20px;
 }
 
-#rcm_messagemenu ul li a.printlink span.icon
+#rcm_messagemenu ul.iconized li a.printlink span.icon
 {
   background-position: 5px 1px;
 }
 
-#rcm_messagemenu ul li a.downloadlink span.icon
+#rcm_messagemenu ul.iconized li a.downloadlink span.icon
 {
   background-position: 5px -17px;
 }
 
-#rcm_messagemenu ul li a.editlink span.icon
+#rcm_messagemenu ul.iconized li a.editlink span.icon
 {
   background-position: 5px -70px;
 }
 
-#rcm_messagemenu ul li a.movelink span.icon
+#rcm_messagemenu ul.iconized li a.movelink span.icon
 {
   background-position: 5px -161px;
 }
 
-#rcm_messagemenu ul li a.copylink span.icon
+#rcm_messagemenu ul.iconized li a.copylink span.icon
 {
   background-position: 5px -143px;
 }
 
-#rcm_messagemenu ul li a.sourcelink span.icon
+#rcm_messagemenu ul.iconized li a.sourcelink span.icon
 {
   background-position: 5px -35px;
 }
 
-#rcm_messagemenu ul li a.openlink span.icon
+#rcm_messagemenu ul.iconized li a.openlink span.icon
 {
   background-position: 5px -52px;
 }

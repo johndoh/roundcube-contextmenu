@@ -436,6 +436,7 @@ function rcube_context_menu(p) {
 
 					if (elem.attr('onclick').match(rcmail.context_menu_popup_pattern)) {
 						a.data('command', RegExp.$1);
+						a.append($('<span>').addClass('right-arrow'));
 						row.addClass('submenu');
 						a.click(function(e) {
 							if (!$(this).hasClass('active'))
@@ -464,6 +465,7 @@ function rcube_context_menu(p) {
 						}
 					}
 					else {
+						a.addClass('cmd_' + command);
 						a.data('command', command);
 						if (elem.attr('target'))
 							a.attr('target', elem.attr('target'));
