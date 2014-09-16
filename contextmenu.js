@@ -337,23 +337,23 @@ function rcube_context_menu(p) {
 		if (!this.container) {
 			rcmail.triggerEvent('contextmenu_init', this);
 
-			var rows = [],
-			ul = $('<ul class="toolbarmenu iconized" role="menu">'),
+			this.container = $('<div id="rcm_'+ this.menu_name +'" style="display: none;"></div>');
+			this.container.addClass('contextmenu popupmenu');
+			this.container.addClass(this.is_submenu ? 'rcmsubmenu' : 'rcmmainmenu');
+
+			var rows = [], ul = $('<ul role="menu">'),
 			li = $('<li>'),	link = $('<a>'), span = $('<span>');
 
-			this.container = $('<div id="rcm_'+ this.menu_name +'" class="contextmenu popupmenu" style="display: none;"></div>');
-
+			ul.addClass('toolbarmenu iconized');
 			li.attr('role', 'menuitem');
+
 			link.attr('href', '#');
 			link.addClass('icon active');
 			link.attr('role', 'button');
 			link.attr('tabindex', '-1');
 			link.attr('aria-disabled', 'true');
-			span.addClass(this.is_submenu ? 'icon' : 'icon cmicon');
 
-			if (this.is_submenu) {
-				this.container.addClass('rcmsubmenu');
-			}
+			span.addClass('icon');
 
 			// loop over possible menu elements and build settings object
 			sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
@@ -428,9 +428,9 @@ function rcube_context_menu(p) {
 					// add command name element
 					tmp = span.clone();
 					tmp.text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
-					tmp.addClass(elem.children('span').attr('class') ? elem.children('span').attr('class') : '');
+					tmp.addClass(elem.children('span').attr('class'));
 					a.append(tmp);
-					a.addClass(elem.attr('class') ? elem.attr('class') : '');
+					a.addClass(elem.attr('class'));
 					a.removeClass('button').removeClass('disabled');
 					a.addClass('rcm_elem_' + elem.attr('id'));
 
