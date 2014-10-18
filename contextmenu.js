@@ -17,6 +17,7 @@ function rcm_listmenu_init(row, props, events) {
 			rcmail.env.contextmenu_selection = p.ref.list_selection(true);
 		},
 		'afteractivate': function(p) {
+			p.ref.menu_selection = p.ref.list_object.get_selection();
 			p.ref.list_selection(false, rcmail.env.contextmenu_selection);
 		}
 	}, events));
@@ -297,14 +298,7 @@ function rcm_hide_menu(e, sub_only) {
 
 	// close popup menus opened by the contextmenu
 	for (var i = rcmail.context_menu_popup_menus.length - 1; i >= 0; i--) {
-		//@TODO - fix for rc issue #1490027
-		//rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
-		$('#' + rcmail.context_menu_popup_menus[i]).hide();
-		rcmail.triggerEvent('menu-close', { name:rcmail.context_menu_popup_menus[i], props:{ menu:rcmail.context_menu_popup_menus[i] }, originalEvent: e });
-
-		if ($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack) >= 0)
-			rcmail.menu_stack.splice($.inArray(rcmail.context_menu_popup_menus[i], rcmail.menu_stack), 1);
-
+		rcmail.hide_menu(rcmail.context_menu_popup_menus[i], e);
 		rcmail.context_menu_popup_menus.pop();
 	}
 }
@@ -491,7 +485,8 @@ function rcube_context_menu(p) {
 								ref.parent_menu.triggerEvent('aftercommand', {ref: ref, el: this, command: command, args: args});
 
 							if (rcmail.menu_stack.length > cur_popups) {
-								rcmail.context_menu_popup_menus.push(rcmail.menu_stack[rcmail.menu_stack.length - 1]);
+								var popup_name = rcmail.menu_stack[rcmail.menu_stack.length - 1];
+								rcmail.context_menu_popup_menus.push(popup_name);
 							}
 
 							// ensure menu is always hidden after action (for Safari)
@@ -683,6 +678,11 @@ function rcube_context_menu(p) {
 				for (var i in prev_sel)
 					this.list_object.highlight_row(prev_sel[i], true);
 
+				this.list_object.triggerEvent('select');
+			}
+			else {
+				// trigger a select event to update active commands
+				// use case: select multiple message, open contextmenu; open contextmenu on a message not in selection; open contextmenu on selection
 				this.list_object.triggerEvent('select');
 			}
 		}
