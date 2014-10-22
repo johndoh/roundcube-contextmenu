@@ -371,15 +371,6 @@ function rcube_context_menu(p) {
 					ref.hide(e);
 				});
 
-				// Hide menu after clicks in iframes (eg. preview pane)
-				$('iframe').load(function() {
-					// this == iframe
-					var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-					doc.onclick = function() { $(document).click(); };
-				});
-
-				$('iframe').contents().mouseup( function() { $(document).click(); } );
-
 				rcmail.env.contextmenu_hide_bound = true;
 			}
 		}
@@ -546,6 +537,16 @@ function rcm_override_mailbox_command(props, before) {
 
 $(document).ready(function() {
 	if (window.rcmail) {
+		rcmail.addEventListener('init', function() {
+			// Hide menu after clicks in iframes (eg. preview pane)
+			var body_mouseup = function() { $(document.body).trigger('click'); };
+			$('iframe').load(function(e) {
+				try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup) }
+				catch (e) { /* catch possible "Permission denied" error in IE */ }
+			})
+			.contents().on('mouseup', body_mouseup);
+		});
+
 		rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
 			var lock = rcmail.set_busy(true, 'loading');
 			rcmail.http_post('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
