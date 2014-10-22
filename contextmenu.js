@@ -802,12 +802,14 @@ $(document).ready(function() {
 		rcmail.env.contextmenus = {};
 
 		rcmail.addEventListener('init', function() {
-			$(document.body).bind('click contextmenu', function(e) {
-				$.each(rcmail.env.contextmenus, function() { this.hide(e); });
-			});
+			// no need to reattach events inside iframe
+			if (rcmail.is_framed())
+				return;
+
+			var body_mouseup = function(e) { $.each(rcmail.env.contextmenus, function() { this.hide(e); }); };
+			$(document.body).bind('click contextmenu', body_mouseup);
 
 			// Hide menu after clicks in iframes (eg. preview pane)
-			var body_mouseup = function() { $(document.body).trigger('click'); };
 			$('iframe').load(function(e) {
 				try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup) }
 				catch (e) { /* catch possible "Permission denied" error in IE */ }
