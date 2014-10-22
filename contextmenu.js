@@ -2,7 +2,6 @@
  * ContextMenu plugin script
  */
 
-rcube_webmail.prototype.context_menu_hide_bound = false;
 rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
 
@@ -515,27 +514,6 @@ function rcube_context_menu(p) {
 			ul.append(rows).appendTo(this.container);
 			this.parent_menu.triggerEvent('init', {ref: this});
 			this.container.appendTo($('body'));
-
-			if (!rcmail.context_menu_hide_bound) {
-				// Hide bindings
-				$(document.body).bind('click contextmenu', function(e) {
-					ref.hide(e);
-				});
-
-				// Hide menu after clicks in iframes (eg. preview pane)
-				$('iframe').load(function() {
-					// this == iframe
-					var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-					doc.onclick = function() { $(document.body).trigger('click'); };
-				});
-
-				$('iframe').contents().mouseup( function() { $(document.body).trigger('click'); } );
-
-				// special event to hide menu after use of folder or address book type selectors
-				rcmail.addEventListener('menu-close', function(props) { if (props.originalEvent && !$('#' + props.name).hasClass('rcmsubmenu')) { ref.hide(props.originalEvent); } });
-
-				rcmail.context_menu_hide_bound = true;
-			}
 		}
 	};
 
@@ -821,7 +799,21 @@ function rcm_addressbook_selector_item(obj, abook_id) {
 
 $(document).ready(function() {
 	if (window.rcmail) {
-		rcmail.env.contextmenus = new Array();
+		rcmail.env.contextmenus = {};
+
+		rcmail.addEventListener('init', function() {
+			$(document.body).bind('click contextmenu', function(e) {
+				$.each(rcmail.env.contextmenus, function() { this.hide(e); });
+			});
+
+			// Hide menu after clicks in iframes (eg. preview pane)
+			var body_mouseup = function() { $(document.body).trigger('click'); };
+			$('iframe').load(function(e) {
+				try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup) }
+				catch (e) { /* catch possible "Permission denied" error in IE */ }
+			})
+			.contents().on('mouseup', body_mouseup);
+		});
 
 		rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
 			var lock = rcmail.set_busy(true, 'loading');
