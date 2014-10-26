@@ -4,6 +4,7 @@
 
 rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
+rcube_webmail.prototype.context_menu_popup_commands = {};
 
 rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'([^\']*)\'/;
 
@@ -486,6 +487,11 @@ function rcube_context_menu(p) {
 							if (rcmail.menu_stack.length > cur_popups) {
 								var popup_name = rcmail.menu_stack[rcmail.menu_stack.length - 1];
 								rcmail.context_menu_popup_menus.push(popup_name);
+
+								// make sure enabled commands match context menu message selection
+								$.each(rcmail.context_menu_popup_commands[popup_name], function(cmd, state) {
+									rcmail.enable_command(cmd, state);
+								});
 							}
 
 							// ensure menu is always hidden after action (for Safari)
@@ -887,5 +893,34 @@ $(document).ready(function() {
 			rcmail.addEventListener('group_update', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
 			rcmail.addEventListener('group_delete', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
 		}
+
+		// special event listeners for intreacting with plugins which open popup menus (eg: zipdownload)
+		rcmail.addEventListener('menu-open', function(p) {
+			// check for popupmenus that arent part of contextmenu
+			if ($('div.contextmenu').is(':visible') && p.name.indexOf('rcm_') != 0) {
+				rcmail.context_menu_popup_commands[p.name] = {};
+				$('#' + p.name).find('a').each(function() {
+					if ($(this).attr('onclick') && $(this).attr('onclick').match(rcmail.context_menu_command_pattern)) {
+						var cmd = RegExp.$1;
+						rcmail.context_menu_popup_commands[p.name][cmd] = rcmail.commands[cmd];
+					}
+				});
+			}
+		});
+
+		rcmail.addEventListener('get_single_uid', function() {
+			if ($('#rcm_messagelist').is(':visible') && rcmail.env.contextmenus['messagelist'].menu_selection.length == 1) {
+				return rcmail.env.contextmenus['messagelist'].menu_selection;
+			}
+		});
+
+		rcmail.addEventListener('get_single_cid', function() {
+			if ($('#rcm_contactlist').is(':visible') && rcmail.env.contextmenus['contactlist'].menu_selection.length == 1) {
+				return rcmail.env.contextmenus['contactlist'].menu_selection;
+			}
+			else if ($('#rcm_composeto').is(':visible') && rcmail.env.contextmenus['composeto'].menu_selection.length == 1) {
+				return rcmail.env.contextmenus['composeto'].menu_selection;
+			}
+		});
 	}
 });
