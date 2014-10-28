@@ -910,16 +910,16 @@ $(document).ready(function() {
 
 		rcmail.addEventListener('get_single_uid', function() {
 			if ($('#rcm_messagelist').is(':visible') && rcmail.env.contextmenus['messagelist'].menu_selection.length == 1) {
-				return rcmail.env.contextmenus['messagelist'].menu_selection;
+				return rcmail.env.contextmenus['messagelist'].menu_selection[0];
 			}
 		});
 
 		rcmail.addEventListener('get_single_cid', function() {
 			if ($('#rcm_contactlist').is(':visible') && rcmail.env.contextmenus['contactlist'].menu_selection.length == 1) {
-				return rcmail.env.contextmenus['contactlist'].menu_selection;
+				return rcmail.env.contextmenus['contactlist'].menu_selection[0];
 			}
 			else if ($('#rcm_composeto').is(':visible') && rcmail.env.contextmenus['composeto'].menu_selection.length == 1) {
-				return rcmail.env.contextmenus['composeto'].menu_selection;
+				return rcmail.env.contextmenus['composeto'].menu_selection[0];
 			}
 		});
 	}
