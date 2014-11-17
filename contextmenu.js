@@ -654,6 +654,11 @@ function rcube_context_menu(p) {
 	};
 
 	this.list_selection = function(show, prev_sel) {
+		// make the system think no preview pane exists while we do some fake message selects
+		// to enable/disable relevent commands for current selection
+		var prev_contentframe = rcmail.env.contentframe;
+		rcmail.env.contentframe = null;
+
 		if (show) {
 			if (this.list_object.selection.length == 0 || !this.list_object.in_selection(rcmail.env.context_menu_source_id)) {
 				prev_sel = this.list_object.get_selection();
@@ -677,6 +682,8 @@ function rcube_context_menu(p) {
 			this.list_object.highlight_row(rcmail.env.context_menu_source_id, true);
 			this.list_object.triggerEvent('select');
 		}
+
+		rcmail.env.contentframe = prev_contentframe;
 
 		return prev_sel;
 	};
