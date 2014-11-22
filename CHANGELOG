@@ -1,6 +1,7 @@
 Roundcube Webmail ContextMenu
 =============================
 
+ * Add specific menu for adding contact to group
  * Update after dev-accessibility merged to RC master
  * Support multi-folder search results (66536974fe)
  * Fix possible CSRF in readfolder action

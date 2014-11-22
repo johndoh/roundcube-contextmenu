@@ -55,14 +55,16 @@ class contextmenu extends rcube_plugin
 
 	public function addition_addressbook_options()
 	{
+		$this->add_texts('localization/');
+
 		$li = '';
+		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.assigngroup', 'type' => 'link', 'class' => 'assigngroup disabled', 'classact' => 'assigngroup active', 'label' => 'contextmenu.assigngroup', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 
 		if (count(rcube::get_instance()->get_address_sources(true)) > 1) {
 			// only show the move option if there are sources to move between
 			$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'move', 'type' => 'link', 'class' => 'movecontact disabled', 'classact' => 'movecontact active', 'label' => 'moveto', 'tabindex' => '-1', 'aria-disabled' => 'true')));
+			$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'copy', 'type' => 'link', 'class' => 'copycontact disabled', 'classact' => 'copycontact active', 'label' => 'copyto', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 		}
-
-		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'copy', 'type' => 'link', 'class' => 'copycontact disabled', 'classact' => 'copycontact active', 'label' => 'copyto', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 
 		$out = html::tag('ul', array('id' => 'rcmAddressBookMenu', 'role' => 'menu'), $li);
 		$this->api->output->add_footer(html::div(array('style' => 'display: none;', 'aria-hidden' => 'true'), $out));

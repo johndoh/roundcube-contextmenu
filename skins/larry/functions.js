@@ -29,8 +29,12 @@ function add_menu_text(menu, p) {
 }
 
 function reorder_contact_menu(p) {
+	// put export link last
 	var ul = p.ref.container.find('ul:first');
 	$(p.ref.container).find('a.export').parent('li').appendTo(ul);
+
+	// put assign group link before remove
+	$(p.ref.container).find('a.assigngroup').parent('li').insertBefore($(p.ref.container).find('a.removegroup').parent('li'));
 }
 
 $(document).ready(function() {
@@ -49,8 +53,18 @@ $(document).ready(function() {
 				'afteractivate': function(p) {
 					p.ref.list_selection(false, rcmail.env.contextmenu_selection);
 
+					// count the number of groups in the current addressbook
 					if (!rcmail.env.group || rcmail.env.readonly)
 						p.ref.container.find('a.removegroup').removeClass('active').addClass('disabled');
+
+					var groupcount = 0;
+					if (!rcmail.env.readonly && rcmail.env.address_sources[rcmail.env.source] && rcmail.env.address_sources[rcmail.env.source].groups)
+						$.each(rcmail.env.contactgroups, function(){ if (this.source === rcmail.env.source) groupcount++ });
+
+					if (groupcount > 0)
+						p.ref.container.find('a.assigngroup').removeClass('disabled').addClass('active');
+					else
+						p.ref.container.find('a.assigngroup').removeClass('active').addClass('disabled');
 				},
 				'aftercommand': function(p) {
 					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')

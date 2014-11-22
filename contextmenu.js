@@ -777,7 +777,8 @@ function rcm_addressbook_selector(event, command, callback) {
 	if (source == '' && rcmail.env.selection_sources.length == 1)
 		source = rcmail.env.selection_sources[0];
 
-	if (command == 'move' && source) {
+	// hide currently open address book from menu
+	if (source) {
 		$.each(container.find('a'), function() {
 			if (($(this).data('source') && $(this).data('source') == source) || $(this).data('id') == source)
 				$(this).parent('li').hide();
@@ -786,6 +787,64 @@ function rcm_addressbook_selector(event, command, callback) {
 
 	// position menu on the screen
 	rcmail.show_menu('addressbook-selector', true, event);
+}
+
+function rcm_group_selector(event, command, callback) {
+	var container = rcmail.rcm_addressgroup_selector_element;
+
+	if (!container) {
+		var rows = [],
+			ul = $('<ul class="toolbarmenu">');
+
+		container = $('<div id="addressgroup-selector" class="popupmenu"></div>');
+
+		// loop over address books
+		$.each(rcmail.env.address_sources, function() {
+			if (this.id === rcmail.env.source) {
+				var ref = this;
+				$.each(rcmail.env.contactgroups, function() {
+					rows.push(rcm_addressbook_selector_item(this, ref.id));
+				});
+			}
+		});
+
+		ul.append(rows).appendTo(container);
+
+		// remove indent added by rcm_addressbook_selector_item()
+		$(ul).find('a').removeAttr('style');
+
+		// temporarily show element to calculate its size
+		container.css({left: '-1000px', top: '-1000px'})
+			.appendTo($('body')).show();
+
+		// set max-height if the list is long
+		if (rows.length > 10)
+			container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9);
+
+		// register delegate event handler for folder item clicks
+		container.on('click', 'a.active', {cmd: command}, function(e) {
+			container.data('callback')(this, e);
+			return false;
+		});
+
+		rcmail.rcm_addressgroup_selector_element = container;
+	}
+
+	container.data('callback', callback);
+
+	// customize menu for move or copy
+	container.find('li').show();
+
+	// hide currently open group from menu
+	if (rcmail.env.group) {
+		$.each(container.find('a'), function() {
+			if ($(this).data('id') == rcmail.env.group)
+				$(this).parent('li').hide();
+		});
+	}
+
+	// position menu on the screen
+	rcmail.show_menu('addressgroup-selector', true, event);
 }
 
 function rcm_addressbook_selector_item(obj, abook_id) {
@@ -830,30 +889,6 @@ $(document).ready(function() {
 			.contents().on('mouseup', body_mouseup);
 		});
 
-		rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
-			var lock = rcmail.set_busy(true, 'loading');
-			rcmail.http_post('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
-		}, false);
-
-		rcmail.register_command('plugin.contextmenu.collapseall', function(props, obj) {
-			$("#mailboxlist div.expanded").each(function() { $(this).click(); });
-		}, false);
-
-		rcmail.register_command('plugin.contextmenu.expandall', function(props, obj) {
-			$("#mailboxlist div.collapsed").each(function() { $(this).click(); });
-		}, false);
-
-		rcmail.register_command('plugin.contextmenu.openfolder', function(props, obj) {
-			var button_id = rcmail.buttons['plugin.contextmenu.openfolder'][0].id;
-
-			rcube_find_object(button_id).href = '?_task=mail&_mbox='+urlencode(rcmail.env.context_menu_source_id);
-			rcmail.sourcewin = window.open(rcube_find_object(button_id).href);
-			if (rcmail.sourcewin)
-				window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
-
-			rcube_find_object(button_id).href = '#';
-		}, false);
-
 		if ((rcmail.env.task == 'mail' || rcmail.env.task == 'addressbook') && rcmail.env.action == '') {
 			// special handeling for move/copy functions (folder/address book selector)
 			rcmail.addEventListener('actionbefore', function(props) {
@@ -867,6 +902,32 @@ $(document).ready(function() {
 			});
 		}
 
+		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
+			rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
+				var lock = rcmail.set_busy(true, 'loading');
+				rcmail.http_post('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
+			}, false);
+
+			rcmail.register_command('plugin.contextmenu.collapseall', function(props, obj) {
+				$("#mailboxlist div.expanded").each(function() { $(this).click(); });
+			}, false);
+
+			rcmail.register_command('plugin.contextmenu.expandall', function(props, obj) {
+				$("#mailboxlist div.collapsed").each(function() { $(this).click(); });
+			}, false);
+
+			rcmail.register_command('plugin.contextmenu.openfolder', function(props, obj) {
+				var button_id = rcmail.buttons['plugin.contextmenu.openfolder'][0].id;
+
+				rcube_find_object(button_id).href = '?_task=mail&_mbox='+urlencode(rcmail.env.context_menu_source_id);
+				rcmail.sourcewin = window.open(rcube_find_object(button_id).href);
+				if (rcmail.sourcewin)
+					window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
+
+				rcube_find_object(button_id).href = '#';
+			}, false);
+		}
+
 		if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
 			// address book selector
 			rcmail.addEventListener('actionbefore', function(props) {
@@ -877,13 +938,7 @@ $(document).ready(function() {
 						if (source == '' && rcmail.env.selection_sources.length == 1)
 							source = rcmail.env.selection_sources[0];
 
-						if (evt.data.cmd == 'copy' && $(obj).data('source') && $(obj).data('source') == source) {
-							var menu = rcmail.env.task == 'addressbook' ? rcmail.env.contextmenus['contactlist'] : rcmail.env.contextmenus['messagelist'];
-							rcm_override_mailbox_command(menu, {action: evt.data.cmd}, true);
-							rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), $(obj).data('source'), $(obj).data('id'));
-							rcm_override_mailbox_command(menu, {action: evt.data.cmd}, false);
-						}
-						else if ($(obj).data('source')) {
+						if ($(obj).data('source')) {
 							rcmail.command(evt.data.cmd, rcmail.env.contactgroups['G' + $(obj).data('source') + $(obj).data('id')], evt);
 						}
 						else {
@@ -895,10 +950,20 @@ $(document).ready(function() {
 				}
 			});
 
+			// address book group selector
+			rcmail.register_command('plugin.contextmenu.assigngroup', function(props, obj, event) {
+				rcm_group_selector(event, props, function(obj, evt) {
+					// search result may contain contacts from many sources, but if there is only one...
+					rcm_override_mailbox_command(rcmail.env.contextmenus['contactlist'], { action: 'copy' } , true);
+					rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), rcmail.env.source, $(obj).data('id'));
+					rcm_override_mailbox_command(rcmail.env.contextmenus['contactlist'], { action: 'copy' } , false);
+				});
+			}, false);
+
 			// reset address book selector when groups change
-			rcmail.addEventListener('group_insert', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
-			rcmail.addEventListener('group_update', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
-			rcmail.addEventListener('group_delete', function() { $("#addressbook-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; } );
+			rcmail.addEventListener('group_insert', function() { $("#addressbook-selector").remove(); $("#addressgroup-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; rcmail.rcm_addressgroup_selector_element  = undefined; } );
+			rcmail.addEventListener('group_update', function() { $("#addressbook-selector").remove(); $("#addressgroup-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; rcmail.rcm_addressgroup_selector_element  = undefined; } );
+			rcmail.addEventListener('group_delete', function() { $("#addressbook-selector").remove(); $("#addressgroup-selector").remove(); rcmail.rcm_addressbook_selector_element = undefined; rcmail.rcm_addressgroup_selector_element  = undefined; } );
 		}
 
 		// special event listeners for intreacting with plugins which open popup menus (eg: zipdownload)

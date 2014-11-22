@@ -186,9 +186,15 @@ div.contextmenu ul.iconized li a.cmd_add-recipient span.icon
   background-position: 8px -236px;
 }
 
-div.contextmenu ul.iconized li a.cmd_group-create span.icon
+div.contextmenu ul.iconized li a.cmd_group-create span.icon,
+div.contextmenu ul.iconized li a.assigngroup span.icon
 {
   background-position: 7px -441px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-remove-selected span.icon
+{
+  background-position: 7px -492px;
 }
 
 div.contextmenu ul.iconized li a.cmd_group-rename span.icon
@@ -248,12 +254,14 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
 
 /*** address book selector ***/
 
-#addressbook-selector li a
+#addressbook-selector li a,
+#addressgroup-selector li a
 {
   padding: 0;
 }
 
-#addressbook-selector li a span
+#addressbook-selector li a span,
+#addressgroup-selector li a span
 {
   background: url(images/contexticons.png) no-repeat 0 20px;
   display: block;
@@ -265,7 +273,8 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
   text-overflow: ellipsis;
 }
 
-#addressbook-selector li a.active:hover span
+#addressbook-selector li a.active:hover span,
+#addressgroup-selector li a.active:hover span
 {
   color: white;
 }
@@ -275,7 +284,8 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
   background-position: 5px -306px;
 }
 
-#addressbook-selector li a.contactgroup span
+#addressbook-selector li a.contactgroup span,
+#addressgroup-selector li a.contactgroup span
 {
   background-position: 5px -343px;
 }

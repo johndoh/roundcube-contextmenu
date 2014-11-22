@@ -172,7 +172,8 @@ div.contextmenu ul.iconized li a.exportsellink span.icon
 }
 
 
-div.contextmenu ul.iconized li a.cmd_group-create span.icon
+div.contextmenu ul.iconized li a.cmd_group-create span.icon,
+div.contextmenu ul.iconized li a.assigngroup span.icon
 {
   background-position: 0 -613px;
 }
@@ -194,12 +195,14 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
 
 /*** address book selector ***/
 
-#addressbook-selector
+#addressbook-selector,
+#addressgroup-selector
 {
 	z-index: 1000;
 }
 
-#addressbook-selector li a span
+#addressbook-selector li a span,
+#addressgroup-selector li a span
 {
   background: url(images/contexticons.png) no-repeat 0 20px;
   display: block;
@@ -216,7 +219,8 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
 	background-position: 0 -397px;
 }
 
-#addressbook-selector li a.contactgroup span
+#addressbook-selector li a.contactgroup span,
+#addressgroup-selector li a.contactgroup span
 {
 	background-position: 0 -418px;
 }
