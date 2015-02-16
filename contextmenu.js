@@ -993,6 +993,13 @@ $(document).ready(function() {
 			}
 		});
 
+		rcmail.addEventListener('menu-close', function(p) {
+			// check for popupmenus that arent part of contextmenu
+			if ($('div.contextmenu').is(':visible') && p.name.indexOf('rcm_') != 0) {
+				rcm_hide_menu(p.originalEvent);
+			}
+		});
+
 		rcmail.addEventListener('get_single_uid', function() {
 			if ($('#rcm_messagelist').is(':visible') && rcmail.env.contextmenus['messagelist'].menu_selection.length == 1) {
 				return rcmail.env.contextmenus['messagelist'].menu_selection[0];
