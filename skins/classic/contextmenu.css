@@ -127,6 +127,11 @@ div.contextmenu ul.iconized li a.compose span.icon
   background-position: 8px -237px;
 }
 
+div.contextmenu ul.iconized li a.print span.icon
+{
+  background: url(images/messageactions.png) no-repeat 5px 1px;
+}
+
 div.contextmenu ul.iconized li a.readfolder span.icon
 {
   background-position: 7px -85px;
