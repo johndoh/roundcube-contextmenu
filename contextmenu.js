@@ -15,6 +15,8 @@
  * for the JavaScript code in this file.
  */
 
+rcube_webmail.prototype.context_menu_skip_commands = new Array('mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create');
+rcube_webmail.prototype.context_menu_overload_commands = new Array('move', 'copy');
 rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
 rcube_webmail.prototype.context_menu_popup_commands = {};
