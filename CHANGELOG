@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+ * Update submenu detection after 619891c
+
 Version 2.1 (2015-01-06, rc-1.1)
 =================================================
  * Add specific menu for adding contact to group
