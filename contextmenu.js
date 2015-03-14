@@ -621,7 +621,8 @@ function rcube_context_menu(p) {
 
 		var id = rcmail.gui_containers[$(link).data('command')] ? rcmail.gui_containers[$(link).data('command')].attr('id') : $(link).data('command');
 		if (!this.submenus[id]) {
-			this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': '#' + id + ' ul', 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'list_object': this.list_object});
+			var elem = !$('#' + id).is('ul') ? '#' + id + ' ul' : '#' + id; // check if the container returned is a ul else there should be one directly beneath it
+			this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': elem, 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'list_object': this.list_object});
 			this.submenus[id].init();
 		}
 
@@ -982,7 +983,8 @@ $(document).ready(function() {
 
 		rcmail.addEventListener('menu-close', function(p) {
 			// check for popupmenus that arent part of contextmenu
-			if ($('div.contextmenu').is(':visible') && p.name.indexOf('rcm_') != 0) {
+			var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
+			if ($('div.contextmenu').is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).attr('class').indexOf('rcm_elem_') == -1) {
 				rcm_hide_menu(p.originalEvent);
 			}
 		});
