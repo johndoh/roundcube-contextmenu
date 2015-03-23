@@ -217,42 +217,42 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
   background-position: 7px -186px;
 }
 
-#rcm_messagemenu ul.iconized li a span.icon
+#rcm_messagemenumenu ul.iconized li a span.icon
 {
   background: url(images/messageactions.png) no-repeat 5px 20px;
 }
 
-#rcm_messagemenu ul.iconized li a.printlink span.icon
+#rcm_messagemenumenu ul.iconized li a.printlink span.icon
 {
   background-position: 5px 1px;
 }
 
-#rcm_messagemenu ul.iconized li a.downloadlink span.icon
+#rcm_messagemenumenu ul.iconized li a.downloadlink span.icon
 {
   background-position: 5px -17px;
 }
 
-#rcm_messagemenu ul.iconized li a.editlink span.icon
+#rcm_messagemenumenu ul.iconized li a.editlink span.icon
 {
   background-position: 5px -70px;
 }
 
-#rcm_messagemenu ul.iconized li a.movelink span.icon
+#rcm_messagemenumenu ul.iconized li a.movelink span.icon
 {
   background-position: 5px -161px;
 }
 
-#rcm_messagemenu ul.iconized li a.copylink span.icon
+#rcm_messagemenumenu ul.iconized li a.copylink span.icon
 {
   background-position: 5px -143px;
 }
 
-#rcm_messagemenu ul.iconized li a.sourcelink span.icon
+#rcm_messagemenumenu ul.iconized li a.sourcelink span.icon
 {
   background-position: 5px -35px;
 }
 
-#rcm_messagemenu ul.iconized li a.openlink span.icon
+#rcm_messagemenumenu ul.iconized li a.openlink span.icon
 {
   background-position: 5px -52px;
 }
