@@ -760,14 +760,15 @@ function rcm_addressbook_selector(event, command, callback) {
 			container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9);
 
 		// register delegate event handler for folder item clicks
-		container.on('click', 'a.active', {cmd: command}, function(e) {
-			container.data('callback')(this, e);
+		container.on('click', 'a.active', function(e) {
+			container.data('callback')(this, container.data('command'), e);
 			return false;
 		});
 
 		rcmail.rcm_addressbook_selector_element = container;
 	}
 
+	container.data('command', command);
 	container.data('callback', callback);
 
 	// customize menu for move or copy
@@ -933,17 +934,17 @@ $(document).ready(function() {
 			// address book selector
 			rcmail.addEventListener('actionbefore', function(props) {
 				if ((props.action == 'move' || props.action == 'copy') && props.props == '') {
-					rcm_addressbook_selector(props.originalEvent, props.action, function(obj, evt) {
+					rcm_addressbook_selector(props.originalEvent, props.action, function(obj, cmd, evt) {
 						// search result may contain contacts from many sources, but if there is only one...
 						var source = rcmail.env.source;
 						if (source == '' && rcmail.env.selection_sources.length == 1)
 							source = rcmail.env.selection_sources[0];
 
 						if ($(obj).data('source')) {
-							rcmail.command(evt.data.cmd, rcmail.env.contactgroups['G' + $(obj).data('source') + $(obj).data('id')], evt);
+							rcmail.command(cmd, rcmail.env.contactgroups['G' + $(obj).data('source') + $(obj).data('id')], evt);
 						}
 						else {
-							rcmail.command(evt.data.cmd, rcmail.env.address_sources[$(obj).data('id')], evt);
+							rcmail.command(cmd, rcmail.env.address_sources[$(obj).data('id')], evt);
 						}
 					});
 
