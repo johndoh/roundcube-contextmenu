@@ -899,7 +899,7 @@ $(document).ready(function() {
 			$(document.body).bind('click contextmenu', body_mouseup);
 
 			// Hide menu after clicks in iframes (eg. preview pane)
-			$('iframe').load(function(e) {
+			$('iframe').on('load', function(e) {
 				try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup) }
 				catch (e) { /* catch possible "Permission denied" error in IE */ }
 			})
