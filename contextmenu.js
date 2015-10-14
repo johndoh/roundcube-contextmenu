@@ -38,7 +38,7 @@ function rcm_listmenu_init(row, props, events) {
 	}, events));
 
 	var list_object = props.list_object ? props.list_object : rcmail.message_list;
-	$("#" + row).bind("contextmenu", function(e) {
+	$("#" + row).on("contextmenu", function(e) {
 		if (uid = list_object.get_row_uid(this)) {
 			rcm_show_menu(e, this, uid, menu);
 		}
@@ -71,11 +71,11 @@ function rcm_foldermenu_init(el, props, events) {
 		}
 	}, events));
 
-	$(el).bind("click",function(e) {
+	$(el).click(function(e) {
 		// hide menu when changing folder
 		menu.hide(e);
 	})
-	.bind("contextmenu", function(e) {
+	.on("contextmenu", function(e) {
 		var source = $(this).children('a');
 
 		// remove focus (and keyboard nav highlighting) from A
@@ -212,11 +212,11 @@ function rcm_abookmenu_init(el, props, events) {
 		}
 	}, events));
 
-	$(el).bind("click",function(e) {
+	$(el).click(function(e) {
 		// hide menu when changing address book
 		menu.hide(e);
 	})
-	.bind("contextmenu",function(e) {
+	.on("contextmenu",function(e) {
 		var source = $(this).children('a');
 
 		// remove focus (and keyboard nav highlighting) from A
@@ -896,7 +896,7 @@ $(document).ready(function() {
 				return;
 
 			var body_mouseup = function(e) { $.each(rcmail.env.contextmenus, function() { this.hide(e); }); };
-			$(document.body).bind('click contextmenu', body_mouseup);
+			$(document.body).on('click contextmenu', body_mouseup);
 
 			// Hide menu after clicks in iframes (eg. preview pane)
 			$('iframe').on('load', function(e) {
