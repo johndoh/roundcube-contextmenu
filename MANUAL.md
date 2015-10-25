@@ -42,7 +42,7 @@ var menu = rcm_callbackmenu_init(
 
 The Contextmenu must then be attached to the element(s) in the UI. For example:
 ```js
-$(el).bind("contextmenu", function(e) {
+$(el).on("contextmenu", function(e) {
   rcm_show_menu(e, obj, source_id, menu);
 });
 ```
