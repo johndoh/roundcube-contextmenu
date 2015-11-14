@@ -998,6 +998,11 @@ $(document).ready(function() {
 		});
 
 		rcmail.addEventListener('menu-close', function(p) {
+			// check required args are present, other plugins trigger this event too
+			if (!p.originalEvent) {
+				return;
+			}
+
 			// check for popupmenus that arent part of contextmenu
 			var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
 			if ($('div.contextmenu').is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).attr('class').indexOf('rcm_elem_') == -1) {
