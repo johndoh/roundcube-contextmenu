@@ -7,5 +7,3 @@ $labels['collapseall'] = 'Összes összecsukása';
 $labels['expandall'] = 'Összes kibontása';
 
 $messages = array();
-
-?>

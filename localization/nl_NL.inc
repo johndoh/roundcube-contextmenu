@@ -8,5 +8,3 @@ $labels['expandall'] = 'Alle mappen uitklappen';
 $labels['assigngroup'] = 'Geselecteerde contacten toewijzen aan groep...';
 
 $messages = array();
-
-?>

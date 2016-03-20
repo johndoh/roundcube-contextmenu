@@ -7,5 +7,3 @@ $labels['collapseall'] = 'Alle Unterordner einklappen';
 $labels['expandall'] = 'Alle Unterordner ausklappen';
 
 $messages = array();
-
-?>

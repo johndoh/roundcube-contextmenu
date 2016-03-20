@@ -7,5 +7,3 @@ $labels['collapseall'] = 'Sbalit všechny složky';
 $labels['expandall'] = 'Rozbalit všechny složky';
 
 $messages = array();
-
-?>
