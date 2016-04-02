@@ -50,23 +50,64 @@ function rcm_foldermenu_init(el, props, events) {
 		events = {};
 
 	var menu = rcm_callbackmenu_init($.extend({'menu_name': 'folderlist', 'list_object': null}, props), $.extend({
+		'beforeactivate': function(p) {
+			if (rcmail.env.contextmenu_messagecount_request) {
+				rcmail.env.contextmenu_messagecount_request.abort();
+			}
+			rcmail.env.contextmenu_messagecount_request = null;
+		},
 		'activate': function(p) {
 			if ($.inArray(p.command, Array('expunge', 'purge')) >= 0) {
+				// disable the commands by default
+				$(p.el).addClass('disabled').removeClass('active');
+
+				// if menu is opened on current folder then enable the commands same as in UI
 				if (rcmail.env.context_menu_source_id == rcmail.env.mailbox && rcm_check_button_state(p.btn, true)) {
 					$(p.el).addClass('active').removeClass('disabled');
 				}
-				else {
-					$(p.el).addClass('disabled').removeClass('active');
+				// if menu is opened on difference folder then get message count for the folder
+				else if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && !rcmail.env.contextmenu_messagecount_request) {
+					// folder check called async to prevent slowdown on menu load
+					rcmail.env.contextmenu_messagecount_request = $.ajax({
+						type: 'POST', url: rcmail.url('plugin.contextmenu.messagecount'), data: {'_mbox': rcmail.env.context_menu_source_id}, dataType: 'json', async: true,
+						success: function(data) {
+							if (data.messagecount > 0 && $('#rcm_folderlist').is(':visible')) {
+								// override the environment to check if commands should be abled
+								var temp_exists = rcmail.env.exists;
+								var temp_mailbox = rcmail.env.mailbox;
+								rcmail.env.exists = data.messagecount;
+								rcmail.env.mailbox = rcmail.env.context_menu_source_id;
+
+								$('#rcm_folderlist').find('a.cmd_expunge').addClass('active').removeClass('disabled');
+								if (rcmail.purge_mailbox_test()) {
+									$('#rcm_folderlist').find('a.cmd_purge').addClass('active').removeClass('disabled');
+								}
+
+								rcmail.env.exists = temp_exists;
+								rcmail.env.mailbox = temp_mailbox;
+							}
+						}
+					});
 				}
 			}
-
-			if (p.command == 'plugin.contextmenu.readfolder') {
+			else if (p.command == 'plugin.contextmenu.readfolder') {
 				if ($(p.source).children('a:first').has('span.unreadcount').length > 0) {
 					$(p.el).addClass('active').removeClass('disabled');
 				}
 				else {
 					$(p.el).addClass('disabled').removeClass('active');
 				}
+			}
+		},
+		'beforecommand': function(p) {
+			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && $.inArray(p.command, Array('expunge', 'purge')) >= 0) {
+				var result = rcmail[p.command + '_mailbox'](rcmail.env.context_menu_source_id);
+
+				// update the trash icon
+				if (p.command == 'purge' && result !== false && rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox)
+					rcmail.set_trash_count(0);
+
+				return {'abort': true, 'result': true};
 			}
 		}
 	}, events));

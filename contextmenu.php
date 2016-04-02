@@ -44,6 +44,7 @@ class contextmenu extends rcube_plugin
 
 		if ($rcmail->task == 'mail') {
 			$this->register_action('plugin.contextmenu.readfolder', array($this, 'readfolder'));
+			$this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
 
 			// on the mailbox screen only add some additional options for the folder menu
 			if ($rcmail->action == '') {
@@ -106,6 +107,17 @@ class contextmenu extends rcube_plugin
 
 		rcmail_send_unread_count($mbox, true);
 		$this->api->output->send();
+	}
+
+	public function messagecount()
+	{
+		$storage = rcube::get_instance()->storage;
+		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+
+		// send output
+		header("Content-Type: application/json; charset=".RCUBE_CHARSET);
+		echo json_encode(array('messagecount' => $storage->count($mbox, 'EXISTS')));
+		exit;
 	}
 }
 
