@@ -103,9 +103,13 @@ function rcm_foldermenu_init(el, props, events) {
 			if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && $.inArray(p.command, Array('expunge', 'purge')) >= 0) {
 				var result = rcmail[p.command + '_mailbox'](rcmail.env.context_menu_source_id);
 
-				// update the trash icon
-				if (p.command == 'purge' && result !== false && rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox)
-					rcmail.set_trash_count(0);
+				// update the unread count and trash icon
+				if (p.command == 'purge' && result !== false) {
+					rcmail.set_unread_count(rcmail.env.context_menu_source_id, 0, false);
+
+					if (rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox)
+						rcmail.set_trash_count(0);
+				}
 
 				return {'abort': true, 'result': true};
 			}
