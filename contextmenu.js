@@ -57,12 +57,12 @@ function rcm_foldermenu_init(el, props, events) {
 			rcmail.env.contextmenu_messagecount_request = null;
 		},
 		'activate': function(p) {
-			if ($.inArray(p.command, Array('expunge', 'purge')) >= 0) {
+			if ($.inArray(p.command, Array('expunge', 'purge', 'mark-all-read')) >= 0) {
 				// disable the commands by default
 				$(p.el).addClass('disabled').removeClass('active');
 
-				// if menu is opened on current folder then enable the commands same as in UI
-				if (rcmail.env.context_menu_source_id == rcmail.env.mailbox && rcm_check_button_state(p.btn, true)) {
+				// if menu is opened on current folder (or special mark-all-read command) then enable the commands same as in UI
+				if ((rcmail.env.context_menu_source_id == rcmail.env.mailbox || p.command == 'mark-all-read') && rcm_check_button_state(p.btn, true)) {
 					$(p.el).addClass('active').removeClass('disabled');
 				}
 				// if menu is opened on difference folder then get message count for the folder
@@ -89,10 +89,6 @@ function rcm_foldermenu_init(el, props, events) {
 						}
 					});
 				}
-			}
-			else if (p.command == 'mark-all-read' && rcm_check_button_state(p.btn, true)) {
-				// always duplicate UI state for the mark-all-read command
-				$(p.el).addClass('active').removeClass('disabled');
 			}
 		},
 		'beforecommand': function(p) {
