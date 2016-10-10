@@ -132,7 +132,7 @@ div.contextmenu ul.iconized li a.print span.icon
   background: url(images/messageactions.png) no-repeat 5px 1px;
 }
 
-div.contextmenu ul.iconized li a.readfolder span.icon
+div.contextmenu ul.iconized li a.cmd_mark-all-read span.icon
 {
   background-position: 7px -85px;
 }

@@ -43,7 +43,6 @@ class contextmenu extends rcube_plugin
 		}
 
 		if ($rcmail->task == 'mail') {
-			$this->register_action('plugin.contextmenu.readfolder', array($this, 'readfolder'));
 			$this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
 
 			// on the mailbox screen only add some additional options for the folder menu
@@ -62,7 +61,6 @@ class contextmenu extends rcube_plugin
 		$this->add_texts('localization/');
 
 		$li = '';
-		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.readfolder', 'type' => 'link', 'class' => 'readfolder', 'label' => 'contextmenu.markreadfolder', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.collapseall', 'type' => 'link', 'class' => 'collapseall rcm_active', 'label' => 'contextmenu.collapseall', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.expandall', 'type' => 'link', 'class' => 'expandall rcm_active', 'label' => 'contextmenu.expandall', 'tabindex' => '-1', 'aria-disabled' => 'true')));
 		$li .= html::tag('li', array('role' => 'menuitem'), $this->api->output->button(array('command' => 'plugin.contextmenu.openfolder', 'type' => 'link', 'class' => 'openfolder rcm_active', 'label' => 'openinextwin', 'tabindex' => '-1', 'aria-disabled' => 'true')));
@@ -86,27 +84,6 @@ class contextmenu extends rcube_plugin
 
 		$out = html::tag('ul', array('id' => 'rcmAddressBookMenu', 'role' => 'menu'), $li);
 		$this->api->output->add_footer(html::div(array('style' => 'display: none;', 'aria-hidden' => 'true'), $out));
-	}
-
-	public function readfolder()
-	{
-		$storage = rcube::get_instance()->storage;
-		$cbox = rcube_utils::get_input_value('_cur', rcube_utils::INPUT_POST);
-		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-		$oact = rcube_utils::get_input_value('_oact', rcube_utils::INPUT_POST);
-
-		$uids = $storage->search_once($mbox, 'ALL UNSEEN', true);
-
-		if ($uids->is_empty())
-			return false;
-
-		$storage->set_flag($uids->get(), 'SEEN', $mbox);
-
-		if ($cbox == $mbox)
-			$this->api->output->command('toggle_read_status', 'read', $uids->get());
-
-		rcmail_send_unread_count($mbox, true);
-		$this->api->output->send();
 	}
 
 	public function messagecount()

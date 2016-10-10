@@ -87,16 +87,16 @@ function rcm_foldermenu_init(el, props, events) {
 								rcmail.env.mailbox = temp_mailbox;
 							}
 						}
-					});
+					})
+
+					if (rcmail.mark_all_read_state(rcmail.env.context_menu_source_id) > 0) {
+						$(p.el).addClass('active').removeClass('disabled');
+					}
 				}
 			}
-			else if (p.command == 'plugin.contextmenu.readfolder') {
-				if ($(p.source).children('a:first').has('span.unreadcount').length > 0) {
-					$(p.el).addClass('active').removeClass('disabled');
-				}
-				else {
-					$(p.el).addClass('disabled').removeClass('active');
-				}
+			else if (p.command == 'mark-all-read' && rcm_check_button_state(p.btn, true)) {
+				// always duplicate UI state for the mark-all-read command
+				$(p.el).addClass('active').removeClass('disabled');
 			}
 		},
 		'beforecommand': function(p) {
@@ -111,6 +111,10 @@ function rcm_foldermenu_init(el, props, events) {
 						rcmail.set_trash_count(0);
 				}
 
+				return {'abort': true, 'result': true};
+			}
+			else if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && p.command == 'mark-all-read') {
+				rcmail.mark_all_read(rcmail.env.context_menu_source_id);
 				return {'abort': true, 'result': true};
 			}
 		}
@@ -965,11 +969,6 @@ $(document).ready(function() {
 		}
 
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
-			rcmail.register_command('plugin.contextmenu.readfolder', function(props, obj) {
-				var lock = rcmail.set_busy(true, 'loading');
-				rcmail.http_post('plugin.contextmenu.readfolder', {'_mbox': rcmail.env.context_menu_source_id, '_cur': rcmail.env.mailbox}, lock);
-			}, false);
-
 			rcmail.register_command('plugin.contextmenu.collapseall', function(props, obj) {
 				$("#mailboxlist div.expanded").each(function() { $(this).click(); });
 			}, false);
