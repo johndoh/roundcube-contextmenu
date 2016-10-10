@@ -88,10 +88,6 @@ function rcm_foldermenu_init(el, props, events) {
 							}
 						}
 					})
-
-					if (rcmail.mark_all_read_state(rcmail.env.context_menu_source_id) > 0) {
-						$(p.el).addClass('active').removeClass('disabled');
-					}
 				}
 			}
 			else if (p.command == 'mark-all-read' && rcm_check_button_state(p.btn, true)) {
