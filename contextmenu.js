@@ -87,7 +87,7 @@ function rcm_foldermenu_init(el, props, events) {
 								rcmail.env.mailbox = temp_mailbox;
 							}
 						}
-					})
+					});
 				}
 			}
 			else if (p.command == 'mark-all-read' && rcm_check_button_state(p.btn, true)) {
