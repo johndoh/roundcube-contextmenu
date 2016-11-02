@@ -5,7 +5,6 @@
  *
  * Plugin to add a context menu to various parts of the interface
  *
- * @version @package_version@
  * @author Philip Weir
  *
  * Copyright (C) 2009-2014 Philip Weir
