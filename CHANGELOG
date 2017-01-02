@@ -1,7 +1,9 @@
 Roundcube Webmail ContextMenu
 =============================
 
- * Use new 'Mark all as read' function from core (requires 1.3-git)
+Version 2.2 (2017-01-02, rc-1.3)
+=================================================
+ * Use new 'Mark all as read' function from core (requires 1.3)
  * Enable compact+purge actions on all folders
 
 Version 2.1.2 (2015-04-18, rc-1.1)
