@@ -239,8 +239,18 @@ function rcm_foldermenu_init() {
 						targetdiv = (command == 'collapseall') ? 'expanded' : 'collapsed';
 						$("#mailboxlist div." + targetdiv).each( function() {
 							var el = $(this);
-							var matches = String($(el).attr('onclick')).match(/.*rcmail.command\(["']collapse-folder["'],\s*["']([^"']*)["']\).*/i);
-							rcmail.collapse_folder(matches[1]);
+              if ($(el).attr('onclick')) {
+                var matches = String($(el).attr('onclick')).match(/.*rcmail.command\(["']collapse-folder["'],\s*["']([^"']*)["']\).*/i);
+                rcmail.collapse_folder(matches[1]);
+              } else {
+                // larry
+                var folder = $(el).prev().attr('rel');
+                if (command == 'collapseall') {
+                  rcmail.treelist.collapse(folder);
+                } else {
+                  rcmail.treelist.expand(folder);
+                }
+              }
 						});
 						break;
 					case 'openfolder':
