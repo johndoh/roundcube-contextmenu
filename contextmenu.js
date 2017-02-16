@@ -206,7 +206,6 @@ function rcm_abookmenu_init(el, props, events) {
 					prev_source = cur_source;
 					prev_group = cur_id;
 					rcmail.command('listgroup', {'source': prev_source, 'id': prev_group}, p.el, p.evt);
-					rcmail.enable_command('listgroup', false);
 					break;
 				case 'group-delete':
 					result = rcmail.command(p.command, p.args, p.el);
