@@ -249,7 +249,7 @@ function rcm_abookmenu_init(el, props, events) {
 			var ids = rcmail.env.context_menu_source_id.split(':', 2);
 			cur_source = ids[0];
 
-			if (rcmail.env.source = cur_source)
+			if (rcmail.env.source != cur_source)
 				rcmail.command('list', cur_source, p.el);
 		}
 	}, events));
