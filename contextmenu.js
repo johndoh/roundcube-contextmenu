@@ -168,14 +168,6 @@ function rcm_abookmenu_init(el, props, events) {
 				}
 			}
 		},
-		'beforecommand': function(p) {
-			if (!$(p.el).hasClass('active'))
-				return;
-
-			var ids = rcmail.env.context_menu_source_id.split(':', 2);
-			cur_source = ids[0];
-			rcmail.env.source = cur_source;
-		},
 		'command': function(p) {
 			if (!$(p.el).hasClass('active'))
 				return;
@@ -196,6 +188,7 @@ function rcm_abookmenu_init(el, props, events) {
 			rcmail.enable_command(p.command, true);
 
 			switch (p.command) {
+				case 'group-create':
 				case 'group-rename':
 					result = rcmail.command(p.command, p.args, p.el);
 
@@ -205,6 +198,8 @@ function rcm_abookmenu_init(el, props, events) {
 					rcmail.env.source = prev_source
 					rcmail.env.group = prev_group;
 					rcmail.command('listgroup', {'source': cur_source, 'id': cur_id}, p.el, p.evt);
+					prev_source = cur_source;
+					prev_group = cur_id;
 					rcmail.enable_command('listgroup', prev_command_list);
 					break;
 				case 'search-delete':
@@ -232,13 +227,6 @@ function rcm_abookmenu_init(el, props, events) {
 			rcmail.env.group = prev_group;
 
 			return result;
-		},
-		'aftercommand': function(p) {
-			var ids = rcmail.env.context_menu_source_id.split(':', 2);
-			cur_source = ids[0];
-
-			if (rcmail.env.source != cur_source)
-				rcmail.command('list', cur_source, p.el);
 		}
 	}, events));
 
