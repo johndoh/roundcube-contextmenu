@@ -188,20 +188,6 @@ function rcm_abookmenu_init(el, props, events) {
 			rcmail.enable_command(p.command, true);
 
 			switch (p.command) {
-				case 'group-create':
-				case 'group-rename':
-					result = rcmail.command(p.command, p.args, p.el);
-
-					// callback requires target is selected
-					var prev_command_list = rcmail.commands['listgroup'];
-					rcmail.enable_command('listgroup', true);
-					rcmail.env.source = prev_source
-					rcmail.env.group = prev_group;
-					rcmail.command('listgroup', {'source': cur_source, 'id': cur_id}, p.el, p.evt);
-					prev_source = cur_source;
-					prev_group = cur_id;
-					rcmail.enable_command('listgroup', prev_command_list);
-					break;
 				case 'search-delete':
 					var result = false;
 
