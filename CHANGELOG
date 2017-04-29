@@ -2,6 +2,7 @@ Roundcube Webmail ContextMenu
 =============================
 
  * Remove special handling for group-create/rename (requires roundcube rev ec98aa5)
+ * "Flattened" the larry theme: fresher look by removing shadows and gradients
 
 Version 2.2 (2017-01-02, rc-1.3)
 =================================================
