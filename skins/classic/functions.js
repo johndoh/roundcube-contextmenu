@@ -19,6 +19,12 @@ rcube_webmail.prototype.context_menu_popup_pattern = /rcmail_ui\.show_popup\(\'(
 rcube_webmail.prototype.context_menu_button_active_class = new Array('active', 'button');
 rcube_webmail.prototype.context_menu_button_disabled_class = new Array('disabled', 'buttonPas');
 
+function add_menu_text(p) {
+	if ($(p.item).children('a').hasClass('vcard')) {
+		$(p.item).children('a').children('span').text($('#abookactions a.vcard').attr('title'));
+	}
+}
+
 function reorder_contact_menu(p) {
 	// put export link last
 	var ul = p.ref.container.find('ul:first');
@@ -37,7 +43,7 @@ $(document).ready(function() {
 			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu ul']})");
 		}
 		else if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
-			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': rcmail.contact_list}); } );
+			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': rcmail.contact_list}, {'insertitem': function(p) { add_menu_text(p); }}); } );
 		}
 		else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
 			rcmail.addEventListener('contextmenu_init', function(menu) {
