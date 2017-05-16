@@ -122,8 +122,8 @@ function rcm_foldermenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
-			rcm_show_menu(e, this, RegExp.$2, menu);
+		if (source.attr('rel') && source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
+			rcm_show_menu(e, this, source.attr('rel'), menu);
 		}
 	});
 }
