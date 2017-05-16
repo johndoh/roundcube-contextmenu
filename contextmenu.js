@@ -21,7 +21,7 @@ rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
 rcube_webmail.prototype.context_menu_popup_commands = {};
 
-rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'([^\']*)\'/;
+rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/;
 
 function rcm_listmenu_init(row, props, events) {
 	if (!events)
