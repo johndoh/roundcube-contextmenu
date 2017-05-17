@@ -21,7 +21,7 @@ rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
 rcube_webmail.prototype.context_menu_popup_commands = {};
 
-rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'([^\']*)\'/;
+rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/;
 
 function rcm_listmenu_init(row, props, events) {
 	if (!events)
@@ -122,8 +122,8 @@ function rcm_foldermenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
-			rcm_show_menu(e, this, RegExp.$2, menu);
+		if (source.attr('rel') && source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
+			rcm_show_menu(e, this, source.attr('rel'), menu);
 		}
 	});
 }
