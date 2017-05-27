@@ -15,10 +15,6 @@
  * for the JavaScript code in this file.
  */
 
-rcube_webmail.prototype.context_menu_popup_pattern = /rcmail_ui\.show_popup\(\'([^\']+)\'/;
-rcube_webmail.prototype.context_menu_button_active_class = new Array('active', 'button');
-rcube_webmail.prototype.context_menu_button_disabled_class = new Array('disabled', 'buttonPas');
-
 function add_menu_text(p) {
 	if ($(p.item).children('a').hasClass('vcard')) {
 		$(p.item).children('a').children('span').text($('#abookactions a.vcard').attr('title'));
@@ -38,6 +34,12 @@ function reorder_abook_menu(p) {
 
 $(document).ready(function() {
 	if (window.rcmail) {
+		$.extend(rcmail.context_menu_settings, {
+			popup_pattern: /rcmail_ui\.show_popup\(\'([^\']+)\'/,
+			button_active_class: ['active', 'button'],
+			button_disabled_class: ['disabled', 'buttonPas']
+		});
+
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
 			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu ul']})");

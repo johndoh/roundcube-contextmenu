@@ -15,10 +15,6 @@
  * for the JavaScript code in this file.
  */
 
-rcube_webmail.prototype.context_menu_popup_pattern = /UI\.toggle_popup\(\'([^\']+)\'/;
-rcube_webmail.prototype.context_menu_button_active_class = new Array('active');
-rcube_webmail.prototype.context_menu_button_disabled_class = new Array('disabled');
-
 function add_menu_text(menu, p) {
 	if (menu == 'composeto') {
 		if ($(p.item).children('a').hasClass('addto')) {
@@ -55,6 +51,10 @@ function reorder_contact_menu(p) {
 
 $(document).ready(function() {
 	if (window.rcmail) {
+		$.extend(rcmail.context_menu_settings, {
+			popup_pattern: /UI\.toggle_popup\(\'([^\']+)\'/
+		});
+
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
 			rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu']})");
