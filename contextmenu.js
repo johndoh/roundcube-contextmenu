@@ -898,6 +898,15 @@ $(document).ready(function() {
 	if (window.rcmail) {
 		rcmail.env.contextmenus = {};
 
+		// backwards compatibility with old settings code removed in v2.4
+		var old_settings = ['context_menu_skip_commands', 'context_menu_overload_commands', 'context_menu_commands', 'context_menu_popup_menus', 'context_menu_popup_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
+		$.each(old_settings, function() {
+			if (rcmail[this]) {
+				var opt = this.replace(/^context_menu_/, '');
+				rcmail.context_menu_settings[opt] = rcmail[this];
+			};
+		});
+
 		rcmail.addEventListener('init', function() {
 			// no need to reattach events inside iframe
 			if (rcmail.is_framed())
