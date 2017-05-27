@@ -581,7 +581,7 @@ function rcube_context_menu(p) {
 			this.hide(e);
 		}
 
-		var callback = this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj});
+		var callback = this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj, originalEvent: e});
 		if (!callback || !callback.abort) {
 			if (obj) {
 				$(obj).addClass(this.source_class);

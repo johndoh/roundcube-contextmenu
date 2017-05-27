@@ -204,6 +204,7 @@ The Contextmenu works by faking a message selection and calling the normal Round
 `beforeactivate` - Triggered when a Contextmenu is displayed
 * ref - The Contextmenu object
 * source - The element the Contextmenu has been triggered on
+* originalEvent - The triggering event
 This function can return the following in a JSON object:
 * abort - Boolean, abort the default activation process, other events like `activate` and `afteractivat` will not be executed
 * show - Boolean, show the menu or not
