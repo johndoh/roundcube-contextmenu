@@ -16,6 +16,7 @@
  */
 
 rcube_webmail.prototype.context_menu_settings = {
+	no_right_click_on_menu: true,
 	skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
 	overload_commands: ['move', 'copy'],
 	commands: [],
@@ -934,7 +935,22 @@ $(document).ready(function() {
 			if (rcmail.is_framed())
 				return;
 
-			var body_mouseup = function(e) { $.each(rcmail.env.contextmenus, function() { this.hide(e); }); };
+			var body_mouseup = function(e) {
+				$.each(rcmail.env.contextmenus, function() {
+					if (rcmail.context_menu_settings.no_right_click_on_menu && e.which == 3 && $(e.target).parents('.contextmenu').length > 0) {
+						// useability - on the contextmenu make right click the same as left (sometimes users think they have to right click because they right clicked to get there)
+						e.target.click();
+
+						e.preventDefault();
+						e.cancelBubble = true;
+						if (e.stopPropagation)
+							e.stopPropagation();
+					}
+					else {
+						this.hide(e);
+					}
+				});
+			};
 			$(document.body).on('click contextmenu', body_mouseup);
 
 			// Hide menu after clicks in iframes (eg. preview pane)
