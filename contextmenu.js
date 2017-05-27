@@ -408,7 +408,7 @@ function rcube_context_menu(p) {
 					else if ($(this).is('li') && $(this).children('a').length == 1) {
 						elem = $(this).children('a').clone();
 
-						if (!elem.attr('onclick') || !elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern))
+						if (!elem[0].hasAttribute('onclick') || !elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern))
 							return;
 					}
 					else if ($(this).parent().is('a')) {
@@ -426,10 +426,11 @@ function rcube_context_menu(p) {
 					}
 
 					// skip any element that does not look like a Roundcube button
-					if (!elem.attr('onclick')) {
+					if (!elem[0].hasAttribute('onclick')) {
 						return;
 					}
 
+					command = '';
 					if (elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
 						command = RegExp.$1;
 						args = RegExp.$2;
@@ -611,10 +612,7 @@ function rcube_context_menu(p) {
 	};
 
 	this.hide = function(e) {
-		// use window.event when e is not defined (legacy support for IE8)
-		var target = e ? e.target : window.event.srcElement;
-
-		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_settings.popup_menus.length == 0 || $(target).parents('div.contextmenu').length == 0)) {
+		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_settings.popup_menus.length == 0 || $(e.target).parents('div.contextmenu').length == 0)) {
 			this.selected_object = null;
 			$('.' + this.source_class).removeClass(this.source_class);
 			rcm_hide_menu(e);
@@ -630,10 +628,6 @@ function rcube_context_menu(p) {
 	};
 
 	this.submenu = function(link, e) {
-		// use window.event when e is not defined (legacy support for IE8)
-		if (!e)
-			e = window.event;
-
 		if (e) {
 			e.cancelBubble = true;
 			if (e.stopPropagation)
