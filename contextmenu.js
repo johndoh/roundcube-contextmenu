@@ -27,7 +27,7 @@ rcube_webmail.prototype.context_menu_settings = {
 	popup_func: '',
 	button_active_class: ['active'],
 	button_disabled_class: ['disabled'],
-	menu_opts: {}
+	menu_defaults: {}
 };
 
 function rcm_listmenu_init(row, props, events) {
@@ -274,6 +274,9 @@ function rcm_callbackmenu_init(props, events) {
 		},
 		'activate': function(p) {
 			$(p.el).addClass(p.enabled ? 'active' : 'disabled');
+		},
+		'submenu_toggle' : function(p) {
+			$(p.id).parent()[(p.show) ? 'show' : 'hide']();
 		}
 	}
 
@@ -350,8 +353,8 @@ function rcube_context_menu(p) {
 	this.timers = new Array();
 
 	// add global defaults
-	for (var n in rcmail.context_menu_settings.menu_opts)
-		this[n] = rcmail.context_menu_settings.menu_opts[n];
+	for (var n in rcmail.context_menu_settings.menu_defaults)
+		this[n] = rcmail.context_menu_settings.menu_defaults[n];
 
 	// overwrite default parameters
 	if (p && typeof p === 'object')
@@ -585,7 +588,7 @@ function rcube_context_menu(p) {
 
 			$.each(ref.menu_source, function(id, props) {
 				if (props.toggle) {
-					$(id).parent().show();
+					var ret = ref.parent_menu.triggerEvent('submenu_toggle', {id: id, ref: ref, show: true});
 				}
 			});
 
@@ -614,7 +617,7 @@ function rcube_context_menu(p) {
 
 			$.each(ref.menu_source, function(id, props) {
 				if (props.toggle) {
-					$(id).parent().hide();
+					var ret = ref.parent_menu.triggerEvent('submenu_toggle', {id: id, ref: ref, show: false});
 				}
 			});
 

@@ -196,6 +196,11 @@ The Contextmenu works by faking a message selection and calling the normal Round
 * command - The Roundcube command to run
 * args - The arguments being passed to the Roundcube command
 
+`submenu_toggle` - Triggered when a hidden menu is being loaded for display in the Contextmenu
+* id - The ID of the menu being shown
+* ref - The Contextmenu object
+* show - Boolean, show the menu or not
+
 `beforeactivate` - Triggered when a Contextmenu is displayed
 * ref - The Contextmenu object
 * source - The element the Contextmenu has been triggered on

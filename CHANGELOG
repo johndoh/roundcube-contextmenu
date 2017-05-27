@@ -5,6 +5,7 @@ Roundcube Webmail ContextMenu
  * Allow skins to set Contextmenu classes
  * Remove IE8 hacks
  * Improve menu element parsing, allow for popup menu functions in skin
+ * Add new event submenu_toggle to handle display of hidden menus
 
  * Remove special handling for group-create/rename (requires roundcube rev ec98aa5)
  * "Flattened" the larry theme: fresher look by removing shadows and gradients
