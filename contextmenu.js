@@ -22,14 +22,12 @@ rcube_webmail.prototype.context_menu_settings = {
 	popup_menus: [],
 	popup_commands: {},
 	command_pattern: /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/,
-	div_class: 'contextmenu popupmenu',
-	ul_class: 'toolbarmenu iconized',
-	a_class: 'icon active',
 	popup_attrib: 'onclick',
 	popup_pattern: '',
 	popup_func: '',
 	button_active_class: ['active'],
-	button_disabled_class: ['disabled']
+	button_disabled_class: ['disabled'],
+	menu_opts: {}
 };
 
 function rcm_listmenu_init(row, props, events) {
@@ -337,6 +335,9 @@ function rcube_context_menu(p) {
 	this.list_object = rcmail.message_list;
 	this.source_class = 'contextRow';
 	this.mouseover_timeout = 400;
+	this.div_class = 'contextmenu popupmenu';
+	this.ul_class = 'toolbarmenu iconized';
+	this.a_class = 'icon active';
 
 	this.is_submenu = false;
 	this.parent_menu = this;
@@ -347,6 +348,10 @@ function rcube_context_menu(p) {
 	this.menu_selection = new Array();
 	this.submenus = new Array();
 	this.timers = new Array();
+
+	// add global defaults
+	for (var n in rcmail.context_menu_settings.menu_opts)
+		this[n] = rcmail.context_menu_settings.menu_opts[n];
 
 	// overwrite default parameters
 	if (p && typeof p === 'object')
@@ -360,17 +365,17 @@ function rcube_context_menu(p) {
 			rcmail.triggerEvent('contextmenu_init', this);
 
 			this.container = $('<div id="rcm_'+ this.menu_name +'" style="display: none;"></div>');
-			this.container.addClass(rcmail.context_menu_settings.div_class);
+			this.container.addClass(this.div_class);
 			this.container.addClass(this.is_submenu ? 'rcmsubmenu' : 'rcmmainmenu');
 
 			var rows = [], ul = $('<ul role="menu">'),
 			li = $('<li>'),	link = $('<a>'), span = $('<span>');
 
-			ul.addClass(rcmail.context_menu_settings.ul_class);
+			ul.addClass(this.ul_class);
 			li.attr('role', 'menuitem');
 
 			link.attr('href', '#');
-			link.addClass(rcmail.context_menu_settings.a_class);
+			link.addClass(this.a_class);
 			link.attr('role', 'button');
 			link.attr('tabindex', '-1');
 			link.attr('aria-disabled', 'true');
@@ -466,7 +471,7 @@ function rcube_context_menu(p) {
 					tmp.addClass(elem.children('span').attr('class'));
 					a.append(tmp);
 					a.addClass(elem.attr('class'));
-					if (!rcmail.context_menu_settings.a_class.match(/\bbutton\b/)) {
+					if (!ref.a_class.match(/\bbutton\b/)) {
 						a.removeClass('button');
 					}
 					a.removeClass(rcmail.context_menu_settings.button_disabled_class);
