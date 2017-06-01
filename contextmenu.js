@@ -694,7 +694,10 @@ function rcube_context_menu(p) {
 		}
 
 		if (left + elem_width > win.width())
-			left -= elem_width;
+			left -= ((left + elem_width) - win.width()) + 10;
+
+		// sanity check
+		if (left < 0) left = 0;
 
 		menu.hide();
 		menu.css({left: left + 'px', top: top + 'px'});
