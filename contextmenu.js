@@ -622,7 +622,7 @@ function rcube_context_menu(p) {
 				}
 			});
 
-			this.parent_menu.triggerEvent('afteractivate', {ref: this, source: obj});
+			this.parent_menu.triggerEvent('afteractivate', {ref: this, source: obj, originalEvent: e});
 		}
 
 		// position menu on the screen

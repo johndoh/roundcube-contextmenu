@@ -220,6 +220,7 @@ This function can return a boolean value: true to activate the element, false to
 `afteractivate` - Triggered when a Contextmenu is displayed
 * ref - The Contextmenu object
 * source - The element the Contextmenu has been triggered on
+* originalEvent - The triggering event
 
 `insertitem` - Triggered each time an item is added to a Contextmenu
 * item - The HTML object to be added to the menu
