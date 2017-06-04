@@ -343,6 +343,7 @@ function rcube_context_menu(p) {
 	this.ul_class = 'toolbarmenu iconized';
 	this.a_class = 'icon active';
 
+	this.modal = false;
 	this.is_submenu = false;
 	this.parent_menu = this;
 	this.parent_object = null;
@@ -587,6 +588,12 @@ function rcube_context_menu(p) {
 				$(obj).addClass(this.source_class);
 			}
 
+			if (this.modal && !this.is_submenu && $('#rcm-modal').length == 0) {
+				$('<div>').attr('id', 'rcm-modal')
+					.css({position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, outline: 0})
+					.insertBefore('#rcm_'+ this.menu_name);
+			}
+
 			$.each(ref.menu_source, function(id, props) {
 				if (props.toggle) {
 					var ret = ref.parent_menu.triggerEvent('submenu_toggle', {id: id, ref: ref, show: true});
@@ -642,6 +649,10 @@ function rcube_context_menu(p) {
 
 	this.hide = function(e) {
 		if ($('div.contextmenu').is(':visible') && (rcmail.context_menu_settings.popup_menus.length == 0 || $(e.target).parents('div.contextmenu').length == 0)) {
+			if ($('#rcm-modal').length == 1) {
+				$('#rcm-modal').remove();
+			}
+
 			this.selected_object = null;
 			$('.' + this.source_class).removeClass(this.source_class);
 			rcm_hide_menu(e);
