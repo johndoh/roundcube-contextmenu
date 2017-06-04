@@ -418,41 +418,50 @@ function rcube_context_menu(p) {
 				$.each(source_elements, function() {
 					var src_elem, elem, command, args;
 
-					if ($(this).is('li')&& $(this).children().length == 1) {
-						src_elem = $(this).children()[0];
-					}
-					else {
-						src_elem = this;
-					}
+					var callback = ref.triggerEvent('addmenuitem', {ref: ref, el: this});
+					if (!callback || (!callback.abort && !callback.result)) {
+						if ($(this).is('li')&& $(this).children().length == 1) {
+							src_elem = $(this).children()[0];
+						}
+						else {
+							src_elem = this;
+						}
 
-					if ($(src_elem).is('a')) {
-						elem = $(src_elem).clone();
+						if ($(src_elem).is('a')) {
+							elem = $(src_elem).clone();
 
-						if (!elem[0].hasAttribute('onclick') || !elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
-							if (elem[0].hasAttribute(rcmail.context_menu_settings.popup_attrib) && !elem.attr(rcmail.context_menu_settings.popup_attrib).match(rcmail.context_menu_settings.popup_pattern)) {
-								return;
+							if (!elem[0].hasAttribute('onclick') || !elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
+								if (elem[0].hasAttribute(rcmail.context_menu_settings.popup_attrib) && !elem.attr(rcmail.context_menu_settings.popup_attrib).match(rcmail.context_menu_settings.popup_pattern)) {
+									return;
+								}
 							}
 						}
-					}
-					else if ($(src_elem).is('span') && $(src_elem).children().length == 2) {
-						elem = $(src_elem).children(':first').clone();
+						else if ($(src_elem).is('span') && $(src_elem).children().length == 2) {
+							elem = $(src_elem).children(':first').clone();
 
-						if ($(src_elem).children(':last').attr(rcmail.context_menu_settings.popup_attrib).match(rcmail.context_menu_settings.popup_pattern)) {
-							$(elem).attr(rcmail.context_menu_settings.popup_attrib, $(src_elem).children(':last').attr(rcmail.context_menu_settings.popup_attrib));
+							if ($(src_elem).children(':last').attr(rcmail.context_menu_settings.popup_attrib).match(rcmail.context_menu_settings.popup_pattern)) {
+								$(elem).attr(rcmail.context_menu_settings.popup_attrib, $(src_elem).children(':last').attr(rcmail.context_menu_settings.popup_attrib));
+							}
+						}
+						else if ($(src_elem).parent().is('a')) {
+							elem = $(src_elem).parent().clone();
+						}
+						else if (src_elem.command && src_elem.label) {
+							elem = $('<a>').attr('href', '#')
+									.attr('id', 'rcmjs')
+									.attr('onclick', "return rcmail.command('"+ src_elem.command +"','"+ src_elem.props +"',src_elem,event)")
+									.addClass(src_elem.classes)
+									.html(src_elem.label);
+						}
+						else {
+							return;
 						}
 					}
-					else if ($(src_elem).parent().is('a')) {
-						elem = $(src_elem).parent().clone();
-					}
-					else if (src_elem.command && src_elem.label) {
-						elem = $('<a>').attr('href', '#')
-								.attr('id', 'rcmjs')
-								.attr('onclick', "return rcmail.command('"+ src_elem.command +"','"+ src_elem.props +"',src_elem,event)")
-								.addClass(src_elem.classes)
-								.html(src_elem.label);
+					else if (callback.abort) {
+						return;
 					}
 					else {
-						return;
+						elem = callback.result;
 					}
 
 					// turn custom popup function into onclick

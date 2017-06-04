@@ -135,6 +135,13 @@ The following events are triggered by Contextmenu:
 `init` - Triggered once the Contextmenu object has been initalized
 * ref - The Contextmenu object
 
+`addmenuitem` - Triggered when an element is being added to the menu
+* ref - The Contextmenu object
+* el - The element being added
+This function can return the following in a JSON object:
+* result - The element to be added to the menu
+* abort - Boolean, abort the default command execution
+
 `beforecommand` - Triggered when an element in the menu is clicked
 * ref - The Contextmenu object
 * el - The HTML object being clicked
