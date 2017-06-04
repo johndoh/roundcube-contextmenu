@@ -71,23 +71,23 @@ $(document).ready(function() {
 
 					// count the number of groups in the current addressbook
 					if (!rcmail.env.group || rcmail.env.readonly)
-						p.ref.container.find('a.removegroup').removeClass('active').addClass('disabled');
+						p.ref.container.find('a.removegroup').removeClass(rcmail.context_menu_settings.classes.button_active).addClass(rcmail.context_menu_settings.classes.button_disabled);
 
 					var groupcount = 0;
 					if (!rcmail.env.readonly && rcmail.env.address_sources[rcmail.env.source] && rcmail.env.address_sources[rcmail.env.source].groups)
 						$.each(rcmail.env.contactgroups, function(){ if (this.source === rcmail.env.source) groupcount++ });
 
 					if (groupcount > 0)
-						p.ref.container.find('a.assigngroup').removeClass('disabled').addClass('active');
+						p.ref.container.find('a.assigngroup').removeClass(rcmail.context_menu_settings.classes.button_disabled).addClass(rcmail.context_menu_settings.classes.button_active);
 					else
-						p.ref.container.find('a.assigngroup').removeClass('active').addClass('disabled');
+						p.ref.container.find('a.assigngroup').removeClass(rcmail.context_menu_settings.classes.button_active).addClass(rcmail.context_menu_settings.classes.button_disabled);
 				},
 				'aftercommand': function(p) {
-					if ($(p.el).hasClass('active') && p.command == 'group-remove-selected')
+					if ($(p.el).hasClass(rcmail.context_menu_settings.classes.button_active) && p.command == 'group-remove-selected')
 						rcmail.command('listgroup', {'source': rcmail.env.source, 'id': rcmail.env.group}, p.el);
 				}
 			}); } );
-			rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}, {'insertitem': function(p) { add_menu_text('abooklist', p); }})");
+			rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer a.add', '#groupoptionsmenu']}, {'insertitem': function(p) { add_menu_text('abooklist', p); }})");
 			rcmail.addEventListener('group_insert', function(props) { rcm_abookmenu_init(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}); } );
 			rcmail.addEventListener('abook_search_insert', function(props) { rcm_abookmenu_init(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}); } );
 		}

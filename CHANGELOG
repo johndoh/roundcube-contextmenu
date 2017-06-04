@@ -8,6 +8,7 @@ Roundcube Webmail ContextMenu
  * Add new event submenu_toggle to handle display of hidden menus
  * Disable right click on context menu
  * Depreciate right-arrow class, use sub-button instead
+ * Depreciate contextRow class, use context-source instead
 
  * Remove special handling for group-create/rename (requires roundcube rev ec98aa5)
  * "Flattened" the larry theme: fresher look by removing shadows and gradients

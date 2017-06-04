@@ -2,16 +2,16 @@
  * ContextMenu plugin styles
  */
 
-.records-table tbody tr.contextRow td
+.records-table tbody tr.context-soruce td
 {
   background-color: #F2F2F2;
 }
 
-#mailboxlist li.contextRow,
-#directorylist li.contextRow,
-#savedsearchlist li.contextRow,
-#addresslist .contextRow,
-#contacts-table .contextRow
+#mailboxlist li.context-soruce,
+#directorylist li.context-soruce,
+#savedsearchlist li.context-soruce,
+#addresslist .context-soruce,
+#contacts-table .context-soruce
 {
   background-color: #C7E3EF;
 }
@@ -23,17 +23,17 @@ div.contextmenu a
   cursor: default;
 }
 
-div.contextmenu.rcmmainmenu ul.iconized li a span.icon
+div.contextmenu.rcm-mainmenu ul.iconized li a span.icon
 {
   background: url(images/contexticons.png) no-repeat 0 20px;
 }
 
-div.contextmenu ul li.submenu a span.icon
+div.contextmenu ul li.rcm-submenu a span.icon
 {
   padding-right: 18px;
 }
 
-div.contextmenu ul.iconized li.submenu a span.sub-button
+div.contextmenu ul.iconized li.rcm-submenu a span.sub-button
 {
   position: absolute;
   top: 5px;
@@ -44,7 +44,7 @@ div.contextmenu ul.iconized li.submenu a span.sub-button
   opacity: 0.2;
 }
 
-div.contextmenu ul.iconized li.submenu a.active span.sub-button
+div.contextmenu ul.iconized li.rcm-submenu a.active span.sub-button
 {
   opacity: 0.99;
 }

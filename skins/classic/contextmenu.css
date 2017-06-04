@@ -2,9 +2,9 @@
  * ContextMenu plugin styles
  */
 
-.contextRow td,
-#mailboxlist li.contextRow,
-#directorylistbox li.contextRow
+.context-soruce td,
+#mailboxlist li.context-soruce,
+#directorylistbox li.context-soruce
 {
   background-color: #EEEEEE;
 }
@@ -38,12 +38,12 @@ div.contextmenu ul.iconized li a span.icon
   background: url(images/contexticons.png) no-repeat 0 20px;
 }
 
-div.contextmenu ul.iconized li.submenu a span.icon
+div.contextmenu ul.iconized li.rcm-submenu a span.icon
 {
   padding-right: 15px;
 }
 
-div.contextmenu ul.iconized li.submenu a span.sub-button
+div.contextmenu ul.iconized li.rcm-submenu a span.sub-button
 {
   position: absolute;
   top: 0;
