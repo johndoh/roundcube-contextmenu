@@ -2,16 +2,16 @@
  * ContextMenu plugin styles
  */
 
-.records-table tbody tr.context-soruce td
+.records-table tbody tr.context-source td
 {
   background-color: #F2F2F2;
 }
 
-#mailboxlist li.context-soruce,
-#directorylist li.context-soruce,
-#savedsearchlist li.context-soruce,
-#addresslist .context-soruce,
-#contacts-table .context-soruce
+#mailboxlist li.context-source,
+#directorylist li.context-source,
+#savedsearchlist li.context-source,
+#addresslist .context-source,
+#contacts-table .context-source
 {
   background-color: #C7E3EF;
 }

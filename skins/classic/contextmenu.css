@@ -2,9 +2,9 @@
  * ContextMenu plugin styles
  */
 
-.context-soruce td,
-#mailboxlist li.context-soruce,
-#directorylistbox li.context-soruce
+.context-source td,
+#mailboxlist li.context-source,
+#directorylistbox li.context-source
 {
   background-color: #EEEEEE;
 }
