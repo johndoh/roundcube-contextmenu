@@ -9,6 +9,8 @@ Roundcube Webmail ContextMenu
  * Disable right click on context menu
  * Depreciate right-arrow class, use sub-button instead
  * Depreciate contextRow class, use context-source instead
+ * Depreciate rcmmainmenu class, use rcm-mainmenu instead
+ * Depreciate rcmsubmenu and submenu classes, use rcm-submenu instead
 
  * Remove special handling for group-create/rename (requires roundcube rev ec98aa5)
  * "Flattened" the larry theme: fresher look by removing shadows and gradients

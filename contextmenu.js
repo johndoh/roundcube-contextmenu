@@ -1046,7 +1046,7 @@ $(document).ready(function() {
 					rcm_override_mailbox_command(rcmail.env.contextmenus['contactlist'], { action: 'copy' } , true);
 					rcmail.group_member_change('add', rcmail.contact_list.get_selection().join(','), rcmail.env.source, $(obj).data('id'));
 					rcm_override_mailbox_command(rcmail.env.contextmenus['contactlist'], { action: 'copy' } , false);
-				}, );
+				});
 			}, false);
 
 			// reset address book selector when groups change
