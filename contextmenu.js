@@ -304,10 +304,7 @@ function rcm_show_menu(e, obj, id, menu) {
 	if (!rcmail.env.contextmenu)
 		return true;
 
-	e.preventDefault();
-	e.cancelBubble = true;
-	if (e.stopPropagation)
-		e.stopPropagation();
+	rcube_event.cancel(e);
 
 	// hide any other open menus
 	for (var i = 0; i < rcmail.menu_stack.length; i++) {
@@ -669,9 +666,7 @@ function rcube_context_menu(p) {
 
 	this.submenu = function(link, e) {
 		if (e) {
-			e.cancelBubble = true;
-			if (e.stopPropagation)
-				e.stopPropagation();
+			rcube_event.cancel(e);
 		}
 
 		rcm_hide_menu(e, true);
@@ -954,11 +949,7 @@ $(document).ready(function() {
 					if (rcmail.context_menu_settings.no_right_click_on_menu && e.which == 3 && $(e.target).parents('.contextmenu').length > 0) {
 						// useability - on the contextmenu make right click the same as left (sometimes users think they have to right click because they right clicked to get there)
 						e.target.click();
-
-						e.preventDefault();
-						e.cancelBubble = true;
-						if (e.stopPropagation)
-							e.stopPropagation();
+						rcube_event.cancel(e);
 					}
 					else {
 						this.hide(e);
