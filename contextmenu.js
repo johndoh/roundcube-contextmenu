@@ -339,6 +339,7 @@ function rcube_context_menu(p) {
 	this.div_class = 'contextmenu popupmenu';
 	this.ul_class = 'toolbarmenu iconized';
 	this.a_class = 'icon active';
+	this.sub_button_class = 'right-arrow sub-button'; // right-arrow class depreciated in v2.4
 
 	this.modal = false;
 	this.is_submenu = false;
@@ -481,7 +482,7 @@ function rcube_context_menu(p) {
 
 					if (elem.attr('onclick').match(rcmail.context_menu_settings.popup_pattern)) {
 						a.data('command', RegExp.$1);
-						a.append($('<span>').addClass('right-arrow'));
+						a.append($('<span>').addClass(ref.sub_button_class));
 						row.addClass('submenu');
 						a.click(function(e) {
 							if (!$(this).hasClass('active'))

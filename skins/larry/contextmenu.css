@@ -33,7 +33,7 @@ div.contextmenu ul li.submenu a span.icon
   padding-right: 18px;
 }
 
-div.contextmenu ul.iconized li.submenu a span.right-arrow
+div.contextmenu ul.iconized li.submenu a span.sub-button
 {
   position: absolute;
   top: 5px;
@@ -44,7 +44,7 @@ div.contextmenu ul.iconized li.submenu a span.right-arrow
   opacity: 0.2;
 }
 
-div.contextmenu ul.iconized li.submenu a.active span.right-arrow
+div.contextmenu ul.iconized li.submenu a.active span.sub-button
 {
   opacity: 0.99;
 }

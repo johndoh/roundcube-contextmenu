@@ -43,7 +43,7 @@ div.contextmenu ul.iconized li.submenu a span.icon
   padding-right: 15px;
 }
 
-div.contextmenu ul.iconized li.submenu a span.right-arrow
+div.contextmenu ul.iconized li.submenu a span.sub-button
 {
   position: absolute;
   top: 0;
