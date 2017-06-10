@@ -353,6 +353,7 @@ function rcube_context_menu(p) {
 
 	this.modal = false;
 	this.is_submenu = false;
+	this.submenu_position = 'right';
 	this.parent_menu = this;
 	this.parent_object = null;
 	this.selected_object = null
@@ -701,6 +702,9 @@ function rcube_context_menu(p) {
 			this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': elem, 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'list_object': this.list_object});
 			this.submenus[id].init();
 		}
+
+		// set menu position
+		$(link).data('menu-pos', this.parent_menu.submenu_position);
 
 		this.submenus[id].show(null, e);
 	};
