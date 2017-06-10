@@ -363,8 +363,14 @@ function rcube_context_menu(p) {
 	this.timers = new Array();
 
 	// add global defaults
-	for (var n in rcmail.context_menu_settings.menu_defaults)
-		this[n] = rcmail.context_menu_settings.menu_defaults[n];
+	for (var n in rcmail.context_menu_settings.menu_defaults) {
+		if (typeof this[n] == 'object') {
+			$.extend(this[n], rcmail.context_menu_settings.menu_defaults[n]);
+		}
+		else {
+			this[n] = rcmail.context_menu_settings.menu_defaults[n];
+		}
+	}
 
 	// overwrite default parameters
 	if (p && typeof p === 'object')
