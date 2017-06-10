@@ -506,6 +506,7 @@ function rcube_context_menu(p) {
 
 					if (elem.attr('onclick').match(rcmail.context_menu_settings.popup_pattern)) {
 						a.data('command', RegExp.$1);
+						a.data('menu-pos', ref.submenu_position);
 						a.append($('<span>').addClass(ref.classes.sub_button));
 						row.addClass(rcmail.context_menu_settings.classes.submenu);
 						a.click(function(e) {
@@ -702,9 +703,6 @@ function rcube_context_menu(p) {
 			this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': elem, 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'list_object': this.list_object});
 			this.submenus[id].init();
 		}
-
-		// set menu position
-		$(link).data('menu-pos', this.parent_menu.submenu_position);
 
 		this.submenus[id].show(null, e);
 	};
