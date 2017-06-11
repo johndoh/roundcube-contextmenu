@@ -392,20 +392,23 @@ function rcube_context_menu(p) {
 	this.submenus = {};
 	this.timers = {};
 
-	// add global defaults
-	for (var n in rcmail.context_menu_settings.menu_defaults) {
-		if (typeof this[n] == 'object') {
-			this[n] = $.extend(this[n], rcmail.context_menu_settings.menu_defaults[n]);
+	this.update_settings = function(settings) {
+		for (var n in settings) {
+			if (settings.is_submenu != true && typeof this[n] == 'object' && typeof settings[n] == 'object') {
+				this[n] = $.extend(this[n], settings[n]);
+			}
+			else {
+				this[n] = settings[n];
+			}
 		}
-		else {
-			this[n] = rcmail.context_menu_settings.menu_defaults[n];
-		}
-	}
+	};
 
-	// overwrite default parameters
+	// add global defaults
+	this.update_settings(rcmail.context_menu_settings.menu_defaults);
+
+	// add menu specific settings
 	if (p && typeof p === 'object')
-		for (var n in p)
-			this[n] = p[n];
+		this.update_settings(p);
 
 	var ref = this;
 
