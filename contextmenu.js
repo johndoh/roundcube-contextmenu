@@ -340,6 +340,7 @@ function rcm_hide_menu(e, sub_only) {
 function rcube_context_menu(p) {
 	this.menu_name = null;
 	this.menu_source = null;
+	this.menu_source_obj = null;
 	this.list_object = rcmail.message_list;
 	this.mouseover_timeout = 400;
 	this.classes = {
@@ -358,10 +359,9 @@ function rcube_context_menu(p) {
 	this.parent_object = null;
 	this.selected_object = null
 	this.container = null;
-	this.original_selection = new Array();
 	this.menu_selection = new Array();
-	this.submenus = new Array();
-	this.timers = new Array();
+	this.submenus = {};
+	this.timers = {};
 
 	// add global defaults
 	for (var n in rcmail.context_menu_settings.menu_defaults) {
@@ -404,17 +404,17 @@ function rcube_context_menu(p) {
 
 			// loop over possible menu elements and build settings object
 			sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
-			this.menu_source = {}
+			this.menu_source_obj = {};
 			$.each(sources, function(i) {
 				var source_elements;
 				if (typeof sources[i] == 'string') {
-					ref.menu_source[sources[i]] = {
+					ref.menu_source_obj[sources[i]] = {
 						'toggle': !$(sources[i]).is(':visible')
 					};
 					source_elements = $(sources[i]).children();
 				}
 				else {
-					ref.menu_source[i] = {
+					ref.menu_source_obj[i] = {
 						'toggle': false
 					};
 					source_elements = $(sources[i]);
@@ -617,7 +617,7 @@ function rcube_context_menu(p) {
 					.insertBefore('#rcm_'+ this.menu_name);
 			}
 
-			$.each(ref.menu_source, function(id, props) {
+			$.each(ref.menu_source_obj, function(id, props) {
 				if (props.toggle) {
 					var ret = ref.parent_menu.triggerEvent('submenu_toggle', {id: id, ref: ref, show: true});
 				}
@@ -646,7 +646,7 @@ function rcube_context_menu(p) {
 				}
 			});
 
-			$.each(ref.menu_source, function(id, props) {
+			$.each(ref.menu_source_obj, function(id, props) {
 				if (props.toggle) {
 					var ret = ref.parent_menu.triggerEvent('submenu_toggle', {id: id, ref: ref, show: false});
 				}
@@ -768,6 +768,20 @@ function rcube_context_menu(p) {
 		rcmail.env.contentframe = prev_contentframe;
 
 		return prev_sel;
+	};
+
+	this.destroy = function(complete) {
+		$.each(this.submenus, function() {
+			this.destroy(true);
+		});
+
+		// reset main vars
+		this.submenus = {};
+		this.container.remove();
+		this.container = null;
+
+		if (complete)
+			delete rcmail.env.contextmenus[this.menu_name];
 	};
 
 	this.addEventListener = rcube_event_engine.prototype.addEventListener;
