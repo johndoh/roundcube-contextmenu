@@ -35,14 +35,13 @@ function rcm_reorder_abook_menu(p) {
 
 $(document).ready(function() {
 	if (window.rcmail) {
-		$.extend(rcmail.context_menu_settings, {
+		rcmail.context_menu_settings = $.extend(true, rcmail.context_menu_settings, {
 			popup_pattern: /rcmail_ui\.show_popup\(\'([^\']+)\'/,
+			classes: {
+				button_active: 'active button',
+				button_disabled: 'disabled buttonPas'
+			}
 		});
-		$.extend(rcmail.context_menu_settings.classes, {
-			button_active: 'active button',
-			button_disabled: 'disabled buttonPas'
-		});
-
 
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
@@ -64,28 +63,7 @@ $(document).ready(function() {
 				}
 			});
 			rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', '#rcmAddressBookMenu'], 'list_object': rcmail.contact_list}, {
-				'init': function(p) { rcm_reorder_contact_menu(p); },
-				'afteractivate': function(p) {
-					p.ref.list_selection(false, rcmail.env.contextmenu_selection);
-
-					// count the number of groups in the current addressbook
-					if (!rcmail.env.group || rcmail.env.readonly)
-						p.ref.container.find('a.cmd_group-remove-selected').removeClass(rcmail.context_menu_settings.classes.button_active).addClass(rcmail.context_menu_settings.classes.button_disabled);
-
-					// count the number of groups in the current addressbook
-					var groupcount = 0;
-					if (!rcmail.env.readonly && rcmail.env.address_sources[rcmail.env.source] && rcmail.env.address_sources[rcmail.env.source].groups)
-						$.each(rcmail.env.contactgroups, function(){ if (this.source === rcmail.env.source) groupcount++ });
-
-					if (groupcount > 0)
-						p.ref.container.find('a.assigngroup').removeClass(rcmail.context_menu_settings.classes.button_disabled).addClass(rcmail.context_menu_settings.classes.button_active);
-					else
-						p.ref.container.find('a.assigngroup').removeClass(rcmail.context_menu_settings.classes.button_active).addClass(rcmail.context_menu_settings.classes.button_disabled);
-				},
-				'aftercommand': function(p) {
-					if ($(p.el).hasClass(rcmail.context_menu_settings.classes.button_active) && p.command == 'group-remove-selected')
-						rcmail.command('listgroup', {'source': rcmail.env.source, 'id': rcmail.env.group}, p.el);
-				}
+				'init': function(p) { rcm_reorder_contact_menu(p); }
 			}); } );
 			rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}, {'init': function(p) { rcm_reorder_abook_menu(p); }})");
 			rcmail.addEventListener('group_insert', function(props) { rcm_abookmenu_init(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}); } );
