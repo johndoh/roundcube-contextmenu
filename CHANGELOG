@@ -12,6 +12,8 @@ Roundcube Webmail ContextMenu
  * Depreciate rcmmainmenu class, use rcm-mainmenu instead
  * Depreciate rcmsubmenu and submenu classes, use rcm-submenu instead
  * Add new event addmenuitem
+ * Add ability to add to core event handlers as well as replace them
+ * Improve collapseall/expandall JS functions to better mimic true click
 
  * Remove special handling for group-create/rename (requires roundcube rev ec98aa5)
  * "Flattened" the larry theme: fresher look by removing shadows and gradients

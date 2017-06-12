@@ -1061,11 +1061,23 @@ $(document).ready(function() {
 
 		if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
 			rcmail.register_command('plugin.contextmenu.collapseall', function(props, obj) {
-				$("#mailboxlist div.expanded").each(function() { $(this).click(); });
+				if (rcmail.gui_objects.mailboxlist) {
+					$(rcmail.gui_objects.mailboxlist).find('div.expanded').each(function() {
+						var event = jQuery.Event('click');
+						event.target = this;
+						$(rcmail.gui_objects.mailboxlist).trigger(event);
+					});
+				}
 			}, false);
 
 			rcmail.register_command('plugin.contextmenu.expandall', function(props, obj) {
-				$("#mailboxlist div.collapsed").each(function() { $(this).click(); });
+				if (rcmail.gui_objects.mailboxlist) {
+					$(rcmail.gui_objects.mailboxlist).find('div.collapsed').each(function() {
+						var event = jQuery.Event('click');
+						event.target = this;
+						$(rcmail.gui_objects.mailboxlist).trigger(event);
+					});
+				}
 			}, false);
 
 			rcmail.register_command('plugin.contextmenu.openfolder', function(props, obj) {
