@@ -151,6 +151,11 @@ div.contextmenu ul.iconized li a.addbcc span.icon
   background-position: 0 -281px;
 }
 
+div.contextmenu ul.iconized li a.vcard span.icon
+{
+  background-position: 0 -738px;
+}
+
 div.contextmenu ul.iconized li a.movecontact span.icon
 {
   background-position: 0 -632px;

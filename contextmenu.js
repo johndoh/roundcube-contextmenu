@@ -21,7 +21,7 @@ rcube_webmail.prototype.context_menu_commands = new Array();
 rcube_webmail.prototype.context_menu_popup_menus = new Array();
 rcube_webmail.prototype.context_menu_popup_commands = {};
 
-rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'([^\']*)\'/;
+rcube_webmail.prototype.context_menu_command_pattern = /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/;
 
 function rcm_listmenu_init(row, props, events) {
 	if (!events)
@@ -122,8 +122,8 @@ function rcm_foldermenu_init(el, props, events) {
 		// remove focus (and keyboard nav highlighting) from A
 		source.blur();
 
-		if (source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
-			rcm_show_menu(e, this, RegExp.$2, menu);
+		if (source.attr('rel') && source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
+			rcm_show_menu(e, this, source.attr('rel'), menu);
 		}
 	});
 }
@@ -188,20 +188,6 @@ function rcm_abookmenu_init(el, props, events) {
 			rcmail.enable_command(p.command, true);
 
 			switch (p.command) {
-				case 'group-create':
-				case 'group-rename':
-					result = rcmail.command(p.command, p.args, p.el);
-
-					// callback requires target is selected
-					var prev_command_list = rcmail.commands['listgroup'];
-					rcmail.enable_command('listgroup', true);
-					rcmail.env.source = prev_source
-					rcmail.env.group = prev_group;
-					rcmail.command('listgroup', {'source': cur_source, 'id': cur_id}, p.el, p.evt);
-					prev_source = cur_source;
-					prev_group = cur_id;
-					rcmail.enable_command('listgroup', prev_command_list);
-					break;
 				case 'search-delete':
 					var result = false;
 

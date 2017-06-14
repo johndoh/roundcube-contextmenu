@@ -30,6 +30,9 @@ function add_menu_text(menu, p) {
 		else if ($(p.item).children('a').hasClass('addbcc')) {
 			$(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.addbcc').attr('title'));
 		}
+		else if ($(p.item).children('a').hasClass('vcard')) {
+			$(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.vcard').attr('title'));
+		}
 	}
 	else if (menu == 'contactlist') {
 		if ($(p.item).children('a').hasClass('delete')) {

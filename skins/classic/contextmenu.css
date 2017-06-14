@@ -191,6 +191,11 @@ div.contextmenu ul.iconized li a.cmd_add-recipient span.icon
   background-position: 8px -236px;
 }
 
+div.contextmenu ul.iconized li a.vcard span.icon
+{
+  background-position: 7px -546px;
+}
+
 div.contextmenu ul.iconized li a.cmd_group-create span.icon,
 div.contextmenu ul.iconized li a.assigngroup span.icon
 {

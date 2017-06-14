@@ -1,6 +1,12 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 2.3 (2017-06-14, rc-1.3)
+=================================================
+ * Remove special handling for group-create/rename (requires roundcube rev ec98aa5)
+ * "Flattened" the larry theme: fresher look by removing shadows and gradients
+ * Fix handling of folder names containing special chars
+
 Version 2.2 (2017-01-02, rc-1.3)
 =================================================
  * Use new 'Mark all as read' function from core (requires 1.3)
