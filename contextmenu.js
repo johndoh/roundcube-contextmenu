@@ -568,7 +568,7 @@ function rcube_context_menu(p) {
 						}
 					}
 					else {
-						a.addClass('cmd_' + command);
+						a.addClass('cmd_' + command.replace(/\./g, '-'));
 						a.data('command', command);
 						if (elem.attr('target'))
 							a.attr('target', elem.attr('target'));
