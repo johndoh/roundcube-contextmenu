@@ -135,6 +135,13 @@ The following events are triggered by Contextmenu:
 `init` - Triggered once the Contextmenu object has been initalized
 * ref - The Contextmenu object
 
+`addmenuitem` - Triggered when an element is being added to the menu
+* ref - The Contextmenu object
+* el - The element being added
+This function can return the following in a JSON object:
+* result - The element to be added to the menu
+* abort - Boolean, abort the default command execution
+
 `beforecommand` - Triggered when an element in the menu is clicked
 * ref - The Contextmenu object
 * el - The HTML object being clicked
@@ -196,9 +203,15 @@ The Contextmenu works by faking a message selection and calling the normal Round
 * command - The Roundcube command to run
 * args - The arguments being passed to the Roundcube command
 
+`submenu_toggle` - Triggered when a hidden menu is being loaded for display in the Contextmenu
+* id - The ID of the menu being shown
+* ref - The Contextmenu object
+* show - Boolean, show the menu or not
+
 `beforeactivate` - Triggered when a Contextmenu is displayed
 * ref - The Contextmenu object
 * source - The element the Contextmenu has been triggered on
+* originalEvent - The triggering event
 This function can return the following in a JSON object:
 * abort - Boolean, abort the default activation process, other events like `activate` and `afteractivat` will not be executed
 * show - Boolean, show the menu or not
@@ -214,6 +227,7 @@ This function can return a boolean value: true to activate the element, false to
 `afteractivate` - Triggered when a Contextmenu is displayed
 * ref - The Contextmenu object
 * source - The element the Contextmenu has been triggered on
+* originalEvent - The triggering event
 
 `insertitem` - Triggered each time an item is added to a Contextmenu
 * item - The HTML object to be added to the menu
@@ -237,6 +251,8 @@ rcmail.addEventListener('contextmenu_init', function(menu) {
   }
 });
 ```
+
+Note: A plus sign (+) can be appended to an event name, for example `beforeactivate+`, to add the new event handler to the existing one used by the core rather than replacing it.
 
 ## Contextmenu and skins
 
