@@ -317,8 +317,8 @@ function rcm_callbackmenu_init(props, ext_events) {
 	if (!rcmail.env.contextmenus[props.menu_name]) {
 		var menu = new rcube_context_menu(props);
 		$.each(events, function(trigger, func) {
-			if (trigger.slice(-1) == '+') {
-				trigger = trigger.slice(0, -1);
+			if (trigger.slice(0, 1) == '+') {
+				trigger = trigger.slice(1);
 				menu.addEventListener(trigger, function(p) { return func(p); })
 			}
 			else {

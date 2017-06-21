@@ -252,7 +252,7 @@ rcmail.addEventListener('contextmenu_init', function(menu) {
 });
 ```
 
-Note: A plus sign (+) can be appended to an event name, for example `beforeactivate+`, to add the new event handler to the existing one used by the core rather than replacing it.
+Note: A plus sign (+) can be prepended to an event name, for example `+beforeactivate`, to add the new event handler to the existing one used by the core rather than replacing it.
 
 ## Contextmenu and skins
 
