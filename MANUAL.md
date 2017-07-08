@@ -237,7 +237,7 @@ For example permanently deactivating the delete option on the message list Conte
 rcmail.addEventListener('contextmenu_init', function(menu) {
   if (menu.menu_name == 'messagelist') {
     menu.addEventListener('activate', function(p) {
-	  var is_delete = false;
+      var is_delete = false;
 
       $.each(rcmail.buttons['delete'], function() {
         if (this.id == p.btn) {

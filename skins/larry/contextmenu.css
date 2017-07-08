@@ -208,7 +208,7 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
 #addressbook-selector,
 #addressgroup-selector
 {
-	z-index: 1000;
+  z-index: 1000;
 }
 
 #addressbook-selector li a span,
@@ -226,11 +226,11 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
 
 #addressbook-selector li a.addressbook span
 {
-	background-position: 0 -397px;
+  background-position: 0 -397px;
 }
 
 #addressbook-selector li a.contactgroup span,
 #addressgroup-selector li a.contactgroup span
 {
-	background-position: 0 -418px;
+  background-position: 0 -418px;
 }
