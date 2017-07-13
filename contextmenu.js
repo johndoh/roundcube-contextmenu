@@ -129,6 +129,14 @@ function rcm_foldermenu_init(el, props, events) {
         events = {};
 
     var menu = rcm_callbackmenu_init($.extend({'menu_name': 'folderlist', 'list_object': null}, props), $.extend({
+        'addmenuitem': function(p) {
+            var src_elem = !$(p.el).is('a') ? $(p.el).find('a:first') : $(p.el);
+            // do not include import messages link in menu
+            if (src_elem[0] && src_elem[0].hasAttribute('onclick') && src_elem.attr('onclick').match(/\'import\-messages\'/)) {
+                p.abort = true;
+                return p;
+            }
+        },
         'beforeactivate': function(p) {
             if (rcmail.env.contextmenu_messagecount_request) {
                 rcmail.env.contextmenu_messagecount_request.abort();
