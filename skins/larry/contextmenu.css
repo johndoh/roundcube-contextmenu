@@ -84,6 +84,11 @@ div.contextmenu ul.iconized li a.forwardattachmentlink span.icon
   background: url(images/contexticons.png) no-repeat 0 -445px;
 }
 
+div.contextmenu ul.iconized li a.bouncelink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -760px;
+}
+
 div.contextmenu ul.iconized li a.delete span.icon
 {
   background-position: 0 -96px;
