@@ -1160,7 +1160,7 @@ $(document).ready(function() {
 
             // check for popupmenus that arent part of contextmenu
             var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
-            if ($('div.' + rcmail.context_menu_settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).attr('class').indexOf('rcm_elem_') == -1) {
+            if ($('div.' + rcmail.context_menu_settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).prop('class').indexOf('rcm_elem_') == -1) {
                 rcm_hide_menu(p.originalEvent);
             }
         });
