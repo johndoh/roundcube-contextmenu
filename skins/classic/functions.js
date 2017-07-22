@@ -48,7 +48,7 @@ $(document).ready(function() {
             rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu ul']})");
         }
         else if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
-            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': rcmail.contact_list}, {'insertitem': function(p) { rcm_add_menu_text(p); }}); } );
+            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': 'contact_list'}, {'insertitem': function(p) { rcm_add_menu_text(p); }}); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
             rcmail.addEventListener('contextmenu_init', function(menu) {
@@ -62,7 +62,7 @@ $(document).ready(function() {
                     }
                 }
             });
-            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', '#rcmAddressBookMenu'], 'list_object': rcmail.contact_list}, {
+            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', '#rcmAddressBookMenu'], 'list_object': 'contact_list'}, {
                 'init': function(p) { rcm_reorder_contact_menu(p); }
             }); } );
             rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}, {'init': function(p) { rcm_reorder_abook_menu(p); }})");

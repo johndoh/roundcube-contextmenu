@@ -14,6 +14,8 @@ Roundcube Webmail ContextMenu
  * Add new event addmenuitem
  * Add ability to add to core event handlers as well as replace them
  * Improve collapseall/expandall JS functions to better mimic true click
+ * Use getselection list event added (req RC e9eb87d)
+ * Change rcube_context_menu.list_object from Object to String, backwards compatibility added for Contact list but no others
 
 Version 2.3 (2017-06-14, rc-1.3)
 =================================================
