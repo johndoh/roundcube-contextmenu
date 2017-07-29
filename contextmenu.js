@@ -18,7 +18,6 @@
 rcube_webmail.prototype.context_menu_settings = {
     no_right_click_on_menu: true,
     skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
-    overload_commands: ['move', 'copy'],
     commands: [],
     popup_menus: [],
     popup_commands: {},
@@ -46,12 +45,6 @@ rcube_webmail.prototype.context_menu_settings = {
             rcmail.enable_command(p.command, true);
             var result = rcmail.command(p.command, p.args, p.el, p.evt);
             rcmail.enable_command(p.command, prev_command);
-
-            // TODO - find better solution for chained actions
-            if ($.inArray(p.command, rcmail.context_menu_settings.overload_commands) >= 0) {
-                rcmail.context_menu_settings.commands[p.command] = rcmail.commands[p.command];
-                rcmail.enable_command(p.command, true);
-            }
 
             return result;
         },
@@ -1010,7 +1003,7 @@ $(document).ready(function() {
         rcmail.env.contextmenus = {};
 
         // backwards compatibility with old settings code removed in v2.4
-        var old_settings = ['context_menu_skip_commands', 'context_menu_overload_commands', 'context_menu_commands', 'context_menu_popup_menus', 'context_menu_popup_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
+        var old_settings = ['context_menu_skip_commands', 'context_menu_commands', 'context_menu_popup_menus', 'context_menu_popup_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
         $.each(old_settings, function() {
             if (rcmail[this]) {
                 var opt = this.replace(/^context_menu_/, '');
