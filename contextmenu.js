@@ -660,6 +660,7 @@ function rcube_context_menu(p) {
             if (this.modal && !this.is_submenu && $('#rcm-modal').length == 0) {
                 $('<div>').attr('id', 'rcm-modal')
                     .css({position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, outline: 0})
+                    .on('contextmenu', function(e) { e.target.click(); rcube_event.cancel(e); })
                     .insertBefore('#rcm_'+ this.menu_name);
             }
 
