@@ -657,9 +657,8 @@ function rcube_context_menu(p) {
                 $(obj).addClass(this.classes.source);
             }
 
-            if (this.modal && !this.is_submenu && $('#rcm-modal').length == 0) {
-                $('<div>').attr('id', 'rcm-modal')
-                    .css({position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, outline: 0})
+            if (this.modal && !this.is_submenu && ($('#rcm-modal').length == 0 || (rcmail.context_menu_settings.classes.modal_overlay && $('.' + rcmail.context_menu_settings.classes.modal_overlay).length == 0))) {
+                $('<div>').attr('id', 'rcm-modal').addClass(rcmail.context_menu_settings.classes.modal_overlay)
                     .on('contextmenu', function(e) { e.target.click(); rcube_event.cancel(e); })
                     .insertBefore('#rcm_'+ this.menu_name);
             }
