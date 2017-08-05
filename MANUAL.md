@@ -2,10 +2,31 @@
 
 This file provides information for plugin and skin developers. The Contextmenu plugin can be extended by other plugins; new menus can be created and existing menus manipulated. For basic installation information please see the [README](./README.md).
 
+- [Global options](#global-options)
 - [Creating a new Contextmenu](#creating-a-new-contextmenu)
 - [Working with an existing Contextmenu](#working-with-an-existing-contextmenu)
 - [Events](#events)
 - [Contextmenu and skins](#contextmenu-and-skins)
+
+## Global options
+
+The following global options are available:
+* no_right_click_on_menu - (boolean) treat right click as left click when on the contextmenu
+* skip_commands - (array) Roundcube commands that should be ignored by the contextmenu
+* command_pattern - (regex) pattern matching the Roundcube command call
+* popup_attrib - (string) attribute that contains the Roundcube popup call
+* popup_pattern - (regex) pattern matching the Roundcube popup call
+* popup_func - (string) function used by Contextmenu when opening a popup
+* classes - (object) CSS classes for various aspects of the menu
+    * container - class(es) applied to the menu container
+    * mainmenu - class(es) applied to the menu container of top level menus
+    * submenu - class(es) applied to the menu container of sub menus
+    * popupmenu - class(es) applied to popup menus created by this plugin
+    * button_ignore - class(es) applied by the skip removed from buttons in the contextmenu
+    * button_active - class(es) for buttons in an active state
+    * button_disabled - class(es) for buttons in an inactive state
+* menu_defaults - (object) default options for Contextmenu objects
+* menu_events - (object) default events for Contextmenu objects
 
 ## Creating a new Contextmenu
 
@@ -25,6 +46,14 @@ The functions takes 2 parameters:
 * list_object - (object) optional - If Contextmenu is used on a Roundcube list object then that list object should be set here (e.g. `rcmail.message_list`), set to `null` if using Contextmenu on another element. It is set to `rcmail.message_list` by default.
 * source_class - (string) optional - The CSS class applied to the triggering element, `contextRow` by default.
 * mouseover_timeout - (int) optional - The delay for displaying submenus on mouseover, set to -1 to disable mouseover. `400` by default.
+* classes - (object) optional - CSS classes for various aspects of the menu:
+    * source - class(es) applied to object on which the menu was triggered
+    * div - class(es) applied to the menu container
+    * ul - class(es) applied to the UL object in the menu
+    * a - class(es) applied to the A objects in the menu
+    * span - class(es) applied to spans inside in the A objects
+    * sub_button - class(es) applied to the submenu indicator element
+* modal - (boolean) optional - Display the menu in a modal fashion
 
 `events` (optional) JSON object. Contextmenu triggers a number of events during execution, for example `command` is tiggered when the user clicks on an item in the menu. Full details of all the events can be found in the [Events](#events) section of this file. This parameters allows a plugin author to attach their own functions to the Contextmenu events, overriding the defaults.
 
@@ -163,33 +192,14 @@ By default the following function is used:
 
 ```js
 function(p) {
-  if (!$(p.el).hasClass('active'))
-    return false;
-
-  if (p.ref.list_object) {
-    var prev_display_next = rcmail.env.display_next;
-
-    if (!(p.ref.list_object.selection.length == 1 && p.ref.list_object.in_selection(rcmail.env.context_menu_source_id)))
-      rcmail.env.display_next = false;
-
-    var prev_sel = p.ref.list_selection(true);
-  }
+  if (!$(p.el).hasClass(rcmail.context_menu_settings.classes.button_active))
+    return;
 
   // enable the required command
   var prev_command = rcmail.commands[p.command];
   rcmail.enable_command(p.command, true);
   var result = rcmail.command(p.command, p.args, p.el, p.evt);
   rcmail.enable_command(p.command, prev_command);
-
-  if (p.ref.list_object) {
-    p.ref.list_selection(false, prev_sel);
-    rcmail.env.display_next = prev_display_next;
-  }
-
-  if ($.inArray(p.command, rcmail.context_menu_overload_commands) >= 0) {
-    rcmail.context_menu_commands[p.command] = rcmail.commands[p.command];
-    rcmail.enable_command(p.command, true);
-  }
 
   return result;
 }
