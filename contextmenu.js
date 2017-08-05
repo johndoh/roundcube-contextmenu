@@ -378,6 +378,11 @@ function rcm_hide_menu(e, sub_only) {
         rcmail.hide_menu(rcmail.context_menu_settings.popup_menus[i], e);
         rcmail.context_menu_settings.popup_menus.pop();
     }
+
+    // remove the modal overlay
+    if (!sub_only && $('#rcm-modal').length == 1) {
+        $('#rcm-modal').remove();
+    }
 }
 
 function rcube_context_menu(p) {
@@ -718,10 +723,6 @@ function rcube_context_menu(p) {
 
     this.hide = function(e) {
         if ($('div.' + rcmail.context_menu_settings.classes.container).is(':visible') && (rcmail.context_menu_settings.popup_menus.length == 0 || $(e.target).parents('div.' + rcmail.context_menu_settings.classes.container).length == 0)) {
-            if ($('#rcm-modal').length == 1) {
-                $('#rcm-modal').remove();
-            }
-
             this.selected_object = null;
             $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
             rcm_hide_menu(e);
