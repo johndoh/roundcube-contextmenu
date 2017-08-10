@@ -52,7 +52,8 @@ The functions takes 2 parameters:
     * ul - class(es) applied to the UL object in the menu
     * a - class(es) applied to the A objects in the menu
     * span - class(es) applied to spans inside in the A objects
-    * sub_button - class(es) applied to the submenu indicator element
+    * sub_button_a - class(es) applied to A objects which have a submenu
+    * sub_button_span - class(es) applied to the submenu indicator element, set to null to remove this span
 * modal - (boolean) optional - Display the menu in a modal fashion
 
 `events` (optional) JSON object. Contextmenu triggers a number of events during execution, for example `command` is tiggered when the user clicks on an item in the menu. Full details of all the events can be found in the [Events](#events) section of this file. This parameters allows a plugin author to attach their own functions to the Contextmenu events, overriding the defaults.

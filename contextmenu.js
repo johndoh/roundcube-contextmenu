@@ -397,7 +397,8 @@ function rcube_context_menu(p) {
         ul: 'toolbarmenu iconized',
         a: 'icon',
         span: 'icon',
-        sub_button: 'right-arrow sub-button' // right-arrow class depreciated in v2.4
+        sub_button_a: null,
+        sub_button_span: 'right-arrow sub-button' // right-arrow class depreciated in v2.4
     }
 
     this.modal = false;
@@ -558,7 +559,9 @@ function rcube_context_menu(p) {
                     if (elem.attr('onclick').match(rcmail.context_menu_settings.popup_pattern)) {
                         a.data('command', RegExp.$1);
                         a.data('menu-pos', ref.submenu_position);
-                        a.append($('<span>').addClass(ref.classes.sub_button));
+                        a.addClass(ref.classes.sub_button_a);
+                        if (ref.classes.sub_button_span)
+                            a.append($('<span>').addClass(ref.classes.sub_button_span));
                         row.addClass(rcmail.context_menu_settings.classes.submenu);
                         a.click(function(e) {
                             if (!$(this).hasClass(rcmail.context_menu_settings.classes.button_active))
