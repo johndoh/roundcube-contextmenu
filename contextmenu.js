@@ -76,6 +76,8 @@ function rcm_listmenu_init(row, props, events) {
 
     var menu = rcm_callbackmenu_init(props, $.extend({
         'beforeactivate': function(p) {
+            rcmail.env.contextmenu_opening = true;
+
             if (p.ref.is_submenu) {
                 p.ref.list_selection(true, rcmail.env.contextmenu_prev_selection);
                 p.ref.menu_selection = p.ref.parent_menu.menu_selection;
@@ -103,6 +105,8 @@ function rcm_listmenu_init(row, props, events) {
                 else
                     p.ref.container.find('a.assigngroup').removeClass(rcmail.context_menu_settings.classes.button_active).addClass(rcmail.context_menu_settings.classes.button_disabled);
             }
+
+            rcmail.env.contextmenu_opening = false;
         },
         'aftercommand': function(p) {
             if (p.ref.menu_name == 'contactlist') {
@@ -119,6 +123,9 @@ function rcm_listmenu_init(row, props, events) {
     });
 
     rcmail[props.list_object].addEventListener('getselection', function(deep) {
+        if (rcmail.env.contextmenu_opening)
+            return;
+
         var uids = null;
         $.each(rcmail.env.contextmenus, function() {
             if ($(this.container).is(':visible') && this.menu_selection.length > 0) {
