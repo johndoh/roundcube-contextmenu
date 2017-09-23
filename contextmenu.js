@@ -372,11 +372,13 @@ function rcm_show_menu(e, obj, id, menu) {
     menu.show(obj, e);
 }
 
-function rcm_hide_menu(e, sub_only) {
+function rcm_hide_menu(e, sub_only, no_trigger) {
     $.each($(sub_only ? 'div.' + rcmail.context_menu_settings.classes.submenu.replace(/ /g, '.') : 'div.' + rcmail.context_menu_settings.classes.container.replace(/ /g, '.')), function() {
         if ($(this).is(':visible')) {
             $(this).hide();
-            rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
+
+            if (!no_trigger)
+                rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
         }
     });
 
@@ -870,7 +872,7 @@ function rcm_addressbook_selector(event, command, callback) {
         var rows = [],
             ul = $('<ul>').addClass(parent.classes.ul);
 
-        container = $('<div>').attr('id', 'addressbook-selector').addClass(rcmail.context_menu_settings.classes.popupmenu);
+        container = $('<div>').attr('id', 'addressbook-selector').addClass(rcmail.context_menu_settings.classes.container + ' ' + rcmail.context_menu_settings.classes.popupmenu);
 
         // loop over address books
         $.each(rcmail.env.address_sources, function() {
@@ -936,7 +938,7 @@ function rcm_group_selector(event, command, callback) {
         var rows = [],
             ul = $('<ul>').addClass(parent.classes.ul);
 
-        container = $('<div>').attr('id', 'addressgroup-selector').addClass(rcmail.context_menu_settings.classes.popupmenu);
+        container = $('<div>').attr('id', 'addressgroup-selector').addClass(rcmail.context_menu_settings.classes.container + ' ' + rcmail.context_menu_settings.classes.popupmenu);
 
         // loop over address books
         $.each(rcmail.env.address_sources, function() {
@@ -999,7 +1001,7 @@ function rcm_addressbook_selector_item(obj, abook_id, parent) {
             a.css('padding-left', '16px');
         }
         else {
-            a.addClass(rcmail.context_menu_settings.classes.button_active + 'addressbook').data('id', obj.id);
+            a.addClass(rcmail.context_menu_settings.classes.button_active + ' addressbook').data('id', obj.id);
         }
 
         // add address book name element
@@ -1147,7 +1149,7 @@ $(document).ready(function() {
             // check for popupmenus that arent part of contextmenu
             var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
             if ($('div.' + rcmail.context_menu_settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).prop('class').indexOf('rcm_elem_') == -1) {
-                rcm_hide_menu(p.originalEvent);
+                rcm_hide_menu(p.originalEvent, false, true);
             }
         });
 
