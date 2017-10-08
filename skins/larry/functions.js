@@ -16,27 +16,8 @@
  */
 
 function rcm_add_menu_text(menu, p) {
-    if (menu == 'composeto') {
-        if ($(p.item).children('a').hasClass('addto')) {
-            $(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.addto').attr('title'));
-        }
-        else if ($(p.item).children('a').hasClass('addcc')) {
-            $(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.addcc').attr('title'));
-        }
-        else if ($(p.item).children('a').hasClass('addbcc')) {
-            $(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.addbcc').attr('title'));
-        }
-        else if ($(p.item).children('a').hasClass('vcard')) {
-            $(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.vcard').attr('title'));
-        }
-    }
-    else if (menu == 'contactlist') {
-        if ($(p.item).children('a').hasClass('delete')) {
-            $(p.item).children('a').children('span').text($('#addresslist div.boxfooter a.delete').attr('title'));
-        }
-        else if ($(p.item).children('a').hasClass('removegroup')) {
-            $(p.item).children('a').children('span').text($('#addresslist div.boxfooter a.removegroup').attr('title'));
-        }
+    if (menu == 'composeto' && (matches = $(p.item).children('a').attr('class').match(/\b(addto|addcc|addbcc|vcard)\b/))) {
+        $(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.' + matches[1]).attr('title'));
     }
 }
 
