@@ -48,7 +48,9 @@ $(document).ready(function() {
             rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu ul']})");
         }
         else if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
-            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': 'contact_list'}, {'insertitem': function(p) { rcm_add_menu_text(p); }}); } );
+            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': 'contact_list'}, {
+                'insertitem': function(p) { rcm_add_menu_text(p); }
+            }); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
             rcmail.addEventListener('contextmenu_init', function(menu) {
