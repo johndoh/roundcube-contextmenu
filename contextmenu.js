@@ -190,6 +190,16 @@ function rcm_foldermenu_init(el, props, events) {
                     });
                 }
             }
+            else if (p.command == 'plugin.contextmenu.collapseall') {
+                if ($(rcmail.gui_objects.mailboxlist).find('div.expanded').length > 0) {
+                    $('#rcm_folderlist').find('a.cmd_plugin-contextmenu-collapseall').addClass(rcmail.context_menu_settings.classes.button_active).removeClass(rcmail.context_menu_settings.classes.button_disabled);
+                }
+            }
+            else if (p.command == 'plugin.contextmenu.expandall') {
+                if ($(rcmail.gui_objects.mailboxlist).find('div.collapsed').length > 0) {
+                    $('#rcm_folderlist').find('a.cmd_plugin-contextmenu-expandall').addClass(rcmail.context_menu_settings.classes.button_active).removeClass(rcmail.context_menu_settings.classes.button_disabled);
+                }
+            }
         },
         'beforecommand': function(p) {
             if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && $.inArray(p.command, Array('expunge', 'purge')) >= 0) {
