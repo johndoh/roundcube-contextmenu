@@ -1,0 +1,171 @@
+/**
+ * ContextMenu plugin styles
+ */
+
+@import (reference) "/skins/elastic/styles/mixins";
+@import (reference) "/skins/elastic/styles/colors";
+@import (reference) "/skins/elastic/styles/fontawesome";
+
+@listing-line-height: 2.5rem;
+@listing-touch-line-height: 3.6rem;
+@color-list-background: #fff;
+@contextmenu-source-background: #f9f9f9;
+
+.listing tbody tr.context-source > td,
+.listing li.context-source {
+  background-color: @contextmenu-source-background;
+}
+
+.listing li.context-source > ul {
+  background-color: @color-list-background;
+}
+
+.toolbar a.rcmbutton::before {
+  content: "\00a0";
+  display: inline-block !important;
+  line-height: inherit;
+  margin-right: 0.5rem !important;
+  min-width: 20px;
+}
+
+.contextmenu.popover {
+  max-width: none;
+}
+
+div.contextmenu ul.toolbar {
+  > li {
+    display: block;
+    border-bottom: 1px solid @color-list-border;
+
+    > a {
+      outline: 0;
+      cursor: default !important;
+      padding: 0 0.5em;
+    }
+
+    > a.button {
+      height: @listing-line-height;
+      line-height: @listing-line-height;
+      width: 100%;
+      min-width: 160px;
+      max-width: none;
+      text-align: left;
+      display: flex;
+
+      &:hover {
+        color: @color-toolbarmenu-hover;
+        background-color: @color-toolbarmenu-hover-background;
+      }
+    }
+  }
+
+  > li:last-child {
+    border-bottom: none;
+  }
+
+  a.rcmbutton {
+    &::after {
+     .font-icon-class;
+    }
+
+    &.rcmsubbutton {
+      display: flex !important;
+    }
+
+    &.rcmsubbutton::after {
+      content: @fa-var-angle-right;
+      padding: 0 0.5em;
+    }
+
+    > span.icon {
+      flex-grow: 1;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.contextmenu_content {
+  display: block !important;
+  flex: 0 !important;
+  min-width: 0 !important;
+  width: 0;
+
+  #toolbar-menu {
+    display: block !important;
+  }
+}
+
+html.layout-small,
+html.layout-phone {
+  div.contextmenu {
+    top: 0 !important;
+
+    ul.toolbar > li {
+      > a.button {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+html.touch {
+  div.contextmenu {
+    ul.toolbar {
+      > li > a {
+        height: @listing-touch-line-height;
+        line-height: @listing-touch-line-height;
+      }
+
+      a.rcmbutton {
+        > span.icon {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
+
+/* additional icons */
+
+div.contextmenu {
+  a {
+    &.cmd_plugin-contextmenu-collapseall::before {
+      content: @fa-var-minus-square-o;
+    }
+
+    &.cmd_plugin-contextmenu-expandall::before {
+      content: @fa-var-plus-square-o;
+    }
+
+    &.cmd_plugin-contextmenu-openfolder::before {
+      content: @fa-var-external-link;
+    }
+
+    &.cmd_plugin-contextmenu-assigngroup::before {
+      content: @fa-var-user-plus;
+    }
+
+    &.cmd_group-remove-selected::before {
+      content: @fa-var-user-times;
+    }
+
+    &.cmd_search-delete::before {
+      content: @fa-var-trash-o !important;
+    }
+  }
+}
+
+#addressbook-selector,
+#addressgroup-selector {
+  a {
+    &.addressbook::before {
+      content: @fa-var-book;
+    }
+
+    &.contactgroup::before {
+      content: @fa-var-group;
+    }
+  }
+}

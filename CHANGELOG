@@ -17,6 +17,7 @@ Roundcube Webmail ContextMenu
  * Use getselection list event added (req RC e9eb87d)
  * Change rcube_context_menu.list_object from Object to String, backwards compatibility added for Contact list but no others
  * overload_commands option removed (req RC afaaa77)
+ * Add Elastic skin support
 
 Version 2.3 (2017-06-14, rc-1.3)
 =================================================

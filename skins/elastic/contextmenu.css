@@ -1,0 +1,130 @@
+/**
+ * ContextMenu plugin styles
+ */
+.listing tbody tr.context-source > td,
+.listing li.context-source {
+  background-color: #f9f9f9;
+}
+.listing li.context-source > ul {
+  background-color: #ffffff;
+}
+.toolbar a.rcmbutton::before {
+  content: "\00a0";
+  display: inline-block !important;
+  line-height: inherit;
+  margin-right: 0.5rem !important;
+  min-width: 20px;
+}
+.contextmenu.popover {
+  max-width: none;
+}
+div.contextmenu ul.toolbar > li {
+  display: block;
+  border-bottom: 1px solid #f4f4f4;
+}
+div.contextmenu ul.toolbar > li > a {
+  outline: 0;
+  cursor: default !important;
+  padding: 0 0.5em;
+}
+div.contextmenu ul.toolbar > li > a.button {
+  height: 2.5rem;
+  line-height: 2.5rem;
+  width: 100%;
+  min-width: 160px;
+  max-width: none;
+  text-align: left;
+  display: flex;
+}
+div.contextmenu ul.toolbar > li > a.button:hover {
+  color: #ffffff;
+  background-color: #008cd0;
+}
+div.contextmenu ul.toolbar > li:last-child {
+  border-bottom: none;
+}
+div.contextmenu ul.toolbar a.rcmbutton::after {
+  font-size: 1.25em;
+  /*
+        display: inline-block;
+        FIXME: with inline-block we have some problems with icon alignment
+    */
+  display: block;
+  float: left;
+  margin: 0 .25rem 0 0;
+  width: 1.18em;
+  height: 1em;
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  text-align: center;
+  speak: none;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+div.contextmenu ul.toolbar a.rcmbutton.rcmsubbutton {
+  display: flex !important;
+}
+div.contextmenu ul.toolbar a.rcmbutton.rcmsubbutton::after {
+  content: "\f105";
+  padding: 0 0.5em;
+}
+div.contextmenu ul.toolbar a.rcmbutton > span.icon {
+  flex-grow: 1;
+  font-size: 0.875rem;
+}
+.contextmenu_content {
+  display: block !important;
+  flex: 0 !important;
+  min-width: 0 !important;
+  width: 0;
+}
+.contextmenu_content #toolbar-menu {
+  display: block !important;
+}
+html.layout-small div.contextmenu,
+html.layout-phone div.contextmenu {
+  top: 0 !important;
+}
+html.layout-small div.contextmenu ul.toolbar > li > a.button,
+html.layout-phone div.contextmenu ul.toolbar > li > a.button {
+  display: inline-block;
+}
+html.touch div.contextmenu ul.toolbar > li > a {
+  height: 3.6rem;
+  line-height: 3.6rem;
+}
+html.touch div.contextmenu ul.toolbar a.rcmbutton > span.icon {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
+}
+/* additional icons */
+div.contextmenu a.cmd_plugin-contextmenu-collapseall::before {
+  content: "\f147";
+}
+div.contextmenu a.cmd_plugin-contextmenu-expandall::before {
+  content: "\f196";
+}
+div.contextmenu a.cmd_plugin-contextmenu-openfolder::before {
+  content: "\f08e";
+}
+div.contextmenu a.cmd_plugin-contextmenu-assigngroup::before {
+  content: "\f234";
+}
+div.contextmenu a.cmd_group-remove-selected::before {
+  content: "\f235";
+}
+div.contextmenu a.cmd_search-delete::before {
+  content: "\f014" !important;
+}
+#addressbook-selector a.addressbook::before,
+#addressgroup-selector a.addressbook::before {
+  content: "\f02d";
+}
+#addressbook-selector a.contactgroup::before,
+#addressgroup-selector a.contactgroup::before {
+  content: "\f0c0";
+}
