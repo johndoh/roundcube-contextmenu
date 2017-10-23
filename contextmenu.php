@@ -30,7 +30,7 @@ class contextmenu extends rcube_plugin
 {
     public $task = 'mail|addressbook';
 
-    function init()
+    public function init()
     {
         $rcmail = rcube::get_instance();
 
@@ -91,10 +91,8 @@ class contextmenu extends rcube_plugin
         $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
         // send output
-        header("Content-Type: application/json; charset=".RCUBE_CHARSET);
+        header("Content-Type: application/json; charset=" . RCUBE_CHARSET);
         echo json_encode(array('messagecount' => $storage->count($mbox, 'EXISTS')));
         exit;
     }
 }
-
-?>
