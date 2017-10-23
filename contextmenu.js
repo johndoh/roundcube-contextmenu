@@ -248,7 +248,7 @@ function rcm_abookmenu_init(el, props, events) {
         },
         'activate': function(p) {
             var ids = rcmail.env.context_menu_source_id.split(':', 2);
-            cur_source = ids[0];
+            var cur_source = ids[0];
 
             if (p.command == 'group-create') {
                 // addressbook
@@ -287,8 +287,8 @@ function rcm_abookmenu_init(el, props, events) {
             var result = false;
 
             var ids = rcmail.env.context_menu_source_id.split(':', 2);
-            cur_source = ids[0];
-            cur_id = ids[1];
+            var cur_source = ids[0];
+            var cur_id = ids[1];
 
             rcmail.env.source = cur_source;
             rcmail.env.group = cur_id;
@@ -474,7 +474,7 @@ function rcube_context_menu(p) {
             span.addClass(this.classes.span);
 
             // loop over possible menu elements and build settings object
-            sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
+            var sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
             this.menu_source_obj = {};
             $.each(sources, function(i) {
                 var source_elements;
@@ -566,7 +566,7 @@ function rcube_context_menu(p) {
                     var a = link.clone(), row = li.clone();
 
                     // add command name element
-                    tmp = span.clone();
+                    var tmp = span.clone();
                     tmp.text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
                     tmp.addClass(elem.children('span').attr('class'));
                     a.append(tmp);
@@ -856,7 +856,7 @@ function rcube_context_menu(p) {
     this.addEventListener = rcube_event_engine.prototype.addEventListener;
     this.removeEventListener = rcube_event_engine.prototype.removeEventListener;
     this.triggerEvent = rcube_event_engine.prototype.triggerEvent;
-};
+}
 
 function rcm_check_button_state(btn, active) {
     var classes = (active ? rcmail.context_menu_settings.classes.button_active : rcmail.context_menu_settings.classes.button_disabled).split(' ');
@@ -1037,7 +1037,7 @@ $(document).ready(function() {
                 else {
                     rcmail.context_menu_settings[opt] = rcmail[this];
                 }
-            };
+            }
         });
 
         rcmail.addEventListener('init', function() {
