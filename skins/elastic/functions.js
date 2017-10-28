@@ -74,7 +74,12 @@ $(document).ready(function() {
                     var header = $('<h3>').addClass('popover-header')
                         .append($('<a>').attr('class', class_name).text(title))
                         .click(function(e) {
-                            rcm_hide_menu(e, level >= 1);
+                            if (level >= 1) {
+                                rcm_hide_menu(e, true);
+                            }
+                            else {
+                                p.ref.hide(e);
+                            }
                         });
 
                     $(p.ref.container).prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
