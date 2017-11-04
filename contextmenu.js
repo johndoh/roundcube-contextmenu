@@ -226,7 +226,7 @@ function rcm_foldermenu_init(el, props, events) {
 
     $(el).click(function(e) {
         // hide menu when changing folder
-        menu.hide(e);
+        rcm_hide_menu(e);
     })
     .on("contextmenu", function(e) {
         var source = $(this).children('a');
@@ -330,7 +330,7 @@ function rcm_abookmenu_init(el, props, events) {
 
     $(el).click(function(e) {
         // hide menu when changing address book
-        menu.hide(e);
+        rcm_hide_menu(e);
     })
     .on("contextmenu",function(e) {
         var source = $(this).children('a');
@@ -381,16 +381,27 @@ function rcm_show_menu(e, obj, id, menu) {
     }
 
     rcmail.env.context_menu_source_id = id;
-    menu.show(obj, e);
+    menu.show_menu(obj, e);
 }
 
 function rcm_hide_menu(e, sub_only, no_trigger) {
-    $.each($(sub_only ? 'div.' + rcmail.context_menu_settings.classes.submenu.replace(/ /g, '.') : 'div.' + rcmail.context_menu_settings.classes.container.replace(/ /g, '.')), function() {
-        if ($(this).is(':visible')) {
-            $(this).hide();
+    var remove_menu = function(e, menu) {
+        menu.hide_menu(e);
 
-            if (!no_trigger)
-                rcmail.triggerEvent('menu-close', { name: $(this).attr('id'), props:{ menu: $(this).attr('id') }, originalEvent: e });
+        if (!no_trigger) {
+            var menu_name = 'rcm_' + menu.menu_name;
+            rcmail.triggerEvent('menu-close', { name: menu_name, props:{ menu: menu_name }, originalEvent: e });
+        }
+    }
+
+    $.each(rcmail.env.contextmenus, function() {
+        if (!sub_only) {
+            remove_menu(e, this);
+        }
+        else {
+            $.each(this.submenus, function() {
+                remove_menu(e, this);
+            });
         }
     });
 
@@ -644,8 +655,8 @@ function rcube_context_menu(p) {
                                 });
                             }
 
-                            // ensure menu is always hidden after action (for Safari)
-                            ref.hide(e);
+                            // ensure menu is always hidden after action
+                            ref.parent_menu.hide_menu(e);
 
                             return result;
                         });
@@ -673,9 +684,9 @@ function rcube_context_menu(p) {
         }
     };
 
-    this.show = function(obj, e) {
+    this.show_menu = function(obj, e) {
         if (obj) {
-            this.hide(e);
+            this.hide_menu(e);
         }
 
         var callback = this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj, originalEvent: e});
@@ -743,11 +754,19 @@ function rcube_context_menu(p) {
         }
     };
 
-    this.hide = function(e) {
+    this.hide_menu = function(e) {
         if ($('div.' + rcmail.context_menu_settings.classes.container).is(':visible') && (rcmail.context_menu_vars.popup_menus.length == 0 || $(e.target).parents('div.' + rcmail.context_menu_settings.classes.container).length == 0)) {
-            this.selected_object = null;
-            $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
-            rcm_hide_menu(e);
+            if (!this.is_submenu) {
+                this.selected_object = null;
+                $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
+            }
+
+            // if the menu has submenus they should be hidden to
+            $.each(this.submenus, function() {
+                this.container.hide();
+            });
+
+            this.container.hide();
         }
     };
 
@@ -765,7 +784,7 @@ function rcube_context_menu(p) {
             this.submenus[id].init();
         }
 
-        this.submenus[id].show(null, e);
+        this.submenus[id].show_menu(null, e);
     };
 
     this.position = function(e, menu) {
@@ -1045,7 +1064,7 @@ $(document).ready(function() {
                         rcube_event.cancel(e);
                     }
                     else {
-                        this.hide(e);
+                        rcm_hide_menu(e);
                     }
                 });
             };
