@@ -18,6 +18,7 @@
 rcube_webmail.prototype.context_menu_settings = {
     no_right_click_on_menu: true,
     skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
+    always_enable_commands: ['move', 'copy'],
     command_pattern: /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/,
     popup_attrib: 'onclick',
     popup_pattern: '',
@@ -41,7 +42,9 @@ rcube_webmail.prototype.context_menu_settings = {
             var prev_command = rcmail.commands[p.command];
             rcmail.enable_command(p.command, true);
             var result = rcmail.command(p.command, p.args, p.el, p.evt);
-            rcmail.enable_command(p.command, prev_command);
+
+            if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands))
+                rcmail.enable_command(p.command, prev_command);
 
             return result;
         },
@@ -414,6 +417,9 @@ function rcm_hide_menu(e, sub_only, no_trigger) {
     if (!sub_only && $('#rcm-modal').length == 1) {
         $('#rcm-modal').remove();
     }
+
+    // disable commands that were enabled by force
+    rcmail.enable_command(rcmail.context_menu_settings.always_enable_commands, false);
 }
 
 function rcube_context_menu(p) {
