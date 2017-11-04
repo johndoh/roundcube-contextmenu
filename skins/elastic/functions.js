@@ -72,16 +72,14 @@ $(document).ready(function() {
             },
             menu_events: {
                 '+init': function(p) {
-                    level = $('div.contextmenu:visible').length;
-
-                    var label = level >= 1 ? 'back' : 'close',
+                    var label = $('div.contextmenu:visible').length >= 1 ? 'back' : 'close',
                         title = rcmail.gettext(label),
                         class_name = 'button icon ' + (label == 'back' ? 'back' : 'cancel');
 
                     var header = $('<h3>').addClass('popover-header')
                         .append($('<a>').attr('class', class_name).text(title))
                         .click(function(e) {
-                            rcm_hide_menu(e, level >= 1);
+                            rcm_hide_menu(e, $('div.contextmenu:visible').length >= 1);
                         });
 
                     $(p.ref.container).prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));

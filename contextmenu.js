@@ -392,6 +392,9 @@ function rcm_show_menu(e, obj, id, menu) {
 
 function rcm_hide_menu(e, sub_only, no_trigger) {
     var remove_menu = function(e, menu) {
+        if (!menu.container.is(':visible'))
+            return;
+
         menu.hide_menu(e);
 
         if (!no_trigger) {
