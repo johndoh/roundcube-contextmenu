@@ -41,7 +41,14 @@ function rcm_submenu_toggle(p) {
 
         // make sure its a real submenu and not the toolbar on a small screen
         if ($(source_id).is('div')) {
-            $(source_id)[(p.show) ? 'show' : 'hide']();
+            if (p.show) {
+                $(source_id).show();
+                $(source_id).removeClass('hidden');
+            }
+            else {
+                $(source_id).hide();
+                $(source_id).addClass('hidden');
+            }
         }
     }
 }
