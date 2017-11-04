@@ -31,7 +31,7 @@ function rcm_reorder_contact_menu(p) {
 }
 
 function rcm_submenu_toggle(p) {
-    if (p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/)) {
+    if (p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/) && p.id.indexOf('#taskmenu') == -1) {
         var source_id = RegExp.$1;
 
         // special handling for additional options in folders and contacts menus
@@ -112,7 +112,7 @@ $(document).ready(function() {
             }); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#toolbar-menu > li', '#rcmAddressBookMenu'], 'list_object': 'contact_list'}, {
+            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#taskmenu > span > a.compose', '#toolbar-menu > li', '#rcmAddressBookMenu'], 'list_object': 'contact_list'}, {
                 'init': function(p) { rcm_reorder_contact_menu(p); }
             }); } );
             rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#layout > .sidebar > div.footer a.create', '#groupoptions-menu > ul > li']})");
