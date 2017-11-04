@@ -18,7 +18,6 @@
 rcube_webmail.prototype.context_menu_settings = {
     no_right_click_on_menu: true,
     skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
-    commands: [],
     popup_menus: [],
     popup_commands: {},
     command_pattern: /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/,
@@ -748,14 +747,6 @@ function rcube_context_menu(p) {
             this.selected_object = null;
             $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
             rcm_hide_menu(e);
-
-            for (var i in rcmail.context_menu_settings.commands) {
-                if (!rcmail.context_menu_settings.commands[i]) {
-                    rcmail.enable_command(i, false);
-                }
-            }
-
-            rcmail.context_menu_settings.commands = new Array();
         }
     };
 
