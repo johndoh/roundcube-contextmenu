@@ -123,6 +123,7 @@ function rcm_listmenu_init(row, props, events) {
 
     $("#" + row).on("contextmenu", function(e) {
         if (uid = rcmail[props.list_object].get_row_uid(this)) {
+            rcm_hide_menu(e);
             rcm_show_menu(e, this, uid, menu);
         }
     });
@@ -238,6 +239,7 @@ function rcm_foldermenu_init(el, props, events) {
         source.blur();
 
         if (source.attr('rel') && source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
+            rcm_hide_menu(e);
             rcm_show_menu(e, this, source.attr('rel'), menu);
         }
     });
@@ -342,6 +344,7 @@ function rcm_abookmenu_init(el, props, events) {
         source.blur();
 
         if (source.attr('rel') && source.attr('rel').match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
+            rcm_hide_menu(e);
             rcm_show_menu(e, this, RegExp.$1, menu);
         }
     });
