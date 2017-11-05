@@ -344,8 +344,9 @@ function rcm_abookmenu_init(el, props, events) {
         source.blur();
 
         if (source.attr('rel') && source.attr('rel').match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
+            var source_id = RegExp.$1;
             rcm_hide_menu(e);
-            rcm_show_menu(e, this, RegExp.$1, menu);
+            rcm_show_menu(e, this, source_id, menu);
         }
     });
 }
