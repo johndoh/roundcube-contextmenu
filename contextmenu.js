@@ -344,10 +344,9 @@ function rcm_abookmenu_init(el, props, events) {
         // remove focus (and keyboard nav highlighting) from A
         source.blur();
 
-        if (source.attr('rel') && source.attr('rel').match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i)) {
-            var source_id = RegExp.$1;
+        if (source.attr('rel') && (matches = source.attr('rel').match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i))) {
             rcm_hide_menu(e);
-            rcm_show_menu(e, this, source_id, menu);
+            rcm_show_menu(e, this, matches[1], menu);
         }
     });
 }
@@ -579,9 +578,9 @@ function rcube_context_menu(p) {
                     }
 
                     command = '';
-                    if (elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
-                        command = RegExp.$1;
-                        args = RegExp.$2;
+                    if (matches = elem.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
+                        command = matches[1];
+                        args = matches[2];
                     }
 
                     // skip elements we don't need
@@ -601,8 +600,8 @@ function rcube_context_menu(p) {
                     a.removeClass(rcmail.context_menu_settings.classes.button_disabled);
                     a.addClass('rcm_elem_' + elem.attr('id'));
 
-                    if (elem.attr('onclick').match(rcmail.context_menu_settings.popup_pattern)) {
-                        a.data('command', RegExp.$1);
+                    if (matches = elem.attr('onclick').match(rcmail.context_menu_settings.popup_pattern)) {
+                        a.data('command', matches[1]);
                         a.data('menu-pos', ref.submenu_position);
                         a.addClass(ref.classes.sub_button_a);
                         if (ref.classes.sub_button_span)
@@ -1170,9 +1169,8 @@ $(document).ready(function() {
             if ($('div.' + rcmail.context_menu_settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0) {
                 rcmail.context_menu_vars.popup_commands[p.name] = {};
                 $('#' + p.name).find('a').each(function() {
-                    if ($(this).attr('onclick') && $(this).attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
-                        var cmd = RegExp.$1;
-                        rcmail.context_menu_vars.popup_commands[p.name][cmd] = rcmail.commands[cmd];
+                    if ($(this).attr('onclick') && (matches = $(this).attr('onclick').match(rcmail.context_menu_settings.command_pattern))) {
+                        rcmail.context_menu_vars.popup_commands[p.name][matches[1]] = rcmail.commands[matches[1]];
                     }
                 });
 
