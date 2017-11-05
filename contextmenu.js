@@ -43,6 +43,7 @@ rcube_webmail.prototype.context_menu_settings = {
             rcmail.enable_command(p.command, true);
             var result = rcmail.command(p.command, p.args, p.el, p.evt);
 
+            // leave commands in always_enable_commands enabled, they are disabled when menu is closed
             if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands))
                 rcmail.enable_command(p.command, prev_command);
 
@@ -1049,13 +1050,16 @@ $(document).ready(function() {
         rcmail.env.contextmenus = {};
 
         // backwards compatibility with old settings code removed in v2.4
-        var old_settings = ['context_menu_skip_commands', 'context_menu_commands', 'context_menu_popup_menus', 'context_menu_popup_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
+        var old_settings = ['context_menu_skip_commands', 'context_menu_overload_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
         $.each(old_settings, function() {
             if (rcmail[this]) {
                 var opt = this.replace(/^context_menu_/, '');
 
                 if ((this == 'context_menu_button_active_class' || this == 'context_menu_button_disabled_class') && $.isArray(rcmail[this])) {
                     rcmail.context_menu_settings[opt] = rcmail[this].join(' ');
+                }
+                else if (this == 'context_menu_overload_commands') {
+                    rcmail.context_menu_settings['always_enable_commands'] = rcmail[this];
                 }
                 else {
                     rcmail.context_menu_settings[opt] = rcmail[this];
