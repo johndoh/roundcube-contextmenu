@@ -31,8 +31,8 @@ function rcm_reorder_contact_menu(p) {
 }
 
 function rcm_submenu_toggle(p) {
-    if (p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/) && p.id.indexOf('#taskmenu') == -1) {
-        var source_id = RegExp.$1;
+    if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/)) && p.id.indexOf('#taskmenu') == -1) {
+        var source_id = matches[1];
 
         // special handling for additional options in folders and contacts menus
         if (source_id == '#rcmFolderMenu' || source_id == '#rcmAddressBookMenu') {
