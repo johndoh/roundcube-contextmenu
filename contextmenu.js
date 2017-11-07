@@ -43,8 +43,12 @@ rcube_webmail.prototype.context_menu_settings = {
             rcmail.enable_command(p.command, true);
             var result = rcmail.command(p.command, p.args, p.el, p.evt);
 
-            if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands))
+            if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands)) {
                 rcmail.enable_command(p.command, prev_command);
+
+                if (prev_command === false)
+                    rcmail.context_menu_vars.commands_disable_on_hide.push(p.command);
+            }
 
             return result;
         },
@@ -59,7 +63,8 @@ rcube_webmail.prototype.context_menu_settings = {
 
 rcube_webmail.prototype.context_menu_vars = {
     popup_menus: [],
-    popup_commands: {}
+    popup_commands: {},
+    commands_disable_on_hide: []
 }
 
 function rcm_listmenu_init(row, props, events) {
@@ -425,7 +430,10 @@ function rcm_hide_menu(e, sub_only, no_trigger) {
     }
 
     // disable commands that were enabled by force
-    rcmail.enable_command(rcmail.context_menu_settings.always_enable_commands, false);
+    if (rcmail.context_menu_vars.commands_disable_on_hide.length > 0) {
+        rcmail.enable_command(rcmail.context_menu_vars.commands_disable_on_hide, false);
+        rcmail.context_menu_vars.commands_disable_on_hide = [];
+    }
 }
 
 function rcube_context_menu(p) {
