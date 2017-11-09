@@ -64,6 +64,9 @@ div.contextmenu ul.toolbar a.rcmbutton::after {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
+div.contextmenu ul.toolbar a.rcmbutton:not(.rcmsubbutton) {
+  padding-right: 40px;
+}
 div.contextmenu ul.toolbar a.rcmbutton.rcmsubbutton {
   display: flex !important;
 }
