@@ -102,6 +102,19 @@ $(document).ready(function() {
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#toolbar-menu > li'}); } );
             rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptions-menu > ul > li']})");
+
+            // remove import option from message menu
+            rcmail.addEventListener('contextmenu_init', function(menu) {
+                if (menu.menu_name == 'message-menu') {
+                    menu.addEventListener('addmenuitem', function(p) {
+                        var src_elem = !$(p.el).is('a') ? $(p.el).find('a:first') : $(p.el);
+                        if (src_elem[0] && src_elem[0].hasAttribute('onclick') && src_elem.attr('onclick').match(/\'import\-messages\'/)) {
+                            p.abort = true;
+                            return p;
+                        }
+                    });
+                }
+            });
         }
         else if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
             rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#layout > .sidebar > div.footer', 'list_object': 'contact_list'}, {
