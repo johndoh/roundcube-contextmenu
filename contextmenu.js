@@ -43,6 +43,7 @@ rcube_webmail.prototype.context_menu_settings = {
             rcmail.enable_command(p.command, true);
             var result = rcmail.command(p.command, p.args, p.el, p.evt);
 
+            // leave commands in always_enable_commands enabled, they are disabled when menu is closed
             if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands)) {
                 rcmail.enable_command(p.command, prev_command);
 
@@ -260,7 +261,7 @@ function rcm_abookmenu_init(el, props, events) {
         },
         'activate': function(p) {
             var ids = rcmail.env.context_menu_source_id.split(':', 2);
-            cur_source = ids[0];
+            var cur_source = ids[0];
 
             if (p.command == 'group-create') {
                 // addressbook
@@ -299,8 +300,8 @@ function rcm_abookmenu_init(el, props, events) {
             var result = false;
 
             var ids = rcmail.env.context_menu_source_id.split(':', 2);
-            cur_source = ids[0];
-            cur_id = ids[1];
+            var cur_source = ids[0];
+            var cur_id = ids[1];
 
             rcmail.env.source = cur_source;
             rcmail.env.group = cur_id;
@@ -506,7 +507,7 @@ function rcube_context_menu(p) {
             span.addClass(this.classes.span);
 
             // loop over possible menu elements and build settings object
-            sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
+            var sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
             this.menu_source_obj = {};
             $.each(sources, function(i) {
                 var source_elements;
@@ -598,7 +599,7 @@ function rcube_context_menu(p) {
                     var a = link.clone(), row = li.clone();
 
                     // add command name element
-                    tmp = span.clone();
+                    var tmp = span.clone();
                     tmp.text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
                     tmp.addClass(elem.children('span').attr('class'));
                     a.append(tmp);
@@ -887,7 +888,7 @@ function rcube_context_menu(p) {
     this.addEventListener = rcube_event_engine.prototype.addEventListener;
     this.removeEventListener = rcube_event_engine.prototype.removeEventListener;
     this.triggerEvent = rcube_event_engine.prototype.triggerEvent;
-};
+}
 
 function rcm_check_button_state(btn, active) {
     var classes = (active ? rcmail.context_menu_settings.classes.button_active : rcmail.context_menu_settings.classes.button_disabled).split(' ');
@@ -1057,7 +1058,7 @@ $(document).ready(function() {
         rcmail.env.contextmenus = {};
 
         // backwards compatibility with old settings code removed in v2.4
-        var old_settings = ['context_menu_skip_commands', 'context_menu_commands', 'context_menu_popup_menus', 'context_menu_popup_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
+        var old_settings = ['context_menu_skip_commands', 'context_menu_overload_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
         $.each(old_settings, function() {
             if (rcmail[this]) {
                 var opt = this.replace(/^context_menu_/, '');
@@ -1065,10 +1066,13 @@ $(document).ready(function() {
                 if ((this == 'context_menu_button_active_class' || this == 'context_menu_button_disabled_class') && $.isArray(rcmail[this])) {
                     rcmail.context_menu_settings[opt] = rcmail[this].join(' ');
                 }
+                else if (this == 'context_menu_overload_commands') {
+                    rcmail.context_menu_settings['always_enable_commands'] = rcmail[this];
+                }
                 else {
                     rcmail.context_menu_settings[opt] = rcmail[this];
                 }
-            };
+            }
         });
 
         rcmail.addEventListener('init', function() {

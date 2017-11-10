@@ -13,6 +13,7 @@ This file provides information for plugin and skin developers. The Contextmenu p
 The following global options are available:
 * no_right_click_on_menu - (boolean) treat right click as left click when on the contextmenu
 * skip_commands - (array) Roundcube commands that should be ignored by the contextmenu
+* always_enable_commands - (array) Roundcube commands that should rename enabled, once clicked, until the menu is closed
 * command_pattern - (regex) pattern matching the Roundcube command call
 * popup_attrib - (string) attribute that contains the Roundcube popup call
 * popup_pattern - (regex) pattern matching the Roundcube popup call
@@ -201,6 +202,9 @@ function(p) {
   rcmail.enable_command(p.command, true);
   var result = rcmail.command(p.command, p.args, p.el, p.evt);
   rcmail.enable_command(p.command, prev_command);
+
+  if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands))
+    rcmail.enable_command(p.command, prev_command);
 
   return result;
 }
