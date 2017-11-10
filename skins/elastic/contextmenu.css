@@ -8,12 +8,9 @@
 .listing li.context-source > ul {
   background-color: #ffffff;
 }
+/* default content set here to prevent overriding Elastic icons */
 .toolbar a.rcmbutton::before {
   content: "\00a0";
-  display: inline-block !important;
-  line-height: inherit;
-  margin-right: 0.5rem !important;
-  min-width: 25px;
 }
 .contextmenu.popover {
   max-width: none;
@@ -42,6 +39,11 @@ div.contextmenu ul.toolbar > li > a.button:hover {
 }
 div.contextmenu ul.toolbar > li:last-child {
   border-bottom: none;
+}
+div.contextmenu ul.toolbar a.rcmbutton::before {
+  line-height: inherit;
+  margin-right: 0.5rem !important;
+  min-width: 25px;
 }
 div.contextmenu ul.toolbar a.rcmbutton::after {
   font-size: 1.25em;
@@ -114,6 +116,7 @@ div.contextmenu a.cmd_group-remove-selected::before {
 div.contextmenu a.cmd_search-delete::before {
   content: "\f014" !important;
 }
+/* address book selector */
 #addressbook-selector a.addressbook::before,
 #addressgroup-selector a.addressbook::before {
   content: "\f02d";

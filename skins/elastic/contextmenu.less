@@ -20,12 +20,9 @@
   background-color: @color-list-background;
 }
 
+/* default content set here to prevent overriding Elastic icons */
 .toolbar a.rcmbutton::before {
   content: "\00a0";
-  display: inline-block !important;
-  line-height: inherit;
-  margin-right: 0.5rem !important;
-  min-width: 25px;
 }
 
 .contextmenu.popover {
@@ -64,6 +61,12 @@ div.contextmenu ul.toolbar {
   }
 
   a.rcmbutton {
+    &::before {
+      line-height: inherit;
+      margin-right: 0.5rem !important;
+      min-width: 25px;
+    }
+
     &::after {
       .font-icon-class;
       content: "\00a0";
@@ -146,6 +149,8 @@ div.contextmenu {
     }
   }
 }
+
+/* address book selector */
 
 #addressbook-selector,
 #addressgroup-selector {
