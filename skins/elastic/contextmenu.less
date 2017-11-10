@@ -25,7 +25,7 @@
   display: inline-block !important;
   line-height: inherit;
   margin-right: 0.5rem !important;
-  min-width: 20px;
+  min-width: 25px;
 }
 
 .contextmenu.popover {
@@ -65,20 +65,13 @@ div.contextmenu ul.toolbar {
 
   a.rcmbutton {
     &::after {
-     .font-icon-class;
-    }
-
-    &:not(.rcmsubbutton) {
-      padding-right: 40px;
-    }
-
-    &.rcmsubbutton {
-      display: flex !important;
+      .font-icon-class;
+      content: "\00a0";
+      padding: 0 0.5em;
     }
 
     &.rcmsubbutton::after {
       content: @fa-var-angle-right;
-      padding: 0 0.5em;
     }
 
     > span.icon {
@@ -103,12 +96,6 @@ html.layout-small,
 html.layout-phone {
   div.contextmenu {
     top: 0 !important;
-
-    ul.toolbar > li {
-      > a.button {
-        display: inline-block;
-      }
-    }
   }
 }
 

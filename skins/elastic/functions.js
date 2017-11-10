@@ -89,9 +89,8 @@ $(document).ready(function() {
                     if (!$('#layout > .content').is(':visible'))
                         $('#layout > .content').addClass('contextmenu_content');
 
-                    // @TODO: Is this needed?
                     // change default message list contextmenu to look like normal rc menu when on small screen
-                    //$('a.rcm_elem_markmessagemenulink,a.rcm_elem_messagemenulink')[($('html').hasClass('layout-phone') || $('html').hasClass('layout-small')) ? 'removeClass' : 'addClass']('rcmsubbutton');
+                    $('a.rcm_elem_markmessagemenulink,a.rcm_elem_messagemenulink')[($('html').hasClass('layout-phone') || $('html').hasClass('layout-small')) ? 'removeClass' : 'addClass']('rcmsubbutton');
                 },
                 '+afteractivate': function(p) {
                     $('#layout > .content').removeClass('contextmenu_content');
