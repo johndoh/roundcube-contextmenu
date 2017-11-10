@@ -1,0 +1,12 @@
+<roundcube:if condition="env:action == ''" />
+<div style="display: none;" aria-hidden="true">
+    <ul id="rcmAddressBookMenu" role="menu">
+        <roundcube:button command="plugin.contextmenu.assigngroup" type="link-menuitem" label="contextmenu.assigngroup" class="assigngroup disabled" classAct="assigngroup active" tabindex="-1" aria-disabled="true" />
+        <roundcube:button command="group-remove-selected" type="link-menuitem" label="groupremoveselected" class="removegroup disabled" classAct="removegroup" tabindex="-1" aria-disabled="true" />
+        <roundcube:if condition="env:writable_source &gt; 1" />
+        <roundcube:button command="move" type="link-menuitem" label="moveto" class="move disabled" classAct="move active" tabindex="-1" aria-disabled="true" />
+        <roundcube:button command="copy" type="link-menuitem" label="copyto" class="copy disabled" classAct="copy active" tabindex="-1" aria-disabled="true" />
+        <roundcube:endif />
+    </ul>
+</div>
+<roundcube:endif />
