@@ -8,7 +8,6 @@
 .listing li.context-source > ul {
   background-color: #ffffff;
 }
-/* default content set here to prevent overriding Elastic icons */
 .toolbar a.rcmbutton::before {
   content: "\00a0";
 }
@@ -47,10 +46,6 @@ div.contextmenu ul.toolbar a.rcmbutton::before {
 }
 div.contextmenu ul.toolbar a.rcmbutton::after {
   font-size: 1.25em;
-  /*
-        display: inline-block;
-        FIXME: with inline-block we have some problems with icon alignment
-    */
   display: block;
   float: left;
   margin: 0 .25rem 0 0;
@@ -89,15 +84,14 @@ html.layout-phone div.contextmenu {
   top: 0 !important;
 }
 html.touch div.contextmenu ul.toolbar > li > a {
-  height: 3.6rem;
-  line-height: 3.6rem;
+  height: 3.4rem;
+  line-height: 3.4rem;
 }
 html.touch div.contextmenu ul.toolbar a.rcmbutton > span.icon {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.2rem;
 }
-/* additional icons */
 div.contextmenu a.cmd_plugin-contextmenu-collapseall::before {
   content: "\f147";
 }
@@ -116,7 +110,6 @@ div.contextmenu a.cmd_group-remove-selected::before {
 div.contextmenu a.cmd_search-delete::before {
   content: "\f014" !important;
 }
-/* address book selector */
 #addressbook-selector a.addressbook::before,
 #addressgroup-selector a.addressbook::before {
   content: "\f02d";

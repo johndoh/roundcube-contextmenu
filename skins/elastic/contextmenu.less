@@ -7,9 +7,10 @@
 @import (reference) "/skins/elastic/styles/fontawesome";
 
 @listing-line-height: 2.5rem;
-@listing-touch-line-height: 3.6rem;
+@listing-touch-line-height: 3.4rem;
 @color-list-background: #fff;
 @contextmenu-source-background: #f9f9f9;
+@contextmenu-placeholder-icon: "\00a0";
 
 .listing tbody tr.context-source > td,
 .listing li.context-source {
@@ -20,9 +21,9 @@
   background-color: @color-list-background;
 }
 
-/* default content set here to prevent overriding Elastic icons */
+// default content set here to prevent overriding Elastic icons
 .toolbar a.rcmbutton::before {
-  content: "\00a0";
+  content: @contextmenu-placeholder-icon;
 }
 
 .contextmenu.popover {
@@ -69,7 +70,7 @@ div.contextmenu ul.toolbar {
 
     &::after {
       .font-icon-class;
-      content: "\00a0";
+      content: @contextmenu-placeholder-icon;
       padding: 0 0.5em;
     }
 
@@ -120,7 +121,7 @@ html.touch {
   }
 }
 
-/* additional icons */
+// additional icons
 
 div.contextmenu {
   a {
@@ -150,7 +151,7 @@ div.contextmenu {
   }
 }
 
-/* address book selector */
+// address book selector
 
 #addressbook-selector,
 #addressgroup-selector {
