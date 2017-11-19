@@ -16,6 +16,7 @@
  */
 
 function rcm_add_menu_text(p) {
+    var matches;
     if (matches = $(p.item).children('a').attr('class').match(/\b(addto|addcc|addbcc)\b/)) {
         $(p.item).children('a').children('span').text($('#layout > .sidebar > div.footer a.' + matches[1]).attr('title'));
     }
@@ -31,6 +32,7 @@ function rcm_reorder_contact_menu(p) {
 }
 
 function rcm_submenu_toggle(p) {
+    var matches;
     if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/)) && p.id.indexOf('#taskmenu') == -1) {
         var source_id = matches[1];
 
@@ -84,7 +86,7 @@ $(document).ready(function() {
 
                     $(p.ref.container).prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
                 },
-                '+beforeactivate': function(p) {
+                '+beforeactivate': function() {
                     // force toolbar display on small screens while the contextmenu renders
                     if (!$('#layout > .content').is(':visible'))
                         $('#layout > .content').addClass('contextmenu_content');
@@ -92,7 +94,7 @@ $(document).ready(function() {
                     // change default message list contextmenu to look like normal rc menu when on small screen
                     $('a.rcm_elem_markmessagemenulink,a.rcm_elem_messagemenulink')[($('html').hasClass('layout-phone') || $('html').hasClass('layout-small')) ? 'removeClass' : 'addClass']('rcmsubbutton');
                 },
-                '+afteractivate': function(p) {
+                '+afteractivate': function() {
                     $('#layout > .content').removeClass('contextmenu_content');
                 },
                 'submenu_toggle': function(p) { rcm_submenu_toggle(p); }

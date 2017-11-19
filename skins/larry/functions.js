@@ -16,6 +16,7 @@
  */
 
 function rcm_add_menu_text(p) {
+    var matches;
     if (matches = $(p.item).children('a').attr('class').match(/\b(addto|addcc|addbcc|vcard)\b/)) {
         $(p.item).children('a').children('span').text($('#compose-contacts div.boxfooter a.' + matches[1]).attr('title'));
     }

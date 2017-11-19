@@ -56,6 +56,7 @@ $(document).ready(function() {
             rcmail.addEventListener('contextmenu_init', function(menu) {
                 if (menu.menu_name == 'contactlist') {
                     // copy the remove from group option in the contact menu
+                    var btn;
                     if (btn = $('#' + rcmail.buttons['group-remove-selected'][0].id).clone()) {
                         // remove the ID and add override class
                         btn.removeAttr('id').addClass('rcm_active');
