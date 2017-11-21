@@ -60,7 +60,7 @@ $(document).ready(function() {
         rcmail.context_menu_settings = $.extend(true, rcmail.context_menu_settings, {
             popup_attrib: 'data-popup',
             popup_func: "rcm_popup_wrapper('$2');",
-            popup_pattern: /rcm_popup_wrapper\(\'([^\']+)\'|^([a-z0-9\-]+)$/i,
+            popup_pattern: /rcm_popup_wrapper\(\x27([^\x27]+)\x27|^([a-z0-9\-]+)$/i,
             classes: { button_ignore: '', modal_overlay: 'popover-overlay' },
             menu_defaults: {
                 modal: true,
@@ -110,7 +110,7 @@ $(document).ready(function() {
                 if (menu.menu_name == 'message-menu') {
                     menu.addEventListener('addmenuitem', function(p) {
                         var src_elem = !$(p.el).is('a') ? $(p.el).find('a:first') : $(p.el);
-                        if (src_elem[0] && src_elem[0].hasAttribute('onclick') && src_elem.attr('onclick').match(/\'import\-messages\'/)) {
+                        if (src_elem[0] && src_elem[0].hasAttribute('onclick') && src_elem.attr('onclick').match(/\x27import-messages\x27/)) {
                             p.abort = true;
                             return p;
                         }

@@ -19,7 +19,7 @@ rcube_webmail.prototype.context_menu_settings = {
     no_right_click_on_menu: true,
     skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
     always_enable_commands: ['move', 'copy'],
-    command_pattern: /rcmail\.command\(\'([^\']+)\',\s?\'((?:\\\'|[^\'])*)\'/,
+    command_pattern: /rcmail\.command\(\x27([^\x27]+)\x27,\s?\x27((?:\\\x27|[^\x27])*)\x27/,
     popup_attrib: 'onclick',
     popup_pattern: '',
     popup_func: '',
@@ -158,7 +158,7 @@ function rcm_foldermenu_init(el, props, events) {
         'addmenuitem': function(p) {
             var src_elem = !$(p.el).is('a') ? $(p.el).find('a:first') : $(p.el);
             // do not include import messages link in menu
-            if (src_elem[0] && src_elem[0].hasAttribute('onclick') && src_elem.attr('onclick').match(/\'import\-messages\'/)) {
+            if (src_elem[0] && src_elem[0].hasAttribute('onclick') && src_elem.attr('onclick').match(/\x27import-messages\x27/)) {
                 p.abort = true;
                 return p;
             }

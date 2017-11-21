@@ -34,7 +34,7 @@ function rcm_reorder_contact_menu(p) {
 $(document).ready(function() {
     if (window.rcmail) {
         rcmail.context_menu_settings = $.extend(rcmail.context_menu_settings, {
-            popup_pattern: /UI\.toggle_popup\(\'([^\']+)\'/
+            popup_pattern: /UI\.toggle_popup\(\x27([^\x27]+)\x27/
         });
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
