@@ -2,7 +2,7 @@
   "name": "johndoh/contextmenu",
   "description": "Adds context menus with common tasks to various parts of Roundcube",
   "keywords": ["context","menu","right-click"],
-  "homepage": "http://github.com/JohnDoh/Roundcube-Plugin-Context-Menu/",
+  "homepage": "https://github.com/johndoh/roundcube-contextmenu/",
   "license": "GPL-3.0",
   "type": "roundcube-plugin",
   "version": "3.0-git",
@@ -16,7 +16,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://plugins.roundcube.net"
+      "url": "https://plugins.roundcube.net"
     }
   ],
   "require": {

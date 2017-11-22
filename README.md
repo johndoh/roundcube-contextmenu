@@ -30,6 +30,6 @@ Install
 directory called contextmenu and place the files in there, ignoring the root
 directory in the downloaded archive.
 
-[rcplugrepo]: http://plugins.roundcube.net/packages/johndoh/contextmenu
-[releases]: http://github.com/JohnDoh/Roundcube-Plugin-Context-Menu/releases
-[gpl]: http://www.gnu.org/licenses/gpl.html
+[rcplugrepo]: https://plugins.roundcube.net/packages/johndoh/contextmenu
+[releases]: https://github.com/johndoh/roundcube-contextmenu/releases
+[gpl]: https://www.gnu.org/licenses/gpl.html

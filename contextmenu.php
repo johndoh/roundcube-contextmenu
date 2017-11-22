@@ -9,7 +9,7 @@
  *
  * Copyright (C) 2009-2014 Philip Weir
  *
- * This program is a Roundcube (http://www.roundcube.net) plugin.
+ * This program is a Roundcube (https://roundcube.net) plugin.
  * For more information see README.md.
  * See MANUAL.md for information about extending this plugin.
  *
@@ -24,7 +24,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Roundcube. If not, see http://www.gnu.org/licenses/.
+ * along with Roundcube. If not, see https://www.gnu.org/licenses/.
  */
 class contextmenu extends rcube_plugin
 {
