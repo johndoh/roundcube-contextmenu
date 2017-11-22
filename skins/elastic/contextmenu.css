@@ -5,6 +5,7 @@
 .listing li.context-source {
   background-color: #f9f9f9;
 }
+.listing tbody tr.context-source > td > ul,
 .listing li.context-source > ul {
   background-color: #ffffff;
 }

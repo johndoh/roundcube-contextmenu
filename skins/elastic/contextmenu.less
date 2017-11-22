@@ -7,17 +7,17 @@
 @import (reference) "/skins/elastic/styles/colors";
 @import (reference) "/skins/elastic/styles/fontawesome";
 
-@color-list-background: #fff;
-@contextmenu-source-background: #f9f9f9;
+@color-contextmenu-source-background: #f9f9f9;
 @contextmenu-placeholder-icon: "\00a0";
 
 .listing tbody tr.context-source > td,
 .listing li.context-source {
-  background-color: @contextmenu-source-background;
-}
+  background-color: @color-contextmenu-source-background;
 
-.listing li.context-source > ul {
-  background-color: @color-list-background;
+  // make sure only the target li background is set on nested lists
+  > ul {
+    background-color: @color-layout-list-background;
+  }
 }
 
 // default content set here to prevent overriding Elastic icons
