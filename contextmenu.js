@@ -25,8 +25,8 @@ rcube_webmail.prototype.context_menu_settings = {
     popup_func: '',
     classes: {
             container: 'contextmenu',
-            mainmenu: 'rcmmainmenu rcm-mainmenu', // rcmmainmenu class depreciated in v2.4
-            submenu: 'rcmsubmenu submenu rcm-submenu', // rcmsubmenu submenu classes depreciated in v2.4
+            mainmenu: 'rcmmainmenu rcm-mainmenu', // rcmmainmenu class depreciated in v3.0
+            submenu: 'rcmsubmenu submenu rcm-submenu', // rcmsubmenu submenu classes depreciated in v3.0
             popupmenu: 'popupmenu',
             button_ignore: 'button',
             button_active: 'active',
@@ -72,7 +72,7 @@ function rcm_listmenu_init(row, props, events) {
     if (!events)
         events = {};
 
-    // backwards compatibility, list_object changed to string in v2.4
+    // backwards compatibility, list_object changed to string in v3.0
     if (typeof props.list_object == 'object') {
         var id = $(props.list_object.list).attr('id');
         props.list_object = null;
@@ -443,13 +443,13 @@ function rcube_context_menu(p) {
     this.list_object = null;
     this.mouseover_timeout = 400;
     this.classes = {
-        source: 'contextRow context-source', // contextRow class depreciated in v2.4
+        source: 'contextRow context-source', // contextRow class depreciated in v3.0
         div: rcmail.context_menu_settings.classes.container + ' popupmenu',
         ul: 'toolbarmenu iconized',
         a: 'icon',
         span: 'icon',
         sub_button_a: null,
-        sub_button_span: 'right-arrow sub-button' // right-arrow class depreciated in v2.4
+        sub_button_span: 'right-arrow sub-button' // right-arrow class depreciated in v3.0
     }
 
     this.modal = false;
@@ -1060,7 +1060,7 @@ $(document).ready(function() {
     if (window.rcmail) {
         rcmail.env.contextmenus = {};
 
-        // backwards compatibility with old settings code removed in v2.4
+        // backwards compatibility with old settings code removed in v3.0
         var old_settings = ['context_menu_skip_commands', 'context_menu_overload_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
         $.each(old_settings, function() {
             if (rcmail[this]) {
