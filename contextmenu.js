@@ -424,11 +424,6 @@ function rcm_hide_menu(e, sub_only, no_trigger) {
         rcmail.hide_menu(rcmail.context_menu_vars.popup_menus[i], e);
     }
 
-    // remove the modal overlay
-    if (!sub_only && $('#rcm-modal').length == 1) {
-        $('#rcm-modal').remove();
-    }
-
     // disable commands that were enabled by force
     if (rcmail.context_menu_vars.commands_disable_on_hide.length > 0) {
         rcmail.enable_command(rcmail.context_menu_vars.commands_disable_on_hide, false);
@@ -783,6 +778,9 @@ function rcube_context_menu(p) {
             if (!this.is_submenu) {
                 this.selected_object = null;
                 $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
+
+                if (this.modal)
+                    $('#rcm-modal').remove();
             }
 
             // if the menu has submenus they should be hidden to
