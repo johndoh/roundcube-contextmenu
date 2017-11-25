@@ -1,11 +1,12 @@
 <roundcube:if condition="env:action == ''" />
-<div style="display: none;" aria-hidden="true">
-    <ul id="rcmAddressBookMenu" role="menu">
-        <roundcube:button command="plugin.contextmenu.assigngroup" type="link-menuitem" label="contextmenu.assigngroup" class="assigngroup disabled" classAct="assigngroup active" tabindex="-1" aria-disabled="true" />
-        <roundcube:button command="group-remove-selected" type="link-menuitem" label="groupremoveselected" class="removegroup disabled" classAct="removegroup" tabindex="-1" aria-disabled="true" />
+<div id="rcmaddressbook-menu" class="popupmenu">
+    <h3 id="aria-label-rcmaddressbook-menu" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
+    <ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-rcmaddressbook-menu">
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.assigngroup" label="contextmenu.assigngroup" class="assigngroup" classAct="assigngroup active" />
+        <roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremoveselected" class="removegroup" classAct="removegroup active" />
         <roundcube:if condition="env:writable_source &gt; 1" />
-        <roundcube:button command="move" type="link-menuitem" label="moveto" class="move disabled" classAct="move active" tabindex="-1" aria-disabled="true" />
-        <roundcube:button command="copy" type="link-menuitem" label="copyto" class="copy disabled" classAct="copy active" tabindex="-1" aria-disabled="true" />
+        <roundcube:button type="link-menuitem" command="move" label="moveto" class="move" classAct="move active" />
+        <roundcube:button type="link-menuitem" command="copy" label="copyto" class="copy" classAct="copy active" />
         <roundcube:endif />
     </ul>
 </div>

@@ -1,9 +1,10 @@
 <roundcube:if condition="env:action == ''" />
-<div style="display: none;" aria-hidden="true">
-    <ul id="rcmFolderMenu" role="menu">
-        <roundcube:button command="plugin.contextmenu.collapseall" type="link-menuitem" label="contextmenu.collapseall" class="collapseall" tabindex="-1" aria-disabled="true" />
-        <roundcube:button command="plugin.contextmenu.expandall" type="link-menuitem" label="contextmenu.expandall" class="expandall" tabindex="-1" aria-disabled="true" />
-        <roundcube:button command="plugin.contextmenu.openfolder" type="link-menuitem" label="openinextwin" class="openfolder rcm_active" tabindex="-1" aria-disabled="true" />
+<div id="rcmfolder" class="popupmenu">
+    <h3 id="aria-label-rcmfolder" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
+    <ul id="rcmfoldermenu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-rcmfolder">
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.collapseall" label="contextmenu.collapseall" classAct="active" class="collapseall" />
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.expandall" label="contextmenu.expandall" classAct="active" class="expandall" />
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.openfolder" label="openinextwin" classAct="active"  class="openfolder rcm_active" />
     </ul>
 </div>
 <roundcube:endif />

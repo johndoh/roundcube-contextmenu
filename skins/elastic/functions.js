@@ -36,11 +36,6 @@ function rcm_submenu_toggle(p) {
     if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/)) && p.id.indexOf('#taskmenu') == -1) {
         var source_id = matches[1];
 
-        // special handling for additional options in folders and contacts menus
-        if (source_id == '#rcmFolderMenu' || source_id == '#rcmAddressBookMenu') {
-            source_id = $(source_id).parent();
-        }
-
         // make sure its a real submenu and not the toolbar on a small screen
         if ($(source_id).is('div')) {
             if (p.show) {
@@ -103,7 +98,7 @@ $(document).ready(function() {
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#toolbar-menu > li'}); } );
-            rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptions-menu > ul > li']})");
+            rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmfolder-menu > ul', '#mailboxoptions-menu > ul > li']})");
 
             // remove import option from message menu
             rcmail.addEventListener('contextmenu_init', function(menu) {
@@ -124,7 +119,7 @@ $(document).ready(function() {
             }); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#taskmenu > span > a.compose', '#toolbar-menu > li', '#rcmAddressBookMenu'], 'list_object': 'contact_list'}, {
+            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#taskmenu > span > a.compose', '#toolbar-menu > li', '#rcmaddressbook-menu > ul'], 'list_object': 'contact_list'}, {
                 'init': function(p) { rcm_reorder_contact_menu(p); }
             }); } );
             rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#layout > .sidebar > div.footer a.create', '#groupoptions-menu > ul > li']})");

@@ -45,7 +45,7 @@ $(document).ready(function() {
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
-            rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmFolderMenu', '#mailboxoptionsmenu ul']})");
+            rcmail.add_onload("rcm_foldermenu_init('#mailboxlist li', {'menu_source': ['#rcmfoldermenu > ul', '#mailboxoptionsmenu ul']})");
         }
         else if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
             rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'composeto', 'menu_source': '#abookactions', 'list_object': 'contact_list'}, {
@@ -61,11 +61,11 @@ $(document).ready(function() {
                         // remove the ID and add override class
                         btn.removeAttr('id').addClass('rcm_active');
                         btn = $('<li>').attr('role', 'menuitem').append(btn);
-                        btn.insertAfter($('#rcmAddressBookMenu').find('a.assigngroup').parent('li'));
+                        btn.insertAfter($('#rcmaddressbookmenu > ul').find('a.assigngroup').parent('li'));
                     }
                 }
             });
-            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', '#rcmAddressBookMenu'], 'list_object': 'contact_list'}, {
+            rcmail.addEventListener('insertrow', function(props) { rcm_listmenu_init(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', '#rcmaddressbookmenu > ul'], 'list_object': 'contact_list'}, {
                 'init': function(p) { rcm_reorder_contact_menu(p); }
             }); } );
             rcmail.add_onload("rcm_abookmenu_init('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}, {'init': function(p) { rcm_reorder_abook_menu(p); }})");
