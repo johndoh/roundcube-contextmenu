@@ -17,7 +17,7 @@
 }
 div.contextmenu ul.toolbar > li {
   display: block;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f1f3f4;
 }
 div.contextmenu ul.toolbar > li > a {
   outline: 0;
@@ -35,7 +35,7 @@ div.contextmenu ul.toolbar > li > a.button {
 }
 div.contextmenu ul.toolbar > li > a.button:hover {
   color: #ffffff;
-  background-color: #008cd0;
+  background-color: #37beff;
 }
 div.contextmenu ul.toolbar > li:last-child {
   border-bottom: none;
