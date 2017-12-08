@@ -944,7 +944,6 @@ function rcm_addressbook_selector(event, command, callback) {
         // register delegate event handler for folder item clicks
         container.on('click', 'a.active', function(e) {
             container.data('callback')(this, container.data('command'), e);
-            return false;
         });
 
         rcmail.rcm_addressbook_selector_element = container;
@@ -1009,7 +1008,6 @@ function rcm_group_selector(event, command, callback) {
         // register delegate event handler for folder item clicks
         container.on('click', 'a.active', {cmd: command}, function(e) {
             container.data('callback')(this, e);
-            return false;
         });
 
         rcmail.rcm_addressgroup_selector_element = container;
