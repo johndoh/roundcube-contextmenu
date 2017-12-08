@@ -33,11 +33,11 @@ function rcm_reorder_contact_menu(p) {
 
 function rcm_submenu_toggle(p) {
     var matches;
-    if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv\.footer)?)/)) && p.id.indexOf('#taskmenu') == -1) {
+    if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv)?)/)) && p.id.indexOf('#taskmenu') == -1) {
         var source_id = matches[1];
 
         // make sure its a real submenu and not the toolbar on a small screen
-        if ($(source_id).is('div')) {
+        if ($(source_id).is('div') && !$(source_id).hasClass('footer')) {
             if (p.show) {
                 $(source_id).show();
                 $(source_id).removeClass('hidden');
