@@ -36,6 +36,7 @@ div.contextmenu ul.toolbar {
       outline: 0;
       cursor: default !important;
       padding: 0 0.5em;
+      font-size: 0.875rem;
     }
 
     > a.button {
@@ -61,14 +62,15 @@ div.contextmenu ul.toolbar {
   a.rcmbutton {
     &::before {
       line-height: inherit;
-      margin-right: 0.5rem !important;
-      min-width: 25px;
+      margin: 0 0.25rem 0 0;
+      width: 1.18em;
     }
 
     &::after {
       .font-icon-class;
       content: @contextmenu-placeholder-icon;
       padding: 0 0.5em;
+      font-size: 100%;
     }
 
     &.rcmsubbutton::after {
@@ -109,6 +111,11 @@ html.touch {
       }
 
       a.rcmbutton {
+        &::before,
+        &::after {
+          margin-right: 0.5rem;
+        }
+
         > span.icon {
           .overflow-ellipsis;
           font-size: 1.2rem;

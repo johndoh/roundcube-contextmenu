@@ -23,6 +23,7 @@ div.contextmenu ul.toolbar > li > a {
   outline: 0;
   cursor: default !important;
   padding: 0 0.5em;
+  font-size: 0.875rem;
 }
 div.contextmenu ul.toolbar > li > a.button {
   height: 2.5rem;
@@ -42,8 +43,8 @@ div.contextmenu ul.toolbar > li:last-child {
 }
 div.contextmenu ul.toolbar a.rcmbutton::before {
   line-height: inherit;
-  margin-right: 0.5rem !important;
-  min-width: 25px;
+  margin: 0 0.25rem 0 0;
+  width: 1.18em;
 }
 div.contextmenu ul.toolbar a.rcmbutton::after {
   font-size: 1.25em;
@@ -63,6 +64,7 @@ div.contextmenu ul.toolbar a.rcmbutton::after {
   -webkit-font-smoothing: antialiased;
   content: "\00a0";
   padding: 0 0.5em;
+  font-size: 100%;
 }
 div.contextmenu ul.toolbar a.rcmbutton.rcmsubbutton::after {
   content: "\f105";
@@ -87,6 +89,10 @@ html.layout-phone div.contextmenu {
 html.touch div.contextmenu ul.toolbar > li > a {
   height: 3.4rem;
   line-height: 3.4rem;
+}
+html.touch div.contextmenu ul.toolbar a.rcmbutton::before,
+html.touch div.contextmenu ul.toolbar a.rcmbutton::after {
+  margin-right: 0.5rem;
 }
 html.touch div.contextmenu ul.toolbar a.rcmbutton > span.icon {
   overflow: hidden;
