@@ -4,8 +4,6 @@
 
 @import (reference) "/skins/elastic/styles/variables";
 @import (reference) "/skins/elastic/styles/mixins";
-@import (reference) "/skins/elastic/styles/colors";
-@import (reference) "/skins/elastic/styles/fontawesome";
 
 @color-contextmenu-source-background: #f9f9f9;
 @contextmenu-placeholder-icon: "\00a0";
@@ -125,15 +123,15 @@ html.touch {
 div.contextmenu {
   a {
     &.cmd_plugin-contextmenu-collapseall::before {
-      content: @fa-var-minus-square-o;
+      .font-icon-regular(@fa-var-minus-square);
     }
 
     &.cmd_plugin-contextmenu-expandall::before {
-      content: @fa-var-plus-square-o;
+      .font-icon-regular(@fa-var-plus-square);
     }
 
     &.cmd_plugin-contextmenu-openfolder::before {
-      content: @fa-var-external-link;
+      content: @fa-var-external-link-alt;
     }
 
     &.cmd_plugin-contextmenu-assigngroup::before {
@@ -145,7 +143,7 @@ div.contextmenu {
     }
 
     &.cmd_search-delete::before {
-      content: @fa-var-trash-o !important;
+      content: @fa-var-trash-alt !important;
     }
   }
 }
@@ -160,7 +158,7 @@ div.contextmenu {
     }
 
     &.contactgroup::before {
-      content: @fa-var-group;
+      content: @fa-var-users;
     }
   }
 }

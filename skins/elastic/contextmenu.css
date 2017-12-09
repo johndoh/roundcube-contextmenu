@@ -54,7 +54,7 @@ div.contextmenu ul.toolbar a.rcmbutton::after {
   height: 1em;
   font-family: 'Icons';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   text-decoration: inherit;
   text-align: center;
   speak: none;
@@ -94,13 +94,15 @@ html.touch div.contextmenu ul.toolbar a.rcmbutton > span.icon {
   font-size: 1.2rem;
 }
 div.contextmenu a.cmd_plugin-contextmenu-collapseall::before {
-  content: "\f147";
+  content: "\f146";
+  font-weight: 400;
 }
 div.contextmenu a.cmd_plugin-contextmenu-expandall::before {
-  content: "\f196";
+  content: "\f0fe";
+  font-weight: 400;
 }
 div.contextmenu a.cmd_plugin-contextmenu-openfolder::before {
-  content: "\f08e";
+  content: "\f35d";
 }
 div.contextmenu a.cmd_plugin-contextmenu-assigngroup::before {
   content: "\f234";
@@ -109,7 +111,7 @@ div.contextmenu a.cmd_group-remove-selected::before {
   content: "\f235";
 }
 div.contextmenu a.cmd_search-delete::before {
-  content: "\f014" !important;
+  content: "\f2ed" !important;
 }
 #addressbook-selector a.addressbook::before,
 #addressgroup-selector a.addressbook::before {
