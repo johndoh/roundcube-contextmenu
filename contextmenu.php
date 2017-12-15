@@ -47,8 +47,15 @@ class contextmenu extends rcube_plugin
         }
     }
 
-    public function additional_menus()
+    public function additional_menus($args)
     {
+        // Other plugins may use template parsing method, this causes
+        // more than one render_page execution. We have to make sure
+        // the menu is added only once (in the main task template).
+        if ($args['template'] != rcube::get_instance()->task) {
+            return;
+        }
+
         // add additional menus from skins folder
         $path = "/" . $this->local_skin_path() . '/includes/' . rcube::get_instance()->task . '.html';
         if (is_file(slashify($this->home) . $path)) {
