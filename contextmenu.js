@@ -20,6 +20,7 @@ rcube_webmail.prototype.context_menu_settings = {
     skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
     always_enable_commands: ['move', 'copy'],
     command_pattern: /rcmail\.command\(\x27([^\x27]+)\x27,\s?\x27((?:\\\x27|[^\x27])*)\x27/,
+    addressbook_pattern: /([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i,
     popup_attrib: 'onclick',
     popup_pattern: '',
     popup_func: '',
@@ -240,15 +241,11 @@ function rcm_foldermenu_init(el, props, events) {
         rcm_hide_menu(e);
     })
     .on("contextmenu", function(e) {
-        var source = $(this).children('a');
+        var source = $(this).find('a[rel][onclick]').filter(function() { return $(this).attr('onclick').match(rcmail.context_menu_settings.command_pattern); }).first();
+        source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
-        // remove focus (and keyboard nav highlighting) from A
-        source.blur();
-
-        if (source.attr('rel') && source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_settings.command_pattern)) {
-            rcm_hide_menu(e);
-            rcm_show_menu(e, this, source.attr('rel'), menu);
-        }
+        rcm_hide_menu(e);
+        rcm_show_menu(e, this, source.attr('rel'), menu);
     });
 }
 
@@ -342,13 +339,11 @@ function rcm_abookmenu_init(el, props, events) {
         // hide menu when changing address book
         rcm_hide_menu(e);
     })
-    .on("contextmenu",function(e) {
-        var source = $(this).children('a'), matches;
+    .on("contextmenu", function(e) {
+        var source = $(this).find('a[rel]').filter(function() { return $(this).attr('rel').match(rcmail.context_menu_settings.addressbook_pattern); }).first(), matches;
+        source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
-        // remove focus (and keyboard nav highlighting) from A
-        source.blur();
-
-        if (source.attr('rel') && (matches = source.attr('rel').match(/([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i))) {
+        if (matches = source.attr('rel').match(rcmail.context_menu_settings.addressbook_pattern)) {
             rcm_hide_menu(e);
             rcm_show_menu(e, this, matches[1], menu);
         }
