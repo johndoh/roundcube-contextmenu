@@ -1128,8 +1128,7 @@ $(document).ready(function() {
                 rcube_find_object(button_id).href = '#';
             }, false);
         }
-
-        if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
+        else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
             // address book selector
             rcmail.addEventListener('actionbefore', function(props) {
                 if ((props.action == 'move' || props.action == 'copy') && props.props == '') {
