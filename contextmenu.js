@@ -428,7 +428,7 @@ function rcm_hide_menu(e, sub_only, no_trigger) {
 
 function rcube_context_menu(p) {
     this.menu_name = null;
-    this.menu_source = null;
+    this.menu_source = new Array();
     this.menu_source_obj = null;
     this.list_object = null;
     this.mouseover_timeout = 400;
@@ -455,7 +455,11 @@ function rcube_context_menu(p) {
 
     this.update_settings = function(settings) {
         for (var n in settings) {
-            if (settings.is_submenu != true && typeof this[n] == 'object' && typeof settings[n] == 'object') {
+            if (n == 'menu_source') {
+                // special handling or manu_source option to ensure its always an array
+                this[n] = typeof settings[n] == 'string' ? [settings[n]] : settings[n];
+            }
+            else if (settings.is_submenu != true && typeof this[n] == 'object' && typeof settings[n] == 'object' && !$.isArray(settings[n])) {
                 this[n] = $.extend(this[n], settings[n]);
             }
             else {
@@ -495,25 +499,23 @@ function rcube_context_menu(p) {
 
             span.addClass(this.classes.span);
 
-            // loop over possible menu elements and build settings object
-            var sources = typeof this.menu_source == 'string' ? [this.menu_source] : this.menu_source;
             this.menu_source_obj = {};
-            $.each(sources, function(i) {
+            $.each(this.menu_source, function(i) {
                 var source_elements;
-                if (typeof sources[i] == 'string') {
-                    ref.menu_source_obj[sources[i]] = {
-                        'toggle': !$(sources[i]).is(':visible')
+                if (typeof ref.menu_source[i] == 'string') {
+                    ref.menu_source_obj[ref.menu_source[i]] = {
+                        'toggle': !$(ref.menu_source[i]).is(':visible')
                     };
-                    source_elements = $(sources[i]).children();
+                    source_elements = $(ref.menu_source[i]).children();
                 }
                 else {
                     ref.menu_source_obj[i] = {
                         'toggle': false
                     };
-                    source_elements = $(sources[i]);
+                    source_elements = $(ref.menu_source[i]);
                 }
 
-                ul.attr('aria-labelledby', $(sources[i]).attr('aria-labelledby'));
+                ul.attr('aria-labelledby', $(ref.menu_source[i]).attr('aria-labelledby'));
 
                 $.each(source_elements, function() {
                     var src_elem, elem, command, args;

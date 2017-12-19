@@ -112,7 +112,7 @@ var menu = rcm_callbackmenu_init({menu_name: 'mymenu', menu_source: '#mymenu'});
 ```
 A JSON object can also be used instead of an element selector to add simple elements to the Contextmenu. For example:
 ```js
-var menu = rcm_callbackmenu_init({menu_name: 'mymenu', menu_source: ['#mymenu', {lable: 'extra item', command: 'plugin.myplugin.command', props: '', class: 'myclass'}]});
+var menu = rcm_callbackmenu_init({menu_name: 'mymenu', menu_source: ['#mymenu', {label: 'extra item', command: 'plugin.myplugin.command', props: '', class: 'myclass'}]});
 ```
 The JSON object can have:
 * `label` (string) required - text for the menu element
