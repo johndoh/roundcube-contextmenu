@@ -35,7 +35,7 @@ function rcm_reorder_abook_menu(p) {
 
 $(document).ready(function() {
     if (window.rcmail) {
-        rcmail.context_menu_settings = $.extend(true, rcmail.context_menu_settings, {
+        $.extend(true, rcmail.context_menu_settings, {
             popup_pattern: /rcmail_ui\.show_popup\(\x27([^\x27]+)\x27/,
             classes: {
                 button_active: 'active button',

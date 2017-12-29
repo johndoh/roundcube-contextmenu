@@ -52,7 +52,7 @@ function rcm_submenu_toggle(p) {
 
 $(document).ready(function() {
     if (window.rcmail) {
-        rcmail.context_menu_settings = $.extend(true, rcmail.context_menu_settings, {
+        $.extend(true, rcmail.context_menu_settings, {
             popup_attrib: 'data-popup',
             popup_func: "rcm_popup_wrapper('$2');",
             popup_pattern: /rcm_popup_wrapper\(\x27([^\x27]+)\x27|^([a-z0-9\-]+)$/i,

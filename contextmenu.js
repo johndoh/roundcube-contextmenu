@@ -453,27 +453,12 @@ function rcube_context_menu(p) {
     this.submenus = {};
     this.timers = {};
 
-    this.update_settings = function(settings) {
-        for (var n in settings) {
-            if (n == 'menu_source') {
-                // special handling or manu_source option to ensure its always an array
-                this[n] = typeof settings[n] == 'string' ? [settings[n]] : settings[n];
-            }
-            else if (settings.is_submenu != true && typeof this[n] == 'object' && typeof settings[n] == 'object' && !$.isArray(settings[n])) {
-                this[n] = $.extend(this[n], settings[n]);
-            }
-            else {
-                this[n] = settings[n];
-            }
-        }
-    };
+    // add global config defaults and instance config
+    $.extend(true, this, rcmail.context_menu_settings.menu_defaults, p);
 
-    // add global defaults
-    this.update_settings(rcmail.context_menu_settings.menu_defaults);
-
-    // add menu specific settings
-    if (p && typeof p === 'object')
-        this.update_settings(p);
+    // ensure manu_source option is always an array
+    if (typeof this.menu_source == 'string')
+        this.menu_source = [this.menu_source];
 
     var ref = this;
 
