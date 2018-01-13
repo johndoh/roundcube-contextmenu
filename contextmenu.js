@@ -854,17 +854,17 @@ function rcube_context_menu(p) {
         return prev_sel;
     };
 
-    this.destroy = function(complete) {
+    this.destroy = function() {
         $.each(this.submenus, function() {
-            this.destroy(true);
+            this.destroy();
         });
 
-        // reset main vars
-        this.submenus = {};
+        // remove the menu from the UI
         this.container.remove();
-        this.container = null;
 
-        if (complete)
+        if (this.is_submenu)
+            delete rcmail.env.contextmenus[this.parent_menu.menu_name].submenus[this.menu_name];
+        else
             delete rcmail.env.contextmenus[this.menu_name];
     };
 
