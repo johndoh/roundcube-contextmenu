@@ -19,6 +19,7 @@ Roundcube Webmail ContextMenu
  * Replace overload_commands option with always_enable_commands
  * overload_commands option removed (req RC afaaa77)
  * Add Elastic skin support
+ * Add menu-change JS event listener
 
 Version 2.3 (2017-06-14, rc-1.3)
 =================================================

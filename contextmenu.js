@@ -674,6 +674,11 @@ function rcube_context_menu(p) {
                     ref.parent_menu.triggerEvent('insertitem', {item: row});
                     rows.push(row);
                 });
+
+                // listen for a menu-change event, it means the context menu object needs to be rebuilt
+                $(ref.menu_source[i]).on('menu-change', function() {
+                    ref.destroy();
+                });
             });
 
             ul.append(rows).appendTo(this.container);
