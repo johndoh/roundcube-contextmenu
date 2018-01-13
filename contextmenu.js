@@ -676,8 +676,10 @@ function rcube_context_menu(p) {
                 });
 
                 // listen for a menu-change event, it means the context menu object needs to be rebuilt
-                $(ref.menu_source[i]).on('menu-change', function() {
-                    ref.destroy();
+                $(ref.menu_source[i]).on('menu-change', function(e) {
+                    // watch out for event bubbling, we only want the original event
+                    if (e.target == this)
+                        ref.destroy();
                 });
             });
 
