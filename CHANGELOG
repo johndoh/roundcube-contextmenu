@@ -2,6 +2,14 @@ Roundcube Webmail ContextMenu
 =============================
 
  * Rework Contextmenu settings object
+ * Rework core Contextmenu JS functions
+    * rcm_listmenu_init() -> rcmail.contextmenu.init_list()
+    * rcm_foldermenu_init()-> rcmail.contextmenu.init_folder()
+    * rcm_abookmenu_init()-> rcmail.contextmenu.init_addressbook()
+    * rcm_callbackmenu_init()-> return rcmail.contextmenu.init()
+    * rcm_show_menu()-> rcmail.contextmenu.show_one()
+    * rcm_hide_menu()-> rcmail.contextmenu.hide_all()
+    * rcm_check_button_state()-> return rcmail.contextmenu.ui_button_check()
  * Allow skins to set Contextmenu classes
  * Remove IE8 hacks
  * Improve menu element parsing, allow for popup menu functions in skin
@@ -11,6 +19,8 @@ Roundcube Webmail ContextMenu
  * Depreciate contextRow class, use context-source instead
  * Depreciate rcmmainmenu class, use rcm-mainmenu instead
  * Depreciate rcmsubmenu and submenu classes, use rcm-submenu instead
+ * Depreciate rcm-active class, use rcm-active instead
+ * Depreciate rcm-ignore class, use rcm-ignore instead
  * Add new event addmenuitem
  * Add ability to add to core event handlers as well as replace them
  * Improve collapseall/expandall JS functions to better mimic true click

@@ -23,7 +23,7 @@ The following global options are available:
     * mainmenu - class(es) applied to the menu container of top level menus
     * submenu - class(es) applied to the menu container of sub menus
     * popupmenu - class(es) applied to popup menus created by this plugin
-    * button_ignore - class(es) applied by the skip removed from buttons in the contextmenu
+    * button_remove - thse class(es) will be removed from the context menu button (for example classes that are used in the UI which are not needed in the context menu)
     * button_active - class(es) for buttons in an active state
     * button_disabled - class(es) for buttons in an inactive state
 * menu_defaults - (object) default options for Contextmenu objects
@@ -33,10 +33,10 @@ The following global options are available:
 
 By default Contextmenu is added to the `mail` and `addressbook` tasks in Roundcube. It can be added to other tasks by calling the PHP function `include_plugin()` like this `$this->include_plugin('contextmenu');` from inside your plugin. This function checks if the Contextmenu plugin is available and loads it if possible.
 
-The JavaScript function `rcm_callbackmenu_init()` creates the Contextmenu object. If the Contextmenu functions are enabled in the UI then the `rcmail.env.contextmenu` variable JavaScript will be set to true. Setting this variable to false will disable all context menus.
+The JavaScript function `rcmail.contextmenu.init()` creates the Contextmenu object. If the Contextmenu functions are enabled in the UI then the `rcmail.env.contextmenu` variable JavaScript will be set to true. Setting this variable to false will disable all context menus.
 
 ```js
-var menu = rcm_callbackmenu_init(props, events);
+var menu = rcmail.contextmenu.init(props, events);
 ```
 
 The functions takes 2 parameters:
@@ -61,7 +61,7 @@ The functions takes 2 parameters:
 
 Creating a simple Contextmenu looks like this:
 ```js
-var menu = rcm_callbackmenu_init(
+var menu = rcmail.contextmenu.init(
   {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'},
   {'beforeactivate': function(p) {
     rcmail.env.contextmenu_selection = p.ref.list_selection(true);
@@ -74,26 +74,26 @@ var menu = rcm_callbackmenu_init(
 The Contextmenu must then be attached to the element(s) in the UI. For example:
 ```js
 $(el).on("contextmenu", function(e) {
-  rcm_show_menu(e, obj, source_id, menu);
+  rcmail.contextmenu.show(e, obj, source_id, menu);
 });
 ```
 
-The `rcm_show_menu` displays a Contextmenu on the screen. It has the following parameters:
+The `rcmail.contextmenu.show` displays a Contextmenu on the screen. It has the following parameters:
 * e - (event) The JS event object
 * obj - (object) The object the Contextmenu is active on (typically `this`)
 * source_id - (string) The object ID used by core function. When using the Contextmenu on a Roundcube list object then the ID can be retrieved from the object, like this:
 ```js
 if (uid = list_object.get_row_uid(this)) {
-  rcm_show_menu(e, this, uid, menu);
+  rcmail.contextmenu.show(e, this, uid, menu);
 }
 ```
 The ID can also be extracted from the originial function call, like this:
 ```js
-if (source.attr('onclick') && source.attr('onclick').match(rcmail.context_menu_command_pattern)) {
-  rcm_show_menu(e, this, RegExp.$2, menu);
+if (source.attr('onclick') && source.attr('onclick').match(rcmail.contextmenu.command_pattern)) {
+  rcmail.contextmenu.show(e, this, RegExp.$2, menu);
 }
 ```
-* menu - (object) The menu object as created by `rcm_callbackmenu_init`
+* menu - (object) The menu object as created by `rcmail.contextmenu.init`
 
 ## Menu sources
 
@@ -108,11 +108,11 @@ $this->api->output->add_footer(html::div(array('style' => 'display: none;'), $ou
 ```
 The Contextmenu can then be invoked like this:
 ```js
-var menu = rcm_callbackmenu_init({menu_name: 'mymenu', menu_source: '#mymenu'});
+var menu = rcmail.contextmenu.init({menu_name: 'mymenu', menu_source: '#mymenu'});
 ```
 A JSON object can also be used instead of an element selector to add simple elements to the Contextmenu. For example:
 ```js
-var menu = rcm_callbackmenu_init({menu_name: 'mymenu', menu_source: ['#mymenu', {label: 'extra item', command: 'plugin.myplugin.command', props: '', class: 'myclass'}]});
+var menu = rcmail.contextmenu.init({menu_name: 'mymenu', menu_source: ['#mymenu', {label: 'extra item', command: 'plugin.myplugin.command', props: '', class: 'myclass'}]});
 ```
 The JSON object can have:
 * `label` (string) required - text for the menu element
@@ -153,11 +153,11 @@ On the address book screen:
 * contactlist - attached to rows in the contacts list
 * abooklist - attached to addressbooks and groups
 
-To prevent an element from appearing in a Contextmenu give it the class `rcm_ignore`.
+To prevent an element from appearing in a Contextmenu give it the class `rcm-ignore`.
 
-To make sure an element in the Contextmenu is always active give it the class `rcm_active`.
+To make sure an element in the Contextmenu is always active give it the class `rcm-active`.
 
-The environmental variable `rcmail.env.context_menu_source_id` contains the ID of the specific element that the Contextmenu was triggered on, this is the `source_id` passed to `rcm_show_menu`
+The environmental variable `rcmail.env.context_menu_source_id` contains the ID of the specific element that the Contextmenu was triggered on, this is the `source_id` passed to `rcmail.contextmenu.show`
 
 ## Events
 
@@ -194,7 +194,7 @@ By default the following function is used:
 
 ```js
 function(p) {
-  if (!$(p.el).hasClass(rcmail.context_menu_settings.classes.button_active))
+  if (!$(p.el).hasClass(rcmail.contextmenu.settings.classes.button_active))
     return;
 
   // enable the required command
@@ -203,8 +203,13 @@ function(p) {
   var result = rcmail.command(p.command, p.args, p.el, p.evt);
   rcmail.enable_command(p.command, prev_command);
 
-  if (!$.inArray(p.command, rcmail.context_menu_settings.always_enable_commands))
-    rcmail.enable_command(p.command, prev_command);
+  // leave commands in always_enable_commands enabled, they are disabled when menu is closes
+  if ($.inArray(p.command, rcmail.contextmenu.settings.always_enable_commands) >= 0 && prev_command === false) {
+      rcmail.contextmenu.vars.commands_disable_on_hide.push(p.command);
+  }
+  else {
+      rcmail.enable_command(p.command, prev_command);
+  }
 
   return result;
 }
@@ -275,7 +280,7 @@ Contextmenu listens for a menu-change event on all source elements. If this even
 
 ## Contextmenu and skins
 
-In the plugin folder there is a skins folder, and inside that there is a folder for each skin. Two files are needed for each skin: contextmenu.css - CSS for the menu, and functions.js containing the JavaScript to create Contextmenus in the skin. This plugin provides some helper functions for adding the default menus to the UI, they are: `rcm_listmenu_init()` for attaching a Contextmenu to a Roundcube list object, `rcm_foldermenu_init()` for attaching a Contextmenu to the folder list on the mail screen, and `rcm_abookmenu_init()` for attaching a Contextmenu to the address book and groups list on the address book screen. Each function expects the same 3 parameters:
+In the plugin folder there is a skins folder, and inside that there is a folder for each skin. Two files are needed for each skin: contextmenu.css - CSS for the menu, and functions.js containing the JavaScript to create Contextmenus in the skin. This plugin provides some helper functions for adding the default menus to the UI, they are: `rcmail.contextmenu.init_list()` for attaching a Contextmenu to a Roundcube list object, `rcmail.contextmenu.init_folder()` for attaching a Contextmenu to the folder list on the mail screen, and `rcmail.contextmenu.init_addressbook()` for attaching a Contextmenu to the address book and groups list on the address book screen. Each function expects the same 3 parameters:
 * The HTML object or jQuery selector of the element to attach to.
 * A props object, see [Creating a new Contextmenu](#creating-a-new-contextmenu)
 * An events object, see [Events](#events)
