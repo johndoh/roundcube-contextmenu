@@ -106,5 +106,14 @@ $(document).ready(function() {
             rcmail.addEventListener('group_insert', function(props) { rcmail.contextmenu.init_addressbook(props.li, {'menu_source': ['#layout > .sidebar > div.footer a.create', '#groupoptions-menu > ul > li']}); } );
             rcmail.addEventListener('abook_search_insert', function(props) { rcmail.contextmenu.init_addressbook(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#layout > .sidebar > div.footer a.create', '#groupoptions-menu > ul > li']}); } );
         }
+
+        // Elastic skin uses custom popup handling so make sure there is only 1 contextmenu popop open at a time
+        rcmail.addEventListener('menu-open', function(p) {
+            for (var i = 0; i < rcmail.contextmenu.vars.popup_menus.length; i++) {
+                if (p.name != rcmail.contextmenu.vars.popup_menus[i]) {
+                    rcmail.hide_menu(rcmail.contextmenu.vars.popup_menus[i], p.originalEvent);
+                }
+            }
+        });
     }
 });
