@@ -23,12 +23,10 @@ rcube_webmail.prototype.contextmenu.skin_funcs.compose_menu_text = function(p) {
 };
 
 rcube_webmail.prototype.contextmenu.skin_funcs.reorder_contact_menu = function(p) {
-    // put export link last
+    // put export and more submenus last
     var ul = p.ref.container.find('ul:first');
     $(p.ref.container).find('a.export').parent('li').appendTo(ul);
-
-    // put assign group link before remove
-    $(p.ref.container).find('a.assigngroup').parent('li').insertBefore($(p.ref.container).find('a.removegroup').parent('li'));
+    $(p.ref.container).find('a.more').parent('li').appendTo(ul);
 };
 
 $(document).ready(function() {
@@ -47,7 +45,7 @@ $(document).ready(function() {
             }); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-            rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar', '#addresslist div.boxfooter a.delete', '#addresslist div.boxfooter a.removegroup', '#rcmaddressbookmenu'], 'list_object': 'contact_list'}, {
+            rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar', '#addresslist div.boxfooter a.delete'], 'list_object': 'contact_list'}, {
                 'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_contact_menu(p); }
             }); } );
             rcmail.add_onload("rcmail.contextmenu.init_addressbook('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer a.add', '#groupoptionsmenu']})");

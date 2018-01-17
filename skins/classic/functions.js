@@ -21,12 +21,6 @@ rcube_webmail.prototype.contextmenu.skin_funcs.compose_menu_text = function(p) {
     }
 };
 
-rcube_webmail.prototype.contextmenu.skin_funcs.reorder_contact_menu = function(p) {
-    // put export link last
-    var ul = p.ref.container.find('ul:first');
-    $(p.ref.container).find('a.export').parent('li').appendTo(ul);
-};
-
 rcube_webmail.prototype.contextmenu.skin_funcs.reorder_addressbook_menu = function(p) {
     // remove the remove from group option from the address book menu
     p.ref.container.find('a.rcm_elem_groupmenulink').remove();
@@ -55,22 +49,7 @@ $(document).ready(function() {
             }); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
-            rcmail.addEventListener('contextmenu_init', function(menu) {
-                if (menu.menu_name == 'contactlist') {
-                    // copy the remove from group option in the contact menu
-                    var btn;
-                    if (btn = $('#' + rcmail.buttons['group-remove-selected'][0].id).clone()) {
-                        // remove the ID and add override class
-                        btn.removeAttr('id').addClass('rcm_active');
-                        btn = $('<li>').attr('role', 'menuitem').append(btn);
-                        btn.insertAfter($('#rcmaddressbookmenu > ul').find('a.assigngroup').parent('li'));
-                    }
-                }
-            });
-
-            rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar', '#rcmaddressbookmenu > ul'], 'list_object': 'contact_list'}, {
-                'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_contact_menu(p); }
-            }); } );
+            rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#abooktoolbar'], 'list_object': 'contact_list'}); } );
             rcmail.add_onload("rcmail.contextmenu.init_addressbook('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}, {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_addressbook_menu(p); }})");
             rcmail.addEventListener('group_insert', function(props) { rcmail.contextmenu.init_addressbook(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}); } );
             rcmail.addEventListener('abook_search_insert', function(props) { rcmail.contextmenu.init_addressbook(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#directorylist-footer', '#groupoptionsmenu ul']}); } );
