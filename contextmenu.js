@@ -832,7 +832,7 @@ function rcube_context_menu(p) {
 
     this.list_selection = function(show, prev_sel) {
         // make the system think no preview pane exists while we do some fake message selects
-        // to enable/disable relevent commands for current selection
+        // to enable/disable relevant commands for current selection
         var prev_contentframe = rcmail.env.contentframe, i;
         rcmail.env.contentframe = null;
 
