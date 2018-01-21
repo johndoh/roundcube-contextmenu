@@ -66,7 +66,7 @@ $(document).ready(function() {
 
                     var header = $('<h3>').addClass('popover-header')
                         .append($('<a>').attr('class', class_name).text(title))
-                        .click(function(e) {
+                        .on('click', function(e) {
                             rcmail.contextmenu.hide_all(e, $('div.contextmenu:visible').length >= 1);
                         });
 

@@ -114,7 +114,7 @@ rcube_webmail.prototype.contextmenu = {
             }
         }, events));
 
-        $("#" + row).on("contextmenu", function(e) {
+        $("#" + row).on('contextmenu', function(e) {
             var uid;
             if (uid = rcmail[props.list_object].get_row_uid(this)) {
                 rcmail.contextmenu.hide_all(e);
@@ -214,11 +214,11 @@ rcube_webmail.prototype.contextmenu = {
             }
         }, events));
 
-        $(el).click(function(e) {
+        $(el).on('click', function(e) {
             // hide menu when changing folder
             rcmail.contextmenu.hide_all(e);
         })
-        .on("contextmenu", function(e) {
+        .on('contextmenu', function(e) {
             var source = $(this).find('a[rel][onclick]').filter(function() { return $(this).attr('onclick').match(rcmail.contextmenu.settings.command_pattern); }).first();
             source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
@@ -313,11 +313,11 @@ rcube_webmail.prototype.contextmenu = {
             }
         }, events));
 
-        $(el).click(function(e) {
+        $(el).on('click', function(e) {
             // hide menu when changing address book
             rcmail.contextmenu.hide_all(e);
         })
-        .on("contextmenu", function(e) {
+        .on('contextmenu', function(e) {
             var source = $(this).find('a[rel]').filter(function() { return $(this).attr('rel').match(rcmail.contextmenu.settings.addressbook_pattern); }).first(), matches;
             source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
@@ -596,7 +596,7 @@ function rcube_context_menu(p) {
                         if (ref.classes.sub_button_span)
                             a.append($('<span>').addClass(ref.classes.sub_button_span));
                         row.addClass(rcmail.contextmenu.settings.classes.submenu);
-                        a.click(function(e) {
+                        a.on('click', function(e) {
                             if (!$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
                                 return;
 
@@ -628,7 +628,7 @@ function rcube_context_menu(p) {
                         if (elem.attr('target'))
                             a.attr('target', elem.attr('target'));
 
-                        a.click(function(e) {
+                        a.on('click', function(e) {
                             if ($(this).parents('div.' + rcmail.contextmenu.settings.classes.submenu.replace(/ /g, '.')).length == 0) {
                                 rcmail.contextmenu.hide_all(e, true);
                                 clearTimeout(ref.timers['submenu_hide']);
@@ -706,7 +706,7 @@ function rcube_context_menu(p) {
 
             if (this.modal && !this.is_submenu && ($('#rcm_modal').length == 0 || (rcmail.contextmenu.settings.classes.modal_overlay && $('.' + rcmail.contextmenu.settings.classes.modal_overlay).length == 0))) {
                 $('<div>').attr('id', 'rcm_modal').addClass(rcmail.contextmenu.settings.classes.modal_overlay)
-                    .on('contextmenu', function(e) { e.target.click(); rcube_event.cancel(e); })
+                    .on('contextmenu', function(e) { $(e.target).trigger('click'); rcube_event.cancel(e); })
                     .insertBefore('#rcm_'+ this.menu_name);
             }
 
@@ -915,7 +915,7 @@ $(document).ready(function() {
                 $.each(rcmail.env.contextmenus, function() {
                     if (rcmail.contextmenu.settings.no_right_click_on_menu && e.which == 3 && $(e.target).parents('.contextmenu').length > 0) {
                         // useability - on the contextmenu make right click the same as left (sometimes users think they have to right click because they right clicked to get there)
-                        e.target.click();
+                        $(e.target).trigger('click');
                         rcube_event.cancel(e);
                     }
                     else {
