@@ -107,13 +107,14 @@ $(document).ready(function() {
             rcmail.addEventListener('abook_search_insert', function(props) { rcmail.contextmenu.init_addressbook(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#layout > .sidebar > div.footer a.create', '#groupoptions-menu > ul > li']}); } );
         }
 
-        rcmail.addEventListener('menu-open', function(p) {
-            // Elastic skin uses custom popup handling
-            // When opening a new popup Elastic closes existing popups from within UI.popup_init() on 'shown.bs.popover'
-            // Contextmenu does not trigger this event so we need to close them manually
-            for (var i = 0; i < rcmail.contextmenu.vars.popup_menus.length; i++) {
-                if (p.name != rcmail.contextmenu.vars.popup_menus[i]) {
-                    rcmail.hide_menu(rcmail.contextmenu.vars.popup_menus[i], p.originalEvent);
+        // Elastic skin uses custom popup handling, not rcmail.menu_stack
+        // Contextmenu menu cannot access Elastic's custom way so here we make sure any popups we've created are closed before the next command is run
+        rcmail.addEventListener('actionbefore', function(p) {
+            if (p.originalEvent && $(p.originalEvent.target).parents('div.' + rcmail.contextmenu.settings.classes.container).length == 1) {
+                for (var i = 0; i < rcmail.contextmenu.vars.popup_menus.length; i++) {
+                    if (p.name != rcmail.contextmenu.vars.popup_menus[i]) {
+                        rcmail.hide_menu(rcmail.contextmenu.vars.popup_menus[i], p.originalEvent);
+                    }
                 }
             }
         });
