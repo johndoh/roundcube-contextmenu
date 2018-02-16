@@ -28,7 +28,7 @@
  */
 class contextmenu extends rcube_plugin
 {
-    public $task = 'mail|addressbook';
+    public $task = '^((?!login).)*$';
 
     public function init()
     {
@@ -42,9 +42,7 @@ class contextmenu extends rcube_plugin
             $this->add_hook('render_page', array($this, 'additional_menus'));
         }
 
-        if ($rcmail->task == 'mail') {
-            $this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
-        }
+        $this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
     }
 
     public function additional_menus($args)
@@ -66,7 +64,7 @@ class contextmenu extends rcube_plugin
 
     public function messagecount()
     {
-        $storage = rcube::get_instance()->storage;
+        $storage = rcube::get_instance()->get_storage();
         $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
         // send output
