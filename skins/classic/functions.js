@@ -84,7 +84,7 @@ $(document).ready(function() {
                     });
                 }
                 else if (menu.props.list_object && menu.props.list_id) {
-                    rcmail.addEventListener('init_list', function(props) {
+                    rcmail.addEventListener('initlist', function(props) {
                         if ($(props.obj).attr('id') == menu.props.list_id) {
                             rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
                                 rcmail.contextmenu.init_settings('#' + props.id, menu.props, menu.events);
