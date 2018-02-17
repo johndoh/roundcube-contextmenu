@@ -175,7 +175,7 @@ div.contextmenu ul.iconized li a.cmd_purge span.icon
 
 div.contextmenu ul.iconized li a.openinline span.icon
 {
-  /* TODO */
+  background-position: 7px -618px;
 }
 
 div.contextmenu ul.iconized li a.openfolder span.icon
@@ -312,5 +312,5 @@ div.contextmenu ul.iconized li a.cmd_plugin-managesieve-seteditraw span.icon
 div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setact span.icon,
 div.contextmenu ul.iconized li a.cmd_plugin-managesieve-act span.icon
 {
-  /* TODO */
+  background-position: 7px -640px;
 }

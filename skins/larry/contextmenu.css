@@ -157,7 +157,7 @@ div.contextmenu ul.iconized li a.expandall span.icon
 
 div.contextmenu ul.iconized li a.openinline span.icon
 {
-  /* TODO */
+  background-position: 0 -813px;
 }
 
 div.contextmenu ul.iconized li a.openextwin span.icon
@@ -212,10 +212,10 @@ div.contextmenu ul.iconized li a.cmd_group-rename span.icon
 div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setact span.icon,
 div.contextmenu ul.iconized li a.cmd_plugin-managesieve-act span.icon
 {
-  /* TODO */
+  background-position: 0 -832px;
 }
 
 div.contextmenu ul.iconized li a.cmd_plugin-managesieve-seteditraw span.icon
 {
-  /* TODO */
+  background-position: 0 -851px;
 }
