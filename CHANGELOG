@@ -31,6 +31,7 @@ Roundcube Webmail ContextMenu
  * Add Elastic skin support
  * Add menu-change JS event listener
  * Support new Contacts toolbar with Copy/Move actions (req RC eb0228b)
+ * Add menus to Settings screens
 
 Version 2.3 (2017-06-14, rc-1.3)
 =================================================
