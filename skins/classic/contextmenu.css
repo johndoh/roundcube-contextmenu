@@ -4,7 +4,8 @@
 
 .context-source td,
 #mailboxlist li.context-source,
-#directorylistbox li.context-source
+#directorylistbox li.context-source,
+#subscription-table li.context-source
 {
   background-color: #EEEEEE;
 }
@@ -58,11 +59,7 @@ div.contextmenu ul.iconized li a.reply span.icon
   background-position: 7px -119px;
 }
 
-div.contextmenu ul.iconized li a.replyAll span.icon
-{
-  background-position: 7px -392px;
-}
-
+div.contextmenu ul.iconized li a.replyAll span.icon,
 div.contextmenu ul.iconized li a.replyalllink span.icon
 {
   background-position: 7px -392px;
@@ -73,11 +70,7 @@ div.contextmenu ul.iconized li a.replylistlink span.icon
   background-position: 7px -377px;
 }
 
-div.contextmenu ul.iconized li a.forward span.icon
-{
-  background-position: 7px -102px;
-}
-
+div.contextmenu ul.iconized li a.forward span.icon,
 div.contextmenu ul.iconized li a.forwardlink span.icon
 {
   background-position: 7px -102px;
@@ -93,7 +86,14 @@ div.contextmenu ul.iconized li a.bouncelink span.icon
   background-position: 7px -561px;
 }
 
-div.contextmenu ul.iconized li a.delete span.icon
+div.contextmenu ul.iconized li a.delete span.icon,
+div.contextmenu ul.iconized li a.deletelink span.icon,
+div.contextmenu ul.iconized li a.delgroup span.icon,
+div.contextmenu ul.iconized li a.cmd_group-delete span.icon,
+div.contextmenu ul.iconized li a.cmd_search-delete span.icon,
+div.contextmenu ul.iconized li a.cmd_delete-folder span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-del span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setdel span.icon
 {
   background-position: 7px -187px;
 }
@@ -133,7 +133,8 @@ div.contextmenu ul.iconized li a.unflaggedlink span.icon
 }
 
 div.contextmenu ul.iconized li a.messagemenu span.icon,
-div.contextmenu ul.iconized li a.contactmenu span.icon
+div.contextmenu ul.iconized li a.contactmenu span.icon,
+div.contextmenu ul.iconized li a.keymenu span.icon
 {
   background-position: 7px -475px;
 }
@@ -172,6 +173,11 @@ div.contextmenu ul.iconized li a.cmd_purge span.icon
   background-position: 7px -271px;
 }
 
+div.contextmenu ul.iconized li a.openinline span.icon
+{
+  /* TODO */
+}
+
 div.contextmenu ul.iconized li a.openfolder span.icon
 {
   background: url(images/messageactions.png) no-repeat 6px -52px;
@@ -187,7 +193,9 @@ div.contextmenu ul.iconized li a.copycontact span.icon
   background: url(images/messageactions.png) no-repeat 5px -143px;
 }
 
-div.contextmenu ul.iconized li a.export span.icon
+div.contextmenu ul.iconized li a.export span.icon,
+div.contextmenu ul.iconized li a.exportsellink span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setget span.icon
 {
   background-position: 7px -510px;
 }
@@ -195,11 +203,6 @@ div.contextmenu ul.iconized li a.export span.icon
 div.contextmenu ul.iconized li a.exportalllink span.icon
 {
   background-position: 7px -527px;
-}
-
-div.contextmenu ul.iconized li a.exportsellink span.icon
-{
-  background-position: 7px -510px;
 }
 
 div.contextmenu ul.iconized li a.cmd_add-recipient span.icon
@@ -221,16 +224,6 @@ div.contextmenu ul.iconized li a.cmd_group-create span.icon
 div.contextmenu ul.iconized li a.cmd_group-rename span.icon
 {
   background-position: 7px -426px;
-}
-
-div.contextmenu ul.iconized li a.cmd_group-delete span.icon
-{
-  background-position: 7px -186px;
-}
-
-div.contextmenu ul.iconized li a.cmd_search-delete span.icon
-{
-  background-position: 7px -186px;
 }
 
 #rcm_messagemenumenu ul.iconized li a span.icon
@@ -308,4 +301,16 @@ div.contextmenu ul.iconized li a.cmd_search-delete span.icon
 {
   background: url(images/messageactions.png) no-repeat 7px 0;
   background-position: 5px -142px;
+}
+
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-seteditraw span.icon
+{
+  background: url(images/messageactions.png) no-repeat 5px 20px;
+  background-position: 5px -70px;
+}
+
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setact span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-act span.icon
+{
+  /* TODO */
 }

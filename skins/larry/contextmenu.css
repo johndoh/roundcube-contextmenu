@@ -10,8 +10,11 @@
 #mailboxlist li.context-source,
 #directorylist li.context-source,
 #savedsearchlist li.context-source,
+#settings-tabs li.context-source,
+#subscription-table li.context-source,
 #addresslist .context-source,
-#contacts-table .context-source
+#contacts-table .context-source,
+#settings-right table.listing tbody tr.context-source td
 {
   background-color: #C7E3EF;
 }
@@ -54,11 +57,7 @@ div.contextmenu ul.iconized li a.reply span.icon
   background-position: 0 -122px;
 }
 
-div.contextmenu ul.iconized li a.reply-all span.icon
-{
-  background: url(images/contexticons.png) no-repeat 0 -147px;
-}
-
+div.contextmenu ul.iconized li a.reply-all span.icon,
 div.contextmenu ul.iconized li a.replyalllink span.icon
 {
   background: url(images/contexticons.png) no-repeat 0 -147px;
@@ -69,11 +68,7 @@ div.contextmenu ul.iconized li a.replylistlink span.icon
   background: url(images/contexticons.png) no-repeat 0 -464px;
 }
 
-div.contextmenu ul.iconized li a.forward span.icon
-{
-  background: url(images/contexticons.png) no-repeat 0 -169px;
-}
-
+div.contextmenu ul.iconized li a.forward span.icon,
 div.contextmenu ul.iconized li a.forwardlink span.icon
 {
   background: url(images/contexticons.png) no-repeat 0 -169px;
@@ -89,7 +84,13 @@ div.contextmenu ul.iconized li a.bouncelink span.icon
   background: url(images/contexticons.png) no-repeat 0 -760px;
 }
 
-div.contextmenu ul.iconized li a.delete span.icon
+div.contextmenu ul.iconized li a.delete span.icon,
+div.contextmenu ul.iconized li a.deletelink span.icon,
+div.contextmenu ul.iconized li a.cmd_group-delete span.icon,
+div.contextmenu ul.iconized li a.cmd_search-delete span.icon,
+div.contextmenu ul.iconized li a.cmd_delete-folder span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-del span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setdel span.icon
 {
   background-position: 0 -96px;
 }
@@ -154,7 +155,12 @@ div.contextmenu ul.iconized li a.expandall span.icon
   background-position: 0 -305px;
 }
 
-div.contextmenu ul.iconized li a.openfolder span.icon
+div.contextmenu ul.iconized li a.openinline span.icon
+{
+  /* TODO */
+}
+
+div.contextmenu ul.iconized li a.openextwin span.icon
 {
   background-position: 0 -484px;
 }
@@ -181,7 +187,9 @@ div.contextmenu ul.iconized li a.copycontact span.icon
   background-position: 0 -651px;
 }
 
-div.contextmenu ul.iconized li a.export span.icon
+div.contextmenu ul.iconized li a.export span.icon,
+div.contextmenu ul.iconized li a.exportsellink span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setget span.icon
 {
   background: url(images/contexticons.png) no-repeat 0 -543px;
 }
@@ -189,11 +197,6 @@ div.contextmenu ul.iconized li a.export span.icon
 div.contextmenu ul.iconized li a.exportalllink span.icon
 {
   background: url(images/contexticons.png) no-repeat 0 -568px;
-}
-
-div.contextmenu ul.iconized li a.exportsellink span.icon
-{
-  background: url(images/contexticons.png) no-repeat 0 -543px;
 }
 
 div.contextmenu ul.iconized li a.cmd_group-create span.icon
@@ -206,12 +209,13 @@ div.contextmenu ul.iconized li a.cmd_group-rename span.icon
   background-position: 0 -591px;
 }
 
-div.contextmenu ul.iconized li a.cmd_group-delete span.icon
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-setact span.icon,
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-act span.icon
 {
-  background-position: 0 -96px;
+  /* TODO */
 }
 
-div.contextmenu ul.iconized li a.cmd_search-delete span.icon
+div.contextmenu ul.iconized li a.cmd_plugin-managesieve-seteditraw span.icon
 {
-  background-position: 0 -96px;
+  /* TODO */
 }
