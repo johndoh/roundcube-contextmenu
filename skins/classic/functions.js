@@ -61,25 +61,28 @@ $(document).ready(function() {
         }
         else if (rcmail.env.task == 'settings') {
             var menus = [
-                {'obj': '#sections-table tr', 'props': {'menu_name': 'preferenceslist', 'menu_source': '#rcmsettingsmenu > ul', 'list_object': 'sections_list'}},
-                {'obj': '#subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmsettingsmenu > ul', '#mailboxoptionsmenu > ul'], 'list_object': 'subscription_list', 'treelist': true}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
-                {'obj': '#identities-table tr', 'props': {'menu_name': 'identiteslist', 'menu_source': ['#rcmsettingsmenu > ul', '#identities-list div.boxfooter'], 'list_object': 'identity_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
-                {'obj': '#responses-table tr', 'props': {'menu_name': 'responseslist', 'menu_source': ['#rcmsettingsmenu > ul', '#responses-list div.boxfooter'], 'list_object': 'responses_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
-                {'obj': '#filtersetslist tr', 'props': {'menu_name': 'managesievesetlist', 'menu_source': ['#rcmsettingsmenu > ul', '#filtersetmenu > ul'], 'list_object': 'filtersets_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
-                {'obj': '#filterslist tr', 'props': {'menu_name': 'managesieverulelist', 'menu_source': ['#rcmsettingsmenu > ul', '#filtermenu > ul'], 'list_object': 'filters_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
-                {'obj': '#keys-table tr', 'props': {'menu_name': 'enigmakeylist', 'menu_source': ['#rcmsettingsmenu > ul', '#keystoolbar'], 'list_object': 'keys_list', 'list_id': 'keys-table'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}}
+                {'obj': 'sections-table tr', 'props': {'menu_name': 'preferenceslist', 'menu_source': '#rcmsettingsmenu > ul', 'list_object': 'sections_list'}},
+                {'obj': 'subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmsettingsmenu > ul', '#mailboxoptionsmenu > ul'], 'list_object': 'subscription_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'identities-table tr', 'props': {'menu_name': 'identiteslist', 'menu_source': ['#rcmsettingsmenu > ul', '#identities-list div.boxfooter'], 'list_object': 'identity_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'responses-table tr', 'props': {'menu_name': 'responseslist', 'menu_source': ['#rcmsettingsmenu > ul', '#responses-list div.boxfooter'], 'list_object': 'responses_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'filtersetslist tr', 'props': {'menu_name': 'managesievesetlist', 'menu_source': ['#rcmsettingsmenu > ul', '#filtersetmenu > ul'], 'list_object': 'filtersets_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'filterslist tr', 'props': {'menu_name': 'managesieverulelist', 'menu_source': ['#rcmsettingsmenu > ul', '#filtermenu > ul'], 'list_object': 'filters_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'keys-table tr', 'props': {'menu_name': 'enigmakeylist', 'menu_source': ['#rcmsettingsmenu > ul', '#keystoolbar'], 'list_object': 'keys_list', 'list_id': 'keys-table'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}}
             ];
 
             $.each(menus, function() {
                 var menu = this;
-                if ($(menu.obj).length > 0 && (!menu.props.list_objec || rcmail[menu.props.list_object])) {
+                if ($('#' + menu.obj).length > 0) {
                     rcmail.addEventListener('init', function() {
-                        rcmail.contextmenu.init_settings(menu.obj, menu.props, menu.events);
+                        if (rcmail[menu.props.list_object] && menu.props.menu_name != 'folderlist') {
+                            rcmail.contextmenu.init_list(menu.obj, menu.props, menu.events);
 
-                        if (menu.props.list_object && rcmail[menu.props.list_object]) {
                             rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
-                                rcmail.contextmenu.init_settings('#' + props.id, menu.props, menu.events);
+                                rcmail.contextmenu.init_list(props.id, menu.props, menu.events);
                             });
+                        }
+                        else {
+                            rcmail.contextmenu.init_settings('#' + menu.obj, menu.props, menu.events);
                         }
                     });
                 }
@@ -87,7 +90,7 @@ $(document).ready(function() {
                     rcmail.addEventListener('initlist', function(props) {
                         if ($(props.obj).attr('id') == menu.props.list_id) {
                             rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
-                                rcmail.contextmenu.init_settings('#' + props.id, menu.props, menu.events);
+                                rcmail.contextmenu.init_list(props.id, menu.props, menu.events);
                             });
                         }
                     });
