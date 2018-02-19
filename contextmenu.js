@@ -19,7 +19,6 @@ rcube_webmail.prototype.contextmenu = {
     settings: {
         no_right_click_on_menu: true,
         skip_commands: ['mail-checkmail', 'mail-compose', 'addressbook-add', 'addressbook-import', 'addressbook-advanced-search', 'addressbook-search-create'],
-        always_enable_commands: ['move', 'copy'],
         command_pattern: /rcmail\.command\(\x27([^\x27]+)\x27,\s?\x27((?:\\\x27|[^\x27])*)\x27/,
         addressbook_pattern: /([A-Z0-9\-_]+(:[A-Z0-9\-_]+)?)/i,
         popup_attrib: 'onclick',
@@ -44,14 +43,7 @@ rcube_webmail.prototype.contextmenu = {
                 var prev_command = rcmail.commands[p.command];
                 rcmail.enable_command(p.command, true);
                 var result = rcmail.command(p.command, p.args, p.el, p.evt);
-
-                // leave commands in always_enable_commands enabled, they are disabled when menu is closes
-                if ($.inArray(p.command, rcmail.contextmenu.settings.always_enable_commands) >= 0 && prev_command === false) {
-                    rcmail.contextmenu.vars.commands_disable_on_hide.push(p.command);
-                }
-                else {
-                    rcmail.enable_command(p.command, prev_command);
-                }
+                rcmail.enable_command(p.command, prev_command);
 
                 return result;
             },
@@ -67,7 +59,6 @@ rcube_webmail.prototype.contextmenu = {
     vars: {
         popup_menus: [],
         popup_commands: {},
-        commands_disable_on_hide: []
     },
 
     skin_funcs: {},
@@ -395,12 +386,6 @@ rcube_webmail.prototype.contextmenu = {
         // close popup menus opened by the contextmenu
         for (var i = rcmail.contextmenu.vars.popup_menus.length - 1; i >= 0; i--) {
             rcmail.hide_menu(rcmail.contextmenu.vars.popup_menus[i], e);
-        }
-
-        // disable commands that were enabled by force
-        if (rcmail.contextmenu.vars.commands_disable_on_hide.length > 0) {
-            rcmail.enable_command(rcmail.contextmenu.vars.commands_disable_on_hide, false);
-            rcmail.contextmenu.vars.commands_disable_on_hide = [];
         }
     },
 
@@ -896,9 +881,6 @@ $(document).ready(function() {
 
                 if ((this == 'context_menu_button_active_class' || this == 'context_menu_button_disabled_class') && $.isArray(rcmail[this])) {
                     rcmail.contextmenu.settings[opt] = rcmail[this].join(' ');
-                }
-                else if (this == 'context_menu_overload_commands') {
-                    rcmail.contextmenu.settings['always_enable_commands'] = rcmail[this];
                 }
                 else {
                     rcmail.contextmenu.settings[opt] = rcmail[this];
