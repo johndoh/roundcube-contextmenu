@@ -31,7 +31,7 @@ The following global options are available:
 
 ## Creating a new Contextmenu
 
-By default Contextmenu is added to the `mail` and `addressbook` tasks in Roundcube. It can be added to other tasks by calling the PHP function `include_plugin()` like this `$this->include_plugin('contextmenu');` from inside your plugin. This function checks if the Contextmenu plugin is available and loads it if possible.
+By default Contextmenu is added to all tasks in Roundcube except `login`.
 
 The JavaScript function `rcmail.contextmenu.init()` creates the Contextmenu object. If the Contextmenu functions are enabled in the UI then the `rcmail.env.contextmenu` variable JavaScript will be set to true. Setting this variable to false will disable all context menus.
 
