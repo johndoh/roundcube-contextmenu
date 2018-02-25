@@ -31,7 +31,7 @@ The following global options are available:
 
 ## Creating a new Contextmenu
 
-By default Contextmenu is added to the `mail` and `addressbook` tasks in Roundcube. It can be added to other tasks by calling the PHP function `include_plugin()` like this `$this->include_plugin('contextmenu');` from inside your plugin. This function checks if the Contextmenu plugin is available and loads it if possible.
+By default Contextmenu is added to all tasks in Roundcube except `login`.
 
 The JavaScript function `rcmail.contextmenu.init()` creates the Contextmenu object. If the Contextmenu functions are enabled in the UI then the `rcmail.env.contextmenu` variable JavaScript will be set to true. Setting this variable to false will disable all context menus.
 
@@ -280,7 +280,7 @@ Contextmenu listens for a menu-change event on all source elements. If this even
 
 ## Contextmenu and skins
 
-In the plugin folder there is a skins folder, and inside that there is a folder for each skin. Two files are needed for each skin: contextmenu.css - CSS for the menu, and functions.js containing the JavaScript to create Contextmenus in the skin. This plugin provides some helper functions for adding the default menus to the UI, they are: `rcmail.contextmenu.init_list()` for attaching a Contextmenu to a Roundcube list object, `rcmail.contextmenu.init_folder()` for attaching a Contextmenu to the folder list on the mail screen, and `rcmail.contextmenu.init_addressbook()` for attaching a Contextmenu to the address book and groups list on the address book screen. Each function expects the same 3 parameters:
+In the plugin folder there is a skins folder, and inside that there is a folder for each skin. Two files are needed for each skin: contextmenu.css - CSS for the menu, and functions.js containing the JavaScript to create Contextmenus in the skin. This plugin provides some helper functions for adding the default menus to the UI, they are: `rcmail.contextmenu.init_list()` for attaching a Contextmenu to a Roundcube list object, `rcmail.contextmenu.init_folder()` for attaching a Contextmenu to the folder list on the mail screen, `rcmail.contextmenu.init_addressbook()` for attaching a Contextmenu to the address book and groups list on the address book screen, and `rcmail.contextmenu.init_settings()` for attaching a Contextmenu to the settings list. Each function expects the same 3 parameters:
 * The HTML object or jQuery selector of the element to attach to.
 * A props object, see [Creating a new Contextmenu](#creating-a-new-contextmenu)
 * An events object, see [Events](#events)

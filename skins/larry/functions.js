@@ -25,8 +25,13 @@ rcube_webmail.prototype.contextmenu.skin_funcs.compose_menu_text = function(p) {
 rcube_webmail.prototype.contextmenu.skin_funcs.reorder_contact_menu = function(p) {
     // put export and more submenus last
     var ul = p.ref.container.find('ul:first');
-    $(p.ref.container).find('a.export').parent('li').appendTo(ul);
-    $(p.ref.container).find('a.more').parent('li').appendTo(ul);
+    p.ref.container.find('a.export').parent('li').appendTo(ul);
+    p.ref.container.find('a.more').parent('li').appendTo(ul);
+};
+
+rcube_webmail.prototype.contextmenu.skin_funcs.reorder_settings_menu = function(p) {
+    // remove the create option from the settings menu
+    p.ref.container.find('a.create,a.search,a.import').parent().remove();
 };
 
 $(document).ready(function() {
@@ -51,6 +56,45 @@ $(document).ready(function() {
             rcmail.add_onload("rcmail.contextmenu.init_addressbook('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer a.add', '#groupoptionsmenu']})");
             rcmail.addEventListener('group_insert', function(props) { rcmail.contextmenu.init_addressbook(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}); } );
             rcmail.addEventListener('abook_search_insert', function(props) { rcmail.init_addressbook(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}); } );
+        }
+        else if (rcmail.env.task == 'settings') {
+            var menus = [
+                {'obj': 'settings-tabs > ul > li', 'props': {'menu_name': 'settingslist', 'menu_source': '#rcmsettings > ul'}},
+                {'obj': 'sections-table tr', 'props': {'menu_name': 'preferenceslist', 'menu_source': '#rcmsettings > ul', 'list_object': 'sections_list'}},
+                {'obj': 'subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmsettings > ul', '#mailboxoptionsmenu'], 'list_object': 'subscription_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'identities-table tr', 'props': {'menu_name': 'identiteslist', 'menu_source': ['#rcmsettings > ul', '#identitieslist div.boxfooter a.delete'], 'list_object': 'identity_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'responses-table tr', 'props': {'menu_name': 'responseslist', 'menu_source': ['#rcmsettings > ul', '#responseslist div.boxfooter a.delete'], 'list_object': 'responses_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'filtersetslist tr', 'props': {'menu_name': 'managesievesetlist', 'menu_source': ['#rcmsettings > ul', '#filtersetmenu-menu'], 'list_object': 'filtersets_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'filterslist tr', 'props': {'menu_name': 'managesieverulelist', 'menu_source': ['#rcmsettings > ul', '#filtermenu-menu'], 'list_object': 'filters_list'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}},
+                {'obj': 'keys-table tr', 'props': {'menu_name': 'enigmakeylist', 'menu_source': ['#rcmsettings > ul', '#keyoptions > ul', '#keystoolbar'], 'list_object': 'keys_list', 'list_id': 'keys-table'}, 'events': {'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_settings_menu(p); }}}
+            ];
+
+            $.each(menus, function() {
+                var menu = this;
+                if ($('#' + menu.obj).length > 0) {
+                    rcmail.addEventListener('init', function() {
+                        if (rcmail[menu.props.list_object] && menu.props.menu_name != 'folderlist') {
+                            rcmail.contextmenu.init_list(menu.obj, menu.props, menu.events);
+
+                            rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
+                                rcmail.contextmenu.init_list(props.id, menu.props, menu.events);
+                            });
+                        }
+                        else {
+                            rcmail.contextmenu.init_settings('#' + menu.obj, menu.props, menu.events);
+                        }
+                    });
+                }
+                else if (menu.props.list_object && menu.props.list_id) {
+                    rcmail.addEventListener('initlist', function(props) {
+                        if ($(props.obj).attr('id') == menu.props.list_id) {
+                            rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
+                                rcmail.contextmenu.init_list(props.id, menu.props, menu.events);
+                            });
+                        }
+                    });
+                }
+            });
         }
     }
 });

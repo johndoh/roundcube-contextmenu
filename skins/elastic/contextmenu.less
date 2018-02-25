@@ -9,7 +9,7 @@
 @contextmenu-placeholder-icon: "\00a0";
 
 .listing tbody tr.context-source:not(.selected) > td,
-.listing li.context-source {
+.listing li.context-source:not(.selected) {
   background-color: @color-contextmenu-source-background;
 
   // make sure only the target li background is set on nested lists
@@ -137,8 +137,12 @@ div.contextmenu {
       .font-icon-regular(@fa-var-plus-square);
     }
 
-    &.cmd_plugin-contextmenu-openfolder::before {
+    &.cmd_plugin-contextmenu-openextwin::before {
       content: @fa-var-external-link-alt;
+    }
+
+    &.cmd_plugin-contextmenu-openinline::before {
+      .font-icon-regular(@fa-var-folder-open);
     }
 
     &.cmd_search-delete::before {
