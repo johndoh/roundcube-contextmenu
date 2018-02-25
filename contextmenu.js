@@ -80,22 +80,36 @@ rcube_webmail.prototype.contextmenu = {
         if (!props.list_object)
             props.list_object = 'message_list';
 
+        var trigger_list_select = function(list) {
+            var prev_contentframe = rcmail.env.contentframe;
+            rcmail.env.contentframe = null;
+            rcmail[list].triggerEvent('select');
+            rcmail.env.contentframe = prev_contentframe;
+        };
+
         var menu = rcmail.contextmenu.init(props, $.extend({
             'beforeactivate': function(p) {
-                rcmail.env.contextmenu_opening = true;
-
                 if (p.ref.is_submenu) {
-                    p.ref.list_selection(true, rcmail.env.contextmenu_prev_selection);
                     p.ref.menu_selection = p.ref.parent_menu.menu_selection;
                 }
+                else if (rcmail[p.ref.list_object].selection.length == 0 || !rcmail[p.ref.list_object].in_selection(rcmail.env.context_menu_source_id)) {
+                    p.ref.menu_selection = [rcmail.env.context_menu_source_id];
+                }
                 else {
-                    rcmail.env.contextmenu_prev_selection = p.ref.list_selection(true);
                     p.ref.menu_selection = rcmail[p.ref.list_object].get_selection();
+                }
+
+                if (!rcmail[p.ref.list_object].in_selection(rcmail.env.context_menu_source_id)) {
+                    rcmail.env.contextmenu_opening = 'beforeactivate';
+                    trigger_list_select(p.ref.list_object);
                 }
             },
             'afteractivate': function(p) {
-                p.ref.list_selection(false, rcmail.env.contextmenu_prev_selection);
-                rcmail.env.contextmenu_opening = false;
+                rcmail.env.contextmenu_opening = 'afteractivate';
+                if (!rcmail[p.ref.list_object].in_selection(rcmail.env.context_menu_source_id))
+                    trigger_list_select(p.ref.list_object);
+
+                rcmail.env.contextmenu_opening = null;
             },
             'aftercommand': function(p) {
                 if (p.command == 'group-remove-selected') {
@@ -114,17 +128,19 @@ rcube_webmail.prototype.contextmenu = {
         });
 
         rcmail[props.list_object].addEventListener('getselection', function() {
-            if (rcmail.env.contextmenu_opening)
+            if (rcmail.env.contextmenu_opening == 'afteractivate')
                 return;
 
             var uids = null;
             $.each(rcmail.env.contextmenus, function() {
-                if ($(this.container).is(':visible') && this.menu_selection.length > 0) {
+                if ((rcmail.env.contextmenu_opening == 'beforeactivate' || $(this.container).is(':visible')) && this.menu_selection.length > 0) {
                     uids = this.menu_selection;
                     return false;
                 }
             });
-            return uids;
+
+            if (uids)
+                return uids;
         });
     },
 
@@ -815,41 +831,6 @@ function rcube_context_menu(p) {
         menu.css({left: left + 'px', top: top + 'px'});
     };
 
-    this.list_selection = function(show, prev_sel) {
-        // make the system think no preview pane exists while we do some fake message selects
-        // to enable/disable relevant commands for current selection
-        var prev_contentframe = rcmail.env.contentframe, i;
-        rcmail.env.contentframe = null;
-
-        if (show) {
-            if (rcmail[this.list_object].selection.length == 0 || !rcmail[this.list_object].in_selection(rcmail.env.context_menu_source_id)) {
-                prev_sel = prev_sel ? prev_sel : rcmail[this.list_object].get_selection();
-                rcmail[this.list_object].highlight_row(rcmail.env.context_menu_source_id, true);
-
-                for (i in prev_sel)
-                    rcmail[this.list_object].highlight_row(prev_sel[i], true);
-
-                rcmail[this.list_object].triggerEvent('select');
-            }
-            else {
-                // trigger a select event to update active commands
-                // use case: select multiple message, open contextmenu; open contextmenu on a message not in selection; open contextmenu on selection
-                rcmail[this.list_object].triggerEvent('select');
-            }
-        }
-        else if (prev_sel) {
-            for (i in prev_sel)
-                rcmail[this.list_object].highlight_row(prev_sel[i], true);
-
-            rcmail[this.list_object].highlight_row(rcmail.env.context_menu_source_id, true);
-            rcmail[this.list_object].triggerEvent('select');
-        }
-
-        rcmail.env.contentframe = prev_contentframe;
-
-        return prev_sel;
-    };
-
     this.destroy = function() {
         $.each(this.submenus, function() {
             this.destroy();
@@ -981,21 +962,6 @@ $(document).ready(function() {
             var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
             if ($('div.' + rcmail.contextmenu.settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).prop('class').indexOf('rcm_elem_') == -1) {
                 rcmail.contextmenu.hide_all(p.originalEvent, false, true);
-            }
-        });
-
-        rcmail.addEventListener('get_single_uid', function() {
-            if ($('#rcm_messagelist').is(':visible') && rcmail.env.contextmenus['messagelist'].menu_selection.length == 1) {
-                return rcmail.env.contextmenus['messagelist'].menu_selection[0];
-            }
-        });
-
-        rcmail.addEventListener('get_single_cid', function() {
-            if ($('#rcm_contactlist').is(':visible') && rcmail.env.contextmenus['contactlist'].menu_selection.length == 1) {
-                return rcmail.env.contextmenus['contactlist'].menu_selection[0];
-            }
-            else if ($('#rcm_composeto').is(':visible') && rcmail.env.contextmenus['composeto'].menu_selection.length == 1) {
-                return rcmail.env.contextmenus['composeto'].menu_selection[0];
             }
         });
     }
