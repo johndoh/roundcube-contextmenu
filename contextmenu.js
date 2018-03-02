@@ -445,7 +445,7 @@ rcube_webmail.prototype.contextmenu = {
             $(p.el).addClass(rcmail.contextmenu.settings.classes.button_disabled).removeClass(rcmail.contextmenu.settings.classes.button_active);
 
             // if menu is opened on current folder (or special mark-all-read command) then enable the commands same as in UI
-            if ((rcmail.env.context_menu_source_id == rcmail.env.mailbox || p.command == 'mark-all-read') && rcmail.contextmenu.ui_button_check(p.btn, true)) {
+            if ((rcmail.env.context_menu_source_id == rcmail.env.mailbox || p.command == 'mark-all-read') && rcmail.commands[p.command]) {
                 $(p.el).addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
             }
             // if menu is opened on difference folder then get message count for the folder
@@ -484,6 +484,8 @@ rcube_webmail.prototype.contextmenu = {
             }
         }
         else if (rcmail.env.task == 'settings' && p.command == 'delete-folder') {
+            // From rcmail::subscription_select()
+            var folder;
             if ((folder = rcmail.env.subscriptionrows[rcmail.env.context_menu_source_id]) && !folder[2]) {
                 $('#rcm_folderlist').find('a.cmd_delete-folder').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
             }
