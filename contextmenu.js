@@ -869,6 +869,7 @@ function rcube_context_menu(p) {
                 this.container.hide();
             });
 
+            this.menu_selection = new Array(); // reset selection ready for next event
             this.container.hide();
         }
     };
