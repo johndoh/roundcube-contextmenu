@@ -344,12 +344,12 @@ rcube_webmail.prototype.contextmenu = {
         }, events));
 
         $(el).on('contextmenu', function(e) {
-            source = $(this).find('a:first');
+            var source = $(this).find('a:first');
             source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
             if (props.menu_name == 'settingslist') {
                 var command, matches;
-                // Not all entries have an onclick, some only have href so check both, and finally id
+                // Not all entries have an onclick some only have href so check both
                 if (source.attr('onclick') && (matches = source.attr('onclick').match(rcmail.contextmenu.settings.command_pattern))) {
                     command = matches[1];
                 }
