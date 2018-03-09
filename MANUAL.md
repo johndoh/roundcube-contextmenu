@@ -56,6 +56,7 @@ The functions takes 2 parameters:
     * sub_button_a - class(es) applied to A objects which have a submenu
     * sub_button_span - class(es) applied to the submenu indicator element, set to null to remove this span
 * modal - (boolean) optional - Display the menu in a modal fashion
+* skinable - (boolean) optional - Value passed to the skinable param of the menu-open event. `false` by default.
 
 `events` (optional) JSON object. Contextmenu triggers a number of events during execution, for example `command` is tiggered when the user clicks on an item in the menu. Full details of all the events can be found in the [Events](#events) section of this file. This parameters allows a plugin author to attach their own functions to the Contextmenu events, overriding the defaults.
 
@@ -250,7 +251,9 @@ This function can return a boolean value: true to activate the element, false to
 * originalEvent - The triggering event
 
 `insertitem` - Triggered each time an item is added to a Contextmenu
+* ref - The Contextmenu object
 * item - The HTML object to be added to the menu
+* originalElement - The original element from the UI
 
 For example permanently deactivating the delete option on the message list Contextmenu could be done like this:
 ```js

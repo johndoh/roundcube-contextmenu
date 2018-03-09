@@ -537,6 +537,8 @@ function rcube_context_menu(p) {
     this.modal = false;
     this.is_submenu = false;
     this.submenu_position = 'right';
+    this.skinable = false;
+    this.parents = 0;
     this.parent_menu = this;
     this.parent_object = null;
     this.selected_object = null
@@ -620,6 +622,7 @@ function rcube_context_menu(p) {
 
                             if ($(src_elem).children(':last').attr(rcmail.contextmenu.settings.popup_attrib).match(rcmail.contextmenu.settings.popup_pattern)) {
                                 $(elem).attr(rcmail.contextmenu.settings.popup_attrib, $(src_elem).children(':last').attr(rcmail.contextmenu.settings.popup_attrib));
+                                $(elem).addClass('rcm-uidropdown');
                             }
                         }
                         else if ($(src_elem).parent().is('a')) {
@@ -763,7 +766,7 @@ function rcube_context_menu(p) {
                     }
 
                     row.append(a);
-                    ref.parent_menu.triggerEvent('insertitem', {item: row});
+                    ref.parent_menu.triggerEvent('insertitem', {ref: ref, item: row, originalElement: elem});
                     rows.push(row);
                 });
 
@@ -850,7 +853,7 @@ function rcube_context_menu(p) {
         if (!callback || callback.show !== false) {
             this.selected_object = obj;
             this.container.show();
-            rcmail.triggerEvent('menu-open', { name: this.container.attr('id'), props:{ menu: this.container.attr('id'), skinable: false }, originalEvent: e });
+            rcmail.triggerEvent('menu-open', { name: this.container.attr('id'), props:{ menu: this.container.attr('id'), skinable: this.skinable }, originalEvent: e });
         }
     };
 
@@ -884,7 +887,7 @@ function rcube_context_menu(p) {
         var id = rcmail.gui_containers[$(link).data('command')] ? rcmail.gui_containers[$(link).data('command')].attr('id') : $(link).data('command');
         if (!this.submenus[id]) {
             var elem = !$('#' + id).is('ul') ? '#' + id + ' ul' : '#' + id; // check if the container returned is a ul else there should be one directly beneath it
-            this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': elem, 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'list_object': this.list_object});
+            this.submenus[id] = new rcube_context_menu({'menu_name': id, 'menu_source': elem, 'parents': (this.parents + 1), 'parent_menu': this, 'parent_object': link, 'is_submenu': true, 'list_object': this.list_object});
             this.submenus[id].init();
         }
 

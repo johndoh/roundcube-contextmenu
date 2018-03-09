@@ -65,25 +65,34 @@ $(document).ready(function() {
             },
             menu_events: {
                 '+init': function(p) {
-                    var label = $('div.contextmenu:visible').length >= 1 ? 'back' : 'close',
-                        title = rcmail.gettext(label),
-                        class_name = 'button icon ' + (label == 'back' ? 'back' : 'cancel');
+                    if (!p.ref.is_submenu) {
+                        var label = 'close',
+                            title = rcmail.gettext(label),
+                            class_name = 'button icon cancel';
 
-                    var header = $('<h3>').addClass('popover-header')
-                        .append($('<a>').attr('class', class_name).text(title))
-                        .on('click', function(e) {
-                            rcmail.contextmenu.hide_all(e, $('div.contextmenu:visible').length >= 1);
-                        });
+                        var header = $('<h3>').addClass('popover-header')
+                            .append($('<a>').attr('class', class_name).text(title))
+                            .on('click', function(e) {
+                                rcmail.contextmenu.hide_all(e, $('div.contextmenu:visible').length >= 1);
+                            });
 
-                    $(p.ref.container).prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
+                        $(p.ref.container).prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
+                    }
+                    else {
+                       p.ref.skinable = true;
+                       $(p.ref.container).removeClass('popover');
+                    }
+                },
+                '+insertitem': function(p) {
+                    var elem = p.originalElement, a = p.item.children('a');
+
+                    if (elem.attr('data-popup') || elem.attr('aria-haspopup'))
+                        a.data('level', (p.ref.parents + 2));
                 },
                 '+beforeactivate': function() {
                     // force toolbar display on small screens while the contextmenu renders
                     if (!$('#layout > .content').is(':visible'))
                         $('#layout > .content').addClass('contextmenu_content');
-
-                    // change default message list contextmenu to look like normal rc menu when on small screen
-                    $('a.rcm_elem_markmessagemenulink,a.rcm_elem_messagemenulink')[($('html').hasClass('layout-phone') || $('html').hasClass('layout-small')) ? 'removeClass' : 'addClass']('rcmsubbutton');
                 },
                 '+afteractivate': function() {
                     $('#layout > .content').removeClass('contextmenu_content');
