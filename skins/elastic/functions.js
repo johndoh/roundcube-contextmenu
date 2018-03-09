@@ -159,17 +159,5 @@ $(document).ready(function() {
                 }
             });
         }
-
-        // Elastic skin uses custom popup handling, not rcmail.menu_stack
-        // Contextmenu menu cannot access Elastic's custom way so here we make sure any popups we've created are closed before the next command is run
-        rcmail.addEventListener('actionbefore', function(p) {
-            if (p.originalEvent && $(p.originalEvent.target).parents('div.' + rcmail.contextmenu.settings.classes.container).length == 1) {
-                for (var i = 0; i < rcmail.contextmenu.vars.popup_menus.length; i++) {
-                    if (p.name != rcmail.contextmenu.vars.popup_menus[i]) {
-                        rcmail.hide_menu(rcmail.contextmenu.vars.popup_menus[i], p.originalEvent);
-                    }
-                }
-            }
-        });
     }
 });
