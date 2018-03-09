@@ -56,7 +56,6 @@ $(document).ready(function() {
             menu_defaults: {
                 modal: true,
                 classes: {
-                    div: rcmail.contextmenu.settings.classes.container + ' popover',
                     ul: 'toolbarmenu toolbar listing',
                     a: 'button rcmbutton',
                     sub_button_a: 'rcmsubbutton',
@@ -76,11 +75,10 @@ $(document).ready(function() {
                                 rcmail.contextmenu.hide_all(e, $('div.contextmenu:visible').length >= 1);
                             });
 
-                        $(p.ref.container).prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
+                        $(p.ref.container).addClass('popover').prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
                     }
                     else {
                        p.ref.skinable = true;
-                       $(p.ref.container).removeClass('popover');
                     }
                 },
                 '+insertitem': function(p) {
