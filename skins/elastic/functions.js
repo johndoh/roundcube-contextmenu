@@ -89,10 +89,13 @@ $(document).ready(function() {
                     if (elem.attr('data-popup') || elem.attr('aria-haspopup'))
                         a.data('level', (p.ref.parents + 2));
                 },
-                '+beforeactivate': function() {
+                '+beforeactivate': function(p) {
                     // force toolbar display on small screens while the contextmenu renders
                     if (!$('#layout > .content').is(':visible'))
                         $('#layout > .content').addClass('contextmenu_content');
+
+                    // do not show submenus on mouseover for small screens
+                    p.ref.mouseover_timeout = $('html').is('.layout-small,.layout-phone') ? -1 : rcmail.env.contextmenu_mouseover_timeout;
                 },
                 '+afteractivate': function() {
                     $('#layout > .content').removeClass('contextmenu_content');

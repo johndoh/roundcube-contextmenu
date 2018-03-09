@@ -60,6 +60,8 @@ The functions takes 2 parameters:
 
 `events` (optional) JSON object. Contextmenu triggers a number of events during execution, for example `command` is tiggered when the user clicks on an item in the menu. Full details of all the events can be found in the [Events](#events) section of this file. This parameters allows a plugin author to attach their own functions to the Contextmenu events, overriding the defaults.
 
+Displaying submenus on mouseover: A config value named `contextmenu_mouseover_timeout` can be set in your main Roundcube config file to define the default `mouseover_timeout` value as something other than `400`.
+
 Creating a simple Contextmenu looks like this:
 ```js
 var menu = rcmail.contextmenu.init(

@@ -523,7 +523,7 @@ function rcube_context_menu(p) {
     this.menu_source = new Array();
     this.menu_source_obj = null;
     this.list_object = null;
-    this.mouseover_timeout = 400;
+    this.mouseover_timeout = rcmail.env.contextmenu_mouseover_timeout;
     this.classes = {
         source: 'contextRow context-source', // contextRow class depreciated in v3.0
         div: rcmail.contextmenu.settings.classes.container + ' popupmenu',
@@ -693,25 +693,22 @@ function rcube_context_menu(p) {
 
                             ref.submenu(a, e);
                             return false;
+                        })
+                        .on('mouseover', function(e) {
+                            if (ref.mouseover_timeout < 0 || !$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                                return;
+
+                            ref.timers['submenu_show'] = window.setTimeout(function(a, e) {
+                                ref.submenu(a, e);
+                            }, ref.mouseover_timeout, a, e);
+                        })
+                        .on('mouseout', function() {
+                            if (ref.mouseover_timeout < 0 || !$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                                return;
+
+                            $(this).blur();
+                            clearTimeout(ref.timers['submenu_show']);
                         });
-
-                        if (ref.mouseover_timeout > -1) {
-                            a.mouseover(function(e) {
-                                if (!$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
-                                    return;
-
-                                ref.timers['submenu_show'] = window.setTimeout(function(a, e) {
-                                    ref.submenu(a, e);
-                                }, ref.mouseover_timeout, a, e);
-                            });
-
-                            a.mouseout(function() {
-                                if (!$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
-                                    return;
-
-                                $(this).blur(); clearTimeout(ref.timers['submenu_show']);
-                            });
-                        }
                     }
                     else {
                         a.addClass('cmd_' + command.replace(/\./g, '-'));

@@ -39,6 +39,7 @@ class contextmenu extends rcube_plugin
             $this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
             $this->include_script($this->local_skin_path() . '/functions.js');
             $this->api->output->set_env('contextmenu', true);
+            $this->api->output->set_env('contextmenu_mouseover_timeout', $rcmail->config->get('contextmenu_mouseover_timeout', 400));
             $this->add_hook('render_page', array($this, 'additional_menus'));
         }
 
