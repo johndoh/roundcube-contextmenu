@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (C) 2017 Philip Weir
+ * Copyright (C) 2018 Philip Weir
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -29,14 +29,8 @@ rcube_webmail.prototype.contextmenu.skin_funcs.submenu_toggle = function(p) {
 
         // make sure its a real submenu and not the toolbar on a small screen
         if ($(source_id).is('div') && !$(source_id).hasClass('footer')) {
-            if (p.show) {
-                $(source_id).show();
-                $(source_id).removeClass('hidden');
-            }
-            else {
-                $(source_id).hide();
-                $(source_id).addClass('hidden');
-            }
+            $(source_id)[p.show ? 'show' : 'hide']();
+            $(source_id)[p.show ? 'removeClass' : 'addClass']('hidden');
         }
     }
 };
