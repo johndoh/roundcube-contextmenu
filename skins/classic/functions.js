@@ -27,11 +27,6 @@ rcube_webmail.prototype.contextmenu.skin_funcs.reorder_addressbook_menu = functi
     p.ref.container.find('a.cmd_group-remove-selected').remove();
 };
 
-rcube_webmail.prototype.contextmenu.skin_funcs.reorder_settings_menu = function(p) {
-    // remove the create option from the settings menu
-    p.ref.container.find('a.addgroup,a.create,a.search,a.import').parent().remove();
-};
-
 $(document).ready(function() {
     if (window.rcmail) {
         $.extend(true, rcmail.contextmenu.settings, {

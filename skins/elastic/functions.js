@@ -41,11 +41,6 @@ rcube_webmail.prototype.contextmenu.skin_funcs.submenu_toggle = function(p) {
     }
 };
 
-rcube_webmail.prototype.contextmenu.skin_funcs.reorder_settings_menu = function(p) {
-    // remove the create option from the settings menu
-    p.ref.container.find('a.create,a.search,a.import').parent().remove();
-};
-
 $(document).ready(function() {
     if (window.rcmail) {
         $.extend(true, rcmail.contextmenu.settings, {

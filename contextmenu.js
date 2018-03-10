@@ -510,8 +510,9 @@ rcube_webmail.prototype.contextmenu = {
 
     settings_menus: function(menus) {
         var default_events = {'init': function(p) {
-            if (typeof rcmail.contextmenu.skin_funcs.reorder_settings_menu === 'function')
-                rcmail.contextmenu.skin_funcs.reorder_settings_menu(p);
+            // remove options like create, import etc from the settings menu
+            // addgroup class is used in Classic skin
+            p.ref.container.find('a.addgroup,a.create,a.search,a.import').parent().remove();
         }};
 
         $.each(menus, function() {
