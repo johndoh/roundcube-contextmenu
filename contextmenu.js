@@ -506,6 +506,41 @@ rcube_webmail.prototype.contextmenu = {
         });
 
         return found;
+    },
+
+    settings_menus: function(menus) {
+        var default_events = {'init': function(p) {
+            if (typeof rcmail.contextmenu.skin_funcs.reorder_settings_menu === 'function')
+                rcmail.contextmenu.skin_funcs.reorder_settings_menu(p);
+        }};
+
+        $.each(menus, function() {
+            var menu = this;
+
+            if ($('#' + menu.obj).length > 0) {
+                rcmail.addEventListener('init', function() {
+                    if (menu.props.init_func) {
+                        rcmail.contextmenu[menu.props.init_func]('#' + menu.obj, menu.props, menu.events || default_events);
+                    }
+                    else if (rcmail[menu.props.list_object]) {
+                        rcmail.contextmenu.init_list(menu.obj, menu.props, menu.events || default_events);
+
+                        rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
+                            rcmail.contextmenu.init_list(props.id, menu.props, menu.events || default_events);
+                        });
+                    }
+                });
+            }
+            else if (menu.props.list_object && menu.props.list_id) {
+                rcmail.addEventListener('initlist', function(props) {
+                    if ($(props.obj).attr('id') == menu.props.list_id) {
+                        rcmail[menu.props.list_object].addEventListener('initrow', function(props) {
+                            rcmail.contextmenu.init_list(props.id, menu.props, menu.events || default_events);
+                        });
+                    }
+                });
+            }
+        });
     }
 };
 
