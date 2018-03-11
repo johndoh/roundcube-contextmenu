@@ -22,19 +22,6 @@ rcube_webmail.prototype.contextmenu.skin_funcs.compose_menu_text = function(p) {
     }
 };
 
-rcube_webmail.prototype.contextmenu.skin_funcs.submenu_toggle = function(p) {
-    var matches;
-    if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv)?)/)) && p.id.indexOf('#taskmenu') == -1) {
-        var source_id = matches[1];
-
-        // make sure its a real submenu and not the toolbar on a small screen
-        if ($(source_id).is('div') && !$(source_id).hasClass('footer')) {
-            $(source_id)[p.show ? 'show' : 'hide']();
-            $(source_id)[p.show ? 'removeClass' : 'addClass']('hidden');
-        }
-    }
-};
-
 $(document).ready(function() {
     if (window.rcmail) {
         $.extend(true, rcmail.contextmenu.settings, {
@@ -87,7 +74,18 @@ $(document).ready(function() {
                 '+afteractivate': function() {
                     $('#layout > .content').removeClass('contextmenu_content');
                 },
-                'submenu_toggle': function(p) { rcmail.contextmenu.skin_funcs.submenu_toggle(p); }
+                'submenu_toggle': function(p) {
+                    var matches;
+                    if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv)?)/)) && p.id.indexOf('#taskmenu') == -1) {
+                        var source_id = matches[1];
+
+                        // make sure its a real submenu and not the toolbar on a small screen
+                        if ($(source_id).is('div') && !$(source_id).hasClass('footer')) {
+                            $(source_id)[p.show ? 'show' : 'hide']();
+                            $(source_id)[p.show ? 'removeClass' : 'addClass']('hidden');
+                        }
+                    }
+                }
             }
         });
 

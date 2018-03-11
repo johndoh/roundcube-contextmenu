@@ -375,13 +375,12 @@ rcube_webmail.prototype.contextmenu = {
         if (!rcmail.env.contextmenus[props.menu_name]) {
             menu = new rcube_context_menu(props);
             $.each(events, function(trigger, func) {
+                // additional events
                 if (trigger.slice(0, 1) == '+') {
                     trigger = trigger.slice(1);
-                    menu.addEventListener(trigger, function(p) { return func(p); })
                 }
-                else {
-                    menu.addEventListener(trigger, function(p) { return func(p); });
-                }
+
+                menu.addEventListener(trigger, function(p) { return func(p); });
             });
             menu.init();
             rcmail.env.contextmenus[props.menu_name] = menu;
@@ -596,7 +595,7 @@ function rcube_context_menu(p) {
         if (!this.container) {
             rcmail.triggerEvent('contextmenu_init', this);
 
-            this.container = $('<div>').attr('id', 'rcm_'+ this.menu_name).css('display', 'none');
+            this.container = $('<div>').attr('id', 'rcm_' + this.menu_name).css('display', 'none');
             this.container.addClass(this.classes.div);
             this.container.addClass(this.is_submenu ? rcmail.contextmenu.settings.classes.submenu : rcmail.contextmenu.settings.classes.mainmenu);
 
@@ -831,7 +830,7 @@ function rcube_context_menu(p) {
             if (this.modal && !this.is_submenu && ($('#rcm_modal').length == 0 || (rcmail.contextmenu.settings.classes.modal_overlay && $('.' + rcmail.contextmenu.settings.classes.modal_overlay).length == 0))) {
                 $('<div>').attr('id', 'rcm_modal').addClass(rcmail.contextmenu.settings.classes.modal_overlay)
                     .on('contextmenu', function(e) { $(e.target).trigger('click'); rcube_event.cancel(e); })
-                    .insertBefore('#rcm_'+ this.menu_name);
+                    .insertBefore('#rcm_' + this.menu_name);
             }
 
             $.each(ref.menu_source_obj, function(id, props) {
@@ -1047,10 +1046,10 @@ $(document).ready(function() {
                 var button_id = rcmail.buttons['plugin.contextmenu.openextwin'][0].id;
 
                 if (rcmail.env.task == 'settings') {
-                    rcube_find_object(button_id).href = '?_task=settings&_action='+urlencode(rcmail.env.context_menu_source_id);
+                    rcube_find_object(button_id).href = '?_task=settings&_action=' + urlencode(rcmail.env.context_menu_source_id);
                 }
                 else {
-                    rcube_find_object(button_id).href = '?_task=mail&_mbox='+urlencode(rcmail.env.context_menu_source_id);
+                    rcube_find_object(button_id).href = '?_task=mail&_mbox=' + urlencode(rcmail.env.context_menu_source_id);
                 }
 
                 rcmail.sourcewin = window.open(rcube_find_object(button_id).href);
