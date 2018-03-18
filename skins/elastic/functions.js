@@ -86,20 +86,21 @@ $(document).ready(function() {
                         }
                     }
                 },
-                'hide-menu': function(e) {
-                    // Hide Bootstrap popovers
-                    $('.popover.show').each(function() {
-                        var popup = $('.popover-body', this),
+                'hide_menu': function(p) {
+                    // Hide Bootstrap popover styled sub menus
+                    if (p.ref.is_submenu && p.ref.container.parents('.popover.show').length == 1) {
+                        var container = p.ref.container.parents('.popover.show'),
+                            popup = $('.popover-body', container),
                             button = popup.children().first().data('button');
 
-                        if (button && e.target != button && !$(button).find(e.target).length && typeof button !== 'string') {
+                        if (button && p.originalEvent.target != button && !$(button).find(p.originalEvent.target).length && typeof button !== 'string') {
                             $(button).popover('hide');
                         }
 
                         if (!button) {
-                            $(this).remove();
+                            $(container).remove();
                         }
-                    });
+                    }
                 }
             }
         });

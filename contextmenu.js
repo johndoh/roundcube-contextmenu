@@ -902,11 +902,12 @@ function rcube_context_menu(p) {
             // if the menu has submenus they should be hidden to
             $.each(this.submenus, function() {
                 this.container.hide();
+                this.parent_menu.triggerEvent('hide_menu', { ref: this, originalEvent: e });
             });
 
             this.menu_selection = new Array(); // reset selection ready for next event
             this.container.hide();
-            this.parent_menu.triggerEvent('hide-menu', e);
+            this.parent_menu.triggerEvent('hide_menu', { ref: this, originalEvent: e });
         }
     };
 
