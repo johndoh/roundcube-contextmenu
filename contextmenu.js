@@ -906,6 +906,7 @@ function rcube_context_menu(p) {
 
             this.menu_selection = new Array(); // reset selection ready for next event
             this.container.hide();
+            this.parent_menu.triggerEvent('hide-menu', e);
         }
     };
 

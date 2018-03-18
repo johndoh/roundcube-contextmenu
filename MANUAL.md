@@ -257,6 +257,9 @@ This function can return a boolean value: true to activate the element, false to
 * item - The HTML object to be added to the menu
 * originalElement - The original element from the UI
 
+`hide-menu` - Triggered a menu is hidden
+* e - The triggering event
+
 For example permanently deactivating the delete option on the message list Contextmenu could be done like this:
 ```js
 rcmail.addEventListener('contextmenu_init', function(menu) {

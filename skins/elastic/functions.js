@@ -85,6 +85,21 @@ $(document).ready(function() {
                             $(source_id)[p.show ? 'removeClass' : 'addClass']('hidden');
                         }
                     }
+                },
+                'hide-menu': function(e) {
+                    // Hide Bootstrap popovers
+                    $('.popover.show').each(function() {
+                        var popup = $('.popover-body', this),
+                            button = popup.children().first().data('button');
+
+                        if (button && e.target != button && !$(button).find(e.target).length && typeof button !== 'string') {
+                            $(button).popover('hide');
+                        }
+
+                        if (!button) {
+                            $(this).remove();
+                        }
+                    });
                 }
             }
         });
