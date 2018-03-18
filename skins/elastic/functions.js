@@ -88,19 +88,21 @@ $(document).ready(function() {
                 },
                 'hide_menu': function(p) {
                     // Hide Bootstrap popover styled sub menus
-                    if (p.ref.is_submenu && p.ref.container.parents('.popover.show').length == 1) {
-                        var container = p.ref.container.parents('.popover.show'),
-                            popup = $('.popover-body', container),
-                            button = popup.children().first().data('button');
+                    $.each(p.ref.submenus, function() {
+                        if (this.container.parents('.popover.show').length == 1) {
+                            var container = this.container.parents('.popover.show'),
+                                popup = $('.popover-body', container),
+                                button = popup.children().first().data('button');
 
-                        if (button && p.originalEvent.target != button && !$(button).find(p.originalEvent.target).length && typeof button !== 'string') {
-                            $(button).popover('hide');
-                        }
+                            if (button && p.originalEvent.target != button && !$(button).find(p.originalEvent.target).length && typeof button !== 'string') {
+                                $(button).popover('hide');
+                            }
 
-                        if (!button) {
-                            $(container).remove();
+                            if (!button) {
+                                $(container).remove();
+                            }
                         }
-                    }
+                    });
                 }
             }
         });
