@@ -107,6 +107,9 @@ $(document).ready(function() {
             }
         });
 
+        // Remove any tooltips added to menu elements by Elastic UI JS
+        rcmail.addEventListener('enable-command', function() { $('div.contextmenu').find('a.rcmbutton').removeAttr('title'); });
+
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             $('#message-menu a.import').addClass('rcm-ignore');
             rcmail.buttons['import-messages'][0]['act'] += ' rcm-ignore';
