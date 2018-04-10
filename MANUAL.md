@@ -283,10 +283,6 @@ rcmail.addEventListener('contextmenu_init', function(menu) {
 
 Note: A plus sign (+) can be prepended to an event name, for example `+beforeactivate`, to add the new event handler to the existing one used by the core rather than replacing it.
 
-## menu-change JS event
-
-Contextmenu listens for a menu-change event on all source elements. If this event is triggered then the exisiting Contextmenu object is destroyed and will be rebuilt next time its called.
-
 ## Contextmenu and skins
 
 In the plugin folder there is a skins folder, and inside that there is a folder for each skin. Two files are needed for each skin: contextmenu.css - CSS for the menu, and functions.js containing the JavaScript to create Contextmenus in the skin. This plugin provides some helper functions for adding the default menus to the UI, they are: `rcmail.contextmenu.init_list()` for attaching a Contextmenu to a Roundcube list object, `rcmail.contextmenu.init_folder()` for attaching a Contextmenu to the folder list on the mail screen, `rcmail.contextmenu.init_addressbook()` for attaching a Contextmenu to the address book and groups list on the address book screen, and `rcmail.contextmenu.init_settings()` for attaching a Contextmenu to the settings list. Each function expects the same 3 parameters:
