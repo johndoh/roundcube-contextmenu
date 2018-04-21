@@ -137,7 +137,7 @@ rcube_webmail.prototype.contextmenu = {
             }
         });
 
-        rcmail[props.list_object].addEventListener('getselection', function() {
+        rcmail[props.list_object].addEventListener('getselection', function(p) {
             if (rcmail.env.contextmenu_opening == 'afteractivate')
                 return;
 
@@ -149,8 +149,10 @@ rcube_webmail.prototype.contextmenu = {
                 }
             });
 
-            if (uids)
-                return uids;
+            if (uids) {
+                p.res = uids;
+                return false;
+            }
         });
     },
 
