@@ -69,6 +69,7 @@ rcube_webmail.prototype.contextmenu = {
 
         // backwards compatibility, list_object changed to string in v3.0
         if (typeof props.list_object == 'object') {
+            console.log('Roundcube Contextmenu plugin: init_list() list_object param object detected, expected string.');
             var id = $(props.list_object.list).attr('id');
             props.list_object = null;
 
@@ -547,13 +548,14 @@ rcube_webmail.prototype.contextmenu = {
 };
 
 // backwards compatibility, functions renamed in v3.0
-function rcm_listmenu_init(row, props, events) { rcmail.contextmenu.init_list(row, props, events); }
-function rcm_foldermenu_init(el, props, events) { rcmail.contextmenu.init_folder(el, props, events); }
-function rcm_abookmenu_init(el, props, events) { rcmail.contextmenu.init_addressbook(el, props, events); }
-function rcm_callbackmenu_init(props, ext_events) { return rcmail.contextmenu.init(props, ext_events); }
-function rcm_show_menu(e, obj, id, menu) { rcmail.contextmenu.show_one(e, obj, id, menu); }
-function rcm_hide_menu(e, sub_only, no_trigger) { rcmail.contextmenu.hide_all(e, sub_only, no_trigger); }
-function rcm_check_button_state(btn, active) { return rcmail.contextmenu.ui_button_check(btn, active); }
+function rcm_listmenu_init(row, props, events) { rcm_log('rcm_listmenu_init'); rcmail.contextmenu.init_list(row, props, events); }
+function rcm_foldermenu_init(el, props, events) { rcm_log('rcm_foldermenu_init'); rcmail.contextmenu.init_folder(el, props, events); }
+function rcm_abookmenu_init(el, props, events) { rcm_log('rcm_abookmenu_init'); rcmail.contextmenu.init_addressbook(el, props, events); }
+function rcm_callbackmenu_init(props, ext_events) { rcm_log('rcm_callbackmenu_init'); return rcmail.contextmenu.init(props, ext_events); }
+function rcm_show_menu(e, obj, id, menu) { rcm_log('rcm_show_menu'); rcmail.contextmenu.show_one(e, obj, id, menu); }
+function rcm_hide_menu(e, sub_only, no_trigger) { rcm_log('rcm_hide_menu'); rcmail.contextmenu.hide_all(e, sub_only, no_trigger); }
+function rcm_check_button_state(btn, active) { rcm_log('rcm_check_button_state'); return rcmail.contextmenu.ui_button_check(btn, active); }
+function rcm_log(fname) { console.log('Roundcube Contextmenu plugin: Use of ' + fname + ' is depreciated. This will be removed in future versions.'); }
 
 function rcube_context_menu(p) {
     this.menu_name = null;
@@ -977,6 +979,7 @@ $(document).ready(function() {
         var old_settings = ['context_menu_skip_commands', 'context_menu_overload_commands', 'context_menu_command_pattern', 'context_menu_popup_pattern', 'context_menu_button_active_class', 'context_menu_button_disabled_class'];
         $.each(old_settings, function() {
             if (rcmail[this]) {
+                rcm_log('rcmail.' + this);
                 var opt = this.replace(/^context_menu_/, '');
 
                 if ((this == 'context_menu_button_active_class' || this == 'context_menu_button_disabled_class') && $.isArray(rcmail[this])) {
