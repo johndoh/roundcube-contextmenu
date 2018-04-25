@@ -47,11 +47,6 @@ div.contextmenu ul.toolbar {
       max-width: none;
       text-align: left;
       display: flex;
-
-      &:hover {
-        color: @color-toolbarmenu-hover;
-        background-color: @color-toolbarmenu-hover-background;
-      }
     }
   }
 
@@ -109,14 +104,12 @@ html.layout-phone {
 // replace :hover with :active on phones to prevent missleading highlighting of menu items
 html.layout-phone {
   div.contextmenu {
-    .toolbarmenu.listing li:hover a.active,
-    ul.toolbar > li > a.button:hover {
+    .toolbarmenu.listing li:hover a.active {
       color: @color-list;
       background-color: transparent;
     }
 
-    .toolbarmenu.listing li:active a.active,
-    ul.toolbar > li > a.button:active {
+    .toolbarmenu.listing li:active a.active {
       color: @color-toolbarmenu-hover;
       background-color: @color-toolbarmenu-hover-background;
     }
