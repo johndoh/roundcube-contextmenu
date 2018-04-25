@@ -1088,14 +1088,15 @@ $(document).ready(function() {
             }
 
             // check required args are present, other plugins trigger this event too
-            if (!p.originalEvent) {
-                return;
-            }
-
-            // check for popupmenus that arent part of contextmenu
-            var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
-            if ($('div.' + rcmail.contextmenu.settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0 && $(e).prop('class').indexOf('rcm_elem_') == -1) {
-                rcmail.contextmenu.hide_all(p.originalEvent, false, true);
+            if (p.originalEvent && $('div.' + rcmail.contextmenu.settings.classes.container).is(':visible')) {
+                var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
+                // check target is an HTML Element (ie not HTML Document #105)
+                if (e instanceof HTMLElement) {
+                    // check if target is in a contextmenu, and is so hide the menu
+                    if (p.name.indexOf('rcm_') != 0 && $(e).prop('class').indexOf('rcm_elem_') == -1) {
+                        rcmail.contextmenu.hide_all(p.originalEvent, false, true);
+                    }
+                }
             }
         });
     }
