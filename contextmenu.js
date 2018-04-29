@@ -351,18 +351,10 @@ rcube_webmail.prototype.contextmenu = {
             source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
             if (props.menu_name == 'settingslist') {
-                var command, matches;
-                // Not all entries have an onclick some only have href so check both
-                if (source.attr('onclick') && (matches = source.attr('onclick').match(rcmail.contextmenu.settings.command_pattern))) {
-                    command = matches[1];
-                }
-                else if (source.attr('href').length > 1 && (matches = source.attr('href').match(/_action=([^&]+)/))) {
-                    command = matches[1];
-                }
-
-                if (command) {
+                var matches;
+                if (matches = source.attr('onclick').match(rcmail.contextmenu.settings.command_pattern)) {
                     rcmail.contextmenu.hide_all(e);
-                    rcmail.contextmenu.show_one(e, this, command, menu);
+                    rcmail.contextmenu.show_one(e, this, matches[2], menu);
                 }
             }
             else if (props.menu_name == 'folderlist') {
