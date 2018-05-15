@@ -76,7 +76,7 @@ $(document).ready(function() {
                 },
                 'submenu_toggle': function(p) {
                     var matches;
-                    if ((matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv)?)/)) && p.id.indexOf('#taskmenu') == -1) {
+                    if ($(p.id).length > 0 && (matches = p.id.match(/^(#[^\s]+(\s>\s\.[a-z]+\s>)?(\sdiv)?)/)) && p.id.indexOf('#taskmenu') == -1) {
                         var source_id = matches[1];
 
                         // make sure its a real submenu and not the toolbar on a small screen
