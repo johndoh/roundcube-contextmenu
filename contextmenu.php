@@ -29,17 +29,18 @@
 class contextmenu extends rcube_plugin
 {
     public $task = '^((?!login).)*$';
+    private $rcube;
 
     public function init()
     {
-        $rcmail = rcube::get_instance();
+        $this->rcube = rcube::get_instance();
 
-        if ($rcmail->output->type == 'html') {
+        if ($this->rcube->output->type == 'html') {
             $this->include_script('contextmenu.js');
             $this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
             $this->include_script($this->local_skin_path() . '/functions.js');
-            $this->api->output->set_env('contextmenu', true);
-            $this->api->output->set_env('contextmenu_mouseover_timeout', $rcmail->config->get('contextmenu_mouseover_timeout', 400));
+            $this->rcube->output->set_env('contextmenu', true);
+            $this->rcube->output->set_env('contextmenu_mouseover_timeout', $this->rcube->config->get('contextmenu_mouseover_timeout', 400));
             $this->add_hook('render_page', array($this, 'additional_menus'));
         }
 
@@ -55,17 +56,17 @@ class contextmenu extends rcube_plugin
         }
 
         // add additional menus from skins folder
-        $path = '/' . $this->local_skin_path() . '/includes/' . rcube::get_instance()->task . '.html';
+        $path = '/' . $this->local_skin_path() . '/includes/' . $this->rcube->task . '.html';
         if (is_file(slashify($this->home) . $path)) {
             $this->add_texts('localization/');
-            $html = $this->api->output->just_parse("<roundcube:include file=\"$path\" skinpath=\"plugins/contextmenu\" />");
-            $this->api->output->add_footer($html);
+            $html = $this->rcube->output->just_parse("<roundcube:include file=\"$path\" skinpath=\"plugins/contextmenu\" />");
+            $this->rcube->output->add_footer($html);
         }
     }
 
     public function messagecount()
     {
-        $storage = rcube::get_instance()->get_storage();
+        $storage = $this->rcube->get_storage();
         $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
         // send output

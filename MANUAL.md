@@ -102,12 +102,13 @@ if (source.attr('onclick') && source.attr('onclick').match(rcmail.contextmenu.co
 
 The menu_source parameter can be a string (for building the Contextmenu from a single source) or an array of jQuery selectors. To add custom elements to the Contextmenu a menu element must first be added to the IU, for example:
 ```php
+$rcube = rcube::get_instance();
 $li = '';
-$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.myplugin.command1', 'type' => 'link', 'class' => 'myclass1', 'label' => 'myplugin.command1')));
-$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.myplugin.command2', 'type' => 'link', 'class' => 'myclass2', 'label' => 'myplugin.command2')));
-$li .= html::tag('li', null, $this->api->output->button(array('command' => 'plugin.myplugin.command3', 'type' => 'link', 'class' => 'myclass3', 'label' => 'myplugin.command3')));
+$li .= html::tag('li', null, $rcube->output->button(array('command' => 'plugin.myplugin.command1', 'type' => 'link', 'class' => 'myclass1', 'label' => 'myplugin.command1')));
+$li .= html::tag('li', null, $rcube->output->button(array('command' => 'plugin.myplugin.command2', 'type' => 'link', 'class' => 'myclass2', 'label' => 'myplugin.command2')));
+$li .= html::tag('li', null, $rcube->output->button(array('command' => 'plugin.myplugin.command3', 'type' => 'link', 'class' => 'myclass3', 'label' => 'myplugin.command3')));
 $out = html::tag('ul', array('id' => 'mymenu'), $li);
-$this->api->output->add_footer(html::div(array('style' => 'display: none;'), $out));
+$rcube->output->add_footer(html::div(array('style' => 'display: none;'), $out));
 ```
 The Contextmenu can then be invoked like this:
 ```js
