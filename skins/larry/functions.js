@@ -48,7 +48,7 @@ $(document).ready(function() {
             rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'contactlist', 'menu_source': ['#addressbooktoolbar', '#addresslist div.boxfooter a.delete'], 'list_object': 'contact_list'}, {
                 'init': function(p) { rcmail.contextmenu.skin_funcs.reorder_contact_menu(p); }
             }); } );
-            rcmail.add_onload("rcmail.contextmenu.init_addressbook('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer a.add', '#groupoptionsmenu']})");
+            rcmail.add_onload("rcmail.contextmenu.init_addressbook('#directorylist li, #savedsearchlist li', {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']})");
             rcmail.addEventListener('group_insert', function(props) { rcmail.contextmenu.init_addressbook(props.li, {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}); } );
             rcmail.addEventListener('abook_search_insert', function(props) { rcmail.init_addressbook(rcmail.savedsearchlist.get_item('S' + props.id), {'menu_source': ['#directorylist-footer', '#groupoptionsmenu']}); } );
         }
