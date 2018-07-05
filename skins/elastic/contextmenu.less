@@ -5,17 +5,25 @@
 @import (reference) "../../../../skins/elastic/styles/variables";
 @import (reference) "../../../../skins/elastic/styles/mixins";
 
-@color-contextmenu-source-background: #f9f9f9;
 @contextmenu-placeholder-icon: "\00a0";
 
-.listing tbody tr.context-source:not(.selected) > td,
-.listing li.context-source:not(.selected) {
-  background-color: @color-contextmenu-source-background;
-
-  // make sure only the target li background is set on nested lists
-  ul {
-    background-color: @color-layout-list-background;
+.contextmenu-source-highlight(@background-color) {
+  .listing tbody tr.context-source:not(.selected) > td {
+    background-color: darken(@background-color, 2.5%);
   }
+
+  ul.treelist li.context-source:not(.selected) {
+    & > div > a, // this is used e.g. by kolab_addressbook
+    & > a {
+      background-color: darken(@background-color, 2.5%);
+    }
+  }
+}
+
+.contextmenu-source-highlight(@color-layout-list-background);
+
+body > #layout > div.sidebar {
+  .contextmenu-source-highlight(@color-layout-sidebar-background);
 }
 
 // default content set here to prevent overriding Elastic icons
