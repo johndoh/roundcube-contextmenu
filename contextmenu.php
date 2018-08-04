@@ -57,7 +57,8 @@ class contextmenu extends rcube_plugin
 
         // add additional menus from skins folder
         $path = '/' . $this->local_skin_path() . '/includes/' . $this->rcube->task . '.html';
-        if (is_file(slashify($this->home) . $path)) {
+        $filepath = slashify($this->home) . $path;
+        if (is_file($filepath) && is_readable($filepath)) {
             $this->add_texts('localization/');
             $html = $this->rcube->output->just_parse("<roundcube:include file=\"$path\" skinpath=\"plugins/contextmenu\" />");
             $this->rcube->output->add_footer($html);
