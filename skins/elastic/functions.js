@@ -111,8 +111,6 @@ $(document).ready(function() {
         rcmail.addEventListener('enable-command', function() { $('div.contextmenu').find('a.rcmbutton').removeAttr('title'); });
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
-            $('#message-menu a.import').addClass('rcm-ignore');
-            rcmail.buttons['import-messages'][0]['act'] += ' rcm-ignore';
             rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#toolbar-menu > li'}); } );
             rcmail.add_onload("rcmail.contextmenu.init_folder('#mailboxlist li', {'menu_source': ['#rcmfolder-menu > ul', '#mailboxoptions-menu > ul > li']})");
         }

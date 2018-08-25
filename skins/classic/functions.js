@@ -38,8 +38,6 @@ $(document).ready(function() {
         });
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
-            $('#message-menu a.import').addClass('rcm-ignore');
-            rcmail.buttons['import-messages'][0]['act'] += ' rcm-ignore';
             rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#messagetoolbar'}); } );
             rcmail.add_onload("rcmail.contextmenu.init_folder('#mailboxlist li', {'menu_source': ['#rcmfoldermenu > ul', '#mailboxoptionsmenu ul']})");
         }

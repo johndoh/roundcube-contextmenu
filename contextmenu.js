@@ -712,6 +712,12 @@ function rcube_context_menu(p) {
                     a.addClass('rcm_elem_' + elem.attr('id'));
 
                     if (matches = elem.attr('onclick').match(rcmail.contextmenu.settings.popup_pattern)) {
+                        // check the popup menu exists
+                        var popup_id = rcmail.gui_containers[matches[1]] ? rcmail.gui_containers[matches[1]].attr('id') : matches[1];
+                        if ($('#' + popup_id).length == 0) {
+                            return;
+                        }
+
                         a.data('command', matches[1]);
                         a.data('menu-pos', ref.submenu_position);
                         a.addClass(ref.classes.sub_button_a);
@@ -742,6 +748,11 @@ function rcube_context_menu(p) {
                         });
                     }
                     else {
+                        // skip elements for which we could not identify a command
+                        if (!command) {
+                            return;
+                        }
+
                         a.addClass('cmd_' + command.replace(/\./g, '-'));
                         a.data('command', command);
                         if (elem.attr('target'))
