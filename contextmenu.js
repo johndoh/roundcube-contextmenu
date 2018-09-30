@@ -874,6 +874,12 @@ function rcube_context_menu(p) {
             this.parent_menu.triggerEvent('afteractivate', {ref: this, source: obj, originalEvent: e});
         }
 
+        // sanity check, make sure there are items contained in the menu
+        if (this.container.find('li > a').length == 0) {
+            $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
+            return;
+        }
+
         // position menu on the screen
         if (this.is_submenu) {
             rcmail.element_position(this.container, this.parent_object);
