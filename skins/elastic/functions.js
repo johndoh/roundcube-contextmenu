@@ -28,7 +28,7 @@ $(document).ready(function() {
             popup_attrib: 'data-popup',
             popup_func: "rcm_popup_wrapper('$2');",
             popup_pattern: /rcm_popup_wrapper\(\x27([^\x27]+)\x27|^([a-z0-9\-]+)$/i,
-            classes: { button_remove: '', modal_overlay: 'popover-overlay' },
+            classes: { container: 'contextmenu', button_remove: '', modal_overlay: 'popover-overlay' },
             menu_defaults: {
                 modal: true,
                 classes: {

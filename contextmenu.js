@@ -25,10 +25,9 @@ rcube_webmail.prototype.contextmenu = {
         popup_pattern: '',
         popup_func: '',
         classes: {
-                container: 'contextmenu',
+                container: 'contextmenu popupmenu',
                 mainmenu: 'rcmmainmenu rcm-mainmenu', // rcmmainmenu class depreciated in v3.0
                 submenu: 'rcmsubmenu submenu rcm-submenu', // rcmsubmenu submenu classes depreciated in v3.0
-                popupmenu: 'popupmenu',
                 button_remove: 'button',
                 button_active: 'active',
                 button_disabled: 'disabled'
@@ -557,7 +556,6 @@ function rcube_context_menu(p) {
     this.mouseover_timeout = rcmail.env.contextmenu_mouseover_timeout;
     this.classes = {
         source: 'contextRow context-source', // contextRow class depreciated in v3.0
-        div: rcmail.contextmenu.settings.classes.container + ' popupmenu',
         ul: 'toolbarmenu iconized',
         a: 'icon',
         span: 'icon',
@@ -592,7 +590,7 @@ function rcube_context_menu(p) {
             rcmail.triggerEvent('contextmenu_init', this);
 
             this.container = $('<div>').attr('id', 'rcm_' + this.menu_name).css('display', 'none');
-            this.container.addClass(this.classes.div);
+            this.container.addClass(rcmail.contextmenu.settings.classes.container);
             this.container.addClass(this.is_submenu ? rcmail.contextmenu.settings.classes.submenu : rcmail.contextmenu.settings.classes.mainmenu);
 
             var rows = [], ul = $('<ul role="menu">'),
@@ -896,7 +894,7 @@ function rcube_context_menu(p) {
     };
 
     this.hide_menu = function(e) {
-        if ($('div.' + rcmail.contextmenu.settings.classes.container).is(':visible') && (rcmail.contextmenu.vars.popup_menus.length == 0 || $(e.target).parents('div.' + rcmail.contextmenu.settings.classes.container).length == 0)) {
+        if ($('div.' + rcmail.contextmenu.settings.classes.container.replace(/ /g, '.')).is(':visible') && (rcmail.contextmenu.vars.popup_menus.length == 0 || $(e.target).parents('div.' + rcmail.contextmenu.settings.classes.container.replace(/ /g, '.')).length == 0)) {
             if (!this.is_submenu) {
                 this.selected_object = null;
                 $('.' + this.classes.source.replace(/ /g, '.')).removeClass(this.classes.source);
@@ -1075,7 +1073,7 @@ $(document).ready(function() {
         // special event listeners for intreacting with plugins which open popup menus (eg: zipdownload)
         rcmail.addEventListener('menu-open', function(p) {
             // check for popupmenus that arent part of contextmenu
-            if ($('div.' + rcmail.contextmenu.settings.classes.container).is(':visible') && p.name.indexOf('rcm_') != 0) {
+            if ($('div.' + rcmail.contextmenu.settings.classes.container.replace(/ /g, '.')).is(':visible') && p.name.indexOf('rcm_') != 0) {
                 rcmail.contextmenu.vars.popup_commands[p.name] = {};
                 $('#' + p.name).find('a').each(function() {
                     var matches;
@@ -1097,7 +1095,7 @@ $(document).ready(function() {
             }
 
             // check required args are present, other plugins trigger this event too
-            if (p.originalEvent && $('div.' + rcmail.contextmenu.settings.classes.container).is(':visible')) {
+            if (p.originalEvent && $('div.' + rcmail.contextmenu.settings.classes.container.replace(/ /g, '.')).is(':visible')) {
                 var e = p.originalEvent.currentTarget ? p.originalEvent.currentTarget : p.originalEvent.srcElement;
                 // check target is an HTML Element (ie not HTML Document #105)
                 if (e instanceof HTMLElement) {

@@ -22,7 +22,6 @@ The following global options are available:
     * container - class(es) applied to the menu container
     * mainmenu - class(es) applied to the menu container of top level menus
     * submenu - class(es) applied to the menu container of sub menus
-    * popupmenu - class(es) applied to popup menus created by this plugin
     * button_remove - thse class(es) will be removed from the context menu button (for example classes that are used in the UI which are not needed in the context menu)
     * button_active - class(es) for buttons in an active state
     * button_disabled - class(es) for buttons in an inactive state
