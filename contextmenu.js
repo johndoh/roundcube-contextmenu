@@ -35,7 +35,7 @@ rcube_webmail.prototype.contextmenu = {
         menu_defaults: {},
         menu_events: {
             'command': function(p) {
-                if (!$(p.el).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                if (!$(p.el).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
                     return;
 
                 // enable the required command
