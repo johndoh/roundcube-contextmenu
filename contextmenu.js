@@ -245,7 +245,7 @@ rcube_webmail.prototype.contextmenu = {
                 }
             },
             'command': function(p) {
-                if (!$(p.el).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                if (!$(p.el).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
                     return;
 
                 var prev_source = rcmail.env.source;
@@ -486,19 +486,10 @@ rcube_webmail.prototype.contextmenu = {
     },
 
     ui_button_check: function(btn, active) {
-        var classes = (active ? rcmail.contextmenu.settings.classes.button_active : rcmail.contextmenu.settings.classes.button_disabled).split(' ');
-        var found = false;
+        var classes = (active ? rcmail.contextmenu.settings.classes.button_active : rcmail.contextmenu.settings.classes.button_disabled);
+        classes = '.' + classes.replace(/ /g, ', .');
 
-        $.each(classes, function(i) {
-            if ($('#' + btn).hasClass(classes[i])) {
-                found = true;
-
-                // stop processing
-                return false;
-            }
-        });
-
-        return found;
+        return $('#' + btn).is(classes);
     },
 
     settings_menus: function(menus) {
@@ -723,14 +714,14 @@ function rcube_context_menu(p) {
                             a.append($('<span>').addClass(ref.classes.sub_button_span));
                         row.addClass(rcmail.contextmenu.settings.classes.submenu);
                         a.on('click', function(e) {
-                            if (!$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                            if (!$(this).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
                                 return;
 
                             ref.submenu(a, e);
                             return false;
                         })
                         .on('mouseover', function(e) {
-                            if (ref.mouseover_timeout < 0 || !$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                            if (ref.mouseover_timeout < 0 || !$(this).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
                                 return;
 
                             ref.timers['submenu_show'] = window.setTimeout(function(a, e) {
@@ -738,7 +729,7 @@ function rcube_context_menu(p) {
                             }, ref.mouseover_timeout, a, e);
                         })
                         .on('mouseout', function() {
-                            if (ref.mouseover_timeout < 0 || !$(this).hasClass(rcmail.contextmenu.settings.classes.button_active))
+                            if (ref.mouseover_timeout < 0 || !$(this).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
                                 return;
 
                             $(this).blur();
@@ -825,7 +816,7 @@ function rcube_context_menu(p) {
                 $(obj).addClass(this.classes.source);
             }
 
-            if (this.modal && !this.is_submenu && ($('#rcm_modal').length == 0 || (rcmail.contextmenu.settings.classes.modal_overlay && $('.' + rcmail.contextmenu.settings.classes.modal_overlay).length == 0))) {
+            if (this.modal && !this.is_submenu && ($('#rcm_modal').length == 0 || (rcmail.contextmenu.settings.classes.modal_overlay && $('.' + rcmail.contextmenu.settings.classes.modal_overlay.replace(/ /g, '.')).length == 0))) {
                 $('<div>').attr('id', 'rcm_modal').addClass(rcmail.contextmenu.settings.classes.modal_overlay)
                     .on('contextmenu', function(e) { $(e.target).trigger('click'); rcube_event.cancel(e); })
                     .insertBefore('#rcm_' + this.menu_name);

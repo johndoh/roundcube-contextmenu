@@ -28,6 +28,8 @@ The following global options are available:
 * menu_defaults - (object) default options for Contextmenu objects
 * menu_events - (object) default events for Contextmenu objects
 
+Note: When specifying multiple classes each one should be separated by a space
+
 ## Creating a new Contextmenu
 
 By default Contextmenu is added to all tasks in Roundcube except `login`.
