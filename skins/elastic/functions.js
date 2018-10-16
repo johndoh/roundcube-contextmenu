@@ -15,13 +15,6 @@
  * for the JavaScript code in this file.
  */
 
-rcube_webmail.prototype.contextmenu.skin_funcs.compose_menu_text = function(p) {
-    var matches;
-    if (matches = $(p.item).children('a').attr('class').match(/\b(addto|addcc|addbcc)\b/)) {
-        $(p.item).children('a').children('span').text($('#layout > .sidebar > div.footer a.' + matches[1]).attr('title'));
-    }
-};
-
 $(document).ready(function() {
     if (window.rcmail) {
         $.extend(true, rcmail.contextmenu.settings, {
@@ -113,11 +106,6 @@ $(document).ready(function() {
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#toolbar-menu > li'}); } );
             rcmail.add_onload("rcmail.contextmenu.init_folder('#mailboxlist li', {'menu_source': ['#rcmfolder-menu > ul', '#mailboxoptions-menu > ul > li']})");
-        }
-        else if (rcmail.env.task == 'mail' && rcmail.env.action == 'compose') {
-            rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'composeto', 'menu_source': '#layout > .sidebar > div.footer:not(.pagenav)', 'list_object': 'contact_list'}, {
-                'insertitem': function(p) { rcmail.contextmenu.skin_funcs.compose_menu_text(p); }
-            }); } );
         }
         else if (rcmail.env.task == 'addressbook' && rcmail.env.action == '') {
             // on small screens the compose button is not visible so use rcm-active class to ensure it shows up in the menu
