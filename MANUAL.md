@@ -78,7 +78,7 @@ var menu = rcmail.contextmenu.init(
 The Contextmenu must then be attached to the element(s) in the UI. For example:
 ```js
 $(el).on("contextmenu", function(e) {
-  rcmail.contextmenu.show(e, obj, source_id, menu);
+  rcmail.contextmenu.show_one(e, obj, source_id, menu);
 });
 ```
 
@@ -88,13 +88,13 @@ The `rcmail.contextmenu.show` displays a Contextmenu on the screen. It has the f
 * source_id - (string) The object ID used by core function. When using the Contextmenu on a Roundcube list object then the ID can be retrieved from the object, like this:
 ```js
 if (uid = list_object.get_row_uid(this)) {
-  rcmail.contextmenu.show(e, this, uid, menu);
+  rcmail.contextmenu.show_one(e, this, uid, menu);
 }
 ```
 The ID can also be extracted from the originial function call, like this:
 ```js
 if (source.attr('onclick') && source.attr('onclick').match(rcmail.contextmenu.command_pattern)) {
-  rcmail.contextmenu.show(e, this, RegExp.$2, menu);
+  rcmail.contextmenu.show_one(e, this, RegExp.$2, menu);
 }
 ```
 * menu - (object) The menu object as created by `rcmail.contextmenu.init`
