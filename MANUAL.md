@@ -93,8 +93,8 @@ if (uid = list_object.get_row_uid(this)) {
 ```
 The ID can also be extracted from the originial function call, like this:
 ```js
-if (source.attr('onclick') && source.attr('onclick').match(rcmail.contextmenu.command_pattern)) {
-  rcmail.contextmenu.show_one(e, this, RegExp.$2, menu);
+if (source.attr('onclick') && (matches = source.attr('onclick').match(rcmail.contextmenu.command_pattern))) {
+  rcmail.contextmenu.show_one(e, this, matches[2], menu);
 }
 ```
 * menu - (object) The menu object as created by `rcmail.contextmenu.init`
