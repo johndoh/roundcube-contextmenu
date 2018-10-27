@@ -850,7 +850,27 @@ function rcube_context_menu(p) {
                     $(this).removeClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
 
                     var enabled = false;
-                    if (!rcmail.contextmenu.ui_button_check(btn[1], false) && (!ref.is_submenu || rcmail.contextmenu.ui_button_check(btn[1], true))) {
+                    if ($(this).parent('li').is('.' + rcmail.contextmenu.settings.classes.submenu.replace(/ /g, ', .'))) {
+                        // check of active commands in submenu to activate submenu link (https://github.com/roundcube/roundcubemail/issues/6444)
+                        var id = rcmail.gui_containers[$(this).data('command')] ? rcmail.gui_containers[$(this).data('command')].attr('id') : $(this).data('command');
+
+                        // make sure sub menu items are enabled by default (in case we cannot find the menu buttons below
+                        enabled = true;
+
+                        // based on rcmail.set_menu_buttons()
+                        $.each(rcmail.menu_buttons, function() {
+                            if ($(this[0]).data('popup') == id) {
+                                enabled = false;
+                                $.each(this[1], function() {
+                                    var is_func = typeof(this) == 'function';
+                                    if ((is_func && this()) || (!is_func && rcmail.commands[this])) {
+                                        return !(enabled = true);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else if (!rcmail.contextmenu.ui_button_check(btn[1], false) && (!ref.is_submenu || rcmail.contextmenu.ui_button_check(btn[1], true))) {
                         enabled = true;
                     }
 
