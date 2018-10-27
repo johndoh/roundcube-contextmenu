@@ -867,6 +867,9 @@ function rcube_context_menu(p) {
                                         return !(enabled = true);
                                     }
                                 });
+
+                                // we found the menu so break the loop
+                                return false;
                             }
                         });
                     }
