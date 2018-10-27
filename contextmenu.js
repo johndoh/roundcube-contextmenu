@@ -46,9 +46,6 @@ rcube_webmail.prototype.contextmenu = {
 
                 return result;
             },
-            'activate': function(p) {
-                $(p.el).addClass(p.enabled ? rcmail.contextmenu.settings.classes.button_active : rcmail.contextmenu.settings.classes.button_disabled);
-            },
             'submenu_toggle' : function(p) {
                 $(p.id).parent()[(p.show) ? 'show' : 'hide']();
             }
@@ -168,7 +165,7 @@ rcube_webmail.prototype.contextmenu = {
                 rcmail.env.contextmenu_messagecount_request = null;
             },
             'activate': function(p) {
-                rcmail.contextmenu.activate_folder_commands(p);
+                return rcmail.contextmenu.activate_folder_commands(p);
             },
             'beforecommand': function(p) {
                 if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && $.inArray(p.command, Array('expunge', 'purge')) >= 0) {
@@ -219,30 +216,32 @@ rcube_webmail.prototype.contextmenu = {
                 if (p.command == 'group-create') {
                     // addressbook
                     if ($(p.source).hasClass('addressbook') && rcmail.env.address_sources[cur_source].groups && !rcmail.env.address_sources[cur_source].readonly) {
-                        $(p.el).addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                        p.enabled = true;
                     }
                     else {
-                        $(p.el).addClass(rcmail.contextmenu.settings.classes.button_disabled).removeClass(rcmail.contextmenu.settings.classes.button_active);
+                        p.enabled = false;
                     }
                 }
                 else if (p.command == 'group-rename' || p.command == 'group-delete') {
                     // group
                     if ($(p.source).hasClass('contactgroup') && !rcmail.env.address_sources[cur_source].readonly) {
-                        $(p.el).addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                        p.enabled = true;
                     }
                     else {
-                        $(p.el).addClass(rcmail.contextmenu.settings.classes.button_disabled).removeClass(rcmail.contextmenu.settings.classes.button_active);
+                        p.enabled = false;
                     }
                 }
                 else if (p.command == 'search-delete') {
                     // saved search
                     if ($(p.source).hasClass('contactsearch')) {
-                        $(p.el).addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                        p.enabled = true;
                     }
                     else {
-                        $(p.el).addClass(rcmail.contextmenu.settings.classes.button_disabled).removeClass(rcmail.contextmenu.settings.classes.button_active);
+                        p.enabled = false;
                     }
                 }
+
+                return p;
             },
             'command': function(p) {
                 if (!$(p.el).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
@@ -324,11 +323,10 @@ rcube_webmail.prototype.contextmenu = {
             },
             'activate': function(p) {
                 if (p.ref.menu_name == 'folderlist' && $.inArray(p.command, Array('delete-folder', 'purge')) >= 0) {
-                    rcmail.contextmenu.activate_folder_commands(p);
+                    p = rcmail.contextmenu.activate_folder_commands(p);
                 }
-                else {
-                    $(p.el).addClass(p.enabled ? rcmail.contextmenu.settings.classes.button_active : rcmail.contextmenu.settings.classes.button_disabled);
-                }
+
+                return p;
             },
             'beforecommand': function(p) {
                 if (p.ref.menu_name == 'folderlist') {
@@ -435,14 +433,16 @@ rcube_webmail.prototype.contextmenu = {
     activate_folder_commands: function(p) {
         if ($.inArray(p.command, Array('expunge', 'purge', 'mark-all-read')) >= 0) {
             // disable the commands by default
-            $(p.el).addClass(rcmail.contextmenu.settings.classes.button_disabled).removeClass(rcmail.contextmenu.settings.classes.button_active);
+            p.enabled = false;
 
             // if menu is opened on current folder (or special mark-all-read command) then enable the commands same as in UI
             if ((rcmail.env.context_menu_source_id == rcmail.env.mailbox || p.command == 'mark-all-read') && rcmail.commands[p.command]) {
-                $(p.el).addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                p.enabled = true;
             }
             // if menu is opened on difference folder then get message count for the folder
             else if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && !rcmail.env.contextmenu_messagecount_request) {
+                p.abort = true;
+
                 // folder check called async to prevent slowdown on menu load
                 rcmail.env.contextmenu_messagecount_request = $.ajax({
                     type: 'POST', url: rcmail.url('plugin.contextmenu.messagecount'), data: {'_mbox': rcmail.env.context_menu_source_id}, dataType: 'json', async: true,
@@ -467,22 +467,27 @@ rcube_webmail.prototype.contextmenu = {
             }
         }
         else if (p.command == 'plugin.contextmenu.collapseall') {
+            p.enabled = false;
             if ($(rcmail.gui_objects.mailboxlist).find('div.expanded').length > 0) {
-                $('#rcm_folderlist').find('a.cmd_plugin-contextmenu-collapseall').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                p.enabled = true;
             }
         }
         else if (p.command == 'plugin.contextmenu.expandall') {
+            p.enabled = false;
             if ($(rcmail.gui_objects.mailboxlist).find('div.collapsed').length > 0) {
-                $('#rcm_folderlist').find('a.cmd_plugin-contextmenu-expandall').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                p.enabled = true;
             }
         }
         else if (rcmail.env.task == 'settings' && p.command == 'delete-folder') {
+            p.enabled = false;
             // From rcmail::subscription_select()
             var folder;
             if ((folder = rcmail.env.subscriptionrows[rcmail.env.context_menu_source_id]) && !folder[2]) {
-                $('#rcm_folderlist').find('a.cmd_delete-folder').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                p.enabled = true;
             }
         }
+
+        return p;
     },
 
     ui_button_check: function(btn, active) {
@@ -849,12 +854,18 @@ function rcube_context_menu(p) {
                         enabled = true;
                     }
 
-                    var ret = ref.parent_menu.triggerEvent('activate', {ref: ref, el: this, btn: btn[1], source: obj, command: $(this).data('command'), enabled: enabled});
-                    if (ret === true) {
-                        $(this).addClass(rcmail.contextmenu.settings.classes.button_active);
+                    var args = {ref: ref, el: this, btn: btn[1], source: obj, command: $(this).data('command'), enabled: enabled};
+                    var p = ref.parent_menu.triggerEvent('activate', args);
+                    if (!p) {
+                        p = args;
                     }
-                    else if (ret === false) {
-                        $(this).addClass(rcmail.contextmenu.settings.classes.button_disabled);
+                    else if (typeof(p) === "boolean") { // backwards compatibility pre v3.0
+                        args.enabled = p;
+                        p = args;
+                    }
+
+                    if (!p.abort) {
+                        $(this).addClass(p.enabled == true ? rcmail.contextmenu.settings.classes.button_active : rcmail.contextmenu.settings.classes.button_disabled);
                     }
                 }
             });

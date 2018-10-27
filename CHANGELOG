@@ -33,6 +33,7 @@ Roundcube Webmail ContextMenu
  * Support new Contacts toolbar with Copy/Move actions (req RC eb0228b)
  * Add menus to Settings screens
  * Add contextmenu_mouseover_timeout config option to override default mouseover timeout for submenus
+ * Extend activate hook, now returns JSON rather than Boolean
 
 Version 2.3 (2017-06-14, rc-1.3)
 =================================================

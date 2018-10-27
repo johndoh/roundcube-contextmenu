@@ -247,7 +247,9 @@ This function can return the following in a JSON object:
 * source - The element the Contextmenu has been triggered on
 * command - The command the menu element executes
 * enabled - Boolean, if the menu element is active or not
-This function can return a boolean value: true to activate the element, false to disable it
+This function can return the following in a JSON object:
+* abort - Boolean, abort the default activation process
+* enabled - Boolean, set the menu element to active or not
 
 `afteractivate` - Triggered when a Contextmenu is displayed
 * ref - The Contextmenu object
