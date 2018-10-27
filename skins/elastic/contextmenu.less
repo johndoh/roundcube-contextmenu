@@ -72,8 +72,14 @@ div.contextmenu ul.toolbar {
       font-size: 100%;
     }
 
-    &.rcmsubbutton::after {
-      content: @fa-var-angle-right;
+    &.rcmsubbutton {
+      &.disabled {
+        pointer-events: auto;
+      }
+
+      &::after {
+        content: @fa-var-angle-right;
+      }
     }
 
     > span.icon {

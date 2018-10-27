@@ -721,11 +721,17 @@ function rcube_context_menu(p) {
                             return false;
                         })
                         .on('mouseover', function(e) {
-                            if (ref.mouseover_timeout < 0 || !$(this).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
+                            if (ref.mouseover_timeout < 0)
                                 return;
 
+                            var el = this;
                             ref.timers['submenu_show'] = window.setTimeout(function(a, e) {
-                                ref.submenu(a, e);
+                                if (!$(el).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .'))) {
+                                    rcmail.contextmenu.hide_all(e, true);
+                                }
+                                else {
+                                    ref.submenu(a, e);
+                                }
                             }, ref.mouseover_timeout, a, e);
                         })
                         .on('mouseout', function() {
@@ -845,10 +851,10 @@ function rcube_context_menu(p) {
 
                     var ret = ref.parent_menu.triggerEvent('activate', {ref: ref, el: this, btn: btn[1], source: obj, command: $(this).data('command'), enabled: enabled});
                     if (ret === true) {
-                        $(this).addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                        $(this).addClass(rcmail.contextmenu.settings.classes.button_active);
                     }
                     else if (ret === false) {
-                        $(this).addClass(rcmail.contextmenu.settings.classes.button_disabled).removeClass(rcmail.contextmenu.settings.classes.button_active);
+                        $(this).addClass(rcmail.contextmenu.settings.classes.button_disabled);
                     }
                 }
             });
