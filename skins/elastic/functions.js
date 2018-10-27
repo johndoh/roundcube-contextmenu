@@ -100,8 +100,15 @@ $(document).ready(function() {
             }
         });
 
-        // Remove any tooltips added to menu elements by Elastic UI JS
-        rcmail.addEventListener('enable-command', function() { $('div.contextmenu').find('a.rcmbutton').removeAttr('title'); });
+        // Remove any tooltips or classes added to menu elements by Elastic UI JS
+        rcmail.addEventListener('enable-command', function() {
+            $('div.contextmenu').find('a.rcmbutton').removeAttr('title');
+
+            if (rcmail.task == 'mail') {
+                // see https://github.com/roundcube/roundcubemail/pull/6495
+                $('a.rcmbutton.markmessage.active').removeClass('disabled');
+            }
+        });
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#toolbar-menu > li'}); } );
