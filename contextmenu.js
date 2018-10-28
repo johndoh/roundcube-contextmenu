@@ -852,26 +852,20 @@ function rcube_context_menu(p) {
                     var enabled = false;
                     if ($(this).parent('li').is('.' + rcmail.contextmenu.settings.classes.submenu.replace(/ /g, ', .'))) {
                         // check of active commands in submenu to activate submenu link (https://github.com/roundcube/roundcubemail/issues/6444)
-                        var id = rcmail.gui_containers[$(this).data('command')] ? rcmail.gui_containers[$(this).data('command')].attr('id') : $(this).data('command');
-
-                        // make sure sub menu items are enabled by default (in case we cannot find the menu buttons below
-                        enabled = true;
-
                         // based on rcmail.set_menu_buttons()
-                        $.each(rcmail.menu_buttons, function() {
-                            if ($(this[0]).data('popup') == id) {
-                                enabled = false;
-                                $.each(this[1], function() {
-                                    var is_func = typeof(this) == 'function';
-                                    if ((is_func && this()) || (!is_func && rcmail.commands[this])) {
-                                        return !(enabled = true);
-                                    }
-                                });
-
-                                // we found the menu so break the loop
-                                return false;
-                            }
-                        });
+                        var id = rcmail.gui_containers[$(this).data('command')] ? rcmail.gui_containers[$(this).data('command')].attr('id') : $(this).data('command');
+                        if (rcmail.menu_buttons[id]) {
+                            $.each(rcmail.menu_buttons[id][1], function() {
+                                var is_func = typeof(this) == 'function';
+                                if ((is_func && this()) || (!is_func && rcmail.commands[this])) {
+                                    return !(enabled = true);
+                                }
+                            });
+                        }
+                        else {
+                            // cant find the submenu, enable the link just in case
+                            enabled = true;
+                        }
                     }
                     else if (!rcmail.contextmenu.ui_button_check(btn[1], false) && (!ref.is_submenu || rcmail.contextmenu.ui_button_check(btn[1], true))) {
                         enabled = true;
