@@ -8,6 +8,7 @@
 @contextmenu-placeholder-icon: "\00a0";
 
 .contextmenu-source-highlight(@background-color) {
+  .listing:not(.treelist) li.context-source:not(.selected), // e.g. Settings actions list
   .listing tbody tr.context-source:not(.selected) > td {
     background-color: darken(@background-color, 2.5%);
   }
@@ -31,7 +32,7 @@ body > #layout > div.sidebar {
   content: @contextmenu-placeholder-icon;
 }
 
-div.contextmenu ul.toolbarmenu {
+div.contextmenu ul.menu {
   > li {
     > a {
       outline: 0;
@@ -97,21 +98,21 @@ html.layout-phone {
 // replace :hover with :active on phones to prevent missleading highlighting of menu items
 html.layout-phone {
   div.contextmenu {
-    .toolbarmenu.listing li:hover a.active {
+    .menu.listing li:hover a.active {
       color: @color-list;
       background-color: transparent;
     }
 
-    .toolbarmenu.listing li:active a.active {
-      color: @color-toolbarmenu-hover;
-      background-color: @color-toolbarmenu-hover-background;
+    .menu.listing li:active a.active {
+      color: @color-menu-hover;
+      background-color: @color-menu-hover-background;
     }
   }
 }
 
 html.touch {
   div.contextmenu {
-    ul.toolbarmenu {
+    ul.menu {
       a.rcmbutton {
         &::before,
         &::after {

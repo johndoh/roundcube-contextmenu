@@ -25,7 +25,7 @@ $(document).ready(function() {
             menu_defaults: {
                 modal: true,
                 classes: {
-                    ul: 'toolbarmenu listing',
+                    ul: 'menu listing',
                     a: 'button rcmbutton',
                     sub_button_a: 'rcmsubbutton',
                     sub_button_span: null
