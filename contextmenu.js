@@ -344,7 +344,7 @@ rcube_webmail.prototype.contextmenu = {
         }, events));
 
         $(el).on('contextmenu', function(e) {
-            var source = $(this).find('a:first');
+            var source = $(this).find('a').first();
             source.blur(); // remove focus (and keyboard nav highlighting) from source element
 
             if (props.menu_name == 'settingslist') {
@@ -643,10 +643,10 @@ function rcube_context_menu(p) {
                             }
                         }
                         else if ($(src_elem).is('span') && $(src_elem).children().length == 2) {
-                            elem = $(src_elem).children(':first').clone();
+                            elem = $(src_elem).children().first().clone();
 
-                            if ($(src_elem).children(':last').attr(rcmail.contextmenu.settings.popup_attrib).match(rcmail.contextmenu.settings.popup_pattern)) {
-                                $(elem).attr(rcmail.contextmenu.settings.popup_attrib, $(src_elem).children(':last').attr(rcmail.contextmenu.settings.popup_attrib));
+                            if ($(src_elem).children().last().attr(rcmail.contextmenu.settings.popup_attrib).match(rcmail.contextmenu.settings.popup_pattern)) {
+                                $(elem).attr(rcmail.contextmenu.settings.popup_attrib, $(src_elem).children().last().attr(rcmail.contextmenu.settings.popup_attrib));
                                 $(elem).addClass('rcm-uidropdown');
                             }
                         }

@@ -24,7 +24,7 @@ rcube_webmail.prototype.contextmenu.skin_funcs.compose_menu_text = function(p) {
 
 rcube_webmail.prototype.contextmenu.skin_funcs.reorder_contact_menu = function(p) {
     // put export and more submenus last
-    var ul = p.ref.container.find('ul:first');
+    var ul = p.ref.container.find('ul').first();
     p.ref.container.find('a.export').parent('li').appendTo(ul);
     p.ref.container.find('a.more').parent('li').appendTo(ul);
 };
