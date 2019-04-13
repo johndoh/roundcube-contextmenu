@@ -41,7 +41,7 @@ $(document).ready(function() {
                         var header = $('<h3>').addClass('popover-header')
                             .append($('<a>').attr('class', class_name).text(title))
                             .on('click', function(e) {
-                                rcmail.contextmenu.hide_all(e, $('div.contextmenu:visible').length >= 1);
+                                rcmail.contextmenu.hide_all(e, $('div.contextmenu').filter(':visible').length >= 1);
                             });
 
                         $(p.ref.container).addClass('popover').prepend(header).children('ul').wrap($('<div>').addClass('popover-body'));
