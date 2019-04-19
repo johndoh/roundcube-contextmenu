@@ -823,7 +823,8 @@ function rcube_context_menu(p) {
 
         var callback = this.parent_menu.triggerEvent('beforeactivate', {ref: this, source: obj, originalEvent: e});
         if (!callback || !callback.abort) {
-            if (obj) {
+            // don't add source class when selected row is part of current selection, current selection is styled already (#113)
+            if (obj && !(this.list_object && rcmail[this.list_object].in_selection(rcmail.env.context_menu_source_id))) {
                 $(obj).addClass(this.classes.source);
             }
 
