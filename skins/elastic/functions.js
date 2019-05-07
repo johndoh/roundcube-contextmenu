@@ -103,10 +103,9 @@ $(document).ready(function() {
         // Remove any tooltips added to menu elements by Elastic UI JS
         rcmail.addEventListener('enable-command', function() { $('div.contextmenu').find('a.rcmbutton').removeAttr('title'); });
 
-        // Hack to fix menu hiding when switching between BS popovers and JQUI dialogs (#114)
-        // TODO: find a more general solution
-        rcmail.addEventListener('afterqrcode', function(p) {
-            rcmail.contextmenu.hide_all(p.originalEvent, false, true);
+        // Ensure menus are always hidden when opening a dialog box (#114)
+        $(document).on('dialogopen', '.ui-dialog', function (event) {
+            rcmail.contextmenu.hide_all(event, false, true);
         });
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
