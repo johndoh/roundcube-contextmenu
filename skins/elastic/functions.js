@@ -104,9 +104,7 @@ $(document).ready(function() {
         rcmail.addEventListener('enable-command', function() { $('div.contextmenu').find('a.rcmbutton').removeAttr('title'); });
 
         // Ensure menus are always hidden when opening a dialog box (#114)
-        $(document).on('dialogopen', '.ui-dialog', function (event) {
-            rcmail.contextmenu.hide_all(event, false, true);
-        });
+        rcmail.addEventListener('dialog-open', function() { rcmail.contextmenu.hide_all(event, false, true); });
 
         if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
             rcmail.addEventListener('insertrow', function(props) { rcmail.contextmenu.init_list(props.row.id, {'menu_name': 'messagelist', 'menu_source': '#toolbar-menu > li'}); } );
