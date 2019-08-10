@@ -32,44 +32,56 @@ body > #layout > div.sidebar {
   content: @contextmenu-placeholder-icon;
 }
 
-div.contextmenu ul.menu {
-  > li {
-    > a {
-      outline: 0;
-      cursor: default !important;
-    }
-
-    > a.button {
-      min-width: 160px;
-      display: flex;
-    }
-  }
-
-  > li:last-child {
-    border-bottom: none;
-  }
-
-  a.rcmbutton {
-    &::after {
-      .font-icon-class;
-      content: @contextmenu-placeholder-icon;
-      padding: 0 0.5em;
-      font-size: 100%;
-    }
-
-    &.rcmsubbutton {
-      &.disabled {
-        pointer-events: auto;
+div.contextmenu {
+  ul.menu {
+    > li {
+      > a {
+        outline: 0;
+        cursor: default !important;
       }
 
+      > a.button {
+        min-width: 160px;
+        display: flex;
+      }
+    }
+
+    > li:last-child {
+      border-bottom: none;
+    }
+
+    a.rcmbutton {
       &::after {
-        content: @fa-var-angle-right;
+        .font-icon-class;
+        content: @contextmenu-placeholder-icon;
+        padding: 0 0.5em;
+        font-size: 100%;
+      }
+
+      &.rcmsubbutton {
+        &.disabled {
+          pointer-events: auto;
+        }
+
+        &::after {
+          content: @fa-var-angle-right;
+        }
+      }
+
+      > span.icon {
+        flex-grow: 1;
+        .overflow-ellipsis;
+      }
+
+      html.touch &::after {
+        margin-right: 0.5rem;
       }
     }
+  }
 
-    > span.icon {
-      flex-grow: 1;
-    }
+  html.layout-small &,
+  html.layout-phone & {
+    top: 0 !important;
   }
 }
 
@@ -84,18 +96,17 @@ div.contextmenu ul.menu {
   }
 }
 
+// hide submenu icons when on mark/more type menus to match core
 html.layout-small,
 html.layout-phone {
   div.contextmenu {
-    top: 0 !important;
-
     a.rcmsubbutton:not(.rcm-uidropdown)::after {
       display: none;
     }
   }
 }
 
-// replace :hover with :active on phones to prevent missleading highlighting of menu items
+// replace :hover with :active on phones to prevent misleading highlighting of menu items
 html.layout-phone {
   div.contextmenu {
     .menu.listing li:hover a.active {
@@ -106,23 +117,6 @@ html.layout-phone {
     .menu.listing li:active a.active {
       color: @color-menu-hover;
       background-color: @color-menu-hover-background;
-    }
-  }
-}
-
-html.touch {
-  div.contextmenu {
-    ul.menu {
-      a.rcmbutton {
-        &::before,
-        &::after {
-          margin-right: 0.5rem;
-        }
-
-        > span.icon {
-          .overflow-ellipsis;
-        }
-      }
     }
   }
 }
