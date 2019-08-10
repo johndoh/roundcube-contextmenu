@@ -147,12 +147,12 @@ div.contextmenu ul.iconized li a.cmd_purge span.icon
 
 div.contextmenu ul.iconized li a.collapseall span.icon
 {
-  background-position: 0 -326px;
+  background-position: 0 -305px;
 }
 
 div.contextmenu ul.iconized li a.expandall span.icon
 {
-  background-position: 0 -305px;
+  background-position: 0 -326px;
 }
 
 div.contextmenu ul.iconized li a.openinline span.icon

@@ -1,9 +1,9 @@
 <roundcube:if condition="env:action == ''" />
 <div id="rcmfoldermenu" class="popupmenu">
     <ul>
-        <li><roundcube:button command="plugin.contextmenu.collapseall" type="link" label="contextmenu.collapseall" classAct="active" class="collapseall" /></li>
-        <li><roundcube:button command="plugin.contextmenu.expandall" type="link" label="contextmenu.expandall" classAct="active" class="expandall" /></li>
-        <li><roundcube:button command="plugin.contextmenu.openextwin" type="link" label="openinextwin" classAct="active" class="openfolder rcm-active" /></li>
+        <li><roundcube:button command="plugin.contextmenu.collapseall" prop="treelist" type="link" label="contextmenu.collapseall" classAct="collapseall active" class="collapseall" /></li>
+        <li><roundcube:button command="plugin.contextmenu.expandall" prop="treelist" type="link" label="contextmenu.expandall" classAct="expandall active" class="expandall" /></li>
+        <li><roundcube:button command="plugin.contextmenu.openextwin" type="link" label="openinextwin" class="openfolder rcm-active" /></li>
     </ul>
 </div>
 <roundcube:endif />

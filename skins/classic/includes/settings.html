@@ -1,5 +1,13 @@
 <div id="rcmsettingsmenu" class="popupmenu">
     <ul>
-        <li><roundcube:button command="plugin.contextmenu.openinline" type="link" label="open" classAct="active" class="openinline rcm-active" /></li>
+        <li><roundcube:button command="plugin.contextmenu.openinline" type="link" label="open" class="openinline rcm-active" /></li>
     </ul>
 </div>
+<roundcube:if condition="env:action == 'folders'" />
+<div id="rcmfoldermenu" class="popupmenu">
+    <ul>
+        <li><roundcube:button command="plugin.contextmenu.collapseall" prop="subscription_list" type="link" label="contextmenu.collapseall" classAct="collapseall active" class="collapseall" /></li>
+        <li><roundcube:button command="plugin.contextmenu.expandall" prop="subscription_list" type="link" label="contextmenu.expandall" classAct="expandall active" class="expandall" /></li>
+    </ul>
+</div>
+<roundcube:endif />

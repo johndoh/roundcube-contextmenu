@@ -55,7 +55,7 @@ $(document).ready(function() {
         else if (rcmail.env.task == 'settings') {
             rcmail.contextmenu.settings_menus([
                 {'obj': 'sections-table tr', 'props': {'menu_name': 'preferenceslist', 'menu_source': '#rcmsettingsmenu > ul', 'list_object': 'sections_list'}},
-                {'obj': 'subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmsettingsmenu > ul', '#mailboxoptionsmenu > ul'], 'list_object': 'subscription_list', 'init_func': 'init_settings'}},
+                {'obj': 'subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmfoldermenu > ul', '#rcmsettingsmenu > ul', '#mailboxoptionsmenu > ul'], 'list_object': 'subscription_list', 'init_func': 'init_settings'}},
                 {'obj': 'identities-table tr', 'props': {'menu_name': 'identiteslist', 'menu_source': ['#rcmsettingsmenu > ul', '#identities-list div.boxfooter'], 'list_object': 'identity_list'}},
                 {'obj': 'responses-table tr', 'props': {'menu_name': 'responseslist', 'menu_source': ['#rcmsettingsmenu > ul', '#responses-list div.boxfooter'], 'list_object': 'responses_list'}},
                 {'obj': 'filtersetslist tr', 'props': {'menu_name': 'managesievesetlist', 'menu_source': ['#rcmsettingsmenu > ul', '#filtersetmenu > ul'], 'list_object': 'filtersets_list'}},

@@ -322,7 +322,7 @@ rcube_webmail.prototype.contextmenu = {
                 }
             },
             'activate': function(p) {
-                if (p.ref.menu_name == 'folderlist' && $.inArray(p.command, Array('delete-folder', 'purge')) >= 0) {
+                if (p.ref.menu_name == 'folderlist') {
                     p = rcmail.contextmenu.activate_folder_commands(p);
                 }
 
@@ -334,8 +334,11 @@ rcube_webmail.prototype.contextmenu = {
                     if ($.inArray(p.command, Array('delete-folder', 'purge')) >= 0) {
                         result = rcmail[p.command == 'delete-folder' ? 'delete_folder' : p.command + '_mailbox'](rcmail.env.context_menu_source_id);
                     }
-                    else {
+                    else if (p.command == 'plugin.contextmenu.openinline') {
                         rcmail[p.ref.list_object].select(rcmail.env.context_menu_source_id);
+                    }
+                    else {
+                        result = rcmail.command(p.command, p.args);
                     }
 
                     return {'abort': true, 'result': true};
@@ -466,15 +469,12 @@ rcube_webmail.prototype.contextmenu = {
                 });
             }
         }
-        else if (p.command == 'plugin.contextmenu.collapseall') {
+        else if ($.inArray(p.command, Array('plugin.contextmenu.collapseall', 'plugin.contextmenu.expandall')) >= 0) {
+            var list_obj = rcmail.gui_objects[rcmail.env.task == 'settings' ? 'subscriptionlist' : 'mailboxlist'];
+            var class_name = p.command == 'plugin.contextmenu.collapseall' ? 'expanded' : 'collapsed';
+
             p.enabled = false;
-            if ($(rcmail.gui_objects.mailboxlist).find('div.expanded').length > 0) {
-                p.enabled = true;
-            }
-        }
-        else if (p.command == 'plugin.contextmenu.expandall') {
-            p.enabled = false;
-            if ($(rcmail.gui_objects.mailboxlist).find('div.collapsed').length > 0) {
+            if ($(list_obj).find('div.' + class_name + ':visible').length > 0) {
                 p.enabled = true;
             }
         }
@@ -1051,50 +1051,34 @@ $(document).ready(function() {
             .contents().on('mouseup', body_mouseup);
         });
 
-        if (rcmail.env.task == 'mail' && rcmail.env.action == '') {
-            rcmail.register_command('plugin.contextmenu.collapseall', function() {
-                if (rcmail.gui_objects.mailboxlist) {
-                    $(rcmail.gui_objects.mailboxlist).find('div.expanded').each(function() {
-                        var event = jQuery.Event('click');
-                        event.target = this;
-                        $(rcmail.gui_objects.mailboxlist).trigger(event);
-                    });
-                }
-            }, false);
+        rcmail.register_command('plugin.contextmenu.collapseall', function(obj) {
+            rcmail[obj].collapse_all();
+        }, true);
 
-            rcmail.register_command('plugin.contextmenu.expandall', function() {
-                if (rcmail.gui_objects.mailboxlist) {
-                    $(rcmail.gui_objects.mailboxlist).find('div.collapsed').each(function() {
-                        var event = jQuery.Event('click');
-                        event.target = this;
-                        $(rcmail.gui_objects.mailboxlist).trigger(event);
-                    });
-                }
-            }, false);
-        }
+        rcmail.register_command('plugin.contextmenu.expandall', function(obj) {
+            rcmail[obj].expand_all();
+        }, true);
 
-        if ((rcmail.env.task == 'mail' && rcmail.env.action == '') || rcmail.env.task == 'settings') {
-            rcmail.register_command('plugin.contextmenu.openextwin', function() {
-                var button_id = rcmail.buttons['plugin.contextmenu.openextwin'][0].id;
+        rcmail.register_command('plugin.contextmenu.openextwin', function() {
+            var button_id = rcmail.buttons['plugin.contextmenu.openextwin'][0].id;
 
-                if (rcmail.env.task == 'settings') {
-                    rcube_find_object(button_id).href = '?_task=settings&_action=' + urlencode(rcmail.env.context_menu_source_id);
-                }
-                else {
-                    rcube_find_object(button_id).href = '?_task=mail&_mbox=' + urlencode(rcmail.env.context_menu_source_id);
-                }
+            if (rcmail.env.task == 'settings') {
+                rcube_find_object(button_id).href = '?_task=settings&_action=' + urlencode(rcmail.env.context_menu_source_id);
+            }
+            else {
+                rcube_find_object(button_id).href = '?_task=mail&_mbox=' + urlencode(rcmail.env.context_menu_source_id);
+            }
 
-                rcmail.sourcewin = window.open(rcube_find_object(button_id).href);
-                if (rcmail.sourcewin)
-                    window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
+            rcmail.sourcewin = window.open(rcube_find_object(button_id).href);
+            if (rcmail.sourcewin)
+                window.setTimeout(function() { rcmail.sourcewin.focus(); }, 20);
 
-                rcube_find_object(button_id).href = '#';
-            }, false);
+            rcube_find_object(button_id).href = '#';
+        }, false);
 
-            rcmail.register_command('plugin.contextmenu.openinline', function() {
-                rcmail.goto_url('settings/' + rcmail.env.context_menu_source_id, {_framed: 0});
-            }, false);
-        }
+        rcmail.register_command('plugin.contextmenu.openinline', function() {
+            rcmail.goto_url('settings/' + rcmail.env.context_menu_source_id, {_framed: 0});
+        }, false);
 
         // special event listeners for intreacting with plugins which open popup menus (eg: zipdownload)
         rcmail.addEventListener('menu-open', function(p) {

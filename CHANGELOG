@@ -35,6 +35,7 @@ Roundcube Webmail ContextMenu
  * Add contextmenu_mouseover_timeout config option to override default mouseover timeout for submenus
  * Extend activate hook, now returns JSON rather than Boolean
  * Make menu button inactive if all subactions are inactive (req RC daf4607)
+ * Use new treelist collapse_all/expand_all functions (req RC 3a40f6c)
 
 Version 2.3 (2017-06-14, rc-1.3)
 =================================================

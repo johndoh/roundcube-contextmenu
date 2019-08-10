@@ -122,7 +122,7 @@ $(document).ready(function() {
             rcmail.contextmenu.settings_menus([
                 {'obj': 'settings-menu li', 'props': {'menu_name': 'settingslist', 'menu_source': '#rcmsettings-menu > ul', 'init_func': 'init_settings'}},
                 {'obj': 'sections-table tr', 'props': {'menu_name': 'preferenceslist', 'menu_source': '#rcmsettings-menu > ul', 'list_object': 'sections_list'}},
-                {'obj': 'subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmsettings-menu > ul', '#toolbar-menu'], 'list_object': 'subscription_list', 'init_func': 'init_settings'}},
+                {'obj': 'subscription-table li', 'props': {'menu_name': 'folderlist', 'menu_source': ['#rcmfolder-menu > ul', '#rcmsettings-menu > ul', '#toolbar-menu'], 'list_object': 'subscription_list', 'init_func': 'init_settings'}},
                 {'obj': 'identities-table tr', 'props': {'menu_name': 'identiteslist', 'menu_source': ['#rcmsettings-menu > ul', '#toolbar-menu'], 'list_object': 'identity_list'}},
                 {'obj': 'responses-table tr', 'props': {'menu_name': 'responseslist', 'menu_source': ['#rcmsettings-menu > ul', '#toolbar-menu'], 'list_object': 'responses_list'}},
                 {'obj': 'filtersetslist tr', 'props': {'menu_name': 'managesievesetlist', 'menu_source': ['#rcmsettings-menu > ul', '#filterset-menu > ul > li'], 'list_object': 'filtersets_list'}},
