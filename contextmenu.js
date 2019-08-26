@@ -874,11 +874,12 @@ function rcube_context_menu(p) {
 
                     var args = {ref: ref, el: this, btn: btn[1], source: obj, command: $(this).data('command'), enabled: enabled};
                     var p = ref.parent_menu.triggerEvent('activate', args);
-                    if (!p) {
+
+                    if (typeof(p) === "boolean") { // backwards compatibility pre v3.0
+                        args.enabled = p;
                         p = args;
                     }
-                    else if (typeof(p) === "boolean") { // backwards compatibility pre v3.0
-                        args.enabled = p;
+                    else if (!p) {
                         p = args;
                     }
 
