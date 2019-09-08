@@ -53,8 +53,10 @@ $(document).ready(function() {
                 '+insertitem': function(p) {
                     var elem = p.originalElement, a = p.item.children('a');
 
-                    if (elem.attr('data-popup') || elem.attr('aria-haspopup'))
+                    if (elem.attr('data-popup') || elem.attr('aria-haspopup')) {
                         a.data('level', (p.ref.parents + 2));
+                        a.attr('aria-haspopup', true);
+                    }
                 },
                 '+beforeactivate': function(p) {
                     // force toolbar display on small screens while the contextmenu renders

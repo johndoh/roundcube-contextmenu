@@ -5,8 +5,6 @@
 @import (reference) "../../../../skins/elastic/styles/variables";
 @import (reference) "../../../../skins/elastic/styles/mixins";
 
-@contextmenu-placeholder-icon: "\00a0";
-
 .contextmenu-source-highlight(@background-color) {
   .listing:not(.treelist) li.context-source:not(.selected), // e.g. Settings actions list
   .listing tbody tr.context-source:not(.selected) > td {
@@ -27,56 +25,9 @@ body > #layout > div.sidebar {
   .contextmenu-source-highlight(@color-layout-sidebar-background);
 }
 
-// default content set here to prevent overriding Elastic icons
-.toolbarmenu a.rcmbutton::before {
-  content: @contextmenu-placeholder-icon;
-}
-
 div.contextmenu {
   ul.menu {
-    > li {
-      > a {
-        outline: 0;
-        cursor: default !important;
-      }
-
-      > a.button {
-        min-width: 160px;
-        display: flex;
-      }
-    }
-
-    > li:last-child {
-      border-bottom: none;
-    }
-
-    a.rcmbutton {
-      &::after {
-        .font-icon-class;
-        content: @contextmenu-placeholder-icon;
-        padding: 0 0.5em;
-        font-size: 100%;
-      }
-
-      &.rcmsubbutton {
-        &.disabled {
-          pointer-events: auto;
-        }
-
-        &::after {
-          content: @fa-var-angle-right;
-        }
-      }
-
-      > span.icon {
-        flex-grow: 1;
-        .overflow-ellipsis;
-      }
-
-      html.touch &::after {
-        margin-right: 0.5rem;
-      }
-    }
+    min-width: 180px;
   }
 
   html.layout-small &,
@@ -93,16 +44,6 @@ div.contextmenu {
 
   #toolbar-menu {
     display: block !important;
-  }
-}
-
-// hide submenu icons when on mark/more type menus to match core
-html.layout-small,
-html.layout-phone {
-  div.contextmenu {
-    a.rcmsubbutton:not(.rcm-uidropdown)::after {
-      display: none;
-    }
   }
 }
 
