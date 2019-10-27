@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 3.0 (2019-10-27, rc-1.4)
+=================================================
  * Rework Contextmenu settings object
  * Rework core Contextmenu JS functions
     * rcm_listmenu_init() -> rcmail.contextmenu.init_list()
