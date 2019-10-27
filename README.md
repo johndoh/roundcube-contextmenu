@@ -3,15 +3,6 @@ Roundcube Webmail ContextMenu
 This plugin creates contextmenus for various parts of Roundcube using commands
 from the toolbars.
 
-ATTENTION
----------
-This is just a snapshot from the GIT repository and is **NOT A STABLE version
-of ContextMenu**. It is Intended for use with the **GIT-master** version of
-Roundcube and it may not be compatible with older versions. Stable versions of
-ContextMenu are available from the [Roundcube plugin repository][rcplugrepo]
-(for 1.0 and above) or the [releases section][releases] of the GitHub
-repository.
-
 License
 -------
 This plugin is released under the [GNU General Public License Version 3+][gpl].
@@ -36,6 +27,4 @@ The MANUAL.md file shipped with this plugin contains information for plugin and
 skin developers. The Contextmenu plugin can be extended by other plugins; new
 menus can be created and existing menus manipulated.
 
-[rcplugrepo]: https://plugins.roundcube.net/packages/johndoh/contextmenu
-[releases]: https://github.com/johndoh/roundcube-contextmenu/releases
 [gpl]: https://www.gnu.org/licenses/gpl.html

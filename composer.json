@@ -5,7 +5,7 @@
   "homepage": "https://github.com/johndoh/roundcube-contextmenu/",
   "license": "GPL-3.0",
   "type": "roundcube-plugin",
-  "version": "3.0-git",
+  "version": "3.0",
   "authors": [
     {
       "name": "Philip Weir",
@@ -25,7 +25,7 @@
   },
   "extra": {
     "roundcube": {
-      "min-version": "1.4-dev"
+      "min-version": "1.4.0"
     }
   }
 }
