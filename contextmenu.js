@@ -169,16 +169,7 @@ rcube_webmail.prototype.contextmenu = {
             },
             'beforecommand': function(p) {
                 if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && $.inArray(p.command, Array('expunge', 'purge')) >= 0) {
-                    var result = rcmail[p.command + '_mailbox'](rcmail.env.context_menu_source_id);
-
-                    // update the unread count and trash icon
-                    if (p.command == 'purge' && result !== false) {
-                        rcmail.set_unread_count(rcmail.env.context_menu_source_id, 0, false);
-
-                        if (rcmail.env.context_menu_source_id == rcmail.env.trash_mailbox)
-                            rcmail.set_trash_count(0);
-                    }
-
+                    rcmail[p.command + '_mailbox'](rcmail.env.context_menu_source_id);
                     return {'abort': true, 'result': true};
                 }
                 else if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && p.command == 'mark-all-read') {
@@ -595,11 +586,8 @@ function rcube_context_menu(p) {
             ul.addClass(this.classes.ul);
             li.attr('role', 'menuitem');
 
-            link.attr('href', '#');
+            link.attr({'href': '#', 'role': 'button', 'tabindex': '-1', 'aria-disabled': 'true'});
             link.addClass(this.classes.a);
-            link.attr('role', 'button');
-            link.attr('tabindex', '-1');
-            link.attr('aria-disabled', 'true');
 
             span.addClass(this.classes.span);
 
@@ -654,9 +642,7 @@ function rcube_context_menu(p) {
                             elem = $(src_elem).parent().clone();
                         }
                         else if (src_elem.command && src_elem.label) {
-                            elem = $('<a>').attr('href', '#')
-                                    .attr('id', 'rcmjs')
-                                    .attr('onclick', "return rcmail.command('"+ src_elem.command +"','"+ src_elem.props +"',src_elem,event)")
+                            elem = $('<a>').attr({'id': 'rcmjs', 'href': '#', 'onclick': "return rcmail.command('"+ src_elem.command +"','"+ src_elem.props +"',src_elem,event)"})
                                     .addClass(src_elem.classes)
                                     .html(src_elem.label);
                         }
