@@ -31,8 +31,8 @@ $(document).ready(function() {
                     sub_button_span: null
                 }
             },
-            menu_events: {
-                '+init': function(p) {
+            global_events: {
+                'init': function(p) {
                     if (!p.ref.is_submenu) {
                         var label = 'close',
                             title = rcmail.gettext(label),
@@ -50,7 +50,7 @@ $(document).ready(function() {
                        p.ref.skinable = true;
                     }
                 },
-                '+insertitem': function(p) {
+                'insertitem': function(p) {
                     var elem = p.originalElement, a = p.item.children('a');
 
                     if (elem.attr('data-popup') || elem.attr('aria-haspopup')) {
@@ -58,7 +58,7 @@ $(document).ready(function() {
                         a.attr('aria-haspopup', true);
                     }
                 },
-                '+beforeactivate': function(p) {
+                'beforeactivate': function(p) {
                     // force toolbar display on small screens while the contextmenu renders
                     if (!$('#layout-content').is(':visible'))
                         $('#layout-content').addClass('contextmenu_content');
@@ -66,7 +66,7 @@ $(document).ready(function() {
                     // do not show submenus on mouseover for small screens
                     p.ref.mouseover_timeout = $('html').is('.layout-small,.layout-phone') ? -1 : rcmail.env.contextmenu_mouseover_timeout;
                 },
-                '+afteractivate': function() {
+                'afteractivate': function() {
                     $('#layout-content').removeClass('contextmenu_content');
                 },
                 'submenu_toggle': function(p) {

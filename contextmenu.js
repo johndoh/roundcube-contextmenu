@@ -33,6 +33,11 @@ rcube_webmail.prototype.contextmenu = {
                 button_disabled: 'disabled'
             },
         menu_defaults: {},
+        global_events: {
+            'submenu_toggle': function(p) {
+                $(p.id).parent()[(p.show) ? 'show' : 'hide']();
+            }
+        },
         menu_events: {
             'command': function(p) {
                 if (!$(p.el).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
@@ -45,9 +50,6 @@ rcube_webmail.prototype.contextmenu = {
                 rcmail.enable_command(p.command, prev_command);
 
                 return result;
-            },
-            'submenu_toggle' : function(p) {
-                $(p.id).parent()[(p.show) ? 'show' : 'hide']();
             }
         }
     },
@@ -360,14 +362,15 @@ rcube_webmail.prototype.contextmenu = {
 
         if (!rcmail.env.contextmenus[props.menu_name]) {
             menu = new rcube_context_menu(props);
-            $.each(events, function(trigger, func) {
-                // additional events
-                if (trigger.slice(0, 1) == '+') {
-                    trigger = trigger.slice(1);
-                }
 
+            $.each(rcmail.contextmenu.settings.global_events, function(trigger, func) {
                 menu.addEventListener(trigger, function(p) { return func(p); });
             });
+
+            $.each(events, function(trigger, func) {
+                menu.addEventListener(trigger, function(p) { return func(p); });
+            });
+
             menu.init();
             rcmail.env.contextmenus[props.menu_name] = menu;
         }

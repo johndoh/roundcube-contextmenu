@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+ * Replace "+ events" with new global_events object
+
 Version 3.0 (2019-10-27, rc-1.4)
 =================================================
  * Rework Contextmenu settings object
