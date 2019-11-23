@@ -26,6 +26,7 @@ The following global options are available:
     * button_active - class(es) for buttons in an active state
     * button_disabled - class(es) for buttons in an inactive state
 * menu_defaults - (object) default options for Contextmenu objects
+* global_events - (object) global events applied to every Contextmenu object
 * menu_events - (object) default events for Contextmenu objects
 
 Note: When specifying multiple classes each one should be separated by a space
@@ -284,8 +285,6 @@ rcmail.addEventListener('contextmenu_init', function(menu) {
   }
 });
 ```
-
-Note: A plus sign (+) can be prepended to an event name, for example `+beforeactivate`, to add the new event handler to the existing one used by the core rather than replacing it.
 
 ## Contextmenu and skins
 
