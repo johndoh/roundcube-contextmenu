@@ -1,6 +1,8 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 3.1 (2020-01-11, rc-1.4)
+=================================================
  * Fix invalid function call to init_addressbook in Larry skin
  * Replace "+ events" with new global_events object
 
