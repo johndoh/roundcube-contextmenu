@@ -1070,7 +1070,7 @@ $(document).ready(function() {
             rcmail.goto_url('settings/' + rcmail.env.context_menu_source_id, {_framed: 0});
         }, false);
 
-        // special event listeners for intreacting with plugins which open popup menus (eg: zipdownload)
+        // special event listeners for interacting with plugins which open popup menus (eg: zipdownload)
         rcmail.addEventListener('menu-open', function(p) {
             // check for popupmenus that arent part of contextmenu
             if ($('div.' + rcmail.contextmenu.settings.classes.container.replace(/ /g, '.')).is(':visible') && p.name.indexOf('rcm_') != 0) {
