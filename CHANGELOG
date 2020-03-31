@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 3.2 (2020-04-27, rc-1.4.4)
+=================================================
+ * Update command enabling after (req RC cb8c078)
+
 Version 3.1 (2020-01-11, rc-1.4)
 =================================================
  * Fix invalid function call to init_addressbook in Larry skin

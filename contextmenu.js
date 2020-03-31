@@ -43,11 +43,7 @@ rcube_webmail.prototype.contextmenu = {
                 if (!$(p.el).is('.' + rcmail.contextmenu.settings.classes.button_active.replace(/ /g, ', .')))
                     return;
 
-                // enable the required command
-                var prev_command = rcmail.commands[p.command];
-                rcmail.enable_command(p.command, true);
-                var result = rcmail.command(p.command, p.args, p.el, p.evt);
-                rcmail.enable_command(p.command, prev_command);
+                var result = rcmail.command(p.command, p.args, p.el, p.evt, true);
 
                 return result;
             }
@@ -251,10 +247,6 @@ rcube_webmail.prototype.contextmenu = {
                 rcmail.env.source = cur_source;
                 rcmail.env.group = cur_id;
 
-                // enable the required command
-                var prev_command = rcmail.commands[p.command];
-                rcmail.enable_command(p.command, true);
-
                 switch (p.command) {
                     case 'search-delete':
                         if ($(p.ref.selected_object).children('a').attr('rel')) {
@@ -263,18 +255,17 @@ rcube_webmail.prototype.contextmenu = {
                             rcmail.env.search_request = true;
                             rcmail.env.search_id = $(p.ref.selected_object).children('a').attr('rel').replace('S', '');
 
-                            result = rcmail.command(p.command, p.args, p.el, p.evt);
+                            result = rcmail.command(p.command, p.args, p.el, p.evt, true);
 
                             rcmail.env.search_request = prev_search_request;
                             rcmail.env.search_id = prev_search_id;
                         }
                         break;
                     default:
-                        result = rcmail.command(p.command, p.args, p.el, p.evt);
+                        result = rcmail.command(p.command, p.args, p.el, p.evt, true);
                         break;
                 }
 
-                rcmail.enable_command(p.command, prev_command);
                 rcmail.env.source = prev_source;
                 rcmail.env.group = prev_group;
 
@@ -767,15 +758,6 @@ function rcube_context_menu(p) {
                             if (!callback || !callback.skipaftercommand)
                                 ref.parent_menu.triggerEvent('aftercommand', {ref: ref, el: this, command: command, args: args});
 
-                            if (rcmail.contextmenu.vars.popup_menus.length > cur_popups) {
-                                var popup_name = rcmail.contextmenu.vars.popup_menus[rcmail.contextmenu.vars.popup_menus.length - 1];
-
-                                // make sure enabled commands match context menu message selection
-                                $.each(rcmail.contextmenu.vars.popup_commands[popup_name], function(cmd, state) {
-                                    rcmail.enable_command(cmd, state);
-                                });
-                            }
-
                             // ensure menu is always hidden after action
                             ref.parent_menu.hide_menu(e);
 
@@ -1074,14 +1056,6 @@ $(document).ready(function() {
         rcmail.addEventListener('menu-open', function(p) {
             // check for popupmenus that arent part of contextmenu
             if ($('div.' + rcmail.contextmenu.settings.classes.container.replace(/ /g, '.')).is(':visible') && p.name.indexOf('rcm_') != 0) {
-                rcmail.contextmenu.vars.popup_commands[p.name] = {};
-                $('#' + p.name).find('a').each(function() {
-                    var matches;
-                    if ($(this).attr('onclick') && (matches = $(this).attr('onclick').match(rcmail.contextmenu.settings.command_pattern))) {
-                        rcmail.contextmenu.vars.popup_commands[p.name][matches[1]] = rcmail.commands[matches[1]];
-                    }
-                });
-
                 // keep track of whats open
                 rcmail.contextmenu.vars.popup_menus.push(p.name);
             }
