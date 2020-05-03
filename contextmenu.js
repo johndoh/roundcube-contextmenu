@@ -677,7 +677,8 @@ function rcube_context_menu(p) {
 
                     // add command name element
                     var tmp = span.clone();
-                    tmp.text($.trim(elem.text()).length > 0 ? $.trim(elem.text()) : elem.attr('title'));
+                    var label = elem.text().trim();
+                    tmp.text(label.length > 0 ? label : elem.attr('title'));
                     tmp.addClass(elem.children('span').attr('class'));
                     a.append(tmp);
                     a.addClass(elem.attr('class'));
