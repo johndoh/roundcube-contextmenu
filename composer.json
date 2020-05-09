@@ -13,12 +13,6 @@
       "role": "Developer"
     }
   ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://plugins.roundcube.net"
-    }
-  ],
   "require": {
     "php": ">=5.2.1",
     "roundcube/plugin-installer": ">=0.1.2"
