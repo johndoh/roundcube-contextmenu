@@ -30,10 +30,10 @@ Install
 directory called contextmenu and place the files in there, ignoring the root
 directory in the downloaded archive.
 
-Contextmenu manual
+ContextMenu manual
 ------------------
 The MANUAL.md file shipped with this plugin contains information for plugin and
-skin developers. The Contextmenu plugin can be extended by other plugins; new
+skin developers. The ContextMenu plugin can be extended by other plugins; new
 menus can be created and existing menus manipulated.
 
 [rcplugrepo]: https://plugins.roundcube.net/packages/johndoh/contextmenu
