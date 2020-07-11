@@ -5,26 +5,26 @@
 @import (reference) "../../../../skins/elastic/styles/variables";
 @import (reference) "../../../../skins/elastic/styles/mixins";
 
-.contextmenu-source-highlight(@background-color) {
+.contextmenu-source-highlight(@background-color, @ratio) {
   .listing:not(.treelist) li.context-source:not(.selected), // e.g. Settings actions list
   .listing tbody tr.context-source:not(.selected) > td {
-    background-color: darken(@background-color, 2.5%);
+    background-color: darken(@background-color, @ratio);
     user-select: none;
   }
 
   ul.treelist li.context-source:not(.selected) {
     & > div > a, // this is used e.g. by kolab_addressbook
     & > a {
-      background-color: darken(@background-color, 2.5%);
+      background-color: darken(@background-color, @ratio);
       user-select: none;
     }
   }
 }
 
-.contextmenu-source-highlight(@color-layout-list-background);
+.contextmenu-source-highlight(@color-layout-list-background, 2.5%);
 
 body > #layout > div.sidebar {
-  .contextmenu-source-highlight(@color-layout-sidebar-background);
+  .contextmenu-source-highlight(@color-layout-sidebar-background, 2.5%);
 }
 
 div.contextmenu {
@@ -81,6 +81,17 @@ div.contextmenu {
 
     &.cmd_plugin-contextmenu-openinline::before {
       .font-icon-regular(@fa-var-folder-open);
+    }
+  }
+}
+
+// dark mode
+& when (@dark-mode-enabled = true) {
+  html.dark-mode {
+    .contextmenu-source-highlight(@color-dark-background, 5%);
+
+    body > #layout > div.sidebar {
+      .contextmenu-source-highlight(@color-dark-background, 5%);
     }
   }
 }
