@@ -36,6 +36,12 @@ The MANUAL.md file shipped with this plugin contains information for plugin and
 skin developers. The ContextMenu plugin can be extended by other plugins; new
 menus can be created and existing menus manipulated.
 
+Customizing the Elastic skin
+----------------------------
+The colors and styles used by this plugin can be overridden by adding a
+`_custom.less` file to the `skins/elastic` sub-folder of this plugin and
+then recompiling the CSS.
+
 [rcplugrepo]: https://plugins.roundcube.net/#/packages/johndoh/contextmenu
 [releases]: https://github.com/johndoh/roundcube-contextmenu/releases
 [gpl]: https://www.gnu.org/licenses/gpl.html
