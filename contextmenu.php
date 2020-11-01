@@ -41,10 +41,10 @@ class contextmenu extends rcube_plugin
             $this->include_script($this->local_skin_path() . '/functions.js');
             $this->rcube->output->set_env('contextmenu', true);
             $this->rcube->output->set_env('contextmenu_mouseover_timeout', $this->rcube->config->get('contextmenu_mouseover_timeout', 400));
-            $this->add_hook('render_page', array($this, 'additional_menus'));
+            $this->add_hook('render_page', [$this, 'additional_menus']);
         }
 
-        $this->register_action('plugin.contextmenu.messagecount', array($this, 'messagecount'));
+        $this->register_action('plugin.contextmenu.messagecount', [$this, 'messagecount']);
     }
 
     public function additional_menus($args)
@@ -72,7 +72,7 @@ class contextmenu extends rcube_plugin
 
         // send output
         header("Content-Type: application/json; charset=" . RCUBE_CHARSET);
-        echo json_encode(array('messagecount' => $storage->count($mbox, 'EXISTS')));
+        echo json_encode(['messagecount' => $storage->count($mbox, 'EXISTS')]);
         exit;
     }
 
@@ -86,7 +86,7 @@ class contextmenu extends rcube_plugin
         $template_include_path = 'plugins/' . $this->ID;
 
         if (is_file($base_path . $rel_path) && is_readable($base_path . $rel_path)) {
-            $file_info = array($rel_path, $template_include_path);
+            $file_info = [$rel_path, $template_include_path];
         }
 
         return $file_info;
