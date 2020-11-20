@@ -63,7 +63,7 @@ rcube_webmail.prototype.contextmenu = {
 
         // backwards compatibility, list_object changed to string in v3.0
         if (typeof props.list_object == 'object') {
-            console.log('Roundcube Contextmenu plugin: init_list() list_object param object detected, expected string.');
+            console.log('Roundcube ContextMenu plugin: init_list() list_object param object detected, expected string.');
             var id = $(props.list_object.list).attr('id');
             props.list_object = null;
 
@@ -527,7 +527,7 @@ function rcm_callbackmenu_init(props, ext_events) { rcm_log('rcm_callbackmenu_in
 function rcm_show_menu(e, obj, id, menu) { rcm_log('rcm_show_menu'); rcmail.contextmenu.show_one(e, obj, id, menu); }
 function rcm_hide_menu(e, sub_only, no_trigger) { rcm_log('rcm_hide_menu'); rcmail.contextmenu.hide_all(e, sub_only, no_trigger); }
 function rcm_check_button_state(btn, active) { rcm_log('rcm_check_button_state'); return rcmail.contextmenu.ui_button_check(btn, active); }
-function rcm_log(fname) { console.log('Roundcube Contextmenu plugin: Use of ' + fname + ' is depreciated. This will be removed in future versions.'); }
+function rcm_log(fname) { console.log('Roundcube ContextMenu plugin: Use of ' + fname + ' is depreciated. This will be removed in future versions.'); }
 
 function rcube_context_menu(p) {
     this.menu_name = null;

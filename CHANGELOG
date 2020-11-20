@@ -1,6 +1,11 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 3.2.1 (2020-11-20, rc-1.4.4)
+=================================================
+ * Various code improvements
+ * Add user-select: none; to menus
+
 Version 3.2 (2020-04-27, rc-1.4.4)
 =================================================
  * Update command enabling after (req RC cb8c078)

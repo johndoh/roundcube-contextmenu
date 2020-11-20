@@ -9,12 +9,14 @@
   .listing:not(.treelist) li.context-source:not(.selected), // e.g. Settings actions list
   .listing tbody tr.context-source:not(.selected) > td {
     background-color: darken(@background-color, 2.5%);
+    user-select: none;
   }
 
   ul.treelist li.context-source:not(.selected) {
     & > div > a, // this is used e.g. by kolab_addressbook
     & > a {
       background-color: darken(@background-color, 2.5%);
+      user-select: none;
     }
   }
 }
