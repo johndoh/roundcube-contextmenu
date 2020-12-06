@@ -1,8 +1,8 @@
 <?php
 /* Author: Mike Constabel */
 
-$labels = array();
+$labels = [];
 $labels['collapseall'] = 'Alle Unterordner einklappen';
 $labels['expandall'] = 'Alle Unterordner ausklappen';
 
-$messages = array();
+$messages = [];

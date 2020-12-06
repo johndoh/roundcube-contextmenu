@@ -106,11 +106,11 @@ The menu_source parameter can be a string (for building the ContextMenu from a s
 ```php
 $rcube = rcube::get_instance();
 $li = '';
-$li .= html::tag('li', null, $rcube->output->button(array('command' => 'plugin.myplugin.command1', 'type' => 'link', 'class' => 'myclass1', 'label' => 'myplugin.command1')));
-$li .= html::tag('li', null, $rcube->output->button(array('command' => 'plugin.myplugin.command2', 'type' => 'link', 'class' => 'myclass2', 'label' => 'myplugin.command2')));
-$li .= html::tag('li', null, $rcube->output->button(array('command' => 'plugin.myplugin.command3', 'type' => 'link', 'class' => 'myclass3', 'label' => 'myplugin.command3')));
-$out = html::tag('ul', array('id' => 'mymenu'), $li);
-$rcube->output->add_footer(html::div(array('style' => 'display: none;'), $out));
+$li .= html::tag('li', null, $rcube->output->button(['command' => 'plugin.myplugin.command1', 'type' => 'link', 'class' => 'myclass1', 'label' => 'myplugin.command1']));
+$li .= html::tag('li', null, $rcube->output->button(['command' => 'plugin.myplugin.command2', 'type' => 'link', 'class' => 'myclass2', 'label' => 'myplugin.command2']));
+$li .= html::tag('li', null, $rcube->output->button(['command' => 'plugin.myplugin.command3', 'type' => 'link', 'class' => 'myclass3', 'label' => 'myplugin.command3']));
+$out = html::tag('ul', ['id' => 'mymenu'], $li);
+$rcube->output->add_footer(html::div(['style' => 'display: none;'], $out));
 ```
 The ContextMenu can then be invoked like this:
 ```js

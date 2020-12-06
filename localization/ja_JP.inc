@@ -1,8 +1,8 @@
 <?php
 /* Author: MASUDA Kazuya */
 
-$labels = array();
+$labels = [];
 $labels['collapseall'] = '全てのフォルダーを閉じる';
 $labels['expandall'] = '全てのフォルダーを開く';
 
-$messages = array();
+$messages = [];

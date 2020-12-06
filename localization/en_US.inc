@@ -1,8 +1,8 @@
 <?php
 /* Author: Philip Weir */
 
-$labels = array();
+$labels = [];
 $labels['collapseall'] = 'Collapse all folders';
 $labels['expandall'] = 'Expand all folders';
 
-$messages = array();
+$messages = [];
