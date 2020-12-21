@@ -85,6 +85,13 @@ class contextmenu extends rcube_plugin
         // path to skin folder relative to Roundcube root for template engine
         $template_include_path = 'plugins/' . $this->ID;
 
+        // check if the skin dir is in the plugin folder or in the core skins
+        // folder (external to this plugin) see RC #7445 for more info
+        if (strpos($rel_path, 'plugins/') !== false) {
+            $base_path = slashify(RCUBE_INSTALL_PATH);
+            $template_include_path = '.';
+        }
+
         if (is_file($base_path . $rel_path) && is_readable($base_path . $rel_path)) {
             $file_info = [$rel_path, $template_include_path];
         }
