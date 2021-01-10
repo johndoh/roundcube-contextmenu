@@ -35,7 +35,7 @@ class contextmenu extends rcube_plugin
     {
         $this->rcube = rcube::get_instance();
 
-        if ($this->rcube->output->type == 'html') {
+        if (is_object($this->rcube->output) && $this->rcube->output->type == 'html') {
             $this->include_script('contextmenu.js');
             $this->include_stylesheet($this->local_skin_path() . '/contextmenu.css');
             $this->include_script($this->local_skin_path() . '/functions.js');
