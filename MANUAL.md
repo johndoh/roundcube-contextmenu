@@ -309,4 +309,6 @@ In the plugin folder there is a skins folder, and inside that there is a folder 
 * A props object, see [Creating a new ContextMenu](#creating-a-new-contextmenu)
 * An events object, see [Events](#events)
 
+Roundcube, and this plugin, also support placing skin information for plugins' in the core skin's folder, see the [Roundcube Wiki](https://github.com/roundcube/roundcubemail/wiki/Skins#skinning-plugins) for more information.
+
 ContextMenus must be defined separately for each skin because they are built from the toolbar elements in the UI which may have different IDs as well as different construction on each skin.
