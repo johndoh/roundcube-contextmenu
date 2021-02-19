@@ -29,7 +29,23 @@ The following global options are available:
 * global_events - (object) global events applied to every ContextMenu object
 * menu_events - (object) default events for ContextMenu objects
 
-Note: When specifying multiple classes each one should be separated by a space
+### Skip Commands
+Entries in the skip_commands array should take the form `<task>-<command>`, for example `mail-checkmail`. The following commands are disabled by default:
+* mail-checkmail
+* mail-compose
+* addressbook-add
+* addressbook-import
+* addressbook-advanced-search
+* addressbook-search-create
+
+### Classes
+When specifying multiple classes in the global options **or in specific menu options** each class should be separated by a space, for example:
+```js
+...
+classes: {
+  container: 'contextmenu popupmenu',
+  ...
+```
 
 ## Creating a new ContextMenu
 
