@@ -429,7 +429,7 @@ rcube_webmail.prototype.contextmenu = {
             }
             // if menu is opened on difference folder then get message count for the folder
             else if (rcmail.env.context_menu_source_id != rcmail.env.mailbox && !rcmail.env.contextmenu_messagecount_request) {
-                p.abort = true;
+                p.enabled = false;
 
                 // folder check called async to prevent slowdown on menu load
                 rcmail.env.contextmenu_messagecount_request = $.ajax({
@@ -442,8 +442,8 @@ rcube_webmail.prototype.contextmenu = {
                             rcmail.env.exists = data.messagecount;
                             rcmail.env.mailbox = rcmail.env.context_menu_source_id;
 
-                            $('#rcm_folderlist').find('a.cmd_expunge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
-                            if (rcmail.purge_mailbox_test() || (rcmail.env.task == 'settings' && data.messagecount > 0)) {
+                            if (data.messagecount > 0) {
+                                $('#rcm_folderlist').find('a.cmd_expunge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
                                 $('#rcm_folderlist').find('a.cmd_purge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
                             }
 
