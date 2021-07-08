@@ -138,7 +138,7 @@ rcube_webmail.prototype.contextmenu = {
 
             var uids = null;
             $.each(rcmail.env.contextmenus, function() {
-                if ((rcmail.env.contextmenu_opening == 'beforeactivate' || $(this.container).is(':visible')) && this.menu_selection.length > 0) {
+                if (this.menu_selection.length > 0 && (rcmail.env.contextmenu_opening == 'beforeactivate' || $(this.container).is(':visible'))) {
                     uids = this.menu_selection;
                     return false;
                 }
