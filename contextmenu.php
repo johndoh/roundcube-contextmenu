@@ -68,7 +68,7 @@ class contextmenu extends rcube_plugin
     public function messagecount()
     {
         $storage = $this->rcube->get_storage();
-        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
 
         // send output
         header("Content-Type: application/json; charset=" . RCUBE_CHARSET);
