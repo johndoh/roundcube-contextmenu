@@ -3,9 +3,9 @@
   "description": "Adds context menus with common tasks to various parts of Roundcube",
   "keywords": ["context", "menu", "right-click"],
   "homepage": "https://github.com/johndoh/roundcube-contextmenu/",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "type": "roundcube-plugin",
-  "version": "3.3-dev",
+  "version": "3.3",
   "authors": [
     {
       "name": "Philip Weir",
@@ -19,7 +19,7 @@
   },
   "extra": {
     "roundcube": {
-      "min-version": "1.5-dev",
+      "min-version": "1.5",
       "persistent-files": ["skins/elastic/_custom.less"]
     }
   }
