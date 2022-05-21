@@ -1,5 +1,5 @@
 <?php
-/* Author: Philip Weir */
+/* Author: Eyad Tamer */
 
 $labels = [];
 $labels['collapseall'] = 'تصغير كل المجلدات';
