@@ -1,6 +1,10 @@
 Roundcube Webmail ContextMenu
 =============================
 
+Version 3.3.1 (2022-06-18, rc-1.5)
+=================================================
+ * Add placeholder for undeleted icon
+
 Version 3.3 (2021-10-19, rc-1.5)
 =================================================
  * Support Dark Mode in Elastic
