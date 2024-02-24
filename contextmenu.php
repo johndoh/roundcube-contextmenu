@@ -60,7 +60,7 @@ class contextmenu extends rcube_plugin
             $this->add_texts('localization/');
 
             [$path, $include_path] = $file_info;
-            $html = $this->rcube->output->just_parse("<roundcube:include file=\"/$path\" skinpath=\"$include_path\" />");
+            $html = $this->rcube->output->just_parse("<roundcube:include file=\"/{$path}\" skinpath=\"{$include_path}\" />");
             $this->rcube->output->add_footer($html);
         }
     }
@@ -71,7 +71,7 @@ class contextmenu extends rcube_plugin
         $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
 
         // send output
-        header("Content-Type: application/json; charset=" . RCUBE_CHARSET);
+        header('Content-Type: application/json; charset=' . RCUBE_CHARSET);
         echo json_encode(['messagecount' => $storage->count($mbox, 'EXISTS')]);
         exit;
     }
