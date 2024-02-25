@@ -60,8 +60,9 @@ $(document).ready(function () {
                 },
                 beforeactivate: function (p) {
                     // force toolbar display on small screens while the contextmenu renders
-                    if (!$('#layout-content').is(':visible'))
-                    { $('#layout-content').addClass('contextmenu_content'); }
+                    if (!$('#layout-content').is(':visible')) {
+                        $('#layout-content').addClass('contextmenu_content');
+                    }
 
                     // do not show submenus on mouseover for small screens
                     p.ref.mouseover_timeout = $('html').is('.layout-small,.layout-phone') ? -1 : rcmail.env.contextmenu_mouseover_timeout;
