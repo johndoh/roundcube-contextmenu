@@ -33,7 +33,7 @@ class contextmenu extends rcube_plugin
 
     public function init()
     {
-        $this->rcube = rcube::get_instance();
+        $this->rcube = rcmail::get_instance();
 
         if (is_object($this->rcube->output) && $this->rcube->output->type == 'html') {
             $this->include_script('contextmenu.js');
