@@ -1,5 +1,7 @@
 # Roundcube Webmail ContextMenu
 
+- Drop support for PHP < 8.1
+
 ## Version 3.3.1 (2022-06-18, rc-1.5)
 
 - Add placeholder for `undeleted` icon

@@ -87,7 +87,7 @@ class contextmenu extends rcube_plugin
 
         // check if the skin dir is in the plugin folder or in the core skins
         // folder (external to this plugin) see RC #7445 for more info
-        if (strpos($rel_path, 'plugins/') !== false) {
+        if (str_contains($rel_path, 'plugins/')) {
             $base_path = slashify(RCUBE_INSTALL_PATH);
             $template_include_path = '.';
         }
