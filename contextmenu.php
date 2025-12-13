@@ -31,6 +31,7 @@ class contextmenu extends rcube_plugin
     public $task = '?(?!login$|logout$|cli$).*';
     private $rcube;
 
+    #[\Override]
     public function init()
     {
         $this->rcube = rcmail::get_instance();
