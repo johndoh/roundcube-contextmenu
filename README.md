@@ -23,18 +23,21 @@ folder for details on the skin license.
 
 Install
 -------
+* Install via Composer by adding `johndoh/contextmenu` to your `composer.json`
+file or running `composer require johndoh/contextmenu`
+<br/>or
 * Place this plugin folder into plugins directory of Roundcube
-* Add contextmenu to $config['plugins'] in your Roundcube config
+* Add `contextmenu` to `$config['plugins']` in your Roundcube config
 
 **NB:** When downloading the plugin from GitHub you will need to create a
-directory called contextmenu and place the files in there, ignoring the root
+directory called `contextmenu` and place the files in there, ignoring the root
 directory in the downloaded archive.
 
 ContextMenu manual
 ------------------
-The MANUAL.md file shipped with this plugin contains information for plugin and
-skin developers. The ContextMenu plugin can be extended by other plugins; new
-menus can be created and existing menus manipulated.
+The `MANUAL.md` file shipped with this plugin contains information for plugin
+and skin developers. The ContextMenu plugin can be extended by other plugins;
+new menus can be created and existing menus manipulated.
 
 Customizing the Elastic skin
 ----------------------------
