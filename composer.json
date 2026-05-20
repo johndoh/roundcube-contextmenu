@@ -3,6 +3,7 @@
   "description": "Adds context menus with common tasks to various parts of Roundcube",
   "license": "GPL-3.0-or-later",
   "type": "roundcube-plugin",
+  "version": "3.4-dev",
   "keywords": [
     "context",
     "menu",
