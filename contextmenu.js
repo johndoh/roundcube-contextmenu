@@ -451,19 +451,8 @@ rcube_webmail.prototype.contextmenu = {
                     async: true,
                     success: function (data) {
                         if (data.messagecount > 0 && $('#rcm_folderlist').is(':visible')) {
-                            // override the environment to check if commands should be abled
-                            var temp_exists = rcmail.env.exists;
-                            var temp_mailbox = rcmail.env.mailbox;
-                            rcmail.env.exists = data.messagecount;
-                            rcmail.env.mailbox = rcmail.env.context_menu_source_id;
-
-                            if (data.messagecount > 0) {
-                                $('#rcm_folderlist').find('a.cmd_expunge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
-                                $('#rcm_folderlist').find('a.cmd_purge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
-                            }
-
-                            rcmail.env.exists = temp_exists;
-                            rcmail.env.mailbox = temp_mailbox;
+                            $('#rcm_folderlist').find('a.cmd_expunge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
+                            $('#rcm_folderlist').find('a.cmd_purge').addClass(rcmail.contextmenu.settings.classes.button_active).removeClass(rcmail.contextmenu.settings.classes.button_disabled);
                         }
                     },
                 });
