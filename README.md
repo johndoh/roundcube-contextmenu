@@ -8,9 +8,8 @@ ATTENTION
 This is just a snapshot from the GIT repository and is **NOT A STABLE version
 of ContextMenu**. It is Intended for use with the **GIT-master** version of
 Roundcube and it may not be compatible with older versions. Stable versions of
-ContextMenu are available from the [Roundcube plugin repository][rcplugrepo]
-(for 1.0 and above) or the [releases section][releases] of the GitHub
-repository.
+ContextMenu are available from [Packagist][rcplugrepo] or the
+[releases section][releases] of the GitHub repository.
 
 License
 -------
@@ -45,6 +44,6 @@ The colors and styles used by this plugin can be overridden by adding a
 `_custom.less` file to the `skins/elastic` sub-folder of this plugin and
 then recompiling the CSS.
 
-[rcplugrepo]: https://plugins.roundcube.net/#/packages/johndoh/contextmenu
+[rcplugrepo]: https://packagist.org/packages/johndoh/contextmenu
 [releases]: https://github.com/johndoh/roundcube-contextmenu/releases
 [gpl]: https://www.gnu.org/licenses/gpl.html
